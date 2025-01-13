@@ -1,0 +1,19 @@
+{
+  "name": "amor.animal2",
+  "version": "1.0.0",
+  "description": "Aplicação Web ONG Amor Animal",
+  "main": "index.js",
+  "scripts": {
+    
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wander-2025",
+  "license": "MIT",
+  "devDependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "md5": "^2.3.0",
+    "sqlite3": "^5.1.7"
+  }
+}

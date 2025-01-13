@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONG Amor Animal</title>
+    <link rel="stylesheet" href="/static/css/default.css" >
+    <link rel="icon" type="image/png" href="/static/css/favicon/favicon.ico">
+   <link rel="manifest" href="/static/css/favicon/site.webmanifest">
+</head>
+<body>
+   <!--  menu -->       
+     <nav class="menu">
+        <span >ONG GRUPO AMOR ANIMAL MARILIA</span>  
+     </nav>  
+   <nav class="menu">    
+    <a href="/home.html"> <button>Inicio</button> </a>
+    <a href="/adocao.html"> <button>Adoção</button> </a>
+    <a href="/doacao.html"> <button>Doação</button> </a>
+    <a href="/castracao.html"> <button>Castração</button> </a>
+    <a href="/resgate.html"> <button>Resgate</button> </a>
+    <a href="/parceria.html"> <button>Parceria</button> </a>   
+    </nav>
+   <!--  elemento central -->
+    <div class=center>
+        <h1> ADOÇÃO! </h1>  
+    </div>
+   <div class="artigo">
+        <h1> Cadastrar um PET...</h1>
+        <h1> ....Ou AJUDAR a encontrar um lar para algum!</h1>
+    </div>
+
+  <!--   artigo -->
+    <h1 class="center">Cadastrar Pet</h1>
+     <!--Formulário-->
+    <form action="" method="post" class="menu">
+               <!--Name e Idade-->
+        <div >
+            <input type="text" placeholder="Nome do Pet"  id="nomePet" name="nomePet">
+            <input type="number" placeholder="Idade"  id="idadePet" name="idadePet">
+        </div>
+               <!--Email-->
+        <input type="email" placeholder="Email do Responsável" id="responsavel" name="responsavel">
+               <!--Selecionar Espécie-->
+        <p>Espécie</p>
+        <div class="radio">
+            <span>
+                <input type="radio" id="canino" name="canino">
+                <label for="canino">Canino</label>
+            </span>
+
+            <span>
+                <input type="radio" id="felino" name="felino">
+                <label for="felino">Felino</label>
+            </span>
+        
+        </div>
+                 <!--Selecionar Porte-->
+        <p>Porte</p>
+
+        <div class="radio" id="cadastroPet" name="cadastroPet">
+            <span>
+                <input type="radio" id="pequeno" name="porte">
+                <label for="pequeno">Pequeno</label>
+            </span>
+
+            <span>
+                <input type="radio" id="medio" name="porte">
+                <label for="medio">Médio</label>
+            </span>
+
+            <span>
+                <input type="radio" id="grande" name="porte">
+                <label for="grande">Grande</label>
+            </span>
+        </div>
+                <!--Botão-->
+        <button type="submit" id="submit" name="submit">Cadastrar</button>    
+    </form>
+</div>
+{%cadastro%}
+ 
+</body>
+</html>
