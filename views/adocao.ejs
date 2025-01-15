@@ -14,12 +14,12 @@
         <span >ONG GRUPO AMOR ANIMAL MARILIA</span>  
      </nav>  
    <nav class="menu">    
-    <a href="/home.html"> <button>Inicio</button> </a>
-    <a href="/adocao.html"> <button>Adoção</button> </a>
-    <a href="/doacao.html"> <button>Doação</button> </a>
-    <a href="/castracao.html"> <button>Castração</button> </a>
-    <a href="/resgate.html"> <button>Resgate</button> </a>
-    <a href="/parceria.html"> <button>Parceria</button> </a>   
+    <a href="/home"> <button>Inicio</button> </a>
+    <a href="/adocao"> <button>Adoção</button> </a>
+    <a href="/doacao"> <button>Doação</button> </a>
+    <a href="/castracao"> <button>Castração</button> </a>
+    <a href="/resgate"> <button>Resgate</button> </a>
+    <a href="/parceria"> <button>Parceria</button> </a>   
     </nav>
    <!--  elemento central -->
     <div class=center>
@@ -33,7 +33,7 @@
   <!--   artigo -->
     <h1 class="center">Cadastrar Pet</h1>
      <!--Formulário-->
-    <form action="" method="post" class="menu">
+    <form action="" method="post"  class="menu" >
                <!--Name e Idade-->
         <div >
             <input type="text" placeholder="Nome do Pet"  id="nomePet" name="nomePet">
@@ -43,14 +43,14 @@
         <input type="email" placeholder="Email do Responsável" id="responsavel" name="responsavel">
                <!--Selecionar Espécie-->
         <p>Espécie</p>
-        <div class="radio">
+        <div class="radio" id="especie" name="especie">
             <span>
-                <input type="radio" id="canino" name="canino">
+                <input type="radio" id="especie" name="especie" value="canino">
                 <label for="canino">Canino</label>
             </span>
 
             <span>
-                <input type="radio" id="felino" name="felino">
+                <input type="radio" id="especie name="especie" value="felino">
                 <label for="felino">Felino</label>
             </span>
         
@@ -58,19 +58,19 @@
                  <!--Selecionar Porte-->
         <p>Porte</p>
 
-        <div class="radio" id="cadastroPet" name="cadastroPet">
+        <div  id="porte"name="porte">
             <span>
-                <input type="radio" id="pequeno" name="porte">
+                <input type="radio" id="porte" name="porte" value="pequeno">
                 <label for="pequeno">Pequeno</label>
             </span>
 
             <span>
-                <input type="radio" id="medio" name="porte">
+                <input type="radio" id="porte" name="porte" value="medio">
                 <label for="medio">Médio</label>
             </span>
 
             <span>
-                <input type="radio" id="grande" name="porte">
+                <input type="radio" id="porte" name="porte" value="grande">
                 <label for="grande">Grande</label>
             </span>
         </div>
@@ -78,7 +78,10 @@
         <button type="submit" id="submit" name="submit">Cadastrar</button>    
     </form>
 </div>
-{%cadastro%}
+<p>
+    {%cad%}
+</p>
+
  
 </body>
 </html>

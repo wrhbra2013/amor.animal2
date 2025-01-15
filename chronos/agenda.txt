@@ -1,2 +1,4 @@
-data;  atividade; horas;
-07/01/2025; frontend do site; 6h;
+CRONOLOGIA DESCRITIVA DAS ATIVIDADES DO PROJETO DE ESTÁGIO.
+Data;  Atividades;  Horas;
+
+
