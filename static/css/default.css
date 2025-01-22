@@ -1,84 +1,112 @@
 
-*{margin: 0; padding: 0;}
-
-html{
-  display: inline;
-}
+ html {
+  margin: 0; 
+  padding: 0;
+  /* background-image: url('/static/css/imagem/ong3.png'); */
+  position: flex;
+ 
+} 
 
 body{
   font-family: arial, helvetica, sans-serif;
   font-size: 12px;  
-  background-image: url('/static/css/imagem/3.jpg');
-  background-repeat:repeat;
-  display:block;
-   }
-   
-
-  .menu {
-    margin: 0px auto;
-    font-family: arial, helvetica, sans-serif;
-    font-size: 12px;      
-    background-color: rgb(236, 92, 193);
-    text-align: center;
-    display: block;
-       
+  font-weight: bolder;
+  background-image: url('/static/css/imagem/ong3.png'); 
+  background-position-x:left;
+   background-repeat: no-repeat; 
+   position: flex;
   }
-  .menu span{
-    margin: 0px auto;
-    font-size: large; 
-    font-family: arial, helvetica, sans-serif;
-    color:aliceblue;
-    text-align: left;
-    padding: 8px;
-  }
- 
-    .menu button{   
-    background-color:rgb(241, 106, 201);
-    border: 0px solid;
-    border-radius: 5px;
-    color: black;   
-    /* margin-right: 4rem; */
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1), 8px 32px 32px rgba(0, 0, 0, 0.15),
-      8px 64px 64px rgba(0, 0, 0, 0.15);
-      padding: 12px;     
-      
-   }
-
-    
-     .menu button:hover{
-      transform: translate(-3px, 3px);
-      box-shadow: 0 3.2rem 6.4rem rgba(0, 0, 0, 0.06);  
-     
-     }
-   
-     
-  .center {
-    padding: 20px;
-    margin:0px auto;
-    text-align: center;
-    border: 1px solid black;     
-  }
-
-  .artigo{
-  justify-content: center;
-  align-items: center;
-  height: 15vh;
-  overflow-y: auto;
-  display: flex;
-  }
-
-  .artigo img {
-    height: 250px;
-    width: 200px;
-        
+  header{
+    background-color:  rgba(241, 234, 234, 0.5);
   }
   
+ img{
+    margin: 0px auto;
+    font-family: arial, helvetica, sans-serif;
+    font-size: 18px;      
+    font-weight: bolder;
+    color: rgb(12, 7, 49);
+    text-align: center;
+    display:flex;
+    }
+
+    .mobile-menu-toggle-label {
+      display: block;
+      cursor: pointer;
+      font-size: 24px;
+      text-align: right;
+      }
+    
+    .mobile-menu {
+      display: none;
+       position: flex;
+       flex-direction: row;
+       background-color: none;
+       text-align: right;
+       padding: 10px;
+       border: 1px solid #ddd;
+
+        }
+    
+    .mobile-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .mobile-menu li {
+      margin-bottom: 10px;
+    }
+    
+    .mobile-menu a {
+      text-decoration: none;
+      color: #3340b7;
+    }
+    
+    #mobile-menu-toggle:checked + .mobile-menu-toggle-label + .mobile-menu {
+      cursor: pointer;
+      font-size: medium;
+      display:block;      
+      }
+
+  
+ /* elemento central */
+  .artigo{
+     font-size: 12px;
+     font-weight: bolder;
+      text-align: center;
+      overflow-y: auto;
+      display: inline        
+  }
+  
+
+ 
+  iframe{
+       height: 100%;
+       width: 100%;
+       border: 0px;
+       display:block;
+      overflow: hidden;
+      position: absolute;
+  }       
+  
+  
       
-    .artigo p {
-      text-align: justify;
-      font-family: arial, helvetica, sans-serif;
-      font-size: 12px;  
-                  
+  
+     table{
+      border: 1px solid;
+      text-align: center;
+      margin: 0px auto;
+      text-align: center;
+      font-size: medium;
+      font-weight: bolder;
+     
+  }
+     
+    
+     table thead{
+      color:rgb(45, 77, 219);
      }
    
-   
+ 
+ 

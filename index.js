@@ -16,21 +16,29 @@ app.get('/', (req, res) => res.render('home'));
 
 app.get('/home', (req, res) => res.render('home'));
 
+app.get('/results', (req, res) => { res.render('results')});
+
+
 app.get('/adocao', (req, res) => { res.render('adocao')});
 
-app.post('/adocao', (req, res)=> { 
-    let forms = {
-        'nome' : req.body.nomePet,
-        'idade' : req.body.idadePet,
-        'responsavel' : req.body.responsavel,
-        'especie' :  req.body.felino,
-        'especie' :  req.body.canino,
-        'porte' : req.body.pequeno,
-        'porte' : req.body.medio,
-        'porte' : req.body.grande
-       }    
-    console.log(forms)
-     res.send(forms)});
+app.post('/adocao', (req, res)=> {      
+          let forms = {
+            'nome' : req.body.nomePet,
+            'idade' : req.body.idadePet,
+            'responsavel' : req.body.responsavel,
+            'especie' :  req.body.especie,
+            'porte' : req.body.porte
+             }
+        
+         console.log(forms)
+         res.render('results', {forms:forms}) 
+         .catch( error => {
+            console.log(error)
+         })
+                               
+        });
+   
+     
 
 app.get('/doacao', (req, res) => res.render('doacao'));
 
