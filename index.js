@@ -22,21 +22,21 @@ app.get('/results', (req, res) => { res.render('results')});
 app.get('/adocao', (req, res) => { res.render('adocao')});
 
 app.post('/adocao', (req, res)=> {      
-          let forms = {
+          let forms = {     
             'nome' : req.body.nomePet,
             'idade' : req.body.idadePet,
-            'responsavel' : req.body.responsavel,
             'especie' :  req.body.especie,
-            'porte' : req.body.porte
-             }
+            'porte' : req.body.porte,
+            'caracteristicas': req.body.caracteristicas
+            'responsavel_contato': req.body.responsavel_contato,
+            'responsavel_nome' : req.body.responsavel_nome          
+          }
         
          console.log(forms)
          res.render('results', {forms:forms}) 
-         .catch( error => {
-            console.log(error)
-         })
+   });
                                
-        });
+        
    
      
 
@@ -48,6 +48,7 @@ app.get('/resgate', (req, res) => res.render('resgate'));
 
 app.get('/parceria', (req, res) => res.render('parceria'));
 
+app.get('/sobre', (req, res) => res.render('sobre'));
 
 app.listen(port, () => {console.log(`Aplicação ATIVA em http://localhost:${port}`)}) ;
 

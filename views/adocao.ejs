@@ -12,81 +12,89 @@
 
 <body>
     <!--  menu -->
+    <header class="center">
+        <input type="checkbox" hidden id="mobile-menu-toggle">
+        <!--         Menu sandwich example
+ --><!--         <label for="mobile-menu-toggle" class="mobile-menu-toggle-label">&#9776;</label>
+ --> <label for="mobile-menu-toggle" class="mobile-menu-toggle-label"><img src="/static/css/imagem/ong.jpg"></label>
 
-    <header>
-        <!-- <img src="/static/css/imagem/ong.jpg"> -->
-        <input type="checkbox"  hidden id="mobile-menu-toggle">
-        <label for="mobile-menu-toggle" class="mobile-menu-toggle-label" >&#9776;</label>
         <nav class="mobile-menu">
-          <ul>
-            <li><a href="/home"> Inicio </a></li>
-            <li> <a href="/adocao"> Adoção </a></li>
-            <li><a href="/doacao"> Doação </a></li>
-            <li><a href="/castracao"> Castração </a></li>
-            <li><a href="/resgate"> Resgate </a></li>
-            <li><a href="/parceria"> Parceria </a> </li>        
-          </ul>
+            <ul>
+                <li><a href="/home"> Inicio </a></li>
+                <li> <a href="/adocao"> Adoção </a></li>
+                <li><a href="/castracao"> Castração </a></li>
+                <li><a href="/resgate"> Resgate </a></li>
+                <li><a href="/doacao"> Doação </a></li>           
+                <li><a href="/parceria"> Parceria </a> </li>
+                <li><a href="/sobre"> Sobre</a> </li>
+            </ul>
+            </ul>
         </nav>
     </header>
-    <div class="artigo">
-        <input type="text" name="busca"  />
+    <!-- elemento central -->
+    <div classs="center">
+        <input type="text" name="busca" />
         <input type="button" value="ok" />
-    </div>
-  
-    <!--  elemento central -->
-    <div class=artigo>
         <h1> ADOÇÃO! </h1>
-            <h1> Cadastrar um PET...</h1>
+    </div>
+
+    <div class="artigo">
+        <h1> Cadastrar um PET...</h1>
         <h1> ....Ou AJUDAR a encontrar um lar para algum!</h1>
-     <!--   artigo -->
-    <h1 class="artigo">Cadastrar Pet</h1>
-    <!--Formulário-->
-    <form action="" method="post"  target="myiframe">
-        <!--Name e Idade-->
-     
+        <!--   artigo -->
+        <h1>Cadastrar Pet</h1>
+        <!--Formulário-->
+        <form action="" method="post" target="myiframe">
+          <fieldset>
+            <legend> Nome</legend> 
             <input type="text" placeholder="Nome do Pet" id="nomePet" name="nomePet">
+          </fieldset>
+
+            
+
+          
             <input type="number" placeholder="Idade" id="idadePet" name="idadePet">
-       
-        <!--Email-->
-        <input type="email" placeholder="Email do Responsável" id="responsavel" name="responsavel">
-        <!--Selecionar Espécie-->
-        <p>Espécie</p>
-      
-          
-                <input type="radio" id="especie" name="especie" value="canino">
-                <label for="canino">Canino</label>
-           
 
-          
-                <input type="radio" id="especie" name="especie" value="felino">
-                <label for="felino">Felino</label>
-         
-      
-        <!--Selecionar Porte-->
-        <p>Porte</p>
+            <!--Email-->
+            <input type="email" placeholder="Email do Responsável" id="responsavel" name="responsavel">
+            <!--Selecionar Espécie-->
+            <p>Espécie</p>
 
-        <div id="porte" name="porte">
-            <span>
-                <input type="radio" id="porte" name="porte" value="pequeno">
-                <label for="pequeno">Pequeno</label>
-            </span>
 
-            <span>
-                <input type="radio" id="porte" name="porte" value="medio">
-                <label for="medio">Médio</label>
-            </span>
+            <input type="radio" id="especie" name="especie" value="canino">
+            <label for="canino">Canino</label>
 
-            <span>
-                <input type="radio" id="porte" name="porte" value="grande">
-                <label for="grande">Grande</label>
-            </span>
-        </div>
-        <!--Botão-->
-        <button type="submit" id="submit" name="submit">Cadastrar</button>
-    </form>
+
+
+            <input type="radio" id="especie" name="especie" value="felino">
+            <label for="felino">Felino</label>
+
+
+            <!--Selecionar Porte-->
+            <p>Porte</p>
+
+            <div id="porte" name="porte">
+                <span>
+                    <input type="radio" id="porte" name="porte" value="pequeno">
+                    <label for="pequeno">Pequeno</label>
+                </span>
+
+                <span>
+                    <input type="radio" id="porte" name="porte" value="medio">
+                    <label for="medio">Médio</label>
+                </span>
+
+                <span>
+                    <input type="radio" id="porte" name="porte" value="grande">
+                    <label for="grande">Grande</label>
+                </span>
+            </div>
+            <!--Botão-->
+            <button type="submit" id="submit" name="submit">Cadastrar</button>
+        </form>
     </div>
     <iframe class="artigo" name="myiframe" src="/results"></iframe>
-</div>
+    </div>
 
 
 </body>
