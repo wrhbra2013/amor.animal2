@@ -25,10 +25,6 @@
 <body>
    <% var forms;%>
 
-
-
-  <% var forms;%>
-
     <table >
     <thead>
         <td>Nome</td>
@@ -36,8 +32,8 @@
         <td>Espécie</td>
         <td>Porte</td>
         <td>Caracteristicas</td>
-        <td>Tutor</td>
-        <td>Contato</td>
+        <td>Nome Responsável</td>
+        <td>Contato Responsável</td>
    </thead>
 
        <tbody>
@@ -46,11 +42,10 @@
         <td><%= forms['especie'] %></td>
         <td><%= forms['porte'] %></td>
          <td><%= forms['caracteristicas'] %></td>
-        <td><%= forms['tutor'] %></td>
-        <td><%= forms['contato'] %></td>
+        <td><%= forms['resp_nome'] %></td>
+        <td><%= forms['res_contato'] %></td>
     </tbody>
   </table>
-
 
 
 

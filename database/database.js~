@@ -1,5 +1,5 @@
 const sql = require('sqlite3');
-const db = new sql.Database("banco.db");
+const db = new sql.Database("/database/banco.db");
 
 function criarTabela() {
     console.log("Criando tabela para Cadastro de PET...");

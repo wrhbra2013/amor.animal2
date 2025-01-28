@@ -47,7 +47,7 @@
         <td><%= forms['porte'] %></td>
          <td><%= forms['caracteristicas'] %></td>
         <td><%= forms['tutor'] %></td>
-        <td><%= forms['contato'] %></td>
+        <td><%= forms['res_contato'] %></td>
     </tbody>
   </table>
 

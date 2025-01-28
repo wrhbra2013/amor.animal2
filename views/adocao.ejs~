@@ -62,7 +62,7 @@
     <label for="grande">Grande</label>
     </fieldset>
     <textarea name="caracteristicas" rows="4" cols="20" placeholder="Caracteristicas"></textarea>
-    <input type="text" placeholder="Nome do Responsável"  " name="tutor">
+    <input type="text" placeholder="Nome do Responsável"  " name="">
     <input type="email" placeholder="Email do Responsável"  name="contato">
     <button type="submit" id="submit" name="submit">Cadastrar</button>
     </form>
