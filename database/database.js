@@ -1,4 +1,4 @@
-const sql = require('sqlite3');
+const sql = require('sqlite3').verbose();
 const db = new sql.Database("banco.db");
 
 function criarTabela() {

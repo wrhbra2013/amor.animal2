@@ -1,34 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONG Amor Animal</title>
-    <link rel="stylesheet"  href="/static/css/default.css" >
-    <link rel="icon" type="image/png" href="/static/css/favicon/favicon.ico">
-   <link rel="manifest" href="/static/css/favicon/site.webmanifest">
-</head>
-<body>
-      <!--  menu -->
-      <header class="center">
-        <input type="checkbox" hidden id="mobile-menu-toggle">
-        <!--         Menu sandwich example
- --><!--         <label for="mobile-menu-toggle" class="mobile-menu-toggle-label">&#9776;</label>
- --> <label for="mobile-menu-toggle" class="mobile-menu-toggle-label"><img src="/static/css/imagem/ong.jpg"></label>
-
-        <nav class="mobile-menu">
-            <ul>
-                <li><a href="/home"> Inicio </a></li>
-                <li> <a href="/adocao"> Adoção </a></li>
-                <li><a href="/castracao"> Castração </a></li>
-                <li><a href="/resgate"> Resgate </a></li>
-                <li><a href="/doacao"> Doação </a></li>           
-                <li><a href="/parceria"> Parceria </a> </li>
-                <li><a href="/sobre"> Sobre</a> </li>
-            </ul>
-            </ul>
-        </nav>
-    </header>
+<%- include("_header")-%>
    <!--  elemento central -->
     <div class=center>
         <h1>CASTRAÇÃO! </h1>
@@ -39,10 +9,9 @@
         <h1> Cuide de um PET....</h1>
         <h1> ....DOE ração, tempo voluntariado ou como preferir!</h1>
     </div>
-
+    <%- include("_footer")-%>
 
     
    
     
-</body>
-</html>
+

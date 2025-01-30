@@ -11,36 +11,22 @@ body {
   font-weight: bolder;
   background-color: white;
   background-repeat: no-repeat;
-  }
-
-
-img {
-
-  color: rgb(12, 7, 49);
-  height: 60px;
 }
 
-.center{
-margin:0px auto;
-white-space: pre-line;
 
+
+
+.header {
+  margin: 0px auto;
+  text-align: right;
+  background-color: rgba(241, 234, 234, 0.5);
+  width: 5%;
+  transition: width 2s;
 }
 
-.header{
-margin: 0px auto;
-text-align: right;
-background-color: rgba(241, 234, 234, 0.5);
-width:5%;
-transition: width 2s;
-}
+.header:hover {
+  width: 100%;
 
-.header:hover{
- width:100%;
-
-}
-
-@keyframes move{
-  100%   {top: 10px;}
 }
 
 .mobile-menu-toggle-label {
@@ -79,19 +65,29 @@ transition: width 2s;
   cursor: pointer;
   font-size: medium;
   text-align: right;
-  display:block;
+  display: block;
   animation: move 5s infinite;
 }
 
 
 
 /* elementos centrais */
+
+img {
+
+  color: rgb(12, 7, 49);
+  height: 60px;
+}
+
+.center {
+  margin: 0px  auto;
+  text-align: justify;
+}
 .artigo {
   margin: 0px auto;
   border: 1px solid;
-
-  height: 80%;
-  width: 70%;
+  height: 70%;
+  width: 60%;
   background-color: rgba(241, 234, 234, 0.5);
   font-size: smaller;
   font-weight: bolder;
@@ -99,6 +95,7 @@ transition: width 2s;
   white-space: pre-line;
   display: block;
 }
+
 
 
 .artigo img {
@@ -129,13 +126,14 @@ transition: width 2s;
 
 }
 
-.artigo input,textarea{
-  width:80%;
+.artigo input,
+textarea {
+  width: 80%;
 }
 
-.artigo fieldset{
+.artigo fieldset {
   margin: 0px auto;
-height:70%;
+  height: 70%;
   width: 80%;
 }
 
@@ -152,4 +150,9 @@ table {
 
 table thead {
   color: rgb(45, 77, 219);
+}
+
+footer{
+  margin: 0px auto;
+  text-align: center;
 }
