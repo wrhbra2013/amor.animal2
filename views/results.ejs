@@ -1,6 +1,7 @@
 <div class="artigo">
-    <h1><%= model.title %></h1>
-    <% for (let i = 0; i  < model.forms.lenght; i++) { %>
-         <h1><%= model.forms[ i ] %></h1>
-    <% }; %>
+     <% var model; %>
+     <!-- <iframe class="artigo" name="myiframe" src="/results"></iframe> -->
+     <% for (let i = 0; i < model.length; i++) { %>
+         <li><%= model[ i ] %></li>
+     <% } %>
   </div>

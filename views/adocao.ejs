@@ -1,16 +1,19 @@
-<%- include("_header") -%>
+﻿<%- include("_header") -%>
     <!-- elemento central -->
-    <div classs="center">
-        <input type="text" name="busca" />
-        <input type="button" value="ok" />
+    <div class="center">
+        <input type="text"  id="busca" name="busca" />
+        <input type="button" id="button" value="ok" />
+        
         <h1> ADOÇÃO! </h1>
         <h1> Cadastrar um PET...</h1>
         <h1> ....Ou AJUDAR a encontrar um lar para algum!</h1>
         <!--   artigo -->
         <h1>Cadastrar Pet</h1>
     </div>
-   <!--  <!--Formulário-->
-    <form action="" method="get"  class="artigo">
+      <!--Formulário-->
+    <form action="/adocao" method="post" class="artigo" enctype="multipart/form-data">
+        <input type="file" name="mediaPet" placeholder="Midia">
+        <input type="submit" value="Enviar">
         <input type="text" placeholder="Nome do Pet" id="nomePet" name="nomePet">
         <input type="number" placeholder="Idade" id="idadePet" name="idadePet">
         <fieldset>
@@ -34,12 +37,12 @@
         <input type="email" placeholder="Email do Responsável" name="contato">
         <button type="submit" id="submit" name="submit">Cadastrar</button>
     </form>
-
+    <% var model; %>
     <!-- <iframe class="artigo" name="myiframe" src="/results"></iframe> -->
-     <% var forms; %>
-            <% forms.forEach( (form) => { %>
-                         <%= form %>
-            <% }) ;%>
-        
-       
-    <%- include("_footer")-%>
+    <% for (let i = 0; i < model.length; i++) { %>
+        <li><%= model[ i ] %></li>
+    <% } %>
+
+
+   <script type="text/javascript" src="/script/alert.js"></script>
+                <%- include("_footer")-%>
