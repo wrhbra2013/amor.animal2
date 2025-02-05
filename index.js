@@ -3,6 +3,8 @@ const path = require("path");
 const body = require('body-parser');
 const fs = require('fs');
 const multer = require('multer');
+const {cadastroPet} = require('./database/database')
+const  {insertPet} = require('./database/insert');
 
 //express configs
 const app = express();
@@ -10,7 +12,7 @@ const port = 3000;
 
 //multer configs
 const  upload = multer({
-  dest: '/static/uploads'
+  dest: './static/uploads'
 });
 
 //EJS configs
@@ -46,10 +48,11 @@ app.get('/sobre', (req, res) => {
 
 //Rotas POST
 //Upload de imagens Nodejs - SQLite3
-app.post('/adocao',  upload.single("arquivo") ,(req, res) => {
+app.post('/adocao',  upload.single("petMidia") ,(req, res) => {
     let forms = {
     title: "Cadastro de adoção",
-    midia:  req.file.midiaPet,
+    midia:  req.file.petMidia,
+    imagem: path.join(__dirname, './static/uploads'),
     nome: req.body.nomePet,
     idade: req.body.idadePet,
     especie: req.body.especie,
@@ -58,8 +61,8 @@ app.post('/adocao',  upload.single("arquivo") ,(req, res) => {
     tutor: req.body.tutor,
     contato: req.body.contato
   };
-  
-  res.render('adocao', { model: forms })
+  insertPet(forms);
+  res.render('adocao')
 });
 
 //Rotas alternativas

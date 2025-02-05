@@ -1,9 +1,4 @@
-
-let elemento = document.getElementById('busca').value;
-function cookies()  {
-   return  alert(elemento)
+function menssagem(){
+    return confirm('Confirma as informações?');
 };
-
-cookies();
-
-confirm('hello world');
+menssagem():

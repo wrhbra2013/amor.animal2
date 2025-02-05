@@ -1,4 +1,4 @@
-const sql = require('sqlite3').verbose();
+const sql = require('sqlite3');
 
 const db = new sql.Database("banco.db", erro => {
     if (erro) {
@@ -9,11 +9,12 @@ const db = new sql.Database("banco.db", erro => {
 
 //Adoção
 const cadastroPet = `CREATE TABLE IF NOT EXISTS cadastroPet  (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-    imagem 
+    id INTEGER PRIMARY KEY, 
+    imagem text,
     nome text, 
     idade integer, 
-    especie text, porte text, 
+    especie text, 
+    porte text, 
     caracteristicas text,  
     tutor text,  
     contato email);` ;
@@ -29,7 +30,8 @@ console.log("Criando tabela para Cadastro de PET...");
 
 
 module.exports = {
-    sql: sql,
-    db: db
+    //exportar modelos para rotas post
+    db: db,
+    cadastroPet: cadastroPet
 };
 

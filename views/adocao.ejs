@@ -11,9 +11,8 @@
         <h1>Cadastrar Pet</h1>
     </div>
       <!--Formulário-->
-    <form action="/adocao" method="post" class="artigo" enctype="multipart/form-data">
-        <input type="file" name="mediaPet" placeholder="imagem">
-        <input type="submit" value="Enviar">
+    <form action="" method="post" class="artigo" enctype="multipart/form-data">
+        <input type="file" name="petMidia" placeholder="imagem">
         <input type="text" placeholder="Nome do Pet" id="nomePet" name="nomePet">
         <input type="number" placeholder="Idade" id="idadePet" name="idadePet">
         <fieldset>
@@ -35,14 +34,8 @@
         <textarea name="caracteristicas" rows="4" cols="20" placeholder="Caracteristicas"></textarea>
         <input type="text" placeholder="Nome do Responsável" " name=" tutor">
         <input type="email" placeholder="Email do Responsável" name="contato">
-        <button type="submit" id="submit" name="submit">Cadastrar</button>
+        <button type="submit" id="submit" name="submit" onclick="alert()">Cadastrar</button>
     </form>
-    <% var model; %>
-    <!-- <iframe class="artigo" name="myiframe" src="/results"></iframe> -->
-    <% for (let i = 0; i < model.length; i++) { %>
-        <li><%= model[ i ] %></li>
-    <% } %>
-
-
+   
    <script type="text/javascript" src="/script/alert.js"></script>
                 <%- include("_footer")-%>
