@@ -12,7 +12,7 @@
     </div>
       <!--Formulário-->
     <form action="" method="post" class="artigo" enctype="multipart/form-data">
-        <input type="file" name="petMidia" placeholder="imagem">
+        <input type="file"  id="arquivo" name="arquivo" placeholder="imagem">
         <input type="text" placeholder="Nome do Pet" id="nomePet" name="nomePet">
         <input type="number" placeholder="Idade" id="idadePet" name="idadePet">
         <fieldset>
@@ -31,9 +31,9 @@
             <input type="radio" id="porte" name="porte" value="grande">
             <label for="grande">Grande</label>
         </fieldset>
-        <textarea name="caracteristicas" rows="4" cols="20" placeholder="Caracteristicas"></textarea>
-        <input type="text" placeholder="Nome do Responsável" " name=" tutor">
-        <input type="email" placeholder="Email do Responsável" name="contato">
+        <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20" placeholder="Caracteristicas"></textarea>
+        <input type="text" placeholder="Nome do Responsável" id="tutor" name=" tutor">
+        <input type="email" placeholder="Email do Responsável" id="contato" name="contato">
         <button type="submit" id="submit" name="submit" onclick="alert()">Cadastrar</button>
     </form>
    

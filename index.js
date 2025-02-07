@@ -1,9 +1,11 @@
 const express = require('express');
 const path = require("path");
 const body = require('body-parser');
-const fs = require('fs');
 const multer = require('multer');
-const {cadastroPet} = require('./database/database')
+
+//Banco de Dados
+
+const {db } = require('./database/database');
 const  {insertPet} = require('./database/insert');
 
 //express configs
@@ -48,10 +50,9 @@ app.get('/sobre', (req, res) => {
 
 //Rotas POST
 //Upload de imagens Nodejs - SQLite3
-app.post('/adocao',  upload.single("petMidia") ,(req, res) => {
-    let forms = {
-    title: "Cadastro de adoção",
-    midia:  req.file.petMidia,
+app.post('/adocao',  upload.single("arquivo") ,(req, res) => {
+    let form ={
+    midia:  req.file.arquivo,
     imagem: path.join(__dirname, './static/uploads'),
     nome: req.body.nomePet,
     idade: req.body.idadePet,
@@ -60,8 +61,8 @@ app.post('/adocao',  upload.single("petMidia") ,(req, res) => {
     caracteristicas: req.body.caracteristicas,
     tutor: req.body.tutor,
     contato: req.body.contato
-  };
-  insertPet(forms);
+    };
+  insertPet(form );
   res.render('adocao')
 });
 
@@ -75,5 +76,5 @@ app.get('/error', (req, res) => res.render('error'));
 
 
 
-app.listen(port, () => { console.log(`Aplicação ATIVA em http://localhost:${port}/`) });
+app.listen(port, () => { console.log(`Aplicação ATIVA em http://localhost:${port}`) });
 
