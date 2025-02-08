@@ -4,9 +4,11 @@ const body = require('body-parser');
 const multer = require('multer');
 
 //Banco de Dados
+const {db }= require('./database/database.js')
+const {insert_adocao} = require('./database/insert.js')
 
-const {db } = require('./database/database');
-const  {insertPet} = require('./database/insert');
+
+
 
 //express configs
 const app = express();
@@ -62,7 +64,7 @@ app.post('/adocao',  upload.single("arquivo") ,(req, res) => {
     tutor: req.body.tutor,
     contato: req.body.contato
     };
-  insertPet(form );
+  insert_adocao(form );
   res.render('adocao')
 });
 

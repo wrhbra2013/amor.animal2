@@ -1,6 +1,6 @@
 
- function insertPet(arquivo, nome, idade, especie, porte, caracteristicas, tutor ,contato) {
-  const insert =  `INSERT INTO cadastroPet (
+ function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tutor ,contato) {
+  const insert =  `INSERT INTO adocao (
                             id,
                             arquivo,  
                             nome, 
@@ -11,18 +11,18 @@
                             tutor, 
                             contato,
                             origem ) VALUES  ( 
-                            arquivo, 
-                            nome, 
-                            idade, 
-                            especie, 
-                            porte,
-                            caracteristicas, 
-                            tutor, 
-                            contato
+                            $(arquivo), 
+                            $(nome), 
+                            $(idade), 
+                            $(especie), 
+                            $(porte),
+                            $(caracteristicas), 
+                            $(tutor), 
+                            $(contato)
                               ))`;
                              return ("Inserindo dados", insert);
- };
+                             };
 
  module.exports = {
-  insertPet: insertPet
+  insert_adocao: insert_adocao
  }

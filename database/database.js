@@ -10,24 +10,24 @@ const db = new sql.Database(db_name, erro => {
 });
 
 //Adoção
-const cadastroPet = `CREATE TABLE IF NOT EXISTS cadastroPet  (
+const adocao= `CREATE TABLE IF NOT EXISTS adocao  (
     id INTEGER PRIMARY KEY, 
-    arquivo text,
-    nomePet  text,
-    idadePet text, 
-    especie text, 
-    porte text, 
-    caracteristicas text,  
-    tutor text,  
+    arquivo varchar,
+    nomePet  varchar,
+    idadePet integer, 
+    especie varchar, 
+    porte varchar, 
+    caracteristicas varchar,  
+    tutor varchar,  
     contato email,     
     origem datetime default current_timestamp
     );`;
 
-db.run(cadastroPet, erro => {
+db.run(adocao, erro => {
 if (erro) {
 return console.error(erro.message)
 }
-console.log("Criando tabela para Cadastro de PET...");
+console.log("Tabela: Adoção  PRONTA.");
 });
 
 
@@ -35,7 +35,7 @@ console.log("Criando tabela para Cadastro de PET...");
 
 module.exports = {
     //exportar modelos para rotas post
-    db: db,
-    cadastroPet: cadastroPet
+    db:db,
+   adocao: adocao
 };
 
