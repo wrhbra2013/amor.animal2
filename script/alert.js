@@ -1,4 +1,4 @@
-function menssagem(){
-    return confirm('Confirma as informações?');
-};
-menssagem():
+function confirm {
+    confirm('Dados estão atualizados?');
+}
+

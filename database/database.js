@@ -2,9 +2,9 @@ const sql = require('sqlite3').verbose();
 const path = require("path");
 const db_name = path.join("./database/banco.db");
 
-const db = new sql.Database(db_name, erro => {
-    if (erro) {
-        return console.error(erro.message)
+const db = new sql.Database(db_name, error => {
+    if (error) {
+        return console.error(error.message)
     }
     console.log("Base de Dados ATIVA.");
 });
@@ -13,25 +13,22 @@ const db = new sql.Database(db_name, erro => {
 const adocao= `CREATE TABLE IF NOT EXISTS adocao  (
     id INTEGER PRIMARY KEY, 
     arquivo varchar,
-    nomePet  varchar,
-    idadePet integer, 
+    nome  varchar,
+    idade integer, 
     especie varchar, 
     porte varchar, 
     caracteristicas varchar,  
     tutor varchar,  
     contato email,     
-    origem datetime default current_timestamp
-    );`;
+    origem DATETIME DEFAULT CURRENT_TIMESTAMP 
+    );`
 
-db.run(adocao, erro => {
-if (erro) {
-return console.error(erro.message)
+db.run(adocao, error => {
+if (error) {
+return console.error(error.message)
 }
-console.log("Tabela: Adoção  PRONTA.");
+console.log("Tabela: Adoção  ATIVA.");
 });
-
-
-
 
 module.exports = {
     //exportar modelos para rotas post
