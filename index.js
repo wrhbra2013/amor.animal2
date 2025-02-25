@@ -21,9 +21,9 @@ const port = 3000;
 //EJS configs
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.set("views", path.join(__dirname, "views"));
-app.set("database", path.join(__dirname, "database"));
-app.set("script", path.join(__dirname, "script"));
+app.set("/views", path.join(__dirname, "views"));
+app.set("/database", path.join(__dirname, "database"));
+app.set("/js", path.join(__dirname, "js"));
 app.use('/static', express.static('static'));
 
 
@@ -55,21 +55,20 @@ app.get('/sobre', (req, res) => {
 
 //Rotas POST
 //Upload de imagens Nodejs - SQLite3
-app.post('/adocao', uploads.single('arquivo'), (req, res) => {
-  console.log(req.file);
-
-  
+app.post('/adocao', uploads.single('arquivo'),  (req, res) => {
+   console.log(req.file);
+     
   let destination = req.file.destination;
   let temp_file = req.file.filename
   let final_file = req.file.originalname;
 
   fs.rename(destination + temp_file, destination + final_file, error => {
-    if (error) return console.log(error)
+    if (error)  return console.log(error)
     console.log('Arquivo ENVIADO.')
-  })
+  });
   console.log('nome do arquivo', destination + final_file);
   let forms = {
-    arquivo : [destination + final_file],
+    arquivo : destination + final_file,
     nome :  req.body.nomePet,
     idade : req.body.idadePet,
     especie : req.body.especie,
@@ -79,10 +78,9 @@ app.post('/adocao', uploads.single('arquivo'), (req, res) => {
     contato : req.body.contato
   };
   console.log(forms); 
-  insert_adocao(forms);
-  /* return res.redirect('adocao');
-   */
-  return res.json(forms)
+  insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato);
+/*   return res.redirect('adocao', {forms:forms}); */
+    return res.json(forms)
 });
 
 //Rotas alternativas

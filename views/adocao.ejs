@@ -1,6 +1,8 @@
 ﻿   <%- include("_header") -%>
-    <!-- elemento central -->
+ 
+       <!-- elemento central -->
     <div class="center">
+        
         <input type="text" id="busca" name="busca" />
         <input type="button" id="button" value="ok" />
         <h1> ADOÇÃO! </h1>
@@ -8,40 +10,41 @@
         <h1> ....Ou AJUDAR a encontrar um lar para algum!</h1>
         <h1>Cadastrar Pet</h1>
     </div>
-    <!--Formulário-->
-        <form action=" " enctype="multipart/form-data" method="post" class="artigo">
-        <input  type="file" id="arquivos" name="arquivo" required>
-        <input type="text" placeholder="Nome do Pet" id="nomePet" name="nomePet" required>
-        <input type="number" placeholder="Idade" id="idadePet" name="idadePet">
-        <fieldset>
-            <legend>Espécie</legend>
-            <input type="radio" id="especie" name="especie" value="canino">
-            <label for="canino">Canino</label>
-            <input type="radio" id="especie" name="especie" value="felino">
-            <label for="felino">Felino</label>
-        </fieldset>
-        <fieldset>
-            <legend>Porte</legend>
-            <input type="radio" id="porte" name="porte" value="pequeno">
-            <label for="pequeno">Pequeno</label>
-            <input type="radio" id="porte" name="porte" value="medio">
-            <label for="medio">Médio</label>
-            <input type="radio" id="porte" name="porte" value="grande">
-            <label for="grande">Grande</label>
-        </fieldset>
-        <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
-            placeholder="Caracteristicas"></textarea>
-        <input type="text" placeholder="Tutor" id="tutor" name="tutor" required>
-        <input type="email" placeholder="Email do Responsável" id="contato" name="contato" required>
-        <input type="submit" value="Cadastrar" class="btn btn-default" onclick="confirm('Os dados estão atualizados?')"> 
-    </form>
+        <!--Formulário-->
+        <div class="artigo">
+            <form action=" " enctype="multipart/form-data" method="post" >
+                <input  type="file" id="arquivos" name="arquivo" required>
+                <input type="text" placeholder="Nome do Pet" id="nomePet" name="nomePet" required>
+                <input type="number" placeholder="Idade" id="idadePet" name="idadePet">
+                <fieldset>
+                    <legend>Espécie</legend>
+                    <input type="radio" id="especie" name="especie" value="canino">
+                    <label for="canino">Canino</label>
+                    <input type="radio" id="especie" name="especie" value="felino">
+                    <label for="felino">Felino</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Porte</legend>
+                    <input type="radio" id="porte" name="porte" value="pequeno">
+                    <label for="pequeno">Pequeno</label>
+                    <input type="radio" id="porte" name="porte" value="medio">
+                    <label for="medio">Médio</label>
+                    <input type="radio" id="porte" name="porte" value="grande">
+                    <label for="grande">Grande</label>
+                </fieldset>
+                <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
+                    placeholder="Caracteristicas"></textarea>
+                <input type="text" placeholder="Tutor" id="tutor" name="tutor" required>
+                <input type="email" placeholder="Email do Responsável" id="contato" name="contato" required>
+                <input type="submit" value="Cadastrar" class="btn btn-default" onclick="confirm('Os dados estão atualizados?')"> 
+            </form>
+        </div>  
+    
+
    
-    <% var forms; %>
-    <% for (let i = 0; i < forms; i++) { %>
-        <li><%= forms.form[ i ] %></li>
-    <% } %>
+    
 
-
-    <script type="text/javascript" src="script/alert.js"></script>
+ 
+    <script src="/js/alert.js"></script>
     
     <%- include("_footer")-%>
