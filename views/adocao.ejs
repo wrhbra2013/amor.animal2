@@ -34,12 +34,28 @@
                 </fieldset>
                 <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
                     placeholder="Caracteristicas"></textarea>
-                <input type="text" placeholder="Tutor" id="tutor" name="tutor" required>
-                <input type="email" placeholder="Email do Responsável" id="contato" name="contato" required>
+                <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
+                <input type="email" placeholder="Email  Responsável" id="contato" name="contato" required>
                 <input type="submit" value="Cadastrar" class="btn btn-default" onclick="confirm('Os dados estão atualizados?')"> 
             </form>
         </div>  
     
+        <div class="artigo">
+           <% for (const adocao of model) { %>            
+                <img  src="../static/uploads/<%= adocao.arquivo %>" style="border-radius: 30px;">
+                <%= adocao.nome %>
+                <%= adocao.idade %>
+                <%= adocao.especie %>
+                <%= adocao.porte %>
+                <%= adocao.caracteristicas %>
+                <%= adocao.tutor %>
+                <%= adocao.contato %>
+             <form action="/delete/<%= adocao.id %>" method="post">
+            <input type="submit" value="Delete" class="btn btn-default btn-danger" onclick="confirm('Apagar post')"/>
+          <a class="btn btn-outline-dark cancel" href="/adocao">Cancel</a>
+          </form>
+          <% } %>
+         </div>
 
    
     

@@ -11,10 +11,10 @@ function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tu
                               caracteristicas, 
                               tutor, 
                               contato
-                              ) VALUES  ( )
-                              [${arquivo}, ${nome}, ${idade},${especie}, ${porte}, ${caracteristicas}, ${tutor}, ${contato}]);`
+                              ) VALUES  (?,?,?,?,?,?,?,?);`
+const values =  [ `${arquivo}`,` ${nome}`, `${idade}`,`${especie}`,` ${porte}`, `${caracteristicas}`, `${tutor}`, `${contato}`]
                               
-    return db.run(insert, error => {
+    return db.run(insert, values,  error => {
       if (error)  return console.log(error)   
         console.log("Dados de adoção INSERIDO.")
       });

@@ -6,9 +6,10 @@ const fs = require('fs');
 const alert = require('alert');
 
 //banco de dados
-const { db } = require('./database/database.js')
+const { db } = require('./database/database.js');
+const {adocao} = require("./database/create.js")
 const { insert_adocao } = require('./database/insert.js');
-const { fstat } = require('fs');
+
 
 const uploads = multer({
   dest: path.join(__dirname, './static/uploads/')
@@ -35,13 +36,19 @@ app.get('/', (req, res) => res.render('home'));
 
 app.get('/home', (req, res) => res.render('home'));
 
-app.get('/adocao', (req, res) => { res.render('adocao') });
+app.get('/adocao', (req, res) => { 
+  const sql = `SELECT * FROM adocao;`
+  db.all(sql, [], (error, rows) => {
+    if (error) {
+      return console.log(error)
+    }
+    res.render('adocao', {model: rows})
+  });
+ });
 
 app.get('/doacao', (req, res) => res.render('doacao'));
 
 app.get('/castracao', (req, res) => res.render('castracao'));
-
-app.get('/resgate', (req, res) => res.render('resgate'));
 
 app.get('/parceria', (req, res) => res.render('parceria'));
 
@@ -52,6 +59,8 @@ app.get('/sobre', (req, res) => {
   };
   res.render('sobre', { model: test });
 });
+
+app.get('/delete', (req, res) => res.render('home'));
 
 //Rotas POST
 //Upload de imagens Nodejs - SQLite3
@@ -68,7 +77,7 @@ app.post('/adocao', uploads.single('arquivo'),  (req, res) => {
   });
   console.log('nome do arquivo', destination + final_file);
   let forms = {
-    arquivo : destination + final_file,
+    arquivo :  final_file,
     nome :  req.body.nomePet,
     idade : req.body.idadePet,
     especie : req.body.especie,
@@ -78,9 +87,23 @@ app.post('/adocao', uploads.single('arquivo'),  (req, res) => {
     contato : req.body.contato
   };
   console.log(forms); 
-  insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato);
-/*   return res.redirect('adocao', {forms:forms}); */
-    return res.json(forms)
+   insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato);
+     res.redirect('adocao' )
+});
+
+app.post('/delete/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `DELETE FROM adocao WHERE id =  ?;`;
+  db.run(sql, id, error =>{
+    if (error) return res.render('error', {error: error})
+      res.redirect('adocao');
+  });
+  const caminho = './static/uplods';
+  fs.unlink(caminho, (error) =>{
+    if (error) return console.log(error)
+      return res.send('Cache esvaziado!')
+
+  });
 });
 
 //Rotas alternativas
