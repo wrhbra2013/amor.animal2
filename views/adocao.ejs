@@ -1,66 +1,71 @@
-﻿   <%- include("_header") -%>
- 
-       <!-- elemento central -->
+﻿<%- include("_header") -%>
     <div class="center">
-        
-        <input type="text" id="busca" name="busca" />
-        <input type="button" id="button" value="ok" />
-        <h1> ADOÇÃO! </h1>
-        <h1> Cadastrar um PET...</h1>
-        <h1> ....Ou AJUDAR a encontrar um lar para algum!</h1>
-        <h1>Cadastrar Pet</h1>
+        <h1> ADOTADOS! </h1>
     </div>
-        <!--Formulário-->
-        <div class="artigo">
-            <form action=" " enctype="multipart/form-data" method="post" >
-                <input  type="file" id="arquivos" name="arquivo" required>
-                <input type="text" placeholder="Nome do Pet" id="nomePet" name="nomePet" required>
-                <input type="number" placeholder="Idade" id="idadePet" name="idadePet">
-                <fieldset>
-                    <legend>Espécie</legend>
-                    <input type="radio" id="especie" name="especie" value="canino">
-                    <label for="canino">Canino</label>
-                    <input type="radio" id="especie" name="especie" value="felino">
-                    <label for="felino">Felino</label>
-                </fieldset>
-                <fieldset>
-                    <legend>Porte</legend>
-                    <input type="radio" id="porte" name="porte" value="pequeno">
-                    <label for="pequeno">Pequeno</label>
-                    <input type="radio" id="porte" name="porte" value="medio">
-                    <label for="medio">Médio</label>
-                    <input type="radio" id="porte" name="porte" value="grande">
-                    <label for="grande">Grande</label>
-                </fieldset>
-                <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
-                    placeholder="Caracteristicas"></textarea>
-                <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
-                <input type="email" placeholder="Email  Responsável" id="contato" name="contato" required>
-                <input type="submit" value="Cadastrar" class="btn btn-default" onclick="confirm('Os dados estão atualizados?')"> 
-            </form>
-        </div>  
-    
-        <div class="artigo">
-           <% for (const adocao of model) { %>            
-                <img  src="../static/uploads/<%= adocao.arquivo %>" style="border-radius: 30px;">
-                <%= adocao.nome %>
+    <div class="scroll-container">
+        <div class="carousel-primary carousel-secundary ">
+            <img src="/static/uploads/1.png" alt="nome"/>
+            <img src="/static/uploads/h7a3hkhg.png" alt="hacking"/>
+            <img src="/static/uploads/nina.jpeg" alt="nina"/>
+        </div>
+    </div>
+  <hr>
+    <!-- elemento central -->
+    <div class="center">
+        <h1> ADOÇÃO! </h1>
+    </div>
+    <!--Formulário-->
+    <div class="artigo">
+        <form action=" " enctype="multipart/form-data" method="post">
+            <input type="file" id="arquivos" name="arquivo" required />
+            <input type="reset" value="Limpar" />
+
+            <input type="text" placeholder="Nome  Pet" id="nomePet" name="nomePet" required>
+            <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet">
+            <select id="especie" name="especie">
+                <option value="" required>Especie</option>
+                <option value="canino">Canino</option>
+                <option value="felino">Felino</option>
+            </select>
+            <select id="porte" name="porte">
+                <option value="">Porte</option>
+                <option value="pequeno">Pequeno</option>
+                <option value="medio">Medio</option>
+                <option value="grande">Grande</option>
+            </select>
+            <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
+                placeholder="Caracteristicas Pet"></textarea>
+            <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
+            <input type="email" placeholder="Email  Responsável" id="contato" name="contato" required>
+            <input type="submit" value="Cadastrar" class="btn btn-default"
+                onclick="confirm('Os dados estão atualizados?')">
+        </form>
+    </div>
+
+    <div class="artigo">
+        <% for (const adocao of model) { %>
+            <img src="../static/uploads/<%= adocao.arquivo %>" style="border-radius: 30px;">
+            <%= adocao.nome %>
                 <%= adocao.idade %>
-                <%= adocao.especie %>
-                <%= adocao.porte %>
-                <%= adocao.caracteristicas %>
-                <%= adocao.tutor %>
-                <%= adocao.contato %>
-             <form action="/delete/<%= adocao.id %>" method="post">
-            <input type="submit" value="Delete" class="btn btn-default btn-danger" onclick="confirm('Apagar post')"/>
-          <a class="btn btn-outline-dark cancel" href="/adocao">Cancel</a>
-          </form>
-          <% } %>
-         </div>
+                    <%= adocao.especie %>
+                        <%= adocao.porte %>
+                            <%= adocao.caracteristicas %>
+                                <%= adocao.tutor %>
+                                    <%= adocao.contato %>
+                                        <form action="/delete/<adocao>/<%= adocao.id %>" method="post">
+                                            <input type="submit" value="Delete" class="btn btn-default btn-danger"
+                                                onclick="confirm('Apagar post')" />
+                                            <a class="btn btn-outline-dark cancelar" href="/adocao">Cancel</a>
+                                        </form>
+                                        <% } %>
 
-   
-    
+    </div>
 
- 
+
+
+
+
+
     <script src="/js/alert.js"></script>
-    
+
     <%- include("_footer")-%>

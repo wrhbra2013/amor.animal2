@@ -1,17 +1,82 @@
 <%- include("_header")-%>
-   <!--  elemento central -->
+    <!--  elemento central -->
     <div class=center>
         <h1>CASTRAÇÃO! </h1>
-  
     </div>
-<!-- artigo -->
+    <!-- artigo -->
     <div class="artigo">
-        <h1> Cuide de um PET....</h1>
-        <h1> ....DOE ração, tempo voluntariado ou como preferir!</h1>
+        <form action="" enctype="multipart/form-data" method="post">
+            <input type="text" name="nome" placeholder="Nome " />
+            <input type="email" name="contato" placeholder="Contato " />
+            <input type="file" name="arquivo" required />
+            <input type="reset" value="Limpar" />
+            <input type="number" name="idade_pet" placeholder=" Idade Pet" />
+            <select name="especie">
+                <option value="">Espécie</option>
+                <option value="felino">Felino</option>
+                <option value="canino">Canino</option>
+            </select>
+            <select name="porte">
+                <option value="">Porte</option>
+                <option value="pequeno">Pequeno</option>
+                <option value="medio">Medio</option>
+                <option value="grande">Grande</option>
+            </select>
+            <textarea name="obs" rows="4" cols="20" placeholder="Observações Pet"></textarea>
+            <input type="submit" value="Cadastrar" class="btn btn-default"
+                onclick="confirm('Os dados estão atualizados?')">
+        </form>
+
+    </div>
+    <div class="artigo">
+        <% for (const castracao of model) { %>
+            <%= castracao.ticket %>
+                <table>
+                    <tr>
+                        <th>Data</th>
+                        <th>Nome</th>
+                        <th>Contato</th>             
+                      
+                    </tr>
+                    <td>
+                        <%= castracao.origem %>
+                    </td>
+                    <td>
+                        <%= castracao.nome %>
+                    </td>
+                    <td>
+                        <%= castracao.contato %>
+                    </td>
+                </table>
+                <img src="../static/uploads/<%= castracao.arquivo %>"/>
+                <table>
+                    <tr>
+                        <th>idade</th>
+                        <th>especie</th>
+                        <th>porte</th>
+                    </tr>
+
+                    <td>
+                        <%= castracao.idade %>
+                    </td>
+                    <td>
+                        <%= castracao.especie %>
+                    </td>
+                    <td>
+                        <%= castracao.porte %>
+                    </td>
+                </table>
+                <textarea><%= castracao.observacoes %></textarea>
+                <form action="/delete/<castracao>/<%= castracao.id %>" method="post">
+                    <input type="submit" value="Delete" class="btn btn-default btn-danger"
+                        onclick="confirm('Apagar postagem?´)" />
+                    <a class="btn btn-outline-dark cancel" href="/castracao">Cancel</a>
+                </form>
+                <form action="/update/<%= castracao.ticket %>" method="post">
+                    <label>Atendido</label>
+                    <input type="checkbox" name="status" value="castrado" placeholder="Atendido">
+                    <input type="submit" value="Atender" onclick="alert('Mudando status')" />
+                                </form>
+                <% } %>
     </div>
     <%- include("_footer")-%>
-
-    
-   
-    
-

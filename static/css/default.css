@@ -7,7 +7,7 @@
 
 
 
-body {
+/* body {
   border: 0;
   margin: 0 auto;
   padding: 0;
@@ -17,8 +17,13 @@ body {
   display:inline;
 
 }
-
-
+ */
+ html,
+ body {
+   font-family: sans-serif;
+   margin: 0;
+   height: 100%;
+ }
 
 header {
   margin: 0px auto;
@@ -62,40 +67,9 @@ h1 {
   list-style: none;
   margin: 0;
   padding: 0;
-  transition: all 0.5s;
-  max-height: 0;
-  -webkit-animation: cssAnimation 5s forwards;
-  animation: cssAnimation 5s forwards;
-
-}
-
-@keyframes cssAnimation {
-  0% {
-    opacity: 1;
   }
 
-  90% {
-    opacity: 1;
-  }
 
-  100% {
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes cssAnimation {
-  0% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
 
 .mobile-menu ul:hover {
   max-height: 250px;
@@ -104,23 +78,17 @@ h1 {
 .mobile-menu li {
   margin-bottom: 10px;
   height: 100%;
-  display: inline;
+  display: block;
+}
 
+.mobile-menu li:hover{
+background-color: #656663;
 }
 
 .mobile-menu a {
   cursor: pointer;
   text-decoration: none;
   color: #656663;
-}
-
-.mobile-menu a:hover {
-  border: 0px solid rgb(136, 52, 52);
-  border-radius: 30px;
-  color: rgb(255, 244, 244);
-  zoom: 150%;
-  background-color: rgb(104, 168, 228);
-  height: 100%;
 }
 
 #mobile-menu-toggle:checked+.mobile-menu-toggle-label+.mobile-menu {
@@ -138,9 +106,12 @@ img {
 }
 
 .center {
+  padding: 30p;
   margin: 0px auto;
   display: block;
   text-align: center;
+  position: relative;
+ 
 }
 
 .scroll-watcher {
@@ -149,7 +120,7 @@ img {
   top: 0;
   left:0;
   z-index: 1000;
-  background-color: rgb(104, 168, 228);
+  background-color: rgb(255, 72, 0);
   width: 100%;
   scale: 0 1;
   transform-origin: left;
@@ -174,18 +145,21 @@ img {
   border-radius: 12px;
   font-size: medium;
   color: white;
-  white-space: pre-line;
+  white-space: pre-line;   
   
-  
+} 
+
+
+
+
+.artigo input, textarea, select{
+   width: 60%;
 }
 
-
-  
 
 .artigo img {
   width: 300px;
   height: 200px;
-
 }
 
 
@@ -213,16 +187,8 @@ img {
   white-space: pre-line;
 }
 
-.artigo input,
-textarea {
-  width: 60%;
-}
 
-.artigo fieldset {
-  margin: 0px auto;
-  height: 30%;
-  width: 60%;
-}
+
 
 table {
   border: 1px solid;
@@ -238,3 +204,43 @@ table thead {
   color: rgb(45, 77, 219);
 }
 
+footer img{
+  width: 25px;
+  height: 25px;
+}
+
+.scroll-container{
+  height: 300px;
+}
+
+.carousel-primary, 
+.carousel-secundary{
+  top: 26%;
+  left: 100%;
+  width: 200%;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+.carousel-primary img {
+ height: 180px;
+  margin-left: 20px;
+  border-radius: 14px;
+}
+
+.carousel-primary{
+  display: flex;
+  justify-content: space-around;
+  animation: scroll-horizontal 50s linear infinite;
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+  
+}
