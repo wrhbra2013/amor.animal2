@@ -18,7 +18,7 @@ const uploads = multer({
 
 //express configs
 const app = express();
-const port = 3500;
+const port = 3000;
 
 //EJS configs
 app.set('view engine', 'ejs');
