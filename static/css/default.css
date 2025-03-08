@@ -247,3 +247,6 @@ footer img{
   }
   
 }
+.error{
+  margin: 0px auto; text-align: center; white-space: pre-line;  font-size:medium; color: rgb(165, 42, 73);
+}
