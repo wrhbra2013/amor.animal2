@@ -1,6 +1,7 @@
 const {insert_adocao} = require('./insert');
 const prompt = require("prompt-sync")();
 
+
 let arquivo =  prompt("arquivo Digite => "); 
 let nome =  prompt("nome Digite => ");
 let idade =  prompt("idade Digite => ");

@@ -28,55 +28,42 @@
         </form>
 
     </div>
-    <div class="artigo">
+    <div class="artigo_container">
         <% for (const castracao of model) { %>
             <%= castracao.ticket %>
                 <table>
-                    <tr>
-                        <th>Data</th>
-                        <th>Nome</th>
-                        <th>Contato</th>             
-                      
-                    </tr>
-                    <td>
+                    <tbody>
                         <%= castracao.origem %>
-                    </td>
-                    <td>
-                        <%= castracao.nome %>
-                    </td>
-                    <td>
-                        <%= castracao.contato %>
-                    </td>
-                </table>
-                <img src="../static/uploads/<%= castracao.arquivo %>"/>
-                <table>
-                    <tr>
-                        <th>idade</th>
-                        <th>especie</th>
-                        <th>porte</th>
-                    </tr>
 
-                    <td>
-                        <%= castracao.idade %>
-                    </td>
-                    <td>
-                        <%= castracao.especie %>
-                    </td>
-                    <td>
-                        <%= castracao.porte %>
-                    </td>
+                            <%= castracao.nome %>
+
+                                <%= castracao.contato %>
+                                    <img src="../static/uploads/<%= castracao.arquivo %>" />
+
+
+                                    <%= castracao.idade %>
+
+                                        <%= castracao.especie %>
+
+                                            <%= castracao.porte %>
+
+                                               <%= castracao.observacoes %>
+                                                <form action="/delete/castracao/<%= castracao.ticket %>" method="post">
+                                                    <input type="submit" value="Delete"
+                                                        class="btn btn-default btn-danger"
+                                                        onclick="confirm('Apagar postagem?´)" />
+                                                    <a class="btn btn-outline-dark cancel" href="/castracao">Cancel</a>
+                                                </form>
+                                                <form action="/update/<%= castracao.ticket %>" method="post">
+                                                    <label>Atendido</label>
+                                                    <input type="checkbox" name="status" value="castrado"
+                                                        placeholder="Atendido">
+                                                    <input type="submit" value="Atender"
+                                                        onclick="alert('Mudando status')" />
+                                                </form>
+                    </tbody>
                 </table>
-                <textarea><%= castracao.observacoes %></textarea>
-                <form action="/delete/<castracao>/<%= castracao.id %>" method="post">
-                    <input type="submit" value="Delete" class="btn btn-default btn-danger"
-                        onclick="confirm('Apagar postagem?´)" />
-                    <a class="btn btn-outline-dark cancel" href="/castracao">Cancel</a>
-                </form>
-                <form action="/update/<%= castracao.ticket %>" method="post">
-                    <label>Atendido</label>
-                    <input type="checkbox" name="status" value="castrado" placeholder="Atendido">
-                    <input type="submit" value="Atender" onclick="alert('Mudando status')" />
-                                </form>
+
                 <% } %>
     </div>
     <%- include("_footer")-%>

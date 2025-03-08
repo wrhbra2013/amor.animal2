@@ -3,7 +3,8 @@ const path = require("path");
 const body = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
-const alert = require('alert');
+const notifier = require('node-notifier');
+
 
 //banco de dados
 const { db } = require('./database/database.js');
@@ -96,7 +97,8 @@ app.post('/adocao', uploads.single('arquivo'),  (req, res) => {
   };
   console.log(forms); 
    insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato);
-     res.redirect('adocao' )
+   notifier.notify({ message:`SUCESSO adoção arquivada.`})
+     res.redirect('inicio' )
 });
 
 app.post('/castracao', uploads.single('arquivo'), (req,res) =>{
@@ -120,20 +122,35 @@ app.post('/castracao', uploads.single('arquivo'), (req,res) =>{
     status: req.body.status
   }
   console.log(form2);
-  insert_castracao(form2.nome, form2.contato, form2.arquivo, form2.idade, form2.especie, form2.porte, form2.observacoes)
-  res.redirect('castracao')
+  insert_castracao(form2.nome, form2.contato, form2.arquivo, form2.idade, form2.especie, form2.porte, form2.observacoes);
+  notifier.notify({ message:` SUCESSO casttração arquivada.`})
+  res.redirect('inicio')
 });
 
 
-app.post('/delete/:tabela/:id', (req, res) => {
+app.post('/delete/adocao/:id', (req, res) => {
   const id = req.params.id;
-  const table = req.params.tabela
-  const sql = `DELETE FROM ? WHERE id =  ?;`;
-  db.run(sql, table,id, error =>{
+  const sql = `DELETE FROM adocao WHERE id =  ?;`;
+  db.run(sql, id, error =>{
     if (error) return res.render('error', {error: error})
       res.send(table, id, 'DELETADO.');
   });
-  const caminho = './static/uploads';
+  const caminho = './static/uploads/';
+  fs.unlink(caminho, (error) =>{
+    if (error) return res.render('error', {error: error})
+      res.redirect('inicio')
+  });
+});
+
+app.post('/delete/castracao/:ticket', (req, res) => {
+  const id = req.params.ticket;
+  const sql = `DELETE FROM adocao WHERE id =  ?;`;
+  db.run(sql, id, error =>{
+    if (error) return res.render('error', {error: error})
+      res.send( id, 'DELETADO.');
+  });
+  
+  const caminho = './static/uploads/*.jpg' 
   fs.unlink(caminho, (error) =>{
     if (error) return res.render('error', {error: error})
       res.redirect('inicio')
@@ -159,6 +176,6 @@ app.get('/error/<error>', (req, res) => { res.render('error') });
 
 app.listen(port,  (error) =>{
   if (error) return res.render('error', {error: error})
-    console.log(`Aplicação ATIVA em http://localhost:${port}`)
+       console.log(`Aplicação ATIVA em http://localhost:${port}`)  
+       
 });
-

@@ -16,14 +16,15 @@ const values =  [ `${arquivo}`,` ${nome}`, `${idade}`,`${especie}`,` ${porte}`, 
                               
 const  sql = db.run(insert, values,  error => {
       if (error)  return console.log(error)   
-        console.log("Dados de castração INSERIDO.")
+        console.log("Dados de adoção INSERIDO.")
       });
  return sql;
 };
 
 function insert_castracao(nome, contato, arquivo, idade, especie, porte, observacoes){
   const random = 'SELECT ABS(RANDOM() % 10000);'
-  
+  const sql2 = db.run(random);
+  console.log(sql2)
   const insert = `INSERT INTO castracao (
   ticket,
   nome,
@@ -35,12 +36,12 @@ function insert_castracao(nome, contato, arquivo, idade, especie, porte, observa
   observacoes            
   )VALUES ( ?, ?, ?, ?, ?, ?, ?, ?
   );`
-  const values = [ `${random}`,`${nome}`,`${contato}`,`${arquivo}`, `${idade}`, `${especie}`,`${porte}`,`${observacoes}`];
-  const  sql = db.run(random, insert, values,  error => {
+  const values = [ `${sql2}`,`${nome}`,`${contato}`,`${arquivo}`, `${idade}`, `${especie}`,`${porte}`,`${observacoes}`];
+  const  sql = db.run( insert, values,  error => {
     if (error)  return console.log(error)   
       console.log("Dados de castração INSERIDO.")
     });
-return sql;
+return sql2, sql;
 };
 
 

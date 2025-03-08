@@ -42,21 +42,26 @@
         </form>
     </div>
 
-    <div class="artigo">
+    <div class="artigo_conatiner">
         <% for (const adocao of model) { %>
             <img src="../static/uploads/<%= adocao.arquivo %>" style="border-radius: 30px;">
-            <%= adocao.nome %>
-                <%= adocao.idade %>
-                    <%= adocao.especie %>
-                        <%= adocao.porte %>
-                            <%= adocao.caracteristicas %>
-                                <%= adocao.tutor %>
-                                    <%= adocao.contato %>
-                                        <form action="/delete/<adocao>/<%= adocao.id %>" method="post">
-                                            <input type="submit" value="Delete" class="btn btn-default btn-danger"
-                                                onclick="confirm('Apagar post')" />
-                                            <a class="btn btn-outline-dark cancelar" href="/adocao">Cancel</a>
-                                        </form>
+            <table>
+                <tbody>
+                    <%= adocao.nome %>
+                    <%= adocao.idade %>
+                        <%= adocao.especie %>
+                            <%= adocao.porte %>
+                                <%= adocao.caracteristicas %>
+                                    <%= adocao.tutor %>
+                                        <%= adocao.contato %>
+                                            <form action="/delete/adocao/<%= adocao.id %>" method="post">
+                                                <input type="submit" value="Delete" class="btn btn-default btn-danger"
+                                                    onclick="confirm('Apagar post')" />
+                                                <a class="btn btn-outline-dark cancelar" href="/adocao">Cancel</a>
+                                            </form>
+                </tbody>
+            </table>
+          
                                         <% } %>
 
     </div>

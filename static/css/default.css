@@ -135,21 +135,27 @@ img {
 }
 
 .artigo {
-  height: auto;
-  padding: 30px 0 0 0;
+   padding: 30px 0 0 0;
+   border-radius: 17px;
+   background-color: #656663;
   text-align: center;
-  white-space: pre-line;
-  background: #4e4e4e;
-  width: 80%;
+  white-space: pre-line;  
+  width: 100%;
   margin: 30px auto;
-  border-radius: 12px;
   font-size: medium;
   color: white;
-  white-space: pre-line;   
-  
+ 
 } 
 
+.artigo_container{
+  display: inline-block;
+  margin: 0px auto;
+}
 
+.artigo_container img:hover{
+  cursor: pointer;
+  zoom: 200px;
+}
 
 
 .artigo input, textarea, select{
@@ -191,16 +197,13 @@ img {
 
 
 table {
-  border: 1px solid;
-  text-align: center;
-  margin: 0px auto;
-  text-align: center;
-  font-size: medium;
-  font-weight: bolder;
+  justify-content: center;
+  width: 0px auto;
+  white-space: pre-line;
 }
 
 
-table thead {
+table tbody {
   color: rgb(45, 77, 219);
 }
 
@@ -215,7 +218,7 @@ footer img{
 
 .carousel-primary, 
 .carousel-secundary{
-  top: 26%;
+  top: 16%;
   left: 100%;
   width: 200%;
   overflow: hidden;
@@ -224,8 +227,8 @@ footer img{
 }
 
 .carousel-primary img {
- height: 180px;
-  margin-left: 20px;
+ height: 200px;
+  margin-left: 10px;
   border-radius: 14px;
 }
 
