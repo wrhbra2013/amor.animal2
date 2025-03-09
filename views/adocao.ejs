@@ -4,12 +4,12 @@
     </div>
     <div class="scroll-container">
         <div class="carousel-primary carousel-secundary ">
-            <img src="/static/uploads/1.png" alt="nome"/>
-            <img src="/static/uploads/h7a3hkhg.png" alt="hacking"/>
-            <img src="/static/uploads/nina.jpeg" alt="nina"/>
+            <img src="/static/uploads/1.png" alt="nome"  />
+            <img src="/static/uploads/h7a3hkhg.png" alt="hacking" />
+            <img src="/static/uploads/nina.jpeg" alt="nina" />
         </div>
     </div>
-  <hr>
+    <hr>
     <!-- elemento central -->
     <div class="center">
         <h1> ADOÇÃO! </h1>
@@ -44,25 +44,61 @@
 
     <div class="artigo_conatiner">
         <% for (const adocao of model) { %>
-            <img src="../static/uploads/<%= adocao.arquivo %>" style="border-radius: 30px;">
             <table>
-                <tbody>
+                <tr>
+                    <th></th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Especie</th>
+                    <th>Porte</th>
+                    <th>Caracteristicas</th>
+                    <th>Tutor</th>
+                    <th>Contato</th>
+                   
+                </tr>
+                <tr>
+                
+               <td><img src="../static/uploads/<%= adocao.arquivo %>" /></td>
+                
+                <td>
                     <%= adocao.nome %>
+                </td>
+                <td>
                     <%= adocao.idade %>
-                        <%= adocao.especie %>
-                            <%= adocao.porte %>
-                                <%= adocao.caracteristicas %>
-                                    <%= adocao.tutor %>
-                                        <%= adocao.contato %>
-                                            <form action="/delete/adocao/<%= adocao.id %>" method="post">
-                                                <input type="submit" value="Delete" class="btn btn-default btn-danger"
-                                                    onclick="confirm('Apagar post')" />
-                                                <a class="btn btn-outline-dark cancelar" href="/adocao">Cancel</a>
-                                            </form>
-                </tbody>
+                </td>
+                <td>
+                    <%= adocao.especie %>
+                </td>
+                <td>
+                    <%= adocao.porte %>
+                </td>
+                <td>
+                    <%= adocao.caracteristicas %>
+                </td>
+                <td>
+                    <%= adocao.tutor %>
+                </td>
+                <td>
+                    <%= adocao.contato %>
+                </td>
+                <td>  <form action="/delete/adocao/<%= adocao.id %>" method="post">
+                    <input type="submit" value="Delete" class="btn btn-default btn-danger"
+                        onclick="confirm('Apagar post')" />
+                    <td>
+                    <a class="btn btn-outline-dark cancelar" href="/adocao">Cancel</a>
+                </form></td>
+                </tr>
             </table>
+
+
+
+
+
           
-                                        <% } %>
+
+
+
+            <% } %>
 
     </div>
 

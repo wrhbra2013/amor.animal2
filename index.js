@@ -133,13 +133,9 @@ app.post('/delete/adocao/:id', (req, res) => {
   const sql = `DELETE FROM adocao WHERE id =  ?;`;
   db.run(sql, id, error =>{
     if (error) return res.render('error', {error: error})
-      res.send(table, id, 'DELETADO.');
+      res.redirect('adocao');
   });
-  const caminho = './static/uploads/';
-  fs.unlink(caminho, (error) =>{
-    if (error) return res.render('error', {error: error})
-      res.redirect('inicio')
-  });
+  notifier.notify({ message:` mensagem APAGADA.`})
 });
 
 app.post('/delete/castracao/:ticket', (req, res) => {
@@ -147,14 +143,10 @@ app.post('/delete/castracao/:ticket', (req, res) => {
   const sql = `DELETE FROM adocao WHERE id =  ?;`;
   db.run(sql, id, error =>{
     if (error) return res.render('error', {error: error})
-      res.send( id, 'DELETADO.');
+      res.redirect( 'castracao.');
   });
-  
-  const caminho = './static/uploads/*.jpg' 
-  fs.unlink(caminho, (error) =>{
-    if (error) return res.render('error', {error: error})
-      res.redirect('inicio')
-  });
+  notifier.notify({ message:` post APAGADO.`})
+ 
 });
 
 app.post('update/:ticket', (req,res) => {
@@ -177,5 +169,7 @@ app.get('/error/<error>', (req, res) => { res.render('error') });
 app.listen(port,  (error) =>{
   if (error) return res.render('error', {error: error})
        console.log(`Aplicação ATIVA em http://localhost:${port}`)  
-       
+ /*  notifier.emit({ message:` Valorizamos sua privacidade
+
+Utilizamos cookies para aprimorar sua experiência de navegação, exibir anúncios ou conteúdo personalizado e analisar nosso tráfego. Ao clicar em “Aceitar todos”, você concorda com nosso uso de cookies..`})        */
 });
