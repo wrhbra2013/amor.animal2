@@ -4,7 +4,7 @@
     </div>
     <div class="scroll-container">
         <div class="carousel-primary carousel-secundary ">
-            <img src="/static/uploads/1.png" alt="nome"  />
+            <img src="/static/uploads/1.png" alt="nome" />
             <img src="/static/uploads/h7a3hkhg.png" alt="hacking" />
             <img src="/static/uploads/nina.jpeg" alt="nina" />
         </div>
@@ -15,92 +15,43 @@
         <h1> ADOÇÃO! </h1>
     </div>
     <!--Formulário-->
-    <div class="artigo">
-        <form action=" " enctype="multipart/form-data" method="post">
-            <input type="file" id="arquivos" name="arquivo" required />
-            <input type="reset" value="Limpar" />
-
-            <input type="text" placeholder="Nome  Pet" id="nomePet" name="nomePet" required>
-            <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet">
-            <select id="especie" name="especie">
-                <option value="" required>Especie</option>
-                <option value="canino">Canino</option>
-                <option value="felino">Felino</option>
-            </select>
-            <select id="porte" name="porte">
-                <option value="">Porte</option>
-                <option value="pequeno">Pequeno</option>
-                <option value="medio">Medio</option>
-                <option value="grande">Grande</option>
-            </select>
-            <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
-                placeholder="Caracteristicas Pet"></textarea>
-            <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
-            <input type="email" placeholder="Email  Responsável" id="contato" name="contato" required>
-            <input type="submit" value="Cadastrar" class="btn btn-default"
-                onclick="confirm('Os dados estão atualizados?')">
-        </form>
-    </div>
-
-    <div class="artigo_conatiner">
-        <% for (const adocao of model) { %>
-            <table>
-                <tr>
-                    <th></th>
-                    <th>Nome</th>
-                    <th>Idade</th>
-                    <th>Especie</th>
-                    <th>Porte</th>
-                    <th>Caracteristicas</th>
-                    <th>Tutor</th>
-                    <th>Contato</th>
-                   
-                </tr>
-                <tr>
-                
-               <td><img src="../static/uploads/<%= adocao.arquivo %>" /></td>
-                
-                <td>
-                    <%= adocao.nome %>
-                </td>
-                <td>
-                    <%= adocao.idade %>
-                </td>
-                <td>
-                    <%= adocao.especie %>
-                </td>
-                <td>
-                    <%= adocao.porte %>
-                </td>
-                <td>
-                    <%= adocao.caracteristicas %>
-                </td>
-                <td>
-                    <%= adocao.tutor %>
-                </td>
-                <td>
-                    <%= adocao.contato %>
-                </td>
-                <td>  <form action="/delete/adocao/<%= adocao.id %>" method="post">
-                    <input type="submit" value="Delete" class="btn btn-default btn-danger"
-                        onclick="confirm('Apagar post')" />
-                    <td>
-                    <a class="btn btn-outline-dark cancelar" href="/adocao">Cancel</a>
-                </form></td>
-                </tr>
-            </table>
-
-
-
-
-
-          
-
-
-
-            <% } %>
-
-    </div>
+  <div class="center">
+    <button><a href="./form_adocao">Adicionar</a></button>
+  </div>
+ 
+    <table >
+        <!--   loop 1  <thead>-->
+           <% for(const adocao of model) { %>                   
+           <tr>
+              <th>imagem </th>            
+              <% for ( const model in  adocao) { %>        
+                 <th><%=model %></th>        
+                 <% } %>                   
+           </tr>
+       <!--     loop único -->
+            <% break %>
+            <% } %>   
+        <!--  loop 2  <tbody>-->
+          <% for(const adocao of model) { %>       
+           <tr>
+             <!--  imagem -->
+              <td><img src="../static/uploads/<%= adocao.arquivo %>" /></td>
+  
+           <% for(const key in adocao) { %>        
+            <td><%=adocao[key] %></td>      
+  
+           <% } %>
+           
+          <!--  Delete e candelar, pós-loop -->
+           <td> <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post">
+              <input type="submit" value="Delete"
+                  class="btn btn-default btn-danger"
+                  onclick="confirm('Apagar postagem?')" /></td>
+  
+                  <td> <a class="btn btn-outline-dark cancel" href="/adocao">Cancelar</a> </td>         </tr>
+            <% } %> 
+         
+         </table>
 
 
 

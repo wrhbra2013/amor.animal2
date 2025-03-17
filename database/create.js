@@ -11,12 +11,12 @@ const adocao = `CREATE TABLE IF NOT EXISTS adocao(
     porte text, 
     caracteristicas text,  
     tutor text,  
-    contato email,     
+    contato text,     
     origem datetime default current_date 
     );`
 
 const sql = db.run(adocao,  error => {
-    if (error) return console.error(error)
+    if (error)  console.log(error)
         console.log('Tabela: Adoção  ATIVA.');
 });
 return sql
@@ -27,20 +27,18 @@ adocao();
 //Castração
 function castracao () {
     const castracao = `CREATE TABLE IF NOT EXISTS castracao(
-    id integer PRIMARY KEY AUTOINCREMENT,
-    ticket integer,
-    origem datetime default current_date,
+    ticket interger default (random())  PRIMARY KEY ,
+    origem datetime default (date()),
     nome text,
-    contato email,
+    contato  text,
     arquivo blob,
     idade integer,
     especie text, 
     porte text,
-    observacoes text,
-    status text
-    );`
+    observacoes text
+      );`
   const sql = db.run(castracao,   error => {
-                if (error)   return console.log(error)
+                if (error)   console.log(error)
                     console.log('Tabela: Castração ATIVA');
 });
 return sql

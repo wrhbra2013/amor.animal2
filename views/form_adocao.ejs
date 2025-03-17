@@ -1,0 +1,30 @@
+<%- include("_header") -%>
+<div class="artigo">
+    <button><a href="./adocao">Cancelar</a></button>
+
+    <form action=" " enctype="multipart/form-data" method="post">
+        <input type="file" id="arquivos" name="arquivo" required />
+        <input type="reset" value="Limpar" />
+
+        <input type="text" placeholder="Nome  Pet" id="nomePet" name="nomePet" required>
+        <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet">
+        <select id="especie" name="especie">
+            <option value="" required>Especie</option>
+            <option value="canino">Canino</option>
+            <option value="felino">Felino</option>
+        </select>
+        <select id="porte" name="porte">
+            <option value="">Porte</option>
+            <option value="pequeno">Pequeno</option>
+            <option value="medio">Medio</option>
+            <option value="grande">Grande</option>
+        </select>
+        <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
+            placeholder="Caracteristicas Pet"></textarea>
+        <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
+        <input type="tel" placeholder="Telefone 00-00000-0000" id="contato" name="contato" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required />     
+          <input type="submit" value="Cadastrar" class="btn btn-default"
+            onclick="confirm('Os dados estão atualizados?')">
+    </form>
+</div>
+<%- include("_footer")-%>

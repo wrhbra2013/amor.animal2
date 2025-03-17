@@ -5,19 +5,30 @@
    height: 100%;
  }
 
-header {
+/* header {
   margin: 0px auto;
   text-align: center;
   width: 100%;
   background-color: whitesmoke;
+  
+} */
+
+header{
+  position: sticky;
+  text-align: center;
+    top: 0px;
+    background-color: whitesmoke;
+    z-index: 1;
 }
 
 footer {
-  margin: 0px auto;
+  position: sticky;
+  height: 10%;
   text-align: center;
-  width: 100%;
-  background-color: none;
-
+  bottom: 0px;
+  background-color: whitesmoke;
+  z-index: 1;
+  
 }
 
 footer img{
@@ -123,17 +134,17 @@ img {
    background-color: #656663;
   text-align: center;
   white-space: pre-line;  
-  width: 80%;
+  width: 100%;
   margin: 30px auto;
   font-size: medium;
   color: white;
-
+  display: block; 
  
 } 
 
 .artigo_container{
-   margin: 0px auto;
-  justify-content: center;
+   justify-content: center;
+  display: block;  
 }
 
 
@@ -178,23 +189,33 @@ img {
 
 
 table {
-   text-align: center;
+  margin: 0px auto;
+  border: 0px;
+  
 }
-td{
-  border: 1px solid white;
-  background-color: #656663;
-}
+
 th{
-  color: bisque;
+  height: 20px;
+  width: auto;
+  background-color: rgba(255, 255, 0, 0.5);
+}
+
+td{
+  height: 20px;
+  width: auto;
+  text-align: center;
+ background-color: rgba(255 255 0 / 0.5);
 }
 
 table img{
+  width:  auto;
+  zoom: 30%;
   cursor: pointer;
   transition: zoom 2s;
 }
 
 table img:hover{
-zoom: 200%;
+zoom:  400%;
 }
 
 
@@ -206,10 +227,10 @@ zoom: 200%;
 .carousel-primary, 
 .carousel-secundary{
   top: 10%;
-  left: 100%;
+  left: 50%;
   width: 100%;
   overflow: hidden;
-  position:relative;
+  display: relative;
   white-space: nowrap;
 }
 
@@ -220,7 +241,7 @@ zoom: 200%;
 }
 
 .carousel-primary{
-  display: aboslute;
+  display: block;
   justify-content: space-around;
   animation: scroll-horizontal 50s linear infinite;
 }

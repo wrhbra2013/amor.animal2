@@ -3,67 +3,49 @@
     <div class=center>
         <h1>CASTRAÇÃO! </h1>
     </div>
-    <!-- artigo -->
-    <div class="artigo">
-        <form action="" enctype="multipart/form-data" method="post">
-            <input type="text" name="nome" placeholder="Nome " />
-            <input type="email" name="contato" placeholder="Contato " />
-            <input type="file" name="arquivo" required />
-            <input type="reset" value="Limpar" />
-            <input type="number" name="idade_pet" placeholder=" Idade Pet" />
-            <select name="especie">
-                <option value="">Espécie</option>
-                <option value="felino">Felino</option>
-                <option value="canino">Canino</option>
-            </select>
-            <select name="porte">
-                <option value="">Porte</option>
-                <option value="pequeno">Pequeno</option>
-                <option value="medio">Medio</option>
-                <option value="grande">Grande</option>
-            </select>
-            <textarea name="obs" rows="4" cols="20" placeholder="Observações Pet"></textarea>
-            <input type="submit" value="Cadastrar" class="btn btn-default"
-                onclick="confirm('Os dados estão atualizados?')">
-        </form>
-
+    <div class="center">
+        <button><a href="./form_castracao">Adicionar</a></button>
     </div>
-    <div class="artigo_container">
-        <% for (const castracao of model) { %>
-            <%= castracao.ticket %>
-                <table>
-                    <tbody>
-                        <%= castracao.origem %>
 
-                            <%= castracao.nome %>
+   <!--      you can iterate over the array like you said, then iterate over each object of the array twice. First to print the headers, then to print the data
+    
+    The for...of statement creates a loop iterating over iterable objects, including: built-in String, Array, array-like objects (e.g., arguments or NodeList), TypedArray, Map, Set, and user-defined iterables. It invokes a custom iteration hook with statements to be executed for the value of each distinct property of the object.
+    
+    The for...in statement iterates over all enumerable properties of an object that are keyed by strings. -->
+    
+    <table >
+      <!--   loop 1  <thead>-->
+         <% for(const castracao of model) { %>                   
+         <tr>
+            <th>imagem </th>            
+            <% for ( const model in  castracao) { %>        
+               <th><%=model %></th>        
+               <% } %>                   
+         </tr>
+     <!--     loop único -->
+          <% break %>
+          <% } %>   
+      <!--  loop 2  <tbody>-->
+        <% for(const castracao of model) { %>       
+         <tr>
+           <!--  imagem -->
+            <td><img src="../static/uploads/<%= castracao.arquivo %>" /></td>
 
-                                <%= castracao.contato %>
-                                    <img src="../static/uploads/<%= castracao.arquivo %>" />
+         <% for(const key in castracao) { %>        
+          <td><%=castracao[key] %></td>      
+
+         <% } %>
+         
+        <!--  Delete e candelar, pós-loop -->
+         <td> <form action="/delete/castracao/<%=castracao.ticket %>/<%=castracao.arquivo %>" method="post">
+            <input type="submit" value="Delete"
+                class="btn btn-default btn-danger"
+                onclick="confirm('Apagar postagem?')" /></td>
+
+                <td> <a class="btn btn-outline-dark cancel" href="/castracao">Cancelar</a> </td>         </tr>
+          <% } %> 
+       
+       </table>
 
 
-                                    <%= castracao.idade %>
-
-                                        <%= castracao.especie %>
-
-                                            <%= castracao.porte %>
-
-                                               <%= castracao.observacoes %>
-                                                <form action="/delete/castracao/<%= castracao.ticket %>" method="post">
-                                                    <input type="submit" value="Delete"
-                                                        class="btn btn-default btn-danger"
-                                                        onclick="confirm('Apagar postagem?´)" />
-                                                    <a class="btn btn-outline-dark cancel" href="/castracao">Cancel</a>
-                                                </form>
-                                                <form action="/update/<%= castracao.ticket %>" method="post">
-                                                    <label>Atendido</label>
-                                                    <input type="checkbox" name="status" value="castrado"
-                                                        placeholder="Atendido">
-                                                    <input type="submit" value="Atender"
-                                                        onclick="alert('Mudando status')" />
-                                                </form>
-                    </tbody>
-                </table>
-
-                <% } %>
-    </div>
     <%- include("_footer")-%>
