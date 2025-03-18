@@ -38,14 +38,16 @@ app.get('/', (req, res) => res.render('home'));
 
 app.get('/inicio', (req, res) => res.render('home'));
 
-app.get('/adocao', (req, res) => {
+app.get('/adote', (req, res) => {
 
   const sql = `SELECT * FROM adocao;`
   db.all(sql, [], (error, rows) => {
     if (error) return res.render('error', { error: error })
-    res.render('adocao', { model: rows })
+    res.render('adote', { model: rows })
   });
 });
+
+app.get('/adocao', (req, res) => res.render('adocao'));
 
 app.get('/form_adocao', (req, res) => res.render('form_adocao'));
 
@@ -100,7 +102,7 @@ app.post('/form_adocao', uploads.single('arquivo'), (req, res) => {
   };
   console.log(forms);
   insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato);
-  res.redirect('adocao')
+  res.redirect('adote')
 });
 
 app.post('/form_castracao', uploads.single('arquivo'), (req, res) => {

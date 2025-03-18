@@ -1,0 +1,46 @@
+<%- include("_header") -%>
+<div class="center">
+    <h1> ADOÇÃO! </h1>
+</div>
+<!--Formulário-->
+
+<div class="center">
+    <ul>
+        <li><a href="./form_adocao"> Adicionar </a></li>
+    </ul>
+</div>
+
+<table >
+    <!--   loop 1  <thead>-->
+       <% for(const adocao of model) { %>                   
+       <tr>
+          <th>imagem </th>            
+          <% for ( const model in  adocao) { %>        
+             <th><%=model %></th>        
+             <% } %>                   
+       </tr>
+   <!--     loop único -->
+        <% break %>
+        <% } %>   
+        <hr>
+    <!--  loop 2  <tbody>-->
+      <% for(const adocao of model) { %>       
+       <tr>
+         <!--  imagem -->
+          <td><img src="../static/uploads/<%= adocao.arquivo %>" /></td>
+
+       <% for(const key in adocao) { %>        
+        <td><%=adocao[key] %></td>      
+
+       <% } %>
+       
+      <!--  Delete e candelar, pós-loop -->
+       <td> <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post">
+          <input type="submit" value="Delete"
+              class="btn btn-default btn-danger"
+              onclick="confirm('Apagar postagem?')" /></td>            
+            </tr>
+        <% } %> 
+     
+     </table>
+     <%- include("_footer")-%>
