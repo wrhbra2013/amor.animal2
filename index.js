@@ -65,10 +65,17 @@ app.get('/form_castracao', (req, res) => res.render('form_castracao'));
 
 app.get('/doacao', (req, res) => res.render('doacao'));
 
+app.get('/quiz', (req, res) => res.render('quiz'));
+
+app.get('/form_doe', (req, res) => res.render('form_doe'));
 
 app.get('/parceria', (req, res) => res.render('parceria'));
 
+app.get('/form_parceria', (req, res) => res.render('form_parceria'));
+
 app.get('/procura_se', (req, res) => res.render('procura_se'));
+
+app.get('/form_procura_se', (req, res) => res.render('form_procura_se'));
 
 app.get('/sobre', (req, res) => {
   

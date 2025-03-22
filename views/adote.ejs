@@ -17,16 +17,17 @@
           <th>imagem </th>            
           <% for ( const model in  adocao) { %>        
              <th><%=model %></th>        
-             <% } %>                   
+             <% } %>       
+          
        </tr>
    <!--     loop único -->
         <% break %>
         <% } %>   
-        <hr>
+        
     <!--  loop 2  <tbody>-->
       <% for(const adocao of model) { %>       
        <tr>
-         <!--  imagem -->
+        <!--  imagem -->
           <td><img src="../static/uploads/<%= adocao.arquivo %>" /></td>
 
        <% for(const key in adocao) { %>        
@@ -38,9 +39,10 @@
        <td> <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post">
           <input type="submit" value="Delete"
               class="btn btn-default btn-danger"
-              onclick="confirm('Apagar postagem?')" /></td>            
+              onclick="confirm('Apagar postagem?')" /></form></td>         
+              <td> <a href="/quiz"><button >Adote</button></td></a>   
             </tr>
         <% } %> 
-     
+      
      </table>
      <%- include("_footer")-%>

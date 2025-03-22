@@ -4,31 +4,30 @@
  }
 
  body {
-   padding: 0px;
+   padding: 0;
    font-family: sans-serif;
    margin: 0;
-   height: 100%;
-   position: relative;
- }
+   
+    }
 
 
 
-header{
-/*   position: sticky; */
-  position: fixed;
-  text-align: center;
-    top: 0px;
-    background-color: whitesmoke;
-    z-index: 1;
-}
+.header{
+  position: sticky;
+  display: block;
+  left: 0;
+  top: 0;
+  width: 100% ;
+   background-color: whitesmoke;
+  z-index: 1;
+  }
 
-header img{
+.header img{
   width: 80px;
   height: 80px;
+  }
 
-}
-
-footer { 
+.footer { 
   position: fixed;
   text-align: center;
   left: 0;
@@ -39,7 +38,7 @@ footer {
 
 }
 
-footer img{
+.footer img{
   width: 25px;
   height: 25px;
  }
@@ -49,20 +48,22 @@ h1 {
 }
 
 
-
 .mobile-menu-toggle-label {
-  margin: 0px auto;
   cursor: pointer;
   font-size: 24px;
-
-}
+  color: red;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  }
 
 .mobile-menu {
+  width: 100%;
   margin: 0px auto;
   cursor: pointer;
   display: none;
   background-color: none;
-  }
+   }
 
 
 .mobile-menu ul {
@@ -71,17 +72,17 @@ h1 {
   padding: 0; 
  }
 
-.mobile-menu ul:hover {
+.mobile-menu ul:hover {  
    max-height: 250px;
 }
 
 .mobile-menu li {  
   margin-bottom: 10px;
-  height: 100%;
-  display: block;
+  display: inline;
 }
 
 .mobile-menu li:hover{
+  color:aliceblue;
   background-color: grey
 }
 
@@ -97,7 +98,7 @@ h1 {
 #mobile-menu-toggle:checked+.mobile-menu-toggle-label+.mobile-menu {
   cursor: pointer;
   font-size: medium;
-  text-align: center;  
+  text-align: right;   
   display: block;
 }
 
@@ -172,13 +173,13 @@ img {
    border-radius: 17px;
    background-color: #656663;
   text-align: center;
+ align-content: center;
   white-space: pre-line;  
   width: 100%;
   margin: 30px auto;
   font-size: medium;
   color: white;
-  display: block; 
- 
+  
 } 
 
 .artigo a{
@@ -188,7 +189,8 @@ img {
 
 
 .artigo input, textarea, select{
-   width: 60%;
+   width: 60%  ;
+   margin: 5px;
 }
 
 
@@ -234,15 +236,18 @@ table {
 th{
   height: 20px;
   width: auto;
-  background-color: rgba(255, 255, 0, 0.5);
+  border-bottom: 1px solid #000;
+
 }
 
 td{
   height: 20px;
   width: auto;
   text-align: center;
- background-color: rgba(255 255 0 / 0.5);
+  
 }
+
+ 
 
 table img{
   width:  auto;
@@ -300,3 +305,14 @@ zoom:  400%;
   font-size:medium; 
   color: rgb(165, 42, 73);
 }
+ .home{
+  background-image: url('/static/uploads/adocoes/OIP.jpeg');
+  background-repeat: no-repeat;
+  background-size:  100% 100%;
+  color: white;
+  margin: 0px auto;
+  align-content: center;
+  text-align: center;
+  height: 250px;
+  opacity: 0.6;
+  }
