@@ -10,14 +10,17 @@
     </ul>
 </div>
 
-<table >
+
+<table style="padding: 10px;">
     <!--   loop 1  <thead>-->
        <% for(const adocao of model) { %>                   
        <tr>
           <th>imagem </th>            
           <% for ( const model in  adocao) { %>        
              <th><%=model %></th>        
-             <% } %>       
+             <% } %>  
+             <th></th>    
+             <th></th>
           
        </tr>
    <!--     loop único -->
@@ -34,13 +37,15 @@
         <td><%=adocao[key] %></td>      
 
        <% } %>
-       
+       <td> <a href="/quiz"><button >Adote</button></td></a> </td>  
       <!--  Delete e candelar, pós-loop -->
-       <td> <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post">
-          <input type="submit" value="Delete"
+       <td>
+         <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post">
+          <input type="submit" value="&#8722;"
               class="btn btn-default btn-danger"
-              onclick="confirm('Apagar postagem?')" /></form></td>         
-              <td> <a href="/quiz"><button >Adote</button></td></a>   
+              onclick="confirm('Apagar postagem?')" /></form>
+         </td>       
+          
             </tr>
         <% } %> 
       

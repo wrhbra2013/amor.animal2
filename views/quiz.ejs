@@ -1,26 +1,29 @@
 <%- include("_header") -%>
 <div class="artigo">
     <h1> Perfil</h1>
-    <label> Quantos pets você tem? </label>
+    <form action="" method="post">
+        <label> Quantos pets você tem? </label>
     <select  id="q1" name="q1">
         <option value="" required>Selecione</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3 ou mais">3 ou mais</option>
-    </select>
-    <label> Você tem contatos de veterinários no seu celular?</label>
+        <option value="1">2</option>
+        <option value="0">3 ou miais.</option>
+         </select>
+    <label> Você procura o veterinario sobre a saude do seu pet?</label>
     <select  id="q2" name="q2">
         <option value="" required>Selecione</option>
-        <option value="sim">sim</option>
-        <option value="não">não</option>
+        <option value="1">sim</option>
+        <option value="0">não</option>
     </select>
-        <label>Seleciona a ração dos seus pets?</label>
+        <label>Você seleciona a ração dos seus pets?</label>
         <select  id="q3" name="q3">
             <option value="" required>Selecione</option>
-            <option value="sim">sim</option>
-            <option value="não">não</option>
+            <option value="1">sim</option>
+            <option value="0">não</option>
         </select>
-        <a href="/form_adocao"><button >Adote</button></td></a>   
+        <input type="submit" value="Confirmar" />
+    </form>
+    
+        <a href="/form_adote"><button >Adote</button></td></a>   
         
        </div>
 

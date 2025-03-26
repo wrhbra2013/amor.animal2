@@ -1,19 +1,19 @@
- html{
-  margin: 0px;
-  padding: 0px;
+ *{
+  margin: 0;
+  padding: 0;
  }
 
  body {
-   padding: 0;
+  padding: 0;
    font-family: sans-serif;
-   margin: 0;
-   
+   margin: 0;   
+   display: block;
     }
 
 
 
 .header{
-  position: sticky;
+  position: relative;
   display: block;
   left: 0;
   top: 0;
@@ -104,16 +104,12 @@ h1 {
 
 
 
-/* elementos centrais */
-img {
-  height: 60px;
-}
-
 .center {
-  padding: 30p;
+  padding: 10px;
   margin: 0px auto;
   display: block;
   text-align: center;
+  width: 100%;
   position: relative;
  
 }
@@ -122,6 +118,9 @@ img {
   list-style: none;
   margin: 0;
   padding: 0; 
+  border: 1px solid;
+  border-width: 10%;
+ 
  }
 
 .center ul:hover {
@@ -160,7 +159,7 @@ img {
   scale: 0 1;
   transform-origin: left;
   animation: scroll-watcher linear;
-  animation-timeline: scroll(y);
+  animation-timeline:  scroll(y);
 }
 
 @keyframes scroll-watcher {
@@ -230,34 +229,35 @@ img {
 table {
   margin: 0px auto;
   border: 0px;
-  
+    
 }
 
 th{
   height: 20px;
   width: auto;
   border-bottom: 1px solid #000;
+  text-align: center;  
 
 }
 
 td{
   height: 20px;
   width: auto;
-  text-align: center;
-  
-}
+  text-align: center;  
+ }
 
  
 
 table img{
-  width:  auto;
-  zoom: 30%;
+  width:  50px; 
+  height: 60px;
+  zoom: 50px;
   cursor: pointer;
-  transition: zoom 2s;
+  transition:  zoom 2s;
 }
 
-table img:hover{
-zoom:  400%;
+table  img:hover{
+zoom: 400%;
 }
 
 .container {
@@ -277,8 +277,8 @@ zoom:  400%;
 
 .photobanner img {    
   margin: 0 0.5em;
-  width: 200px;
-  height: 300px;
+  width: 300px auto;
+  height: 200px;
 }
 
 @keyframes bannermove {
@@ -299,20 +299,27 @@ zoom:  400%;
 }
 
 .error{
-  margin: 0px auto; 
+  padding: 50%;
+  border: 1px solid white;
   text-align: center; 
   white-space: pre-line;  
-  font-size:medium; 
+  font-size: large; 
   color: rgb(165, 42, 73);
 }
  .home{
   background-image: url('/static/uploads/adocoes/OIP.jpeg');
   background-repeat: no-repeat;
   background-size:  100% 100%;
+  width: 100%;
   color: white;
   margin: 0px auto;
   align-content: center;
   text-align: center;
   height: 250px;
   opacity: 0.6;
+  }
+
+  #slides {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
