@@ -7,13 +7,19 @@ const notifier = require('node-notifier');
 
 
 //banco de dados
-const { db } = require('./database/database.js');
+const { db, fk_db } = require('./database/database.js');
 const { 
 adocao, 
 adotante,
 adotado,
-castracao} = require('./database/create.js');
-const { insert_adocao, insert_castracao, insert_adotante } = require('./database/insert.js');
+castracao
+} = require('./database/create.js');
+const { 
+insert_adocao, 
+insert_adotante,
+insert_adotado,
+insert_castracao
+} = require('./database/insert.js');
 
 
 //Pasta de imagens
@@ -184,7 +190,7 @@ app.post('/quiz', (req, res) => {
     quiz2: req.body.q2,
     quiz3: req.body.q3
   };
-  insert_adotante(form3.quiz1,form3.quiz2,form3.quiz3);
+  insert_adontante(form3.quiz1, form3.quiz2, form3.quiz3);
   res.redirect('/form_adote');
 });
 

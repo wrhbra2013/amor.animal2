@@ -31,17 +31,12 @@ function adotante() {
     nome text,
     contato text,
     q1 integer,
-    q2 integer,
+    q2 integer, 
     q3 integer,
     qTotal integer,
-    nomePet text,
-    idadePet integer,
-    especiePet text,
-    portePet text,    
-    FOREIGN KEY (nomePet) REFERENCES adocao(nome),
-    FOREIGN KEY (idadePet) REFERENCES adocao(idade),
-    FOREIGN KEY (especiePet) REFERENCES adocao(especie),
-    FOREIGN KEY (portePet) REFERENCES adocao(porte)
+    idPet integer,   
+    FOREIGN KEY (idPet) REFERENCES adocao (id) 
+
 );`
 const sql = db.run(adotante,   error => {
     if (error)   console.log(error)
@@ -50,7 +45,7 @@ const sql = db.run(adotante,   error => {
     return  sql
 
 };
-adotante();
+adotante(); 
 
 function adotado(){
     const adotado = ` CREATE TABLE IF NOT EXISTS adotados(
@@ -91,9 +86,7 @@ return sql
 };
 castracao()
 
-function perfil_adot() {
-    
-}
+
 
 
 
@@ -102,5 +95,5 @@ module.exports ={
     adocao: adocao,
     adotante: adotante,
     adotado: adotado,
-    castracao: castracao   
-}
+    castracao: castracao
+    }

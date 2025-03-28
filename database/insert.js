@@ -22,7 +22,7 @@ const  sql = db.run(insert, values,  error => {
  return sql;
 };
 
-function insert_adotante(nome, contato, q1,q2, q3){
+function insert_adotante(nome, contato,q1, q2, q3){
   const insert = `INSERT INTO adotante (
   origem,
    nome,
@@ -30,9 +30,10 @@ function insert_adotante(nome, contato, q1,q2, q3){
    q1,
    q2,
    q3,
-   qTotal) 
+   qTotal
+   ) 
    VALUES (
-   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, (SELECT SUM(adotante.q1 + adotahte.q2 + adotante.q3 AS 'qTotal'))
+   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, SUM(q1 + q2 + q3)
     );`
    const values = [`${nome}`, `${contato}`, `${q1}`, `${q2}`, `${q3}`];
    const sql = db.run( insert,  values,  error => {
@@ -42,7 +43,8 @@ function insert_adotante(nome, contato, q1,q2, q3){
   return sql;
 };
 
-function insert_adotados(foto, pet,tutor,historia){
+
+function insert_adotado(foto, pet,tutor,historia){
   const insert = `INSERT INTO adotado (
    origem,
    foto,
@@ -90,6 +92,8 @@ function insert_castracao(nome, contato, arquivo, idade, especie, porte, observa
 
 module.exports = {
   insert_adocao: insert_adocao,
-  insert_castracao: insert_castracao,
-  insert_adotante: insert_adotante
+  insert_adotante: insert_adotante,
+  insert_adotado:insert_adotado,
+  insert_castracao: insert_castracao
 }
+ 
