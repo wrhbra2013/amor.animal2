@@ -2,14 +2,12 @@
    <!--  elemento central -->
    <div class="center">
     <h1>Inicio</h1>
-   </div>
-  
-   <div class="home">
+   </div>  
+   <div class=" center">
     <h1> Até que ponto vai o seu amor pelos pets?</h1>
-    <a href="./doacao" style="text-decoration: none; color:aliceblue;"><h1>O nosso ponto é a ação!</h1></a>
- </div>
- 
-    <div class="center">
+    <a href="./doacao" ><h1>O nosso ponto é a ação!</h1></a>
+ </div> 
+    <div class="artigo">
         <span> Oportunidade de  contar como tudo começou ...!   </span>
         <p>A ONG Amor Animal, que agrega trabalho de voluntários para abrigo e proteção de animais de rua em Marília, lançou campanha de arrecadação de recursos e doações de ração para manter atendimento a cerca de 250 gatos.
 
@@ -18,12 +16,12 @@
            A instituição recebeu recentemente o título de instituição sem fins lucrativos, o que permite suporte fiscal e participação em mais ações de arrecadação de recursos.           
         </p>
     </div>
-    <div class="center">
+    <div class="artigo">
         <span> E refletir sobre o futuro...!   </span>
         <a href ="./adocao" ><img  src="/static/css/imagem/ong2.jpg"></a>
         <p> A ONG em Números...</p>
     </div>
-    <div class="center">       
+    <div class="artigo">       
             <h1>Adoção</h1>
            <p><% for (const adocao of model) { %>
                 <% for (const key in adocao) { %>
@@ -35,24 +33,35 @@
               Adotantes:  <%=adotante[key] %> pessoa(s)
                 <% }%>
                 <%}%></p>     
-                <a href="./adocao"><h1 style="text-align: right;">&gt;</h1></a>
+                <a href="./adocao"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
     </div>
 
     <div class="artigo">
         <h1> Castração</h1>
+        <p><% for (const castracao of model) { %>
+            <% for (const key in castracao) { %>
+            Castrações:  <%=castracao[key] %> pets
+        <% }%>
+        <%}%></p>
+        <a href="./castracao"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
+        
 
     </div>
 
     <div class="artigo">
         <h1>Procura-se</h1>
-        
+        <a href="./procura_se"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
     </div>
 
     <div class="artigo">
         <h1>Parcerias</h1>
-        
-    </div>
-   
+        <a href="./parceria"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
+       </div>  
+
+       <div class="artigo">
+        <h1>Doações</h1>
+        <a href="./doacao"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
+       </div>
 
 
     <%- include("_footer")-%>

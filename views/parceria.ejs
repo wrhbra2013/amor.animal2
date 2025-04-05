@@ -10,11 +10,21 @@
         <h1> ....Saiba como a sua CONTRIBUIÇÃO pode ajudar!</h1>
         <h1>....Procure nossos canais.</h1>
     </div>
+    <div class="artigo">
+    <p>Estas são as empresas que nos apoiam:</p>
+    <div class="container">
+        <div class="photobanner">
+            <% for(const parceria of model){ %>
+                <h1  style="color: red; font-size: 50px; display:inline; padding-left: 30px;" ><%=parceria.empresa %></h1>
+                
+                <% } %>        
+        </div>
+    </div>
+    </div>
 
         <div class="center">
             <ul>
                 <li><a href="./form_parceria"> Adicionar </a></li>
             </ul>
-        </div>
-        
+        </div>        
     <%- include("_footer")-%>

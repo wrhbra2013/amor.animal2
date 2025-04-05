@@ -1,0 +1,346 @@
+ 
+
+ html, body {
+  padding: 0;
+   font-family: sans-serif;
+   margin: 0;   
+   width:auto;
+   height: auto;
+   }
+
+img{
+  width: 250px;
+  height: 200px;
+}
+
+.header{
+  position: sticky;
+  text-align: center;
+  left: 0;
+  top: 0;
+  width: 100% ;
+   background-color: whitesmoke;
+  z-index: 1;
+  }
+
+.header img{
+  width: 80px;
+  height: 80px;
+  
+  }
+
+.footer { 
+  position: fixed;
+   text-align: center;
+  left: 0;
+  bottom: 0;
+  height: 8%;
+  width: 100%;
+  background-color: whitesmoke;
+  z-index: 1;  
+  
+}
+
+.footer img{
+  width: 25px;
+  height: 25px;
+ }
+
+h1 {
+  font-size: large;
+}
+
+
+.mobile-menu-toggle-label {
+  cursor: pointer;
+  font-size: 24px;
+  color: red;
+  text-align:  right;
+  display: flex;
+  flex-direction: column;
+  }
+
+.mobile-menu {
+  width: 100%;
+  margin: 0px auto;
+  cursor: pointer;
+  display: none;
+  background-color: none;
+   }
+
+
+.mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0; 
+ display: inline;
+  
+ }
+
+.mobile-menu ul:hover {  
+   max-height: 250px;
+}
+
+.mobile-menu li {  
+  margin-bottom: 10px;
+  display: inline;
+}
+
+.mobile-menu li:hover{
+  color:aliceblue;
+  background-color: grey
+}
+
+.mobile-menu a { 
+  color: rgb(72, 133, 212);
+  text-decoration: none;
+  }
+
+  .mobile-menu a:hover{    
+    color: aliceblue;
+    }
+
+#mobile-menu-toggle:checked+.mobile-menu-toggle-label+.mobile-menu {
+   cursor: pointer;
+  background-color: rgba(255, 0, 0, 0.2);
+  font-size: medium;
+  text-align: right;   
+  display: block;
+}
+
+
+
+.center {
+  padding: 10px;
+  margin: 0px auto;
+  display: block;
+  text-align: center;
+  width: 100%;
+  position: relative;
+ 
+}
+
+.center ul {
+  list-style: none;
+  margin: 0;
+  padding: 0; 
+  border: 1px solid;
+  border-width: 10%;
+ 
+ }
+
+.center ul:hover {
+   max-height: 250px;
+}
+
+.center li {  
+  margin-bottom: 10px;
+  height: 100%;
+  display: block;
+}
+
+.center li:hover{
+  background-color: grey
+}
+
+.center a { 
+  font-size: larger;
+  color: rgb(72, 133, 212);
+  text-decoration: none;
+  transition: width 2s;
+  }
+
+  .center a:hover{    
+    color: aliceblue;
+    }
+
+.scroll-watcher {
+  height: 10px;
+  position: fixed;
+  top: 0;
+  left:0;
+  z-index: 1000;
+  background-color: rgb(255, 72, 0);
+  width: 100%;
+  scale: 0 1;
+  transform-origin: left;
+  animation: scroll-watcher linear;
+  animation-timeline:  scroll(y);
+}
+
+@keyframes scroll-watcher {
+  to {
+    scale: 1 1;
+  }
+}
+
+.artigo {  
+   border-radius: 17px;
+   background-color: #656663;
+  text-align: center;
+ align-content: center;
+  white-space: pre-line;  
+  width: 100%;
+  margin: 30px auto;
+  font-size: medium;
+  color: white;
+  
+} 
+
+.artigo a{
+  text-decoration: none;
+}
+
+
+
+.artigo input, textarea, select, fieldset, fieldset option, fieldset input{
+   width: 60%  ;
+   margin: 2px auto;
+   text-align: center;
+}
+
+
+
+.artigo img {
+  width: 40%;
+  height: 30%;
+}
+
+
+
+.artigo span {
+  margin: 0px auto;
+  white-space: pre-line;
+  text-align: center;
+  font-family: arial;
+  font-size: medium;
+
+}
+
+
+.artigo iframe {
+  margin: 0px auto;
+  height: 40%;
+  width: 20%;
+  border: 0px;
+  white-space: pre-line;
+}
+
+
+
+
+table {
+  margin: 0px auto;
+  border: 0;
+  display: block;
+}
+
+th{
+  height: 20px;
+  width: auto;
+  border-bottom:  1px solid #000;
+  text-align: center;  
+
+}
+
+td{
+  height: 20px;
+  width: auto;
+  text-align: center;  
+ }
+
+ 
+
+table img{
+  width:  50px; 
+  height: 60px;
+  zoom: 50px;
+  cursor: pointer;
+  transition:  zoom 2s;
+}
+
+table  img:hover{
+zoom: 400%;
+}
+
+.container {
+  height:320px; 
+  position:relative; 
+  overflow:hidden;
+}
+
+.photobanner {
+  position:absolute; 
+  top:0px; 
+  left:0px; 
+  overflow:hidden; 
+  white-space: nowrap;
+  animation: bannermove 10s linear infinite;
+}
+
+.photobanner img {    
+  margin: 0 0.5em;
+  width: 300px auto;
+  height: 200px;
+}
+
+@keyframes bannermove {
+  0% {
+      transform: translate(0, 0);
+  }
+  100% {
+      transform: translate(-50%, 0);
+  }
+}
+
+.container:hover {
+  overflow: hidden;
+}
+
+.container:hover .photobanner {
+  animation-play-state:paused;
+}
+
+.error{
+  padding: 50%;
+  border: 1px solid white;
+  text-align: center; 
+  white-space: pre-line;  
+  font-size: large; 
+  color: rgb(165, 42, 73);
+}
+ .home{
+  background-image: url('/static/uploads/adocoes/OIP.jpeg');
+  background-repeat: no-repeat;
+  background-size:  100% 100%;
+  width: 100%;
+  color: white;
+  margin: 0px auto;
+  align-content: center;
+  text-align: center;
+  height: 250px;
+  opacity: 0.6;
+  }
+
+  #slides {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .show {
+    width:100px;
+    height:100px;
+    border:1px solid;
+    outline:none;
+    cursor:pointer;
+    }
+    
+    .hidde{
+    display:none;
+    height:200px;
+    border:1px solid;
+    }
+    
+    .show:focus + .hidde{
+    display:block;
+    }

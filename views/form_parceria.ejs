@@ -1,2 +1,28 @@
+<%- include("_header")-%>
+<div class="center">
+  <h1>Parceria</h1>
+</div>
+<div class="center">
+  <ul>
+      <li><a href="./home"> Cancelar</a></li>
+  </ul>
+</div>
+<div class="artigo">
+    <form action="" method="post">
+    <input type="text" name="empresa" placeholder="Empresa"  required/>
+    <input type="text" name="localidade" placeholder="Localidade" />
+   <textarea name="proposta" rows="4" cols="20" placeholder="Proposta"></textarea>
+    <input type="text" name="representante" placeholder="Representante" required/>
+    <div class="center">
+      <input   class="show" type ="tel"  name="telefone" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/>
+      <label><input type="checkbox" name="whatsapp" value="whatsapp" class="center"/>Whatsapp</label>
+    </div>   
+    <input type="email" name="email"  placeholder="Email"/>
+        <input type="submit" value="Cadastrar" class="btn btn-default"
+            onclick="confirm('Os dados estão atualizados?')">
+    </form>
+</div>
 
-<h1> FORMULÁRIO PARA PARCERIA</h1>
+  
+  
+<%- include("_footer")-%>

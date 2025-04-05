@@ -1,7 +1,7 @@
 const {db} = require('./database');
 
 //Adoção
-function adocao() {
+function create_adocao() {
 const adocao = `CREATE TABLE IF NOT EXISTS adocao(
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
     arquivo blob,
@@ -12,7 +12,7 @@ const adocao = `CREATE TABLE IF NOT EXISTS adocao(
     caracteristicas text,  
     tutor text,  
     contato text,     
-    origem datetime default current_date 
+    origem datetime default (date())
     );`
 
 const sql = db.run(adocao,  error => {
@@ -22,9 +22,9 @@ const sql = db.run(adocao,  error => {
 return sql
 };
 
-adocao();
+create_adocao();
 
-function adotante() {
+function create_adotante() {
     const  adotante = `CREATE TABLE IF NOT EXISTS adotante (
     id integer PRIMARY KEY,
     origem datetime default (date()),
@@ -45,27 +45,27 @@ const sql = db.run(adotante,   error => {
     return  sql
 
 };
-adotante(); 
+create_adotante(); 
 
-function adotado(){
-    const adotado = ` CREATE TABLE IF NOT EXISTS adotados(
+function create_adotado(){
+    const adotado = ` CREATE TABLE IF NOT EXISTS adotado(
     id integer primary key,
     origem datetime default (date()),
-    foto blob,  
-    nomePet text,
-    nomeTutor text,
+    arquivo blob, 
+    pet text,
+    tutor text,
     historia text
-    );`
-    const sql = db.run(adotado,   error => {
+    );`    
+    const sql = db.run(adotado,    error => {
         if (error)   console.log(error)
             console.log('Tabela: Adotado ATIVA.');
     });
     return sql;
-}
-adotado()
+};
+create_adotado()
 
 //Castração
-function castracao () {
+function create_castracao () {
     const castracao = `CREATE TABLE IF NOT EXISTS castracao(
     id integer PRIMARY KEY,
     nome text,
@@ -84,16 +84,77 @@ function castracao () {
 });
 return sql
 };
-castracao()
+create_castracao();
 
+//Procura_se
+function create_procura_se(){
+    const procura_se = `CREATE TABLE IF NOT EXISTS procura_se (
+    id INTEGER PRIMARY KEY,
+     data datetime default (date()),
+     fotoPet text,
+     nomePet text,
+     idade integer,
+     especie text,
+     porte text,
+     caracteristicas text,
+     local text,
+     tutor text,
+     contato text
+    );`
+    const sql = db.run(procura_se,   error => {
+        if (error)   console.log(error)
+            console.log('Tabela: Procura-se ATIVA.');
+});
+    return sql;
+};
+create_procura_se();
 
+//Parceria
+function create_parceria(){
+  const parceria =` CREATE TABLE IF NOT EXISTS parceria(
+   id INTEGER PRIMARY KEY,
+   data datetime default (date()),
+    empresa text,
+    localidade text,
+    proposta text,
+    representante text,
+    telefone text,
+    whatsapp text,
+    email text
+     );`
+    const sql = db.run(parceria,   error => {
+        if (error)   console.log(error)
+            console.log('Tabela: Parceria ATIVA.');
+});
+    return sql;
+};
+create_parceria();
 
-
-
+//Doação
+function create_doacao(){
+    const doacao = `CREATE TABLE IF NOT EXISTS doacao (
+    id INTEGER PRIMARY KEY,
+     data datetime default (date()),
+     nome text, 
+     localidade text,
+     contato text,
+     recurso text,
+     valor real    
+    );`
+    const sql = db.run(doacao,   error => {
+        if (error)   console.log(error)
+            console.log('Tabela: Doação ATIVA.');
+    });
+    return sql;
+};
+create_doacao();
 
 module.exports ={
-    adocao: adocao,
-    adotante: adotante,
-    adotado: adotado,
-    castracao: castracao
+    create_adocao: create_adocao,
+    create_adotante: create_adotante,
+    create_adotado: create_adotado,
+    create_castracao: create_castracao,
+    create_procura_se: create_procura_se,
+    create_parceria: create_parceria,
+   create_doacao: create_doacao
     }

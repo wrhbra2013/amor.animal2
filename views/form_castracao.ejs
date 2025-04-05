@@ -3,12 +3,14 @@
     <h1>Interessados em Castração</h1>
 </div>
 <div class="artigo">
-     <button><a href="./castracao">Cancelar</a></button>
+    <button><a href="./castracao">Cancelar</a></button>  
+</div>
+<div class="artigo">
        <form action="" enctype="multipart/form-data" method="post">
         <input type="text" name="nome" placeholder="Nome " required/>
-        <input type="tel" name="contato" placeholder="Telefone  00-00000-0000" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required />
-        <input type="file" name="arquivo" required />
-        <input type="reset" value="Limpar" />
+        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/> 
+        <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
+        <input type="file" name="arquivo" onchange="preview()">   
         <input type="number" name="idade_pet" placeholder=" Idade Pet" />
         <select name="especie">
             <option value="">Espécie</option>
@@ -23,7 +25,7 @@
         </select>
         <textarea name="obs" rows="4" cols="20" placeholder="Observações Pet"></textarea>
         <input type="submit" value="Cadastrar" class="btn btn-default"
-            onclick="confirm('Os dados estão atualizados?')">
+            onclick="confirm('Os dados estão atualizados?')"/>
     </form>
 
 </div>

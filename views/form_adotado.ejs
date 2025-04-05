@@ -1,0 +1,21 @@
+<%- include("_header")-%>
+<div class="center">
+  <h1>Histórias de adoção..</h1>
+</div>
+<div class="artigo">
+  <button><a href="./adocao">Cancelar</a></button>  
+</div>
+<div class="artigo">  
+    <form action=" " enctype="multipart/form-data" method="post">
+      <img id="frame" src="" width="300px" height="200px" alt="carregando..."/>
+      <input type="file" name="arquivo" onchange="preview()" />   
+      <input type="reset" value="Limpar" />
+        <input type="text" placeholder="Nome  Pet" name="nome_pet" required>
+        <input type="text" placeholder="Nome  Tutor"  name="nome_tutor" required>
+        <textarea  name="historia" rows="4" cols="20"
+        placeholder="Historia"></textarea>
+        <input type="submit" value="Incluir" />
+    </form>
+</div>
+
+<%- include("_footer")-%>

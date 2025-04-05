@@ -2,24 +2,37 @@
     <div class="center">
         <h1> ADOTE! </h1>
     </div>
-    <div id='slides' class="center">
-       </div>
+
     <div class="container">
-        <a href="./adote"><div class="photobanner ">
-            <img src="/static/uploads/adocoes/nina.jpeg" alt="Nina" />
-            <img src="/static/uploads/adocoes/OIP (1).jpeg" alt="Nina" />      
-                
-        </div></a>
+        <a href="./adote">
+            <div class="photobanner ">
+                <img src="/static/uploads/adocoes/nina.jpeg" alt="Nina" />
+                <img src="/static/uploads/adocoes/OIP (1).jpeg" alt="Nina" />
+            </div>
+        </a>
     </div>
 
     <div class="artigo">
-        <h1> ADOTADOS!</h1>
+        <h1> HISTÓRIA DE ADOTADOS!</h1>
+        <% for(const adotado of model) { %>
+            <img src="/static/uploads/<%= adotado.arquivo %>" />
+            <h1 ><%=adotado.tutor %></h1>            
+             <%=adotado.historia %>
+             <%=adotado.pet %>
+           
+              <!--  Delete e candelar, pós-loop -->
+              <form action="/delete/adotado/<%=adotado.id %>/<%=adotado.arquivo %>" method="post">
+                <input type="submit" value="Delete" class="btn btn-default btn-danger"
+                    onclick="confirm('Apagar postagem?')" /> 
+              </form>             
+                <% break%>
+                <% } %>
+             <hr>
+             <br>                      
     </div>
-    <div class="center">
-        <ul>
-            <li><a href="./form_adotados"> Adicionar</a></li>
-        </ul>
-    </div>
-    
- <script   type="javascript/text"    src="/js/alert.js"></script>
+    <br>
+    <div class="artigo">
+        <button><a href="./form_adotado">Adicionar</a></button>  
+      </div>
+
     <%- include("_footer")-%>

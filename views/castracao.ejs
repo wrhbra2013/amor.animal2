@@ -3,7 +3,7 @@
     <div class=center>
         <h1>CASTRAÇÃO! </h1>
     </div>
-    <div class="center">
+    <div class="artigo">
         <button><a href="./form_castracao">Adicionar</a></button>
     </div>
 
@@ -17,33 +17,57 @@
       <!--   loop 1  <thead>-->
          <% for(const castracao of model) { %>                   
          <tr>
-            <th>imagem </th>            
-            <% for ( const model in  castracao) { %>        
+            <th>ticket</th>
+            <th>Tutor </th> 
+            <th>Contato</th>    
+            <th></th>   
+            <th>Idade</th>
+            <th>especie</th>
+            <th>porte</th>
+            <th>Caracteristicas</th>
+            <th></th>
+            <th></th>
+
+         </tr>
+         <tr>
+            <td><%=castracao.ticket%></td>
+            <td><%=castracao.nome%></td>
+            <td><%=castracao.contato%></td>
+            <td><img src="../static/uploads/<%= castracao.arquivo %>" /></td>
+            <td><%=castracao.idade%></td>
+            <td><%=castracao.especie%></td>
+            <td><%=castracao.porte%></td>
+            <td><%=castracao.observacoes%></td>
+            <td> <form action="/delete/castracao/<%=castracao.ticket %>/<%=castracao.arquivo %>" method="post">
+                <input  type="submit" value="Delete"
+                    class="btn btn-default btn-danger"
+                    onclick="confirm('Apagar postagem?')" /></td>
+    
+                    <td> <a class="btn btn-outline-dark cancel" href="./home">Cancelar</a> </td>    
+
+          
+         </tr>   
+       <!--      <% for ( const model in  castracao) { %>        
                <th><%=model %></th>        
                <% } %>                   
          </tr>
-     <!--     loop único -->
-          <% break %>
+        loop único -->
+         <!--  <% break %>
           <% } %>   
-          <hr>
-      <!--  loop 2  <tbody>-->
+          <hr>    -->
+          <!--  loop 2  <tbody>-->
         <% for(const castracao of model) { %>       
          <tr>
            <!--  imagem -->
-            <td><img src="../static/uploads/<%= castracao.arquivo %>" /></td>
-
-         <% for(const key in castracao) { %>        
+            
+       <!--   <% for(const key in castracao) { %>        
           <td><%=castracao[key] %></td>      
 
-         <% } %>
+         <% } %> -->
          
         <!--  Delete e candelar, pós-loop -->
-         <td> <form action="/delete/castracao/<%=castracao.ticket %>/<%=castracao.arquivo %>" method="post">
-            <input type="submit" value="Delete"
-                class="btn btn-default btn-danger"
-                onclick="confirm('Apagar postagem?')" /></td>
-
-                <td> <a class="btn btn-outline-dark cancel" href="/castracao">Cancelar</a> </td>         </tr>
+       
+                 </tr>
           <% } %> 
        
        </table>

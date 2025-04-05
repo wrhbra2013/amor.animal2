@@ -4,16 +4,27 @@
 </div>
 <!--Formulário-->
 
-<div class="center">
-    <ul>
-        <li><a href="./form_adocao"> Adicionar </a></li>
-    </ul>
-</div>
+<div class="artigo">
+    <button><a href="./form_adocao">Adicionar</a></button>  
+  </div>
 
 
-<table style="padding: 10px;">
+<table>
+  <tr>
+    <th>Data</th>
+    <th></th>
+    <th>Nome</th>
+    <th>Idade</th>
+    <th>Especie</th>
+    <th>Porte</th>
+    <th>Caracteristicas</th>
+    <th>Tutor</th>
+    <th>Contato</th>
+    <th></th>
+    <th></th>
+  </tr>
     <!--   loop 1  <thead>-->
-       <% for(const adocao of model) { %>                   
+      <!--  <% for(const adocao of model) { %>                   
        <tr>
           <th>imagem </th>            
           <% for ( const model in  adocao) { %>        
@@ -23,25 +34,32 @@
              <th></th>
           
        </tr>
-   <!--     loop único -->
-        <% break %>
-        <% } %>   
+        loop único -->
+      <!--   <% break %>
+        <% } %>    --> 
         
     <!--  loop 2  <tbody>-->
       <% for(const adocao of model) { %>       
        <tr>
+        <td><%=adocao.origem%></td>
         <!--  imagem -->
-          <td><img src="../static/uploads/<%= adocao.arquivo %>" /></td>
-
-       <% for(const key in adocao) { %>        
-        <td><%=adocao[key] %></td>      
-
-       <% } %>
+          <td><img src="/static/uploads/<%= adocao.arquivo %>" /></td>
+ <!--      Ler toda a linha sql. -->
+       <!-- <% for(const key in adocao) { %>        
+        <td><%=adocao[key] %></td>
+               <% } %> -->
+               <td><%=adocao.nome%></td>
+               <td><%=adocao.idade%></td>
+               <td><%=adocao.especie%></td>
+               <td><%=adocao.porte%></td>
+               <td><%=adocao.caracteristicas%></td>
+               <td><%=adocao.tutor%></td>
+               <td><%=adocao.contato%></td>
        <td> <a href="/quiz"><button >Adote</button></td></a> </td>  
       <!--  Delete e candelar, pós-loop -->
        <td>
          <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post">
-          <input type="submit" value="&#8722;"
+          <input  class="btncustom" type="submit" value="cancelar"
               class="btn btn-default btn-danger"
               onclick="confirm('Apagar postagem?')" /></form>
          </td>       
