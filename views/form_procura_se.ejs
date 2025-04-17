@@ -12,14 +12,14 @@
           <input type="reset" value="Limpar" />
   
           <input type="text" placeholder="Nome  Pet" id="nomePet" name="nomePet" required>
-          <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet">
+          <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet"/>
           <select id="especie" name="especie">
-              <option value="" required>Especie</option>
+              <option value=" " required>Especie</option>
               <option value="canino">Canino</option>
               <option value="felino">Felino</option>
           </select>
           <select id="porte" name="porte">
-              <option value="">Porte</option>
+              <option value=" ">Porte</option>
               <option value="pequeno">Pequeno</option>
               <option value="medio">Medio</option>
               <option value="grande">Grande</option>
@@ -29,8 +29,12 @@
             <input type="text" placeholder="Local de desaparecimento" id="local" name="local" />
           <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
           <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000 - 0000" required/> 
-          <label><input type="checkbox" name="whatsapp" value="whatsapp"/>Whatsapp</label>
-          
+          <select name="whatsapp" id="whatsapp">
+              <option value=" ">Whatsapp</option>
+              <option value="sim">Aceito</option>
+              <option value="nao">Não</option>
+          </select>
+                    
             <input type="submit" value="Cadastrar" class="btn btn-default"
               onclick="confirm('Os dados estão atualizados?')">
       </form>

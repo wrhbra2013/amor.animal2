@@ -88,20 +88,21 @@ create_castracao();
 
 //Procura_se
 function create_procura_se(){
-    const procura_se = `CREATE TABLE IF NOT EXISTS procura_se (
-    id INTEGER PRIMARY KEY,
-     data datetime default (date()),
-     fotoPet text,
-     nomePet text,
-     idade integer,
-     especie text,
-     porte text,
-     caracteristicas text,
-     local text,
-     tutor text,
-     contato text
-    );`
-    const sql = db.run(procura_se,   error => {
+      const procurase = `CREATE TABLE IF NOT EXISTS procura_se (
+        id INTEGER PRIMARY KEY,
+         data datetime default (date()),
+         arquivo blob,
+         nomePet text,
+         idadePet integer,
+         especie text,
+         porte text,
+         caracteristicas text,
+         local text,
+         tutor text,
+         contato text,
+         whatsapp text
+        );`
+    const sql = db.run(procurase,   error => {
         if (error)   console.log(error)
             console.log('Tabela: Procura-se ATIVA.');
 });
@@ -149,6 +150,22 @@ function create_doacao(){
 };
 create_doacao();
 
+function create_home(){
+    const home = `CREATE TABLE IF NOT EXISTS home(
+        id INTEGER PRIMARY KEY,
+        data datetime default (date()),
+        titulo text,
+        mensagem text
+    );`
+    const sql = db.run(home,   error => {   
+        if (error)   console.log(error)
+            console.log('Tabela: Home ATIVA.');     
+    });
+       return sql;
+}
+create_home();
+
+
 module.exports ={
     create_adocao: create_adocao,
     create_adotante: create_adotante,
@@ -156,5 +173,6 @@ module.exports ={
     create_castracao: create_castracao,
     create_procura_se: create_procura_se,
     create_parceria: create_parceria,
-   create_doacao: create_doacao
+    create_doacao: create_doacao,
+    create_home: create_home
     }

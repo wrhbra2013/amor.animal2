@@ -1,67 +1,119 @@
 <%- include("_header")-%>
-   <!--  elemento central -->
-   <div class="center">
-    <h1>Inicio</h1>
-   </div>  
-   <div class=" center">
-    <h1> Até que ponto vai o seu amor pelos pets?</h1>
-    <a href="./doacao" ><h1>O nosso ponto é a ação!</h1></a>
- </div> 
-    <div class="artigo">
-        <span> Oportunidade de  contar como tudo começou ...!   </span>
-        <p>A ONG Amor Animal, que agrega trabalho de voluntários para abrigo e proteção de animais de rua em Marília, lançou campanha de arrecadação de recursos e doações de ração para manter atendimento a cerca de 250 gatos.
+    <!--  elemento central -->
+    <div class="center">
+        <h1>Inicio</h1>
+    </div>
+    <div class="home">
+        <h1> O que é a ONG Amor Animal?</h1>
+        <p>A ONG Amor Animal é uma organização sem fins lucrativos dedicada à proteção e bem-estar dos animais. 
+            Nossa missão é resgatar, cuidar e encontrar lares amorosos para animais abandonados, promovendo a adoção responsável e a conscientização sobre a importância do respeito aos direitos dos animais.</p>
+        <p>Estamos comprometidos em fazer a diferença na vida dos animais e na sociedade, trabalhando em parceria com a comunidade para promover um mundo mais justo e solidário.</p>
+        <p>Se você deseja fazer parte dessa causa, entre em contato conosco e descubra como pode ajudar!</p>
+        <p>Você pode fazer a diferença na vida de um animal abandonado. Adote, doe ou faça parte da nossa equipe de voluntários!</p>
+        <p>Juntos, podemos transformar vidas e construir um futuro melhor para os animais!</p>
+        <p>Se você deseja fazer parte dessa causa, entre em contato conosco e descubra como pode ajudar!</p>
+        </div>
+    <div class=" home">
+        <h1> Até que ponto vai o seu amor pelos pets?</h1>
+        <a href="./adocao"><h2> O nosso ponto é a ação!</h2></a>
+    </div>
+    <div class="home">
+        <h1> Oportunidade de contar como tudo começou ...! </h1>
+        <p>A ONG Amor Animal, que agrega trabalho de voluntários para abrigo e proteção de animais de rua em Marília,
+            lançou campanha de arrecadação de recursos e doações de ração para manter atendimento a cerca de 250 gatos.
 
-            A ONG é dirigida pela cuidadora Jaqueline Vasconcelos, ativista da causa animal que começou o trabalho com grande abrigo em sua casa, próxima ao centro da cidade, mas precisou ampliar o atendimento em função do número de animais resgatados.
-           
-           A instituição recebeu recentemente o título de instituição sem fins lucrativos, o que permite suporte fiscal e participação em mais ações de arrecadação de recursos.           
+            A ONG é dirigida pela cuidadora Jaqueline Vasconcelos, ativista da causa animal que começou o trabalho com
+            grande abrigo em sua casa, próxima ao centro da cidade, mas precisou ampliar o atendimento em função do
+            número de animais resgatados.
+
+            A instituição recebeu recentemente o título de instituição sem fins lucrativos, o que permite suporte fiscal
+            e participação em mais ações de arrecadação de recursos.
         </p>
     </div>
-    <div class="artigo">
-        <span> E refletir sobre o futuro...!   </span>
-        <a href ="./adocao" ><img  src="/static/css/imagem/ong2.jpg"></a>
-        <p> A ONG em Números...</p>
+    <div class="home">
+        <h1> E refletir sobre o futuro...! </h1>
+        <a href="./adocao"><img src="/static/css/imagem/ong2.jpg"></a>        
     </div>
-    <div class="artigo">       
-            <h1>Adoção</h1>
-           <p><% for (const adocao of model) { %>
+    <div class="home"> 
+        <% if (model.length > 0) { %>
+            <% for(const home of model) { %>
+                <h2><%= model.titulo %></h2>
+                <p><%= model.mensagem %></p>
+                <form action="/delete_home/<%=model.id%>" method="post">
+                 <input type="submit" value="X" class="btn btn-default" onclick="return confirm('Deseja realmente excluir?')">
+                </form>                
+                
+            <% } %>
+        <% } else { %>
+            <p>Não há mensagens disponíveis </p>        
+        <% } %>
+      </div>
+    <h1> A ONG em Números.</h1>
+    <div class="home">
+        <h1>Adoção</h1>
+        <% if (model.length > 0) { %>
+            <% for(const adocao of model) { %>
                 <% for (const key in adocao) { %>
-                Adoções:  <%=adocao[key] %> pets
-            <% }%>
-            <%}%></p>
-               <p><% for (const adotante of model) { %>
-                    <% for (const key in adotante) { %>
-              Adotantes:  <%=adotante[key] %> pessoa(s)
-                <% }%>
-                <%}%></p>     
-                <a href="./adocao"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
+                    <p>Adoções: <%= adocao[key] %> pets</p>
+                <% } %>
+            <% } %>
+            <% for(const adotante of model) { %>
+                <% for (const key in adotante) { %>
+                    <p>Adotantes: <%= adotante[key] %> </p>
+                <% } %>
+            <% } %>
+        <% } else { %>
+            <p>Adoções: Nenhum dado disponível</p>
+            <p>Adotantes: Nenhum dado disponível</p>
+        <% } %>
+        <a href="./adocao">
+            <p style="text-align: right;"> Veja Mais &gt;</p>
+        </a>
     </div>
 
-    <div class="artigo">
-        <h1> Castração</h1>
-        <p><% for (const castracao of model) { %>
-            <% for (const key in castracao) { %>
-            Castrações:  <%=castracao[key] %> pets
-        <% }%>
-        <%}%></p>
-        <a href="./castracao"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
-        
-
+    <div class="home">
+        <h1>Castração</h1> 
+        <% if (model.length > 0) { %>
+            <% for(const castracao of model) { %>
+                <% for (const key in castracao) { %>
+                    <p>Castrações: <%= castracao[key] %> pets</p>
+                <% } %>
+            <% } %>
+        <% } else { %>
+            <p>Castrações: Nenhum dado disponível</p>
+        <% } %>
+          <a href="./castracao">
+            <p  style="text-align: right;"> Veja Mais &gt;</p>
+        </a>
     </div>
 
-    <div class="artigo">
+    <div class="home">
         <h1>Procura-se</h1>
-        <a href="./procura_se"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
+        <a href="./procura_se">
+            <p  style="text-align: right;"> Veja Mais &gt;</p>
+        </a>
     </div>
 
-    <div class="artigo">
+    <div class="home">
         <h1>Parcerias</h1>
-        <a href="./parceria"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
-       </div>  
+        <a href="./parceria">
+            <p style="text-align: right;"> Veja Mais &gt;</p>
+        </a>
+    </div>
 
-       <div class="artigo">
+    <div class="home">
         <h1>Doações</h1>
-        <a href="./doacao"><h1 style="text-align: right;"> Veja Mais &gt;</h1></a>
-       </div>
+    
+        <a href="./doacao">
+            <p style="text-align: right;"> Veja Mais &gt;</p>
+        </a>
+    </div>
+
+    <div class="home">
+             <a href="form_home">
+            <p style="text-align: right;"> Novo &gt;</p>
+        </a>
+    </div>
 
 
     <%- include("_footer")-%>

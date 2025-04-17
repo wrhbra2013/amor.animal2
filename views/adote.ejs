@@ -18,8 +18,7 @@
     <th>Especie</th>
     <th>Porte</th>
     <th>Caracteristicas</th>
-    <th>Tutor</th>
-    <th>Contato</th>
+    <th></th>
     <th></th>
     <th></th>
   </tr>
@@ -43,7 +42,7 @@
        <tr>
         <td><%=adocao.origem%></td>
         <!--  imagem -->
-          <td><img src="/static/uploads/<%= adocao.arquivo %>" /></td>
+          <td><img src="/static/uploads/adocao/<%=adocao.arquivo %>" /></td>
  <!--      Ler toda a linha sql. -->
        <!-- <% for(const key in adocao) { %>        
         <td><%=adocao[key] %></td>
@@ -53,19 +52,23 @@
                <td><%=adocao.especie%></td>
                <td><%=adocao.porte%></td>
                <td><%=adocao.caracteristicas%></td>
-               <td><%=adocao.tutor%></td>
-               <td><%=adocao.contato%></td>
-       <td> <a href="/quiz"><button >Adote</button></td></a> </td>  
-      <!--  Delete e candelar, pós-loop -->
-       <td>
+               <td><button class="show" onclick="toggleVisibilityWithTimeout('id-info-<%=adocao.id%>')">Mais...</button></td>
+                  <div class="hidden" id="id-info-<%=adocao.id%>" tabindex="2">                    
+               Tutor: <%=adocao.tutor%> 
+               <br>              
+              Contato: <%=adocao.contato%>                 
          <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post">
-          <input  class="btncustom" type="submit" value="cancelar"
+          <input  class="btncustom" type="submit" value="Deletar"
               class="btn btn-default btn-danger"
               onclick="confirm('Apagar postagem?')" /></form>
-         </td>       
+           </div>
+               </td>
+         <td> <a href="/quiz"><button>Adote</button></a></td>  
+         <td> <a class="btn btn-outline-dark cancel" href="./home">Cancelar</a> </td>         
           
             </tr>
         <% } %> 
       
      </table>
+   
      <%- include("_footer")-%>

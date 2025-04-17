@@ -1,23 +1,17 @@
  html, body {
-  width: 100% 110%;
-  height: 100% 100%;
-   display: flex;
-   flex-direction: column;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
  }
 
- * {
-  margin: 0;
-  padding: 0;
-  justify-content: space-around;
-
-}
+ 
  .artigo {
-  margin-top: 30px;
    display: flex;
    flex-direction: column;
    white-space: pre-line;
    font-family: Arial, Helvetica, sans-serif;
-   position: relative;
  }
 
  .artigo input,
@@ -25,8 +19,6 @@
  select {
    margin-top: 2px;
    width: 60%;
-   justify-content: center;
-   display: flex;
  }
 
  .artigo p {
@@ -39,17 +31,15 @@
  }
 
  .center {
+   justify-content: center;
    display: flex;
    flex-direction: row;
-   justify-content: center;
-  padding-bottom: 10px;
    font-family: Arial, Helvetica, sans-serif;
    width: 100%;
  }
 
  .center a {
    color: blue;
-   justify-content: center;
  }
 
  .center h1 {
@@ -184,7 +174,6 @@
 
  .mobile-menu.active .line1 {
    transform: rotate(-45deg) translate(-8px, 8px);
-
  }
 
  .mobile-menu.active .line2 {
@@ -193,7 +182,16 @@
 
  .mobile-menu.active .line3 {
    transform: rotate(45deg) translate(-5px, -7px);
+ }
 
+ .mobile-menu .line1,
+ .mobile-menu .line2,
+ .mobile-menu .line3 {
+   width: 32px;
+   height: 2px;
+   background: rgb(39, 43, 44);
+   margin: 8px;
+   transition: 0.3s;
  }
 
  header {
@@ -208,6 +206,7 @@
    z-index: 1;
  }
 
+ 
  header a {
    display: flex;
    text-align: right;
@@ -216,22 +215,29 @@
  header img {
    padding-top: 25px;
    width: 80px;
-   height: 70px;
- }
+   height: 70px; }
 
 
 
  footer {
-   position: fixed;
-   display: inline;
+  position: sticky;
+   display: flex;
    justify-content: space-around;
+   align-items: center;
    font-family: Arial, Helvetica, sans-serif;
-   left: 0;
+   text-align: center;
+    left: 0;
+    top: 0;
+    padding: 0px;
    bottom: 0;
-   height: 6%;
+   height:25px; /* Changed from percentage to fixed height */
    width: 100%;
    background-color: whitesmoke;
    z-index: 1;
+ }
+
+ main {
+   margin-bottom: 6%;
  }
 
  footer a {
@@ -284,8 +290,6 @@
    }
 
 
-
-
  table img {
    width: 50px;
    height: 60px;
@@ -299,8 +303,10 @@
  }
 
  .photobanner {
-   padding: 10px;
+  display: flex;  
+  flex-direction: row;
    position: relative;
+   width: 100%;
    top: 0px;
    left: 0px;
    overflow: hidden;
@@ -310,22 +316,25 @@
 
  .photobanner img {
    margin: 0 0.5em;
-   width: 300px auto;
-   height: 200px;
+   width: auto; 
+   height: 250px;
+   max-width: 100%;
  }
 
  @keyframes bannermove {
    0% {
-     transform: translate(0, 0);
+     transform: translateX(0);
    }
 
    100% {
-     transform: translate(-50%, 0);
+     transform: translateX(-50%);
    }
  }
 
- .container:hover {
+ .container {
    overflow: hidden;
+   position: relative;
+   width: 100%;
  }
 
  .container:hover .photobanner {
@@ -352,17 +361,27 @@
   border:1px solid;
   outline:none;
   cursor:pointer;
+  display: inline-block;
   }
   
-  .hidde{
-  display:none;
-  height:200px;
+  .hidden{
+  visibility: hidden;
+  width: 100%;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px solid black;
+  padding: 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
   margin: 0px auto;
   }
   
-  .show:focus + .hidde{
-  display:block;
+  .show:focus-visible + .hidden {
+  display: block;
   }
 
   
@@ -376,4 +395,25 @@
   .btncustom:disabled{
     pointer-events: none;
     background-color: grey;
+  }
+
+  .home{
+    margin-top: 30px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-image: url('/static/css/imagem/1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #000; /* Fallback color */
+    background-position: center;
+    display: block;
+     color: aliceblue;
+  }
+
+  .home a:hover{
+    color: dimgrey;
+    cursor: pointer;
+   border:1px solid red;
+   background-color: chartreuse;
   }

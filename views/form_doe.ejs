@@ -5,26 +5,45 @@
 <div class="artigo">
   <button><a href="./home">Cancelar</a></button>  
 </div>
-<div class="center">  
-        <div class="show"  tabindex="2">
-       <p>Suporte</p>
-    </div>        
-        
-    <div class="hidde">
-    <p>Exclusivo: PIX CNPJ 40.472.777.0001.73</p> 
-     <Img src="/static/css/imagem/qrcodepix.png" />
-    </div>
 
-    <div class="show"  tabindex="2">
-     <p>Horas Voluntarias</p>
-  </div>          
-      
-  <div class="hidde">
-  <p> Por favor, entre em contato com nossos canais de atendimento.</p>
-  <input type="text" placeholder="nome" />
+<div class="artigo">
+  <h2>Como você gostaria de ajudar?</h2>
+  <p>Selecione uma opção abaixo:</p>
+  <p>Você pode ajudar de várias maneiras, como doações financeiras, doações de ração ou oferecendo seu tempo como voluntário.</p>
+  <p>Se você optar por uma doação financeira, você pode fazer isso através de PIX ou transferência bancária.</p>
+  <p>Se você escolher doação de ração, entre em contato conosco para saber os locais de coleta.</p>
+  <p>Se você deseja se voluntariar, entre em contato conosco para saber mais sobre as oportunidades disponíveis.</p>
+  <p>Obrigado por considerar ajudar!</p>
   </div>
  
-</div>
+  <select onchange="handleOptionChange(this)">
+    <option value="0">Selecione uma opção</option>
+    <option value="1">Doação Financeira</option>
+    <option value="2">Doação de Voluntariado</option>
+    <option value="3">Doação de ração</option>
+  </select>
+ 
 
+  <div id="pix-info" aria-labelledby="pix-info-label">
+    <p>Obrigado por considerar uma doação financeira!</p>
+    <p id="pix-info-label">Exclusivo: PIX CNPJ 40.472.777.0001.73</p>
+    <p id="pix-info-label">Nome: Associação Grupo Amor Animal</p>
+    <img src="/static/css/imagem/qrcodepix.png" alt="QR Code para PIX" />
+   
+  </div>
+
+  <div id="volunteer-info" >
+    <p>Obrigado por considerar se voluntariar!</p>
+    <p>Por favor, entre em contato com nossos canais de atendimento.</p>
+    <p>Você pode se voluntariar em várias áreas, como cuidados com os animais, eventos de arrecadação e muito mais.</p>
+    <p>Se você tem habilidades específicas, como fotografia, marketing ou cuidados veterinários, também adoraríamos contar com sua ajuda!</p>
+    <p>Se você tem interesse em se voluntariar, entre em contato conosco para saber mais sobre as oportunidades disponíveis.</p>
+    <p>Obrigado por considerar se voluntariar!</p>
+  </div>
+  
+  <div id="food-donation-info" >
+    <p>Obrigado por considerar fazer uma doação de ração!</p>
+     <p>Se você tem interesse em fazer uma doação de ração, entre em contato conosco para saber mais sobre os locais de coleta disponíveis.</p>
+    </div>
     
 <%- include("_footer")-%>

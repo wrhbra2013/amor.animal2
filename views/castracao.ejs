@@ -7,14 +7,14 @@
         <button><a href="./form_castracao">Adicionar</a></button>
     </div>
 
-   <!--      you can iterate over the array like you said, then iterate over each object of the array twice. First to print the headers, then to print the data
+    <!-- you can iterate over the array like you said, then iterate over each object of the array twice. First to print the headers, then to print the data
     
     The for...of statement creates a loop iterating over iterable objects, including: built-in String, Array, array-like objects (e.g., arguments or NodeList), TypedArray, Map, Set, and user-defined iterables. It invokes a custom iteration hook with statements to be executed for the value of each distinct property of the object.
     
-    The for...in statement iterates over all enumerable properties of an object that are keyed by strings. -->
-    
+    The for...in statement iterates over all enumerable properties of an object that are keyed by strings. 
+     -->
     <table >
-      <!--   loop 1  <thead>-->
+      <!--   loop 1  thead-->
          <% for(const castracao of model) { %>                   
          <tr>
             <th>ticket</th>
@@ -42,7 +42,7 @@
                 <input  type="submit" value="Delete"
                     class="btn btn-default btn-danger"
                     onclick="confirm('Apagar postagem?')" /></td>
-    
+                 </form>
                     <td> <a class="btn btn-outline-dark cancel" href="./home">Cancelar</a> </td>    
 
           
@@ -54,8 +54,8 @@
         loop único -->
          <!--  <% break %>
           <% } %>   
-          <hr>    -->
-          <!--  loop 2  <tbody>-->
+          <hr>    
+            <!-- loop 2  tbody-->
         <% for(const castracao of model) { %>       
          <tr>
            <!--  imagem -->
@@ -63,9 +63,9 @@
        <!--   <% for(const key in castracao) { %>        
           <td><%=castracao[key] %></td>      
 
-         <% } %> -->
+         <% } %> 
          
-        <!--  Delete e candelar, pós-loop -->
+          Delete e candelar, pós-loop -->
        
                  </tr>
           <% } %> 

@@ -87,20 +87,22 @@ function insert_castracao(nome, contato, arquivo, idade, especie, porte, observa
   return sql;
 };
 
-function insert_procura_se(arquivo, nomePet, idadePet, especie, porte, caracteristicas, local, tutor, contato){
+function insert_procura_se(arquivo, nomePet, idadePet, especie, porte, caracteristicas, local, tutor, contato, whatsapp){
   const insert = `INSERT INTO procura_se (
-   arquivo,
-   nomePet,
-   idadePet,
-   especie.
-   porte,
-   caracteristicas,
-   local,
-   tutor,
-   contato
-  )
-   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`
-  const values = [`${arquivo}`, `${nomePet}`, `${idadePet}`, `${especie}`, `${porte}`, `${caracteristicas}`,`${local}`, `${tutor}`,`${contato}` ];
+   data,
+    arquivo,
+    nomePet,
+    idadePet,
+    especie,   
+    porte, 
+    caracteristicas,
+    local,
+    tutor,
+    contato,
+    whatsapp
+     )                
+     VALUES (strftime('%d/%m/%Y'),?,?,?,?,?,?,?,?,?,?);`    
+  const values = [`${arquivo}`, `${nomePet}`, `${idadePet}`, `${especie}`, `${porte}`, `${caracteristicas}`,`${local}`, `${tutor}`,`${contato}`, `${whatsapp}` ];
 
   const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)
@@ -145,7 +147,21 @@ function insert_doacao( nome, localidade, contato, recurso, valor){
  return sql;
 };
 
+function insert_home(titulo,mensagem)
+{
+  const insert = `INSERT INTO home (
+  data,
+  titulo,
+  mensagem
+   ) VALUES (strftime('%d/%m/%Y'), ?, ?);`
+  const values = [ `${titulo}`, `${mensagem}` ];
 
+  const sql = db.run( insert,  values,  error => {
+    if (error)  return console.log(error)
+      console.log("Dados da Primeira Pagina INSERIDO.")
+    });
+ return sql;
+}
 module.exports = {
   insert_adocao: insert_adocao,
   insert_adotante: insert_adotante,
@@ -153,6 +169,7 @@ module.exports = {
   insert_castracao: insert_castracao,
   insert_parceria: insert_parceria,
   insert_procura_se: insert_procura_se,
-  insert_doacao: insert_doacao
+  insert_doacao: insert_doacao,
+  insert_home: insert_home
 }
  
