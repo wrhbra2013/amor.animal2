@@ -9,7 +9,7 @@
     <form action=" " enctype="multipart/form-data" method="post">
       <img id="frame" src="" width="300px" height="200px" alt="carregando..."/>
       <input type="file" name="arquivo" onchange="preview()" />   
-      <input type="reset" value="Limpar" />
+      <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
         <input type="text" placeholder="Nome  Pet" name="nome_pet" required>
         <input type="text" placeholder="Nome  Tutor"  name="nome_tutor" required>
         <textarea  name="historia" rows="4" cols="20"

@@ -5,17 +5,22 @@
     </div>
     <div class="home">
         <h1> O que é a ONG Amor Animal?</h1>
-        <p>A ONG Amor Animal é uma organização sem fins lucrativos dedicada à proteção e bem-estar dos animais. 
-            Nossa missão é resgatar, cuidar e encontrar lares amorosos para animais abandonados, promovendo a adoção responsável e a conscientização sobre a importância do respeito aos direitos dos animais.</p>
-        <p>Estamos comprometidos em fazer a diferença na vida dos animais e na sociedade, trabalhando em parceria com a comunidade para promover um mundo mais justo e solidário.</p>
+        <p>A ONG Amor Animal é uma organização sem fins lucrativos dedicada à proteção e bem-estar dos animais.
+            Nossa missão é resgatar, cuidar e encontrar lares amorosos para animais abandonados, promovendo a adoção
+            responsável e a conscientização sobre a importância do respeito aos direitos dos animais.</p>
+        <p>Estamos comprometidos em fazer a diferença na vida dos animais e na sociedade, trabalhando em parceria com a
+            comunidade para promover um mundo mais justo e solidário.</p>
         <p>Se você deseja fazer parte dessa causa, entre em contato conosco e descubra como pode ajudar!</p>
-        <p>Você pode fazer a diferença na vida de um animal abandonado. Adote, doe ou faça parte da nossa equipe de voluntários!</p>
+        <p>Você pode fazer a diferença na vida de um animal abandonado. Adote, doe ou faça parte da nossa equipe de
+            voluntários!</p>
         <p>Juntos, podemos transformar vidas e construir um futuro melhor para os animais!</p>
         <p>Se você deseja fazer parte dessa causa, entre em contato conosco e descubra como pode ajudar!</p>
-        </div>
+    </div>
     <div class=" home">
         <h1> Até que ponto vai o seu amor pelos pets?</h1>
-        <a href="./adocao"><h2> O nosso ponto é a ação!</h2></a>
+        <a href="./adocao">
+            <h2> O nosso ponto é a ação!</h2>
+        </a>
     </div>
     <div class="home">
         <h1> Oportunidade de contar como tudo começou ...! </h1>
@@ -32,85 +37,156 @@
     </div>
     <div class="home">
         <h1> E refletir sobre o futuro...! </h1>
-        <a href="./adocao"><img src="/static/css/imagem/ong2.jpg"></a>        
+        <a href="./adocao"><img src="/static/css/imagem/ong2.jpg"></a>
     </div>
-    <div class="home"> 
-        <% if (model.length > 0) { %>
-            <% for(const home of model) { %>
-                <h2><%= model.titulo %></h2>
-                <p><%= model.mensagem %></p>
-                <form action="/delete_home/<%=model.id%>" method="post">
-                 <input type="submit" value="X" class="btn btn-default" onclick="return confirm('Deseja realmente excluir?')">
-                </form>                
+    
+        
+    <% if (typeof model1 !=='undefined' && model1.length> 0) { %>                
+        <% for(const home of model1) { %>
+            <div class="home">
+                <form action="/delete_home/<%=home.id%>/<%=home.arquivo%>" method="post">
+                    <input type="submit" value="X" class="btn btn-default"
+                        onclick="return confirm('Deseja realmente excluir?')">
+                </form>
+            <p>
+                <%= home.data %>
+            </p>                         
+                <img id="frame" src="../static/uploads/home/<%=home.arquivo%>" width="20px" height="80px"
+                    alt="carregando..." />
+               
+            <% if (home?.data) { %>
+                <h2>
+                    <%= home.titulo %>
+                </h2>              
+                <p>
+                    <%= home.mensagem %>
+                </p>
                 
-            <% } %>
+                <% } %>               
+              </div>
+    <% } %>
         <% } else { %>
-            <p>Não há mensagens disponíveis </p>        
-        <% } %>
-      </div>
+            <p>Nenhum dado disponível</p>
+            <% } %>
+
+
     <h1> A ONG em Números.</h1>
     <div class="home">
-        <h1>Adoção</h1>
-        <% if (model.length > 0) { %>
-            <% for(const adocao of model) { %>
+        <h1> Adoções</h1>
+        <% if (typeof model2 !=='undefined' && model2.length> 0) { %>
+            <% for(const adocao of model2) { %>
                 <% for (const key in adocao) { %>
-                    <p>Adoções: <%= adocao[key] %> pets</p>
-                <% } %>
-            <% } %>
-            <% for(const adotante of model) { %>
-                <% for (const key in adotante) { %>
-                    <p>Adotantes: <%= adotante[key] %> </p>
-                <% } %>
-            <% } %>
-        <% } else { %>
-            <p>Adoções: Nenhum dado disponível</p>
-            <p>Adotantes: Nenhum dado disponível</p>
-        <% } %>
+                    <p>Adoções: <%=adocao[key]%> pet(s)
+                    </p>
+                    <% } %>
+                        <% } %>
+                            <% } else { %>
+                                <p>Adoções: Nenhum dado disponível</p>
+                                <% } %>
+ <% if (typeof model3 !=='undefined' && model3.length> 0) { %>
+                                    <% for(const adotante of model3) { %>
+                                        <% for (const key in adotante) { %>
+                                            <p>Adotantes: <%=adotante[key]%> pessoas.
+                                            </p>
+                                            <% } %>
+                                                <% } %>
+                                                    <% } else { %>
+                                                        <p>Adotantes: Nenhum dado disponível</p>
+                                                        <% } %>
+                                                        <% if (typeof model4 !=='undefined' && model4.length> 0) { %>
+                                                            <% for(const adotado of model4) { %>
+                                                                <% for (const key in adotado) { %>
+                                                                    <p>Adotados: <%=adotado[key]%> pet(s)
+                                                                    </p>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <% } else { %>
+                                                                                <p>Adotados: Nenhum dado disponível</p>
+                                                                                <% } %>
+
+                                   
         <a href="./adocao">
             <p style="text-align: right;"> Veja Mais &gt;</p>
         </a>
     </div>
 
     <div class="home">
-        <h1>Castração</h1> 
-        <% if (model.length > 0) { %>
-            <% for(const castracao of model) { %>
+        <h1>Castração</h1>
+        <% if (typeof model5 !=='undefined' && model5.length> 0) { %>
+            <% for(const castracao of model5) { %>
                 <% for (const key in castracao) { %>
-                    <p>Castrações: <%= castracao[key] %> pets</p>
-                <% } %>
-            <% } %>
-        <% } else { %>
-            <p>Castrações: Nenhum dado disponível</p>
-        <% } %>
-          <a href="./castracao">
-            <p  style="text-align: right;"> Veja Mais &gt;</p>
-        </a>
+                    <p>Castrações: <%=castracao[key]%> pet(s)
+                    </p>
+                    <% } %>
+                        <% } %>
+                            <% } else { %>
+                                <p>Castrações: Nenhum dado disponível</p>
+                                <% } %>
+                                <div class="chart-container"></div>
+                                    <a href="./castracao">
+                                        <p style="text-align: right;"> Veja Mais &gt;</p>
+                                    </a>
+
     </div>
 
     <div class="home">
         <h1>Procura-se</h1>
-        <a href="./procura_se">
-            <p  style="text-align: right;"> Veja Mais &gt;</p>
-        </a>
+        <% if (typeof model6 !=='undefined' && model6.length> 0) { %>
+            <% for(const procura_se of model6) { %>
+                <% for (const key in procura_se) { %>
+                    <p>Castrações: <%=procura_se[key]%> pet(s)
+                    </p>
+                    <% } %>
+                
+                <% } %>
+                    <% } else { %>
+                        <p>Procura-se: Nenhum dado disponível</p>
+                        <% } %>
+                            
+                            <a href="./procura_se">
+                                <p style="text-align: right;"> Veja Mais &gt;</p>
+                            </a>
     </div>
 
     <div class="home">
         <h1>Parcerias</h1>
-        <a href="./parceria">
-            <p style="text-align: right;"> Veja Mais &gt;</p>
-        </a>
+        <% if (typeof model7 !=='undefined' && model7.length> 0) { %>
+            <% for(const parceria of model7) { %>
+                <% for (const key in parceria) { %>
+                    <p>Parcerias: <%=parceria[key]%> empresa(s) 
+                    </p>
+                    <% } %>
+                <% } %> 
+                    <% } else { %>
+                        <p>Parcerias: Nenhum dado disponível</p>
+                        <% } %>
+                
+                            <a href="./parceria">
+                                <p style="text-align: right;"> Veja Mais &gt;</p>
+                            </a>
     </div>
 
     <div class="home">
         <h1>Doações</h1>
-    
-        <a href="./doacao">
-            <p style="text-align: right;"> Veja Mais &gt;</p>
-        </a>
+        <% if (typeof model8 !=='undefined' && model8.length> 0) { %>
+            <% for(const doacao of model8) { %>
+                <% for (const key in doacao) { %>
+                    <p>Doações: <%=doacao[key]%> pet(s)
+                    </p>
+                    <% } %>
+                <% } %>
+                
+                    <% } else { %>
+                        <p>Doações: Nenhum dado disponível</p>
+                        <% } %>
+
+                            <a href="./doacao">
+                                <p style="text-align: right;"> Veja Mais &gt;</p>
+                            </a>
     </div>
 
     <div class="home">
-             <a href="form_home">
+        <a href="form_home">
             <p style="text-align: right;"> Novo &gt;</p>
         </a>
     </div>

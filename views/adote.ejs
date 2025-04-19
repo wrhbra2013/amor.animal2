@@ -1,5 +1,5 @@
 <%- include("_header") -%>
-<div class="center">
+<div class="home">
     <h1> ADOÇÃO! </h1>
 </div>
 <!--Formulário-->
@@ -22,25 +22,11 @@
     <th></th>
     <th></th>
   </tr>
-    <!--   loop 1  <thead>-->
-      <!--  <% for(const adocao of model) { %>                   
-       <tr>
-          <th>imagem </th>            
-          <% for ( const model in  adocao) { %>        
-             <th><%=model %></th>        
-             <% } %>  
-             <th></th>    
-             <th></th>
-          
-       </tr>
-        loop único -->
-      <!--   <% break %>
-        <% } %>    --> 
-        
-    <!--  loop 2  <tbody>-->
+  <tr>
+    <% if (model.length > 0) { %>
       <% for(const adocao of model) { %>       
        <tr>
-        <td><%=adocao.origem%></td>
+        <td><%= adocao.origem %></td>
         <!--  imagem -->
           <td><img src="/static/uploads/adocao/<%=adocao.arquivo %>" /></td>
  <!--      Ler toda a linha sql. -->
@@ -63,11 +49,17 @@
               onclick="confirm('Apagar postagem?')" /></form>
            </div>
                </td>
-         <td> <a href="/quiz"><button>Adote</button></a></td>  
+         <td> <a href="/quiz"><button id="btncustom">Adote</button></a></td>  
          <td> <a class="btn btn-outline-dark cancel" href="./home">Cancelar</a> </td>         
           
             </tr>
         <% } %> 
+        <% } else { %>
+          <tr>
+            <td colspan="10">Nenhum dado disponível</td>
+          </tr>
+        <% } %>
+      </tr>
       
      </table>
    

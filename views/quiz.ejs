@@ -1,12 +1,14 @@
 <%- include("_header") -%>
-<div class="center">
+<div class="home">
     <h1> Perfil</h1>
 </div>
 <div class="artigo">
-    <button><a href="./form_adote">Não concordo!</a></button>  
+    <p>Olá, tudo bem? Você está prestes a se tornar um tutor de um Pet que precisa de um lar. Para isso, precisamos que você preencha o formulário abaixo com seus dados e aguade entrarmos e contato..</p>
   </div>
 <div class="artigo">
-  
+    <button><a href="./adocao">Não concordo!</a></button>  
+  </div>
+<div class="artigo">  
     <form action="" method="post">
         <label> Quantos pets você tem? </label>
     <select  id="q1" name="q1">
@@ -26,6 +28,8 @@
             <option value="1">sim</option>
             <option value="0">não</option>
         </select>
+        <input type="text" placeholder="Nome" id="tutor" name="tutor" required/>
+        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/>              
         <input type="submit" value="Confirmar" />
     </form>
 

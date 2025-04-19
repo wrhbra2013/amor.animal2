@@ -1,15 +1,17 @@
 <%- include("_header") -%>
-
+<div class="home">
+    <h1>Cadastro de Adoção</h1> 
+</div>
 <div class="artigo">
     <button><a href="./adocao">Cancelar</a></button>  
   </div>
 
     <div class="artigo">
-     <h1>Cadastro de pets para adoção.</h1>
+  
       <form action=" " enctype="multipart/form-data" method="post">
         <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
       <input type="file" name="arquivo" onchange="preview()">   
-          <input type="reset" value="Limpar" />
+      <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
   
           <input type="text" placeholder="Nome  Pet" id="nomePet" name="nomePet" required>
           <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet">

@@ -35,8 +35,7 @@ function create_adotante() {
     q3 integer,
     qTotal integer,
     idPet integer,   
-    FOREIGN KEY (idPet) REFERENCES adocao (id) 
-
+    FOREIGN KEY (idPet) REFERENCES adocao (id)
 );`
 const sql = db.run(adotante,   error => {
     if (error)   console.log(error)
@@ -154,6 +153,7 @@ function create_home(){
     const home = `CREATE TABLE IF NOT EXISTS home(
         id INTEGER PRIMARY KEY,
         data datetime default (date()),
+        arquivo blob, 
         titulo text,
         mensagem text
     );`

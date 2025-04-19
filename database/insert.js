@@ -33,9 +33,10 @@ function insert_adotante(nome, contato,q1, q2, q3){
    qTotal
    ) 
    VALUES (
-   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?,  (SELECT SUM(q1 + q2 + q3) FROM adotante)
+   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?
     );`
-   const values = [`${nome}`, `${contato}`, `${q1}`, `${q2}`, `${q3}`];
+   const qTotal = parseInt(q1) + parseInt(q2) + parseInt(q3);
+   const values = [`${nome}`, `${contato}`, `${q1}`, `${q2}`, `${q3}`, qTotal];
    const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)
       console.log("Dados de  interessados INSERIDO.")
@@ -147,14 +148,15 @@ function insert_doacao( nome, localidade, contato, recurso, valor){
  return sql;
 };
 
-function insert_home(titulo,mensagem)
+function insert_home(arquivo, titulo,mensagem)
 {
   const insert = `INSERT INTO home (
   data,
+  arquivo,
   titulo,
   mensagem
-   ) VALUES (strftime('%d/%m/%Y'), ?, ?);`
-  const values = [ `${titulo}`, `${mensagem}` ];
+   ) VALUES (strftime('%d/%m/%Y'), ?, ?, ?);`
+  const values = [ `${arquivo}` ,`${titulo}`, `${mensagem}` ];
 
   const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)

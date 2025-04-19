@@ -28,7 +28,9 @@ insert_procura_se,
 insert_doacao, 
 insert_home
 } = require('./database/insert.js');
-
+const {
+executeAllQueries
+} = require('./database/queries.js');
 
 
 //Pasta de imagens do Multer
@@ -42,6 +44,8 @@ function arq_filtro(parametro) {
     uploadPath = path.join(__dirname, './static/uploads/adocao/');
   } else if (parametro === 'procura_se') {
     uploadPath = path.join(__dirname, './static/uploads/procura_se/');
+  } else if (parametro === 'home') {
+    uploadPath = path.join(__dirname, './static/uploads/home/');
   } else {
     console.log('Parâmetro do Multer INCORRETO.');
     return null;
@@ -67,115 +71,57 @@ app.use('/static', express.static('static'));
 
 
 //Rotas GET
-app.get('/', async (_, res) => {
-  try {
-    const queries = [
-      `SELECT count(*) as adocao_count FROM adocao;`,
-      `SELECT count(*) as adotante_count FROM adotante;`,
-      `SELECT count(*) as castracao_count FROM castracao;`,
-      `SELECT count(*) as parceria_count FROM parceria;`,
-      `SELECT count(*) as doacao_count FROM doacao;`,
-      `SELECT * FROM home;`
-    ];
-
-    const executeQuery = (query) => {
-      return new Promise((resolve, reject) => {
-        db.all(query, [], (error, rows) => {
-          if (error) reject(error);
-          else resolve(rows);
-        });
-      });
-    };
-
-    const results = {};
-    const rows1 = await executeQuery(queries[0]);
-    results.adocao = rows1.length > 0 ? rows1[0].adocao_count : 0;
-
-    const rows2 = await executeQuery(queries[1]);
-    results.adotante = rows2.length > 0 ? rows2[0].adotante_count : 0;
-
-    const rows3 = await executeQuery(queries[2]);
-    results.castracao = rows3.length > 0 ? rows3[0].castracao_count : 0;
-
-    const rows4 = await executeQuery(queries[3]);
-    results.parceria = rows4.length > 0 ? rows4[0].parceria_count : 0;
-
-    const rows5 = await executeQuery(queries[4]);
-    results.doacao = rows5.length > 0 ? rows5[0].doacao_count : 0;
-
-    const rows6 = await executeQuery(queries[5]);
-    results.home = rows6;
-
-    res.render('home', { model: results });
-  } catch (error) {
+app.get('/', (_, res) => {
+  executeAllQueries()
+  .then((results) => {
+    const { home, adocao, adotante, adotado, castracao, procura_se, parceria, doacao } = results;
+    res.render('home', { model1: home, model2: adocao, model3: adotante, model4: adotado, model5: castracao, model6: procura_se, model7: parceria, model8: doacao });
+  })
+  .catch((error) => {
     res.render('error', { error: error });
-  }
+  });  
+  });
+  
+         
+       
+app.get('/home', (_, res) => {
+  executeAllQueries()
+  .then((results) => {
+    const { home, adocao, adotante, adotado, castracao, procura_se, parceria, doacao } = results;
+    res.render('home', { model1: home, model2: adocao, model3: adotante, model4: adotado, model5: castracao, model6: procura_se, model7: parceria, model8: doacao });
+  })
+  .catch((error) => {
+    res.render('error', { error: error });
+  });
 });
 
-//Rotas de navegação
-app.get('/home', async (_, res) => {
-  try {
-    const queries = [
-      `SELECT count(*) as adocao_count FROM adocao;`,
-      `SELECT count(*) as adotante_count FROM adotante;`,
-      `SELECT count(*) as castracao_count FROM castracao;`,
-      `SELECT count(*) as parceria_count FROM parceria;`,
-      `SELECT count(*) as doacao_count FROM doacao;`,
-      `SELECT * FROM home;`
-    ];
+ 
+app.get('/adote', (req, res) => {
+   //Busca adotados
+   const sql = `SELECT * FROM adocao;`
+   db.all(sql, [], (error, rows) => {
+     if (error) return res.render('error', { error: error })
+     res.render('adote', { model: rows })
+ });
+  });
 
-    const executeQuery = (query) => {
-      return new Promise((resolve, reject) => {
-        db.all(query, [], (error, rows) => {
-          if (error) reject(error);
-          else resolve(rows);
-        });
-      });
-    };
-
-    const results = {};
-    const rows1 = await executeQuery(queries[0]);
-    results.adocao = rows1.length > 0 ? rows1[0].adocao_count : 0;
-
-    const rows2 = await executeQuery(queries[1]);
-    results.adotante = rows2.length > 0 ? rows2[0].adotante_count : 0;
-
-    const rows3 = await executeQuery(queries[2]);
-    results.castracao = rows3.length > 0 ? rows3[0].castracao_count : 0;
-
-    const rows4 = await executeQuery(queries[3]);
-    results.parceria = rows4.length > 0 ? rows4[0].parceria_count : 0;
-
-    const rows5 = await executeQuery(queries[4]);
-    results.doacao = rows5.length > 0 ? rows5[0].doacao_count : 0;
-
-    const rows6 = await executeQuery(queries[5]);
-    results.home = rows6;
-
-    res.render('home', { model: results });
-  } catch (error) {
-    res.render('error', { error: error });
-  }
-});
  
 app.get('/adocao', (req, res) => {
+const sql_adocao = `SELECT id, arquivo FROM adocao;`   
+const sql_adotado = `SELECT * FROM adotado;`
 
-  //Busca adotados
-  const sql = `SELECT * FROM adotado;`
-  db.all(sql, [], (error, rows) => {
-    if (error) return res.render('error', { error: error })
-    res.render('adocao', { model: rows })
+db.all(sql_adocao, [], (error, rows1) => {
+  if (error) return res.render('error', { error: error });
+  db.all(sql_adotado, [], (error, rows2) => {
+    if (error) return res.render('error', { error: error });
+    res.render('adocao', { model1:rows1, model2:rows2 });
+  });
 });
 });
 
 app.get('/form_adote', (req, res) => {
-  const sql = `SELECT * FROM adotante;`
-  db.all(sql, [], (error, rows) => {
-    if (error) return res.render('error', { error: error })
-     res.render('form_adote', { model: rows})
-  });
-   res.render('home')
-  });
+ 
+   });
 
 app.get('/form_adocao', (req, res) => res.render('form_adocao'));
 
@@ -195,7 +141,13 @@ app.get('/form_castracao', (req, res) => res.render('form_castracao'));
 
 app.get('/doacao', (req, res) => res.render('doacao'));
 
-app.get('/quiz', (req, res) => res.render('quiz'));
+app.get('/quiz', (req, res) => {
+  const sql = `SELECT * FROM adotante;`
+  db.all(sql, [], (error, rows) => {
+    if (error) return res.render('error', { error: error })
+     res.render('quiz', { model: rows})
+  });
+});
 
 
 app.get('/form_doe', (req, res) => res.render('form_doe'));
@@ -293,21 +245,15 @@ app.post('/form_castracao', arq_filtro(key2).single('arquivo'), (req, res) => {
 
 app.post('/quiz', (req, res) => {
   const form3 ={
+    tutor: req.body.tutor,
+    contato: req.body.contato,
     quiz1: req.body.q1,
     quiz2: req.body.q2,
     quiz3: req.body.q3
+  
   };
-  insert_adotante(form3.quiz1, form3.quiz2, form3.quiz3);
-  res.redirect('/form_adote');
-});
-
-app.post('/form_adote', (req, res) => {
-  const form4= {
-    tutor: req.body.tutor,
-    contato: req.body.contato
-  }
-  insert_adotante(form4.tutor, form4.contato)
-  res.redirect('/adote')
+  insert_adotante(form3.tutor, form3.contato,form3.quiz1, form3.quiz2, form3.quiz3);
+  res.redirect('/adote');
 });
 
 let key3 = 'adotado';
@@ -391,14 +337,27 @@ app.post('/form_doe', (req, res) => {
   res.redirect('/parceria')
 });
 
-app.post('/form_home', (req, res) => {
+let key5 = 'home';
+app.post('/form_home', arq_filtro(key5).single('arquivo'),(req, res) => {
+
+  let dest = req.file.destination;
+  let temp = req.file.filename;
+  let final = req.file.originalname;
+ 
+  fs.rename(dest + temp, dest + final, error => {
+    if (error) return res.render('error', { error: error });
+    console.log('Arquivo ENVIADO.');
+  });
+  console.log(dest, temp, final)
   form10 ={
+    arquivo: final,
     titulo: req.body.titulo,
     mensagem: req.body.mensagem
   }
-  insert_home(form10.titulo, form10.mensagem)
+  insert_home(form10.arquivo, form10.titulo, form10.mensagem)
   res.redirect('/home')
   });
+
 //Rotas alternativas
 //Delete
 app.post('/delete/adocao/:id/:arq', (req, res) => {
@@ -407,6 +366,7 @@ app.post('/delete/adocao/:id/:arq', (req, res) => {
   const sql = `DELETE FROM adotado WHERE id =  ?`;
   db.run(sql, id, (error) => {
     if (error) res.render('error', { error: error })
+    console.log('DELETADO com sucesso!!!' )
     res.redirect('/adocao')
   });
    const  caminho = `./static/uploads/adocao/${arq}`;
@@ -422,6 +382,7 @@ app.post('/delete/castracao/:ticket/:arq', (req, res) => {
   const sql = `DELETE FROM castracao WHERE ticket =  ?;`;
   db.run(sql, id, (error) => {
     if (error) res.render('error', { error: error })
+    console.log('DELETADO com sucesso!!!' )
     res.redirect('/castracao');
   });
   console.log(id, 'deletado')
@@ -437,6 +398,7 @@ app.post('/delete/adotado/:id/:arq', (req, res) => {
   const sql = `DELETE FROM adocao WHERE id =  ?`;
   db.run(sql, id, (error) => {
     if (error) res.render('error', { error: error })
+    console.log('DELETADO com sucesso!!!' )
     res.redirect('/adocao')
   });
    const  caminho = `./static/uploads/${arq}`;
@@ -444,12 +406,61 @@ app.post('/delete/adotado/:id/:arq', (req, res) => {
     console.log(error)
   }) 
 });
-app.post('/delete/home/:id', (req, res) =>{
+app.post('/delete/procura_se/:id/:arq', (req, res) => {
   const id = req.params.id;
-  const sql = `DELETE FROM  home WHERE id = ?;`
+  const arq = req.params.arq;
+  const sql = `DELETE FROM procura_se WHERE id =  ?`;
   db.run(sql, id, (error) => {
     if (error) res.render('error', { error: error })
+    console.log('DELETADO com sucesso!!!' )
+     res.redirect('/procura_se')
+    
+  });
+   const  caminho = `./static/uploads/procura_se/${arq}`;
+  fs.unlinkSync(caminho, error => {
+    console.log(error)
+  }) 
+});
+app.post('/delete/parceria/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `DELETE FROM parceria WHERE id = ?;`
+  db.run(sql, id, (error) => {
+    if (error) res.render('error', { error: error })
+     console.log('DELETADO com sucesso!!!' )
+      res.redirect('/parceria')
+})
+});
+app.post('/delete/doacao/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `DELETE FROM doacao WHERE id = ?;`
+  db.run(sql, id, (error) => {
+    if (error) res.render('error', { error: error })
+    console.log('DELETADO com sucesso!!!' )
+    res.redirect('/doacao')
+})
+});
+app.post('/delete/adotante/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `DELETE FROM adotante WHERE id = ?;`
+  db.run(sql, id, (error) => {
+    if (error) res.render('error', { error: error })
+    console.log('DELETADO com sucesso!!!' )
+    res.redirect('/adote')
+})
+});
+
+app.post('/delete_home/:id/:arq', (req, res) =>{
+const id = req.params.id;
+const arq = req.params.arq;
+const sql = `DELETE FROM  home WHERE id = ?;`
+db.run(sql, id, (error) => {
+  if (error) res.render('error', { error: error })
+    console.log('DELETADO com sucesso!!!' )
     res.redirect('/home')
+});
+const caminho = `./static/uploads/home/${arq}`;
+fs.unlinkSync(caminho, error => {
+  console.log(error)
 })
 });
 

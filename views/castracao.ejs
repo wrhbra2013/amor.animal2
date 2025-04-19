@@ -1,12 +1,21 @@
 <%- include("_header")-%>
     <!--  elemento central -->
-    <div class=center>
+    <div class="home">
         <h1>CASTRAÇÃO! </h1>
     </div>
-    <div class="artigo">
-        <button><a href="./form_castracao">Adicionar</a></button>
-    </div>
+    <fieldset class="artigo">
+        <legend>IMPORTANTE</legend>
+            <p> O Serviço de Castração é realizado dentro de um limite de cotas mensais, a um valor de baixo custo que gira em torno de R$120,00 por atendimento e dentro do dia e horario disponivel nas clinicas convêniadas.    </p>
+    </fieldset>
+    
+   
+<div class="home">
+    
+<div class="artigo">
+    <button><a href="./form_castracao">Adicionar</a></button>
+</div>
 
+    </div class="artigo">    
     <!-- you can iterate over the array like you said, then iterate over each object of the array twice. First to print the headers, then to print the data
     
     The for...of statement creates a loop iterating over iterable objects, including: built-in String, Array, array-like objects (e.g., arguments or NodeList), TypedArray, Map, Set, and user-defined iterables. It invokes a custom iteration hook with statements to be executed for the value of each distinct property of the object.
@@ -30,10 +39,10 @@
 
          </tr>
          <tr>
-            <td><%=castracao.ticket%></td>
+            <td style="color: crimson; font-weight: bold;"><%=castracao.ticket%></td>
             <td><%=castracao.nome%></td>
             <td><%=castracao.contato%></td>
-            <td><img src="../static/uploads/<%= castracao.arquivo %>" /></td>
+            <td><img src="../static/uploads/castracao/<%= castracao.arquivo %>" /></td>
             <td><%=castracao.idade%></td>
             <td><%=castracao.especie%></td>
             <td><%=castracao.porte%></td>

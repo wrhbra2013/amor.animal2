@@ -1,5 +1,5 @@
 <%- include("_header") -%>
-<div class="center">
+<div class="home">
     <h1>Interessados em Castração</h1>
 </div>
 <div class="artigo">
@@ -8,9 +8,12 @@
 <div class="artigo">
        <form action="" enctype="multipart/form-data" method="post">
         <input type="text" name="nome" placeholder="Nome " required/>
-        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/> 
+        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required /> 
+        <br>
         <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
+        <br>
         <input type="file" name="arquivo" onchange="preview()">   
+        <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
         <input type="number" name="idade_pet" placeholder=" Idade Pet" />
         <select name="especie">
             <option value="">Espécie</option>
