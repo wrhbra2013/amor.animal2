@@ -1,7 +1,19 @@
 <%- include("_header") -%>
 <div class="home">
     <h1>Interessados em Castração</h1>
+    
 </div>
+<br>
+        <fieldset>
+            <legend>IMPORTANTE</legend>
+            <p>Levar a partir das 08h30  da manhã e buscar a tarde ou no horario combinado na clinica!</p>
+            <p> Fazer jejum com a ração a partir das 23h do dia anterior.</p>
+            <p>Tomar agua a vontade.</p>
+            <p>Gatos levar na caixa de transporte e cães na coleira.</p>
+            <p>Pagamento direto na clinica, a vista no PIX, e débito ou dinheiro.</p>
+          
+        </fieldset>
+        <br>        
 <div class="artigo">
     <button><a href="./castracao">Cancelar</a></button>  
 </div>
@@ -9,6 +21,11 @@
        <form action="" enctype="multipart/form-data" method="post">
         <input type="text" name="nome" placeholder="Nome " required/>
         <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required /> 
+        <select name="whatsapp" id="whatsapp">
+            <option value=" ">Whatsapp</option>
+            <option value="sim">Aceito</option>
+            <option value="nao">Não</option>
+        </select>
         <br>
         <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
         <br>
@@ -17,8 +34,9 @@
         <input type="number" name="idade_pet" placeholder=" Idade Pet" />
         <select name="especie">
             <option value="">Espécie</option>
-            <option value="felino">Felino</option>
-            <option value="canino">Canino</option>
+            <option value="gato">Gato - R$110,00 com medicação</option>            
+            <option value="gata">Gata - R$120,00 com medicação</option>
+            <option value="cachorro">Cachorro - R$200,00 com medicação</option>
         </select>
         <select name="porte">
             <option value="">Porte</option>
@@ -26,7 +44,20 @@
             <option value="medio">Medio</option>
             <option value="grande">Grande</option>
         </select>
-        <textarea name="obs" rows="4" cols="20" placeholder="Observações Pet"></textarea>
+          <select name="clinica">
+            <option value="">Clínica</option>
+            <option value="Pet Shop É O Bicho - Av. Republica, 644">Pet Shop É O Bicho - Av. Republica, 644</option>
+            <option value="Pet 15 - Av. Santo Antônio, 1513">Pet 15 - Av. Santo Antônio, 1513</option>            
+        </select>        
+        <select name="agenda">
+            <option value="">agenda</option>
+            <option value="segunda-feira">Segunda</option>
+            <option value="terça-feira">Terça</option>
+            <option value="quarta-feira">Quarta</option>
+            <option value="quinta-feira">Quinta</option>
+            <option value="sexta-feira">Sexta</option>
+        </select>
+        
         <input type="submit" value="Cadastrar" class="btn btn-default"
             onclick="confirm('Os dados estão atualizados?')"/>
     </form>

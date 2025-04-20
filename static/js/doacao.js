@@ -1,13 +1,31 @@
 // This function is called when the user selects an option from the dropdown menu   
+document.addEventListener('DOMContentLoaded', () => {
+  const pixInfo = document.getElementById('pix-info');
+  const volunteerInfo = document.getElementById('volunteer-info');
+  const foodDonationInfo = document.getElementById('food-donation-info');
+
+  if (pixInfo) pixInfo.style.display = "none";
+  if (volunteerInfo) volunteerInfo.style.display = "none";
+  if (foodDonationInfo) foodDonationInfo.style.display = "none";
+});
+
 function handleOptionChange(selectElement) {
-  const selectedValue = selectElement.value;
+    // Ensure the first option is not displayed
+    const selectedValue = selectElement.options[selectElement.selectedIndex].value;
+  
  
    const pixInfo = document.getElementById('pix-info');
    const volunteerInfo = document.getElementById('volunteer-info');
    const foodDonationInfo = document.getElementById('food-donation-info');
-
+  
    if (pixInfo && volunteerInfo && foodDonationInfo) {
-     if (selectedValue === "1") {
+     // Hide all sections if no valid option is selected
+     if (selectedValue === "0") {
+       pixInfo.style.display = "none";
+       volunteerInfo.style.display = "none";
+       foodDonationInfo.style.display = "none";
+       
+     } else  if (selectedValue === "1") {
        pixInfo.style.display = "block";
        volunteerInfo.style.display = "none";
        foodDonationInfo.style.display = "none";
@@ -20,14 +38,16 @@ function handleOptionChange(selectElement) {
        volunteerInfo.style.display = "none";
        foodDonationInfo.style.display = "block";
      } else {
-       pixInfo.style.display = "none";
-       volunteerInfo.style.display = "none";
-       foodDonationInfo.style.display = "none";
+       console.log("Invalid selection");
      }
-   } else {
-     if (!pixInfo) console.error("Element with ID 'pix-info' not found.");
-     if (!volunteerInfo) console.error("Element with ID 'volunteer-info' not found.");
-     if (!foodDonationInfo) console.error("Element with ID 'food-donation-info' not found.");
+     
    }
+    // Hide all 
+    // sections if no valid option is selected
+    if (selectedValue === "") {
+      pixInfo.style.display = "none";
+      volunteerInfo.style.display = "none";
+      foodDonationInfo.style.display = "none";
+    }     
 
 }

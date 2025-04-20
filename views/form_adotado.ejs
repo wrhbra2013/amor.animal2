@@ -1,13 +1,19 @@
 <%- include("_header")-%>
-<div class="center">
+<div class="home">
   <h1>Histórias de adoção..</h1>
 </div>
 <div class="artigo">
   <button><a href="./adocao">Cancelar</a></button>  
 </div>
+<div class="artigo">
+  
+  <p>Você pode contar a história do seu pet adotado, e ajudar outras pessoas a também adotarem um animalzinho.  
+  As histórias serão publicadas na página de adoção.</p>
+</div>
 <div class="artigo">  
     <form action=" " enctype="multipart/form-data" method="post">
       <img id="frame" src="" width="300px" height="200px" alt="carregando..."/>
+      <br>
       <input type="file" name="arquivo" onchange="preview()" />   
       <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
         <input type="text" placeholder="Nome  Pet" name="nome_pet" required>

@@ -69,13 +69,15 @@ function create_castracao () {
     id integer PRIMARY KEY,
     nome text,
     contato  text,
+    whatsapp text,
     ticket integer default (random()) ,
     origem datetime default (date()),
     arquivo blob,
     idade integer,
     especie text, 
     porte text,
-    observacoes text
+    clinica text,
+    data text
    );`
   const sql = db.run(castracao,   error => {
                 if (error)   console.log(error)
@@ -130,24 +132,6 @@ function create_parceria(){
 };
 create_parceria();
 
-//Doação
-function create_doacao(){
-    const doacao = `CREATE TABLE IF NOT EXISTS doacao (
-    id INTEGER PRIMARY KEY,
-     data datetime default (date()),
-     nome text, 
-     localidade text,
-     contato text,
-     recurso text,
-     valor real    
-    );`
-    const sql = db.run(doacao,   error => {
-        if (error)   console.log(error)
-            console.log('Tabela: Doação ATIVA.');
-    });
-    return sql;
-};
-create_doacao();
 
 function create_home(){
     const home = `CREATE TABLE IF NOT EXISTS home(
@@ -173,6 +157,5 @@ module.exports ={
     create_castracao: create_castracao,
     create_procura_se: create_procura_se,
     create_parceria: create_parceria,
-    create_doacao: create_doacao,
-    create_home: create_home
+     create_home: create_home
     }

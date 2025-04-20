@@ -12,33 +12,29 @@
     <input type="text" name="localidade" placeholder="Localidade" />
    <textarea name="proposta" rows="4" cols="20" placeholder="Proposta"></textarea>
     <input type="text" name="representante" placeholder="Representante" required/>
-   
       <input   class="show" type ="tel"  name="telefone" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/>
       <select name="whatsapp" id="whatsapp">
         <option value=" ">Whatsapp</option>
         <option value="sim">Aceito</option>
-        <option value="nao">Não</option>
-    </select>
-    <script>
-      document.getElementById('whatsapp').addEventListener('change', function() {
-        if (this.value === 'sim') {
-          const phoneInput = document.getElementById('phone').value;
-          const message = encodeURIComponent("Olá, gostaria de conversar sobre a parceria.");
-          if (phoneInput) {
-            const whatsappUrl = `https://wa.me/${phoneInput.replace(/\D/g, '')}?text=${message}`;
-            window.open(whatsappUrl, '_blank');
-          } else {
-            alert('Por favor, preencha o número de telefone antes de selecionar esta opção.');
-          }
-        }
-      });
-    </script>
-    <input type="email" name="email"  placeholder="Email"/>
+        <option value="nao">Não</option>  
+    <input type="email" name="email"  placeholder="Email"/> 
+        
+
         <input type="submit" value="Cadastrar" class="btn btn-default"
+       
             onclick="confirm('Os dados estão atualizados?')">
     </form>
 </div>
+<h2>Testes</h2>
 <a href="https://api.whatsapp.com/send?phone=5514981305888&text=Hello20%World">Send Message</a>
+<div>
+  <h3>whatsapp send app </h3>
+  <h6>add number without space like 17272912606 not <strike>+1 (727) 2912606 </strike></h6>
+  <input id="number" type="numric" placeholder="phone 966506666666">
+  <input id="name" type="text" placeholder="name">
+  <input id="msg" type="text" placeholder="type msg">
+  <button onclick="send_handle()">send</button>
+</div>
   
   
 <%- include("_footer")-%>

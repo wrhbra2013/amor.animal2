@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require("path");
-const body = require('body-parser');
+const bodyParser = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
 const notifier = require('node-notifier');
@@ -15,8 +15,7 @@ const {
  create_castracao,
  create_procura_se,
  create_parceria,
- create_doacao,
- create_home
+  create_home
 } = require('./database/create.js');
 const { 
 insert_adocao, 
@@ -25,7 +24,6 @@ insert_adotado,
 insert_castracao,
 insert_parceria,
 insert_procura_se,
-insert_doacao, 
 insert_home
 } = require('./database/insert.js');
 const {
@@ -63,7 +61,8 @@ const port = 3001;
 
 //EJS configs
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.set("/views", path.join(__dirname, "views"));
 app.set("/database", path.join(__dirname, "database"));
 app.use('/static', express.static('static'));
@@ -71,45 +70,35 @@ app.use('/static', express.static('static'));
 
 
 //Rotas GET
+  // Primeira pàgina
 app.get('/', (_, res) => {
   executeAllQueries()
   .then((results) => {
     const { home, adocao, adotante, adotado, castracao, procura_se, parceria, doacao } = results;
-    res.render('home', { model1: home, model2: adocao, model3: adotante, model4: adotado, model5: castracao, model6: procura_se, model7: parceria, model8: doacao });
+    res.render('home', { model1: home, model2: adocao, model3: adotante, model4: adotado, model5: castracao, model6: procura_se, model7: parceria });
   })
   .catch((error) => {
     res.render('error', { error: error });
   });  
-  });
-  
-         
+  });        
        
 app.get('/home', (_, res) => {
   executeAllQueries()
   .then((results) => {
     const { home, adocao, adotante, adotado, castracao, procura_se, parceria, doacao } = results;
-    res.render('home', { model1: home, model2: adocao, model3: adotante, model4: adotado, model5: castracao, model6: procura_se, model7: parceria, model8: doacao });
+    res.render('home', { model1: home, model2: adocao, model3: adotante, model4: adotado, model5: castracao, model6: procura_se, model7: parceria });
   })
   .catch((error) => {
     res.render('error', { error: error });
   });
 });
 
- 
-app.get('/adote', (req, res) => {
-   //Busca adotados
-   const sql = `SELECT * FROM adocao;`
-   db.all(sql, [], (error, rows) => {
-     if (error) return res.render('error', { error: error })
-     res.render('adote', { model: rows })
- });
-  });
+app.get('/form_home', (req, res) => res.render('form_home'));
 
- 
+// Adoção 
 app.get('/adocao', (req, res) => {
 const sql_adocao = `SELECT id, arquivo FROM adocao;`   
 const sql_adotado = `SELECT * FROM adotado;`
-
 db.all(sql_adocao, [], (error, rows1) => {
   if (error) return res.render('error', { error: error });
   db.all(sql_adotado, [], (error, rows2) => {
@@ -119,16 +108,35 @@ db.all(sql_adocao, [], (error, rows1) => {
 });
 });
 
+app.get('/adote', (req, res) => {  
+  const sql = `SELECT * FROM adocao;`
+  db.all(sql, [], (error, rows) => {
+    if (error) return res.render('error', { error: error })
+    res.render('adote', { model: rows })
+});
+ });
+
 app.get('/form_adote', (req, res) => {
- 
+  const sql = `SELECT * FROM adotante;`
+  db.all(sql, [], (error, rows) => {
+    if (error) return res.render('error', { error: error })
+    res.render('form_adote', { model: rows })
    });
+});
+
+app.get('/quiz', (req, res) => {
+  const sql = `SELECT * FROM adotante;`
+  db.all(sql, [], (error, rows) => {
+    if (error) return res.render('error', { error: error })
+     res.render('quiz', { model: rows})
+  });
+});
 
 app.get('/form_adocao', (req, res) => res.render('form_adocao'));
 
 app.get('/form_adotado', (req, res) => res.render('form_adotado'));
 
-app.get('/form_home', (req, res) => res.render('form_home'));
-
+// Castração
 app.get('/castracao', (req, res) => {
   const sql = `SELECT * FROM castracao;`
   db.all(sql, [], (error, rows) => {
@@ -139,19 +147,12 @@ app.get('/castracao', (req, res) => {
 
 app.get('/form_castracao', (req, res) => res.render('form_castracao'));
 
+// Doação
 app.get('/doacao', (req, res) => res.render('doacao'));
-
-app.get('/quiz', (req, res) => {
-  const sql = `SELECT * FROM adotante;`
-  db.all(sql, [], (error, rows) => {
-    if (error) return res.render('error', { error: error })
-     res.render('quiz', { model: rows})
-  });
-});
-
 
 app.get('/form_doe', (req, res) => res.render('form_doe'));
 
+// Parceria
 app.get('/parceria', (req, res) => {
   const sql = `SELECT * FROM parceria;`
   db.all(sql, [ ], (error, rows) => {
@@ -162,6 +163,7 @@ app.get('/parceria', (req, res) => {
 
 app.get('/form_parceria', (req, res) => res.render('form_parceria'));
 
+// Procura-se
 app.get('/procura_se', (req, res) => {
   const sql = `SELECT * FROM procura_se;`
   db.all(sql, [], (error, rows) => {
@@ -170,19 +172,16 @@ app.get('/procura_se', (req, res) => {
   }); 
 });
 
-
-
 app.get('/form_procura_se', (req, res) => res.render('form_procura_se'));
 
-app.get('/sobre', (req, res) => {
-  
-  res.render('sobre');
-});
+// Sobre
+app.get('/sobre', (req, res) => { res.render('sobre');});
 
+
+// Erro
 app.get('/error/<error>', (req, res) => { res.render('error') });
 
 //Rotas POST
-//Upload de imagens Nodejs - SQLite3
 let key1 = 'adocao';
 app.post('/form_adocao', arq_filtro(key1).single('arquivo'), (req, res) => {
   if (!req.file) {
@@ -217,51 +216,11 @@ app.post('/form_adocao', arq_filtro(key1).single('arquivo'), (req, res) => {
    res.redirect('adote')
 });
 
-let key2 = 'castracao';
-app.post('/form_castracao', arq_filtro(key2).single('arquivo'), (req, res) => {
-  console.log(req.file)
-  let dest = req.file.destination;
-  let temp = req.file.filename
-  let final = req.file.originalname;
-
-  fs.rename(dest + temp, dest + final, error => {
-    if (error) return res.render('error', { error: error })
-    console.log('Arquivo ENVIADO.')
-  });
-  let form2 = {
-    nome: req.body.nome,
-    contato: req.body.contato,
-    arquivo: final,
-    idade: req.body.idade_pet,
-    especie: req.body.especie,
-    porte: req.body.porte,
-    observacoes: req.body.obs
-     }
-  console.log(form2);
-  insert_castracao(form2.nome, form2.contato, form2.arquivo, form2.idade, form2.especie, form2.porte, form2.observacoes);
-  
-  res.redirect('/castracao')
-});
-
-app.post('/quiz', (req, res) => {
-  const form3 ={
-    tutor: req.body.tutor,
-    contato: req.body.contato,
-    quiz1: req.body.q1,
-    quiz2: req.body.q2,
-    quiz3: req.body.q3
-  
-  };
-  insert_adotante(form3.tutor, form3.contato,form3.quiz1, form3.quiz2, form3.quiz3);
-  res.redirect('/adote');
-});
-
 let key3 = 'adotado';
 app.post('/form_adotado',  arq_filtro(key3).single('arquivo'), (req, res) => {
   if (!req.file) {
     return res.render('error', { error: 'Nenhum arquivo foi enviado.' });
   }
-
   let dest = req.file.destination;
   let temp = req.file.filename;
   let final = req.file.originalname;
@@ -280,6 +239,46 @@ app.post('/form_adotado',  arq_filtro(key3).single('arquivo'), (req, res) => {
   console.log(form5);
   insert_adotado(form5.foto, form5.pet, form5.tutor, form5.historia);
   res.redirect('/adocao');
+});
+
+app.post('/quiz', (req, res) => {
+  const form3 ={
+    tutor: req.body.tutor,
+    contato: req.body.contato,
+    quiz1: req.body.q1,
+    quiz2: req.body.q2,
+    quiz3: req.body.q3  
+  };
+  insert_adotante(form3.tutor, form3.contato,form3.quiz1, form3.quiz2, form3.quiz3);
+  res.redirect('/adote');
+});
+
+let key2 = 'castracao';
+app.post('/form_castracao', arq_filtro(key2).single('arquivo'), (req, res) => {
+  console.log(req.file)
+  let dest = req.file.destination;
+  let temp = req.file.filename
+  let final = req.file.originalname;
+
+  fs.rename(dest + temp, dest + final, error => {
+    if (error) return res.render('error', { error: error })
+    console.log('Arquivo ENVIADO.')
+  });
+  let form2 = {
+    nome: req.body.nome,
+    contato: req.body.contato,
+    whats: req.body.whatsapp,
+    arquivo: final,
+    idade: req.body.idade_pet,
+    especie: req.body.especie,
+    porte: req.body.porte,
+    clinica: req.body.clinica,
+    agenda: req.body.agenda
+     }
+  console.log(form2);
+  insert_castracao(form2.nome, form2.contato, form2.arquivo, form2.idade, form2.especie, form2.porte, form2.clinica, form2.agenda);
+  
+  res.redirect('/castracao')
 });
 
 let key4 = 'procura_se';
@@ -312,17 +311,6 @@ app.post('/form_procura_se',arq_filtro(key4).single('arquivo'),(req, res) => {
   res.redirect('/procura_se');
 });
 
-app.post('/form_doe', (req, res) => {
-  const form8 = {
-    nome: req.body.nome, 
-    localidade: req.body.localidade,
-    contato: req.body.contato, 
-    recurso: req.body.recurso
-  };
-  console.log(form8);  
-  insert_doacao(form8.nome, form8.localidade, form8.contato, form8.recurso)
-  res.redirect('/doacao')});
-
   app.post('/form_parceria', (req, res) => {
     form9 = {
       empresa: req.body.empresa,
@@ -333,7 +321,7 @@ app.post('/form_doe', (req, res) => {
       whatsapp: req.body.whatsapp,
       email: req.body.email
     };
-    insert_parceria(form9.empresa, form9.localidade, form9.proposta, form9.representante, form9.telefone, form9.telefone, form9.whatsapp, form9.email)
+    insert_parceria(form9.empresa, form9.localidade, form9.proposta, form9.representante, form9.telefone,  form9.whatsapp, form9.email)
   res.redirect('/parceria')
 });
 
@@ -430,15 +418,7 @@ app.post('/delete/parceria/:id', (req, res) => {
       res.redirect('/parceria')
 })
 });
-app.post('/delete/doacao/:id', (req, res) => {
-  const id = req.params.id;
-  const sql = `DELETE FROM doacao WHERE id = ?;`
-  db.run(sql, id, (error) => {
-    if (error) res.render('error', { error: error })
-    console.log('DELETADO com sucesso!!!' )
-    res.redirect('/doacao')
-})
-});
+
 app.post('/delete/adotante/:id', (req, res) => {
   const id = req.params.id;
   const sql = `DELETE FROM adotante WHERE id = ?;`

@@ -65,21 +65,23 @@ return sql;
 
 
 
-function insert_castracao(nome, contato, arquivo, idade, especie, porte, observacoes){
+function insert_castracao(nome, contato, whatsapp,arquivo, idade, especie, porte, clinica, data){
   const insert = `INSERT INTO castracao(
   nome,
   contato,
+  whatsapp,
   ticket,
-   origem,
+  origem,
   arquivo,
   idade,
   especie,
   porte,
-  observacoes
+  clinica,
+  data  
   )
-   VALUES (  ?, ?, ABS(RANDOM()) % 10000, strftime('%d/%m/%Y'), ?, ?, ?, ?, ?
+   VALUES (  ?, ?, ?, ABS(RANDOM()) % 10000, strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?
   );`
-  const values = [ `${nome}`,`${contato}`,`${arquivo}`, `${idade}`, `${especie}`,`${porte}`,`${observacoes}`];
+  const values = [ `${nome}`,`${contato}`, `${whatsapp}`,`${arquivo}`, `${idade}`, `${especie}`,`${porte}`,`${clinica}`, `${data}`];
 
   const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)
@@ -132,21 +134,6 @@ function insert_parceria(empresa, localidade, proposta, representante, telefone,
  return sql;
 };
 
-function insert_doacao( nome, localidade, contato, recurso, valor){
-  const insert = ` INSERT INTO doacao (
-  nome, 
-  localidade,
-  contato,
-  recurso,
-  valor
-  );`
-  const values = [`${nome}`, `${localidade}`, `${contato}`, `${recurso}`, `${valor}`]
-  const sql = db.run( insert,  values,  error => {
-    if (error)  return console.log(error)
-      console.log("Dados de parceria INSERIDO.")
-    });
- return sql;
-};
 
 function insert_home(arquivo, titulo,mensagem)
 {
@@ -171,7 +158,6 @@ module.exports = {
   insert_castracao: insert_castracao,
   insert_parceria: insert_parceria,
   insert_procura_se: insert_procura_se,
-  insert_doacao: insert_doacao,
   insert_home: insert_home
 }
  

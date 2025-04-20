@@ -13,7 +13,6 @@ function executeQuery(query) {
 }
 /* tag home */
 /* 1 */const sqlHome = `SELECT * FROM home;`  
-
 /* tag adoção*/
 /* 2 */const query_adocao= `SELECT COUNT(*) FROM adocao;` 
 /* 3 */const query_adotante = `SELECT COUNT(*) FROM adotante;`
@@ -23,9 +22,7 @@ function executeQuery(query) {
 /* tag procura_se */
 /* 6 */const query_procura_se = `SELECT COUNT(*) FROM procura_se;`
 /* tag parceria */
-/* 7 */const query_parceria = `SELECT COUNT(*) FROM parceria;`
-/* tag doacoes */
-/* 8 */const query_doacao = `SELECT COUNT(*) FROM doacao;`
+/* 7 */const query_parceria = `SELECT * FROM parceria;`
 
 async function executeAllQueries() {
     const queries = [
@@ -36,7 +33,7 @@ async function executeAllQueries() {
         { name: 'castracao', query: query_castracao },
         { name: 'procura_se', query: query_procura_se },
         { name: 'parceria', query: query_parceria },
-        { name: 'doacao', query: query_doacao }
+        
     ];
 
     const results = {};
@@ -59,10 +56,7 @@ executeAllQueries()
     .catch(error => {
         console.error('Error executing queries:', error);
     }); 
-            
-              
-
-
+    
     module.exports = {
        executeAllQueries             
     };

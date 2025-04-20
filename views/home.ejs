@@ -10,8 +10,7 @@
             responsável e a conscientização sobre a importância do respeito aos direitos dos animais.</p>
         <p>Estamos comprometidos em fazer a diferença na vida dos animais e na sociedade, trabalhando em parceria com a
             comunidade para promover um mundo mais justo e solidário.</p>
-        <p>Se você deseja fazer parte dessa causa, entre em contato conosco e descubra como pode ajudar!</p>
-        <p>Você pode fazer a diferença na vida de um animal abandonado. Adote, doe ou faça parte da nossa equipe de
+            <p>Você pode fazer a diferença na vida de um animal abandonado. Adote, doe ou faça parte da nossa equipe de
             voluntários!</p>
         <p>Juntos, podemos transformar vidas e construir um futuro melhor para os animais!</p>
         <p>Se você deseja fazer parte dessa causa, entre em contato conosco e descubra como pode ajudar!</p>
@@ -25,12 +24,13 @@
     <div class="home">
         <h1> Oportunidade de contar como tudo começou ...! </h1>
         <p>A ONG Amor Animal, que agrega trabalho de voluntários para abrigo e proteção de animais de rua em Marília,
-            lançou campanha de arrecadação de recursos e doações de ração para manter atendimento a cerca de 250 gatos.
-
+            lançou campanha de arrecadação de recursos e doações de ração para manter atendimento a cerca de 250 gatos.</p>
+        <p>
             A ONG é dirigida pela cuidadora Jaqueline Vasconcelos, ativista da causa animal que começou o trabalho com
             grande abrigo em sua casa, próxima ao centro da cidade, mas precisou ampliar o atendimento em função do
             número de animais resgatados.
-
+        </p>
+        <p>
             A instituição recebeu recentemente o título de instituição sem fins lucrativos, o que permite suporte fiscal
             e participação em mais ações de arrecadação de recursos.
         </p>
@@ -51,8 +51,8 @@
             <p>
                 <%= home.data %>
             </p>                         
-                <img id="frame" src="../static/uploads/home/<%=home.arquivo%>" width="20px" height="80px"
-                    alt="carregando..." />
+                <img id="frame" src="../static/uploads/home/<%=home.arquivo%>"   width="20px"  alt="carregando..." />
+                  
                
             <% if (home?.data) { %>
                 <h2>
@@ -149,43 +149,33 @@
     </div>
 
     <div class="home">
-        <h1>Parcerias</h1>
-        <% if (typeof model7 !=='undefined' && model7.length> 0) { %>
-            <% for(const parceria of model7) { %>
-                <% for (const key in parceria) { %>
-                    <p>Parcerias: <%=parceria[key]%> empresa(s) 
-                    </p>
-                    <% } %>
-                <% } %> 
+          <h1>Parcerias</h1>
+          <p>Estas são as empresas que nos apoiam:</p>
+          <div class="container">   
+            <div class="photobanner">     
+            <% if (typeof model7 !=='undefined' && model7.length> 0) { %>
+            <% for(const parceria of model7) { %>              
+                    
+                        <h2><%=parceria.proposta %></h2>
+                         <h1  style="color: red; font-size: 50px; display:inline; padding-left: 30px;" ><%=parceria.empresa %></h1>                    
+                    
+                            
+                  
+                    <% } %> 
+             
                     <% } else { %>
                         <p>Parcerias: Nenhum dado disponível</p>
                         <% } %>
-                
-                            <a href="./parceria">
-                                <p style="text-align: right;"> Veja Mais &gt;</p>
-                            </a>
+                    </div>
+                    <a href="./parceria">
+                        <p style="text-align: right;"> Veja Mais &gt;</p>
+                    </a>
+                </div>          
+                           
+          
     </div>
 
-    <div class="home">
-        <h1>Doações</h1>
-        <% if (typeof model8 !=='undefined' && model8.length> 0) { %>
-            <% for(const doacao of model8) { %>
-                <% for (const key in doacao) { %>
-                    <p>Doações: <%=doacao[key]%> pet(s)
-                    </p>
-                    <% } %>
-                <% } %>
-                
-                    <% } else { %>
-                        <p>Doações: Nenhum dado disponível</p>
-                        <% } %>
-
-                            <a href="./doacao">
-                                <p style="text-align: right;"> Veja Mais &gt;</p>
-                            </a>
-    </div>
-
-    <div class="home">
+  <div class="home">
         <a href="form_home">
             <p style="text-align: right;"> Novo &gt;</p>
         </a>
