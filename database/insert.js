@@ -1,7 +1,7 @@
 ﻿const { db } = require('./database');
 
 
-function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tutor, contato) {
+function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tutor, contato, whatsapp) {
   const insert = `INSERT INTO adocao (
   arquivo,
   nome,
@@ -11,10 +11,10 @@ function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tu
   caracteristicas,
   tutor,
   contato,
+  whatsapp,
   origem
-) VALUES  (?,?,?,?,?,?,?,?, strftime('%d/%m/%Y'));`
-const values =  [ `${arquivo}`,` ${nome}`, `${idade}`,`${especie}`,` ${porte}`, `${caracteristicas}`, `${tutor}`, `${contato}`]
-
+) VALUES  (?,?,?,?,?,?,?,?, ?,strftime('%d/%m/%Y'));`
+const values =  [ `${arquivo}`,` ${nome}`, `${idade}`,`${especie}`,` ${porte}`, `${caracteristicas}`, `${tutor}`, `${contato}`, `${whatsapp}`];
 const  sql = db.run(insert, values,  error => {
       if (error)  return console.log(error)
         console.log("Dados de adoção INSERIDO.")
@@ -22,21 +22,22 @@ const  sql = db.run(insert, values,  error => {
  return sql;
 };
 
-function insert_adotante(nome, contato,q1, q2, q3){
+function insert_adotante(nome, contato,whatsapp,q1, q2, q3){
   const insert = `INSERT INTO adotante (
   origem,
    nome,
    contato,
+   whatsapp,
    q1,
    q2,
    q3,
    qTotal
    ) 
    VALUES (
-   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?
+   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?
     );`
    const qTotal = parseInt(q1) + parseInt(q2) + parseInt(q3);
-   const values = [`${nome}`, `${contato}`, `${q1}`, `${q2}`, `${q3}`, qTotal];
+   const values = [`${nome}`, `${contato}`, `${whatsapp}`,`${q1}`, `${q2}`, `${q3}`, qTotal];
    const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)
       console.log("Dados de  interessados INSERIDO.")

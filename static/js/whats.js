@@ -7,6 +7,8 @@ document.getElementById('whatsapp').addEventListener('change', function() {
         window.open(whatsappUrl, '_blank');
       } else {
         alert('Por favor, preencha o número de telefone antes de selecionar esta opção.');
+          }
+      };
+    
       }
-    }
-  });
+    

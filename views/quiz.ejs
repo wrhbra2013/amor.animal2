@@ -8,32 +8,36 @@
 <div class="artigo">
     <button><a href="./adocao">Não concordo!</a></button>  
   </div>
+
 <div class="artigo">  
     <form action="" method="post">
-        <label> Quantos pets você tem? </label>
-    <select  id="q1" name="q1">
+        <p> Quantos pets você tem? </p>
+        <select  id="q1" name="q1">
         <option value="" required>Selecione</option>
         <option value="1">2</option>
         <option value="0">3 ou miais.</option>
          </select>
-    <label> Você acompanha a saude do seu pet?</label>
+    <p> Você acompanha a saude do seu pet?</p>
     <select  id="q2" name="q2">
         <option value="" required>Selecione</option>
         <option value="1">sim</option>
         <option value="0">não</option>
     </select>
-        <label>Você seleciona a ração dos seus pets?</label>
+        <p>Você seleciona a ração dos seus pets?</p>
         <select  id="q3" name="q3">
             <option value="" required>Selecione</option>
             <option value="1">sim</option>
             <option value="0">não</option>
         </select>
         <input type="text" placeholder="Nome" id="tutor" name="tutor" required/>
-        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/>              
+        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/> 
+        <select name="whatsapp" id="whatsapp">
+            <option value=" ">Whatsapp</option>
+            <option value="sim">Aceito</option>
+            <option value="nao">Não</option>  
+          </select>             
         <input type="submit" value="Confirmar" />
-    </form>
-
-    
+    </form>    
 </div>
 
 <%- include("_footer") -%>

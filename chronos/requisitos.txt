@@ -1,5 +1,0 @@
-linguagem: JavaScript / Nodejs v18.19
-framework com versão: express@4.21.2
-banco de dados com versão: sqlite3@11.7.0
-
-REQUISITOS FUNCIONAIS / WIREFRAME / FRONTEND

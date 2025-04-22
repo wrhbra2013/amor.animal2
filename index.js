@@ -71,6 +71,7 @@ app.use('/static', express.static('static'));
 
 //Rotas GET
   // Primeira pàgina
+
 app.get('/', (_, res) => {
   executeAllQueries()
   .then((results) => {
@@ -94,6 +95,14 @@ app.get('/home', (_, res) => {
 });
 
 app.get('/form_home', (req, res) => res.render('form_home'));
+
+app.get('/privacy-policy',(req, res) =>{
+  res.render('privacy-policy')
+});
+
+app.get('/me',(req, res) =>{
+  res.render('me')
+});
 
 // Adoção 
 app.get('/adocao', (req, res) => {
@@ -209,10 +218,11 @@ app.post('/form_adocao', arq_filtro(key1).single('arquivo'), (req, res) => {
     porte: req.body.porte,
     caracteristicas: req.body.caracteristicas,
     responsavel: req.body.tutor,
-    contato: req.body.contato
+    contato: req.body.contato,
+    whatsapp: req.body.whatsapp
   };
   console.log(forms);
-  insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato);
+  insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato, forms.whatsapp);
    res.redirect('adote')
 });
 
@@ -245,11 +255,12 @@ app.post('/quiz', (req, res) => {
   const form3 ={
     tutor: req.body.tutor,
     contato: req.body.contato,
+    whats: req.body.whatsapp,
     quiz1: req.body.q1,
     quiz2: req.body.q2,
     quiz3: req.body.q3  
   };
-  insert_adotante(form3.tutor, form3.contato,form3.quiz1, form3.quiz2, form3.quiz3);
+  insert_adotante(form3.tutor, form3.contato, form3.whats, form3.quiz1, form3.quiz2, form3.quiz3);
   res.redirect('/adote');
 });
 
@@ -314,7 +325,7 @@ app.post('/form_procura_se',arq_filtro(key4).single('arquivo'),(req, res) => {
   app.post('/form_parceria', (req, res) => {
     form9 = {
       empresa: req.body.empresa,
-      localiidade: req.body.localidade,
+      localidade: req.body.localidade,
       proposta: req.body.proposta,
       representante: req.body.representante,
       telefone: req.body.telefone,

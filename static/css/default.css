@@ -26,16 +26,9 @@
    width: 60%;    
  }
 
- .artigo p {
-   color: black;
-  
- }
+ 
 
- .artigo img{
-  margin:0px auto;
-  width: 100px;
-  height: 100px;
- }
+
 
  .center {
    justify-content: center;
@@ -83,7 +76,10 @@
 
  nav {
    display: flex;
+   justify-content: space-between;   
+   flex-direction: row;
    align-items: center;
+   margin: 0 auto;
    font-family: Arial, Helvetica, sans-serif;
    background: whitesmoke;
    height: 6vh;
@@ -102,7 +98,7 @@
    background: rgb(22, 23, 24) center center;
    background-size: cover;
    height: 1vh;
-   position: absolute;
+   position: fixed;
  }
 
  .nav-list {
@@ -122,7 +118,7 @@
  .mobile-menu {
    cursor: pointer;
    display: none;
-   padding-left: 400px;
+   padding-left: 300px;
  }
 
  .mobile-menu div {
@@ -170,20 +166,20 @@
  .nav-list.active {
    transform: translateX(0);
    width: 50%;
-   animation: navLinkFade 3s;
+   animation: navLinkFade 1s;
    
  }
 
  @keyframes navLinkFade {
    from {
      opacity: 0;
-     transform: translateX(50px);
+     transform: translateX(0);
 
    }
 
    to {
      opacity: 1;
-     transform: translateX(20);
+     transform: translateX(0px);
   
 
 
@@ -241,10 +237,12 @@
  footer {
   position: static;
    display:flex;
+   flex-direction: row;
    justify-content: space-around;
    align-items: center;
    font-family: Arial, Helvetica, sans-serif;
    text-align: center;   
+   right: 0;
     left: 0;
     padding: 0px;
    bottom: 0px;
@@ -286,59 +284,103 @@
      scale: 1 1;
    }
  }
+   
 
- table {
-   justify-content: center;
-   margin-top: 20px;
-  overflow-x: auto;  
- }
+  table {
+      border-collapse: collapse;
+      width: 100%;
+       background-color: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease-in-out;   
+      overflow-x: auto;
+      overflow-y: hidden;
+     display: block;
+    white-space: nowrap;
+    text-align: center;
+      
+    }
+  
+  table tr {
+    display: table-row;
+    cursor: move;     
+   
+  }
+  
+  
 
- table:hover{  
-  display: flex;
- }
- 
-
- th { 
+ table th { 
    background-color: antiquewhite;
    border-bottom: 1px solid #000;
-   }
-
- td {   
-  text-align: center;
-   }
-
-
- table img {
-   width: 50px;
-   height: 60px;
-   zoom: 50px;
-   cursor: pointer;
-   transition: zoom 2s;
  }
 
- table img:hover {
-   zoom: 300%;
+ table td { 
+    padding: 10px;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    font-size: large;
+    color: rgb(0, 0, 0);
+    transition: all 0.3s ease-in-out;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);    
  }
 
- .photobanner {
-  display: flex;  
+ table img{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+ }
+
+  
+.photobanner {
+  display: flex;
   flex-direction: row;
-   position: relative;
-   width: 100%;
-   height: 250px;
-   top: 0px;
-   left: 200px;
-   overflow: hidden;
-   white-space: nowrap;
-   animation: bannermove 10s linear infinite;
- }
+  position: relative;
+  top: 0;
+  white-space: nowrap;
+  animation: bannermove 20s linear infinite;
+  width: max-content; /* Ensures all elements are visible */
+}
 
- .photobanner img {
-   margin: 0 0.4em;
-   width: 100%; 
-   height: 200px;
-   
- }
+.photobanner img {
+  margin-right: 10px; /* Space between images */
+  margin-left: 10px; /* Space between images */
+  margin-top: 10px;
+  margin-bottom: 10px;
+ 
+}
+
+.photobanner img:first-child {
+  margin-left: 0px; /* Remove left margin for the first image */
+
+ 
+}
+.photobanner img:last-child {
+  margin-right: 0; /* Remove right margin for the last image */
+}
+.photobanner img:hover {
+  transform: scale(1.1);
+  z-index: 1;
+  transition: transform 0.5s;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  animation: bannermove 20s linear infinite;
+  animation-play-state: running;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0.5s;
+}
+
+
 
  @keyframes bannermove {
    0% {
@@ -346,14 +388,21 @@
    }
 
    100% {
-     transform: translateX(-30%);
+     transform: translateX(-100%);
    }
  }
-
+  
+  
  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
    overflow: hidden;
    position: relative;
    width: 100%;
+   
  }
 
  .container:hover .photobanner {
@@ -369,10 +418,7 @@
    color: rgb(165, 42, 73);
  }
 
- img {
-   width: 350px;
-   height: 250px;
- }
+ 
 
  .show {
   width:100px;
@@ -384,37 +430,19 @@
   }
   
   .hidden{
-  visibility: hidden;
-  width: 100%;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px solid black;
-  padding: 10px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 1;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  margin: 0px auto;
+    display: none;
+    text-align: center;  
   }
   
-  .show:focus-visible + .hidden {
-  display: block;
+  .show:focus-visible + .hidden,
+  .show:focus + .hidden {
+    display: block;
   }
 
   
-  .box{
-    display: flex;
-    flex-direction: column;
-    padding-left: 5px;
-    justify-content: center;
-  }
+ 
 
-  .btncustom:disabled{
-    pointer-events: none;
-    background-color: grey;
-  }
+  
 
   .home{
     margin-top: 30px;
@@ -441,3 +469,25 @@
     font-weight: bold;
      color: rgb(15, 15, 13);
      }
+
+.home img{
+  width: 200px;
+  height: 200px;
+}
+     
+
+    #cookie-alert {
+      position: fixed;    
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f0f0f0;
+      color: #333;
+      padding: 10px;
+      text-align: center;
+      display: block;
+      z-index: 1000;
+    }
+    #cookie-alert button {
+      margin-left: 10px;
+    }

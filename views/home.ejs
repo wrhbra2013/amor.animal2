@@ -1,5 +1,5 @@
 <%- include("_header")-%>
-    <!--  elemento central -->
+ <!--  elemento central -->
     <div class="center">
         <h1>Inicio</h1>
     </div>
@@ -40,18 +40,18 @@
         <a href="./adocao"><img src="/static/css/imagem/ong2.jpg"></a>
     </div>
     
-        
+  
     <% if (typeof model1 !=='undefined' && model1.length> 0) { %>                
         <% for(const home of model1) { %>
             <div class="home">
-                <form action="/delete_home/<%=home.id%>/<%=home.arquivo%>" method="post">
+                <form action="/delete_home/<%=home.id%>/<%=home.arquivo%> "  method="post">
                     <input type="submit" value="X" class="btn btn-default"
                         onclick="return confirm('Deseja realmente excluir?')">
                 </form>
             <p>
                 <%= home.data %>
             </p>                         
-                <img id="frame" src="../static/uploads/home/<%=home.arquivo%>"   width="20px"  alt="carregando..." />
+                <img id="frame" src="../static/uploads/home/<%=home.arquivo%>"   width="50px"  height="50px" alt="carregando..." />
                   
                
             <% if (home?.data) { %>
@@ -60,15 +60,14 @@
                 </h2>              
                 <p>
                     <%= home.mensagem %>
-                </p>
-                
-                <% } %>               
-              </div>
+                </p>               
+                <% } %>              
+            </div>
     <% } %>
         <% } else { %>
             <p>Nenhum dado disponível</p>
             <% } %>
-
+         
 
     <h1> A ONG em Números.</h1>
     <div class="home">
@@ -152,28 +151,29 @@
           <h1>Parcerias</h1>
           <p>Estas são as empresas que nos apoiam:</p>
           <div class="container">   
-            <div class="photobanner">     
+            <div class="photobanner"> 
+         
+             
             <% if (typeof model7 !=='undefined' && model7.length> 0) { %>
             <% for(const parceria of model7) { %>              
-                    
+                      
                         <h2><%=parceria.proposta %></h2>
                          <h1  style="color: red; font-size: 50px; display:inline; padding-left: 30px;" ><%=parceria.empresa %></h1>                    
-                    
-                            
+                                       
                   
                     <% } %> 
-             
+            
                     <% } else { %>
                         <p>Parcerias: Nenhum dado disponível</p>
                         <% } %>
-                    </div>
+            </div>           
+            </div>
                     <a href="./parceria">
-                        <p style="text-align: right;"> Veja Mais &gt;</p>
-                    </a>
-                </div>          
-                           
+                        <p style="text-align: right;"> Veja Mais &gt;</p>         </a>
+            
+            </div>                    
           
-    </div>
+    
 
   <div class="home">
         <a href="form_home">

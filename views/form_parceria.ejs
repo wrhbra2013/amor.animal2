@@ -17,24 +17,18 @@
         <option value=" ">Whatsapp</option>
         <option value="sim">Aceito</option>
         <option value="nao">Não</option>  
-    <input type="email" name="email"  placeholder="Email"/> 
-        
-
+      </select>
+       <input type="email" name="email"  placeholder="Email"/> 
         <input type="submit" value="Cadastrar" class="btn btn-default"
        
             onclick="confirm('Os dados estão atualizados?')">
     </form>
 </div>
 <h2>Testes</h2>
-<a href="https://api.whatsapp.com/send?phone=5514981305888&text=Hello20%World">Send Message</a>
-<div>
-  <h3>whatsapp send app </h3>
-  <h6>add number without space like 17272912606 not <strike>+1 (727) 2912606 </strike></h6>
-  <input id="number" type="numric" placeholder="phone 966506666666">
-  <input id="name" type="text" placeholder="name">
-  <input id="msg" type="text" placeholder="type msg">
-  <button onclick="send_handle()">send</button>
-</div>
-  
+
+<a href="api.whatsapp.com/send/?phone=5514981305888&text=novo ">Send Message2</a>
+
+<a href="https://api.whatsapp.com/send?phone=5514981305888&text=Hello World" target="_blank">Send Message</a>
+
   
 <%- include("_footer")-%>

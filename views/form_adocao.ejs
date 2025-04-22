@@ -10,6 +10,7 @@
   
       <form action=" " enctype="multipart/form-data" method="post">
         <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
+        <br>
       <input type="file" name="arquivo" onchange="preview()">   
       <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
   
@@ -30,6 +31,11 @@
               placeholder="Caracteristicas Pet"></textarea>
           <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
           <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/>   
+          <select name="whatsapp" id="whatsapp">
+            <option value=" ">Whatsapp</option>
+            <option value="sim">Aceito</option>
+            <option value="nao">Não</option>  
+          </select>
             <input type="submit" value="Cadastrar" class="btn btn-default"
               onclick="confirm('Os dados estão atualizados?')">
       </form>

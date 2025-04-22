@@ -12,6 +12,7 @@ const adocao = `CREATE TABLE IF NOT EXISTS adocao(
     caracteristicas text,  
     tutor text,  
     contato text,     
+    whatsapp text,
     origem datetime default (date())
     );`
 
@@ -30,6 +31,7 @@ function create_adotante() {
     origem datetime default (date()),
     nome text,
     contato text,
+    whatsapp text,
     q1 integer,
     q2 integer, 
     q3 integer,
