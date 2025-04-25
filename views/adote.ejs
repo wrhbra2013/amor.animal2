@@ -7,9 +7,7 @@
   <div class="artigo">
     <button><a href="./form_adocao">Adicionar</a></button>
   </div>
-
-
-  <table>
+  <table id="data">
       <tr>
         <th>Origem</th>
         <th>Imagem</th>
@@ -26,20 +24,15 @@
         <th></th>
         <th></th>      
  
-    </tr>
-   <tr>
+    </tr>   
       <% if (model.length > 0) { %>
         <% for(const adocao of model) { %>
+          <tr>
       <td>
         <%= adocao.origem %>
       </td>
-      <!--  imagem -->
-      <td><img src="/static/uploads/adocao/<%=adocao.arquivo %>" /></td>
-      <!--      Ler toda a linha sql. -->
-      <!-- <% for(const key in adocao) { %>        
-        <td><%=adocao[key] %></td>
-               <% } %> -->
-      <td>
+         <td><img src="/static/uploads/adocao/<%=adocao.arquivo %>" /></td>
+         <td>
         <%=adocao.nome%>
       </td>
       <td>
@@ -58,19 +51,20 @@
           <td class="hidden"> <%=adocao.tutor%></td>
             <td class="hidden"> <%=adocao.contato%></td>
               <td class="hidden"><%=adocao.whatsapp%></td>
-                <td><form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post" class="hidden">
+                <td>
+                  <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post" class="hidden">
                   <input class="btncustom" type="submit" value="Deletar"
                     onclick="return confirm('Você tem certeza que deseja deletar?')">
                 </form>       
       </td>
-      <% } %>
+      <% } %>    
+  
       <% } else { %>
-       
+        <p>Nenhum dado encontrado.</p>
+        <script>document.getElementById('data').style.display="none";</script>
       <% } %>
-      <td> <a href="/quiz">Adote</a></td>
-      <td> <a class="btn btn-outline-dark cancel" href="./home">Cancelar</a> </td>
-
-     
+      <td> <a href="/form_adotante">Adote</a></td>
+      <td> <a class="btn btn-outline-dark cancel" href="./home">Cancelar</a> </td>     
     </tr>
   </table>
   

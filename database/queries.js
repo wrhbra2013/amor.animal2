@@ -14,15 +14,16 @@ function executeQuery(query) {
 /* tag home */
 /* 1 */const sqlHome = `SELECT * FROM home;`  
 /* tag adoção*/
-/* 2 */const query_adocao= `SELECT COUNT(*) FROM adocao;` 
-/* 3 */const query_adotante = `SELECT COUNT(*) FROM adotante;`
-/* 4 */const query_adotado = `SELECT COUNT(*) FROM adotado;`
+/* 2 */const query_adocao= `SELECT * FROM adocao;`  //Mostrar pets para adotar
+/* 3 */const query_adotante = `SELECT COUNT(*) FROM adotante;` //Mostrar quantidade de adotantes
+/* 4 */const query_adotado = `SELECT * FROM adotado;`
 /* tag castracao */
-/* 5 */const query_castracao = `SELECT COUNT(*) FROM castracao;`
+/* 5 */const query_castracao = `SELECT COUNT(*) FROM castracao;`//Conatgem de castração
+/*7 */const sql_castracao = `SELECT * FROM castracao;`//Leitura da castração
 /* tag procura_se */
-/* 6 */const query_procura_se = `SELECT COUNT(*) FROM procura_se;`
+/* 8 */const query_procura_se = `SELECT * FROM procura_se;`
 /* tag parceria */
-/* 7 */const query_parceria = `SELECT * FROM parceria;`
+/* 9 */const query_parceria = `SELECT * FROM parceria;`
 
 async function executeAllQueries() {
     const queries = [
@@ -31,6 +32,7 @@ async function executeAllQueries() {
         { name: 'adotante', query: query_adotante },
         { name: 'adotado', query: query_adotado },
         { name: 'castracao', query: query_castracao },
+        { name: 'sql_castracao', query: sql_castracao },
         { name: 'procura_se', query: query_procura_se },
         { name: 'parceria', query: query_parceria },
         

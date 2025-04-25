@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <form action="/relatorio/:tabela" method="get">
+    <% if (typeof model !=='undefined' && model.length> 0) {%>
+      <!-- Loop bloco1 -->
+      <!-- Loop de todo o array -->
+      <% for(const adotante of model) { %>    
+          <!-- Loop somente propriedaades do array -->
+      <tr>
+      <% for (const model in adotante) {%>
+      <th><%=model%></th> 
+      <%}%>   
+      <%break%> 
+      </tr> 
+      <%}%>
+      <!-- Loop bloco2 -->
+      <% for(const adotante of model) { %>    
+   </tr>
+     <!-- Loop dos objetos do array -->
+     <tr>
+      
+      <% for (const key in adotante) { %>
+    
+              <td> <%=adotante[key]%> 
+              </td>
+              <% } %>     
+    </tr>    
+    
+    <%}%>
+       <% } else { %>
+      <p>Adotantes: Nenhum dado disponível</p>
+      <script>document.getElementById('data').style.display="none";</script>
+      <% } %>
+  </table>
+  </div>
+  
+  <button type="button" onclick=javascript:window.print() style="margin-top:30px; ">Download HTML</button>
+  </form>
+</body>
+</html>
+/

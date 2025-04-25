@@ -1,34 +1,8 @@
 ﻿<%- include("_header") -%>
-<div class="home">
-  <h1>ADOTE!</h1>    
-  </div>
-  <div class="artigo">    
-    <h2>Adote um PET e faça a diferença na vida dele!</h2>
-    <p>Adotar um animal é um ato de amor e responsabilidade. Ao adotar, você não só ganha um novo amigo, mas também
-      ajuda a salvar uma vida. </p>
-    <p>Na ONG Amor Animal, temos muitos pets esperando por um lar amoroso. Cada um deles tem uma história única e está
-      pronto para dar e receber amor.</p>
-  </div>
 
-  <div class="container">          
-            <div class="photobanner" id="slides">
-              <% if ( model1.length > 0) { %>
-                <% for (const adocao of model1) { %>
-              <a href="/adote">
-                <img src="/static/uploads/adocao/<%= adocao.arquivo || 'default.jpg' %>" alt="Imagem do pet para adoção"  style="width: 200px; "/>
-                <p><%=adocao.nome%></p>
-              </a>         
-          <% } %>
-        <% } else { %>
-          <a href="/adote">
-          <p>Adicionar um Pet.</p>
-          </a>
-        <% } %> 
-      </div>
-  </div>
-
-<div class="home">
-  <h1 class=""> HISTÓRIA DE ADOTADOS!</h1>
+  
+ <div class="home">
+   <h1>HISTÓRIA DE ADOTADOS!</h1>
 </div>
 
   <div class="artigo">   
@@ -41,8 +15,9 @@
     <button><a href="./form_adotado">Adicionar</a></button>
   </div>
 
-   
+  <div class="center">   
       <% for(const adotado of model2) { %>
+        <div class="artigo">
        
           <img src="/static/uploads/adotado/<%=adotado.arquivo %>"  style="margin-top: 30px;"/>
           <h2 style="color:red;  ">
@@ -59,7 +34,7 @@
             class="center" />
         </form>
         <% } %>  
-
+        </div>
   </div>
 
 

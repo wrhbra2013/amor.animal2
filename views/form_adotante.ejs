@@ -1,0 +1,54 @@
+<%- include("_header") -%>
+<div class="home">
+    <h1> Perfil</h1>
+</div>
+<div class="artigo">
+    <p>Olá, tudo bem? Você está prestes a se tornar um tutor de um Pet que precisa de um lar. Para isso, precisamos que você preencha o formulário abaixo com seus dados e aguarde entrarmos em contato..</p>
+  </div>
+<div class="artigo">
+    <button><a href="./adocao">Não concordo!</a></button>  
+  </div>
+
+<div class="artigo">  
+    <form  action="" method="post">
+        <fieldset>
+            <legend>Questionàrio.</legend>
+            <p> Quantos pets você tem? </p>
+            <select  id="q1" name="q1">
+            <option value="" required>Selecione</option>
+            <option value="1">2</option>
+            <option value="0">3 ou miais.</option>
+             </select>
+        <p> Você acompanha a saude do seu pet?</p>
+        <select  id="q2" name="q2">
+            <option value="" required>Selecione</option>
+            <option value="1">sim</option>
+            <option value="0">não</option>
+        </select>
+            <p>Você seleciona a ração dos seus pets?</p>
+            <select  id="q3" name="q3">
+                <option value="" required>Selecione</option>
+                <option value="1">sim</option>
+                <option value="0">não</option>
+            </select>            
+        </fieldset>       
+        <input type="text" placeholder="Nome" id="tutor" name="tutor" required/>
+        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000"  required/> 
+        <select name="whatsapp" id="whatsapp">
+            <option value=" ">Whatsapp</option>
+            <option value="sim">Aceito</option>
+            <option value="nao">Não</option>  
+          </select>           
+        <input type="text" name="cep" id="cep" placeholder=" CEP 00000-000" onblur="pesquisacep()" maxlength="8" />             
+        <input type="reset" value="Limpar" onclick="document.getElementById('cep')" />
+        <input type="text" placeholder="Endereço " id="endereco"  name="endereco" />
+        <input type="number" placeholder="Número" id="numero"  name="numero" required />
+        <input type="text" placeholder="Complemento: casa, fundos, apto n*" id="complemento"  name="complemento" />
+        <input type="text" placeholder="Bairro" id="bairro"  name="bairro"  />
+        <input type="text" placeholder="Cidade" id="cidade"  name="cidade"   />
+        <input type="text" placeholder="Estado" id="estado"  name="estado"  />            
+          <input type="submit" value="Confirmar" />
+    </form>    
+</div>
+
+<%- include("_footer") -%>

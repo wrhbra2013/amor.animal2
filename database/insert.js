@@ -22,22 +22,29 @@ const  sql = db.run(insert, values,  error => {
  return sql;
 };
 
-function insert_adotante(nome, contato,whatsapp,q1, q2, q3){
+function insert_adotante(q1, q2, q3, nome, contato,whatsapp, cep, endereco, numero, complemento, bairro, cidade, estado){
   const insert = `INSERT INTO adotante (
   origem,
+  q1,
+  q2,
+  q3,
+  qTotal,
    nome,
    contato,
    whatsapp,
-   q1,
-   q2,
-   q3,
-   qTotal
+   cep,
+   endereco,
+   numero,
+   complemento,
+   bairro,
+   cidade, 
+   estado
    ) 
-   VALUES (
-   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?
+   VALUES (   
+   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     );`
-   const qTotal = parseInt(q1) + parseInt(q2) + parseInt(q3);
-   const values = [`${nome}`, `${contato}`, `${whatsapp}`,`${q1}`, `${q2}`, `${q3}`, qTotal];
+   const qTotal = parseInt(q1) + parseInt(q2) + parseInt(q3) ;
+   const values = [`${q1}`, `${q2}`, `${q3}`, `${qTotal}`,`${nome}`, `${contato}`, `${whatsapp}`,  `${cep}`, `${endereco}`, `${numero}`, `${complemento}`, `${bairro}`, `${cidade}`, `${estado}`];
    const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)
       console.log("Dados de  interessados INSERIDO.")
@@ -66,23 +73,21 @@ return sql;
 
 
 
-function insert_castracao(nome, contato, whatsapp,arquivo, idade, especie, porte, clinica, data){
+function insert_castracao(nome, contato, whatsapp,arquivo, idade, especie, porte, clinica, agenda){
   const insert = `INSERT INTO castracao(
+  origem,
+  ticket,
   nome,
   contato,
   whatsapp,
-  ticket,
-  origem,
   arquivo,
   idade,
   especie,
   porte,
   clinica,
-  data  
-  )
-   VALUES (  ?, ?, ?, ABS(RANDOM()) % 10000, strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?
-  );`
-  const values = [ `${nome}`,`${contato}`, `${whatsapp}`,`${arquivo}`, `${idade}`, `${especie}`,`${porte}`,`${clinica}`, `${data}`];
+  agenda 
+)VALUES (strftime('%d/%m/%Y'), ABS(RANDOM()) % 10000, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
+  const values = [ `${nome}`,`${contato}`, `${whatsapp}`,`${arquivo}`, `${idade}`, `${especie}`,`${porte}`,`${clinica}`, `${agenda}`];
 
   const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)

@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/static/css/default.css">
   <title>System Error</title>
 </head>
-<body>
-  <div class="error">
+<body style="background-color: beige;">
+ 
+  
+  <div style="display: grid; place-items: center; height: 100vh;"> 
+    <div style="display: inline-block; background-color: #f0f0f0; border-radius: 10px; text-align: center; padding: 20px; white-space: pre-line;">  
     <h1> Pagina de Erro:</h1>
       <%= error.message %>
+</div>
 </div>
   
 </body>

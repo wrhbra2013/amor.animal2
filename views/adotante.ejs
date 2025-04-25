@@ -1,0 +1,42 @@
+<%-include("_header")-%>
+<div class="home">
+    <h1>Adotantes</h1>
+</div>
+<div class="artigo">
+<table id="data">
+    
+<% if (typeof model !=='undefined' && model.length> 0) {%>
+    <!-- Loop bloco1 -->
+    <!-- Loop de todo o array -->
+    <% for(const adotante of model) { %>    
+        <!-- Loop somente propriedaades do array -->
+    <tr>
+    <% for (const model in adotante) {%>
+    <th><%=model%></th> 
+    <%}%>   
+    <%break%> 
+    </tr> 
+    <%}%>
+    <!-- Loop bloco2 -->
+    <% for(const adotante of model) { %>    
+ </tr>
+   <!-- Loop dos objetos do array -->
+   <tr>
+    
+    <% for (const key in adotante) { %>
+  
+            <td> <%=adotante[key]%> 
+            </td>
+            <% } %>     
+  </tr>    
+  
+  <%}%>
+     <% } else { %>
+    <p>Adotantes: Nenhum dado disponível</p>
+    <script>document.getElementById('data').style.display="none";</script>
+    <% } %>
+</table>
+</div>
+
+<button type="button" onclick=javascript:window.print() style="margin-top:30px; ">Download HTML</button>
+<%-include("_footer")-%>

@@ -3,7 +3,7 @@ const {db} = require('./database');
 //Adoção
 function create_adocao() {
 const adocao = `CREATE TABLE IF NOT EXISTS adocao(
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    id INTEGER PRIMARY KEY, 
     arquivo blob,
     nome  text,
     idade integer, 
@@ -29,13 +29,20 @@ function create_adotante() {
     const  adotante = `CREATE TABLE IF NOT EXISTS adotante (
     id integer PRIMARY KEY,
     origem datetime default (date()),
-    nome text,
-    contato text,
-    whatsapp text,
     q1 integer,
     q2 integer, 
     q3 integer,
     qTotal integer,
+    nome text,
+    contato text,
+    whatsapp text,
+    cep text,
+    endereco text,
+    numero integer,
+    complemento text,
+    bairro text,
+    cidade text,
+    estado text,    
     idPet integer,   
     FOREIGN KEY (idPet) REFERENCES adocao (id)
 );`
@@ -69,17 +76,17 @@ create_adotado()
 function create_castracao () {
     const castracao = `CREATE TABLE IF NOT EXISTS castracao(
     id integer PRIMARY KEY,
+     origem datetime default (date()),
+     ticket integer default (random()),
     nome text,
     contato  text,
-    whatsapp text,
-    ticket integer default (random()) ,
-    origem datetime default (date()),
+    whatsapp text,   
     arquivo blob,
     idade integer,
     especie text, 
     porte text,
     clinica text,
-    data text
+    agenda text
    );`
   const sql = db.run(castracao,   error => {
                 if (error)   console.log(error)
