@@ -1,9 +1,6 @@
     <%- include("_header")-%>
     <!--  elemento central -->
-    <div class="center">
-    <h1>Inicio</h1>
-    </div>
-    <div class="home">
+     <div class="home">
     <h1> O que é a ONG Amor Animal?</h1>
     <p>A ONG Amor Animal é uma organização sem fins lucrativos dedicada à proteção e bem-estar dos animais.
     Nossa missão é resgatar, cuidar e encontrar lares amorosos para animais abandonados, promovendo a adoção
@@ -63,11 +60,10 @@
     ajuda a salvar uma vida. </p>
     <p>Na ONG Amor Animal, temos muitos pets esperando por um lar amoroso. Cada um deles tem uma história única e está
     pronto para dar e receber amor.</p>
-    </div>
-
-    <div class="artigo">
+    
     <% if (typeof model2 !=='undefined' && model2.length> 0) { %>
     <% for(const adocao of model2) { %>
+   
     <div class="container">          
     <div class="photobanner" id="slides">
     <a href="/adote">
@@ -85,8 +81,8 @@
                     </a>
                                   
             <% } %>
-    </div>
-    <div class="home">
+    
+    
             <!-- Adotantes -->
     <% if (typeof model3 !=='undefined' && model3.length> 0) { %>
     <% for(const adotante of model3) { %>
@@ -100,9 +96,9 @@
     <% } else { %>
     <p>Adotantes: Nenhum dado disponível</p>
     <% } %>
-    </div>
+    
     <!-- Adotados -->
-    <div class="home">
+
     <h1>Historia de Adotados</h1>
     <p>Você pode contar a história do seu pet adotado, e inspirar  outras pessoas a também adotarem .</p>
     </div>

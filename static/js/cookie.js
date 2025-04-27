@@ -1,7 +1,9 @@
-window.onload = function()
-{
-    window.document.addEventListener("DOMContentLoaded", function() {
-    // Check if the user has already accepted cookies
+// window.onload = 
+
+// {
+//     window.document.addEventListener("DOMContentLoaded", function() {
+//     // Check if the user has already accepted cookies
+    function cookies() {
     if (localStorage.getItem("cookiesAccepted")) {
         // User has accepted cookies, do nothing
     } else {
@@ -29,5 +31,6 @@ window.onload = function()
             document.body.removeChild(banner);
         });
     }
-});
 };
+
+cookies()

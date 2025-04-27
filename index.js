@@ -9,6 +9,7 @@ const pdfDocument = require('pdfkit')
 
 
 
+
 //banco de dados
 const { db, fk_db } = require('./database/database.js');
 const { 
@@ -123,13 +124,13 @@ app.get('/adocao' , (req, res) =>{
 });
 
 
-app.get('/adote/:tabela', (req, res) => {  
+app.get('/adote', (req, res) => {  
   const relatorio1 = 'adocao';
   relatorio1 = req.params.tabela;
   executeAllQueries()
   .then((results) =>{
     const{adocao}=results;
-    res.render('adocao', { model:adocao, relatorio1: relatorio1
+    res.render('adote', { model:adocao, relatorio1: relatorio1
       });   
     })
     .catch((error) => {
@@ -137,13 +138,11 @@ app.get('/adote/:tabela', (req, res) => {
   });
  });
 
- app.get('/adotante/:tabela', (req, res) => {  
-  const relatorio2 = 'adotante';
-  relatorio2 = req.params.tabela;
+ app.get('/adotante', (req, res) => {  
   executeAllQueries()
   .then((results) =>{
-    const{adotante}=results;
-    res.render('adotante', { model:adotante, relatorio2: relatorio2
+    const{sql_adotante}=results;
+    res.render('adotante', { model:sql_adotante 
       });   
     })
     .catch((error) => {
@@ -177,13 +176,11 @@ app.get('/form_adocao', (req, res) => res.render('form_adocao'));
 app.get('/form_adotado', (req, res) => res.render('form_adotado'));
 
 // Castração
-app.get('/castracao/:tabela', (req, res) => {
-  const relatorio3 = 'castracao';
-  relatorio3= req.params.tabela;
+app.get('/castracao', (req, res) => {
   executeAllQueries()
   .then((results) =>{
     const{sql_castracao}=results;
-    res.render('castracao', { model:sql_castracao, relatorio3: relatorio3
+    res.render('castracao', { model:sql_castracao
       });   
     })
     .catch((error) => {
@@ -199,13 +196,11 @@ app.get('/doacao', (req, res) => res.render('doacao'));
 app.get('/form_doe', (req, res) => res.render('form_doe'));
 
 // Parceria
-app.get('/parceria/:tabela', (req, res) => {
-  const relatorio4 = 'adocao';
-  relatorio4 = req.params.tabela;
+app.get('/parceria', (req, res) => {
   executeAllQueries()
   .then((results) =>{
     const{parceria}=results;
-    res.render('parceria', { model:parceria, relatorio4: relatorio4
+    res.render('parceria', { model:parceria
       });   
     })
     .catch((error) => {
@@ -216,13 +211,11 @@ app.get('/parceria/:tabela', (req, res) => {
 app.get('/form_parceria', (req, res) => res.render('form_parceria'));
 
 // Procura-se
-app.get('/procura_se/:tabela', (req, res) => {
-  const relatorio5 = 'adocao';
-  relatorio5 = req.params.tabela;
+app.get('/procura_se', (req, res) => {
   executeAllQueries()
   .then((results) =>{
     const{procura_se}=results;
-    res.render('procura_se', { model:procura_se, relatorio5: relatorio5
+    res.render('procura_se', { model:procura_se
       });   
     })
     .catch((error) => {
@@ -237,41 +230,65 @@ app.get('/sobre', (req, res) => { res.render('sobre');});
 
 // Gerador de pdf
 app.get('/relatorio/:tabela', (req, res) => { 
+// 1 Seleçầo de tabela
 const tabela = req.params.tabela;
-const sql = `SELECT * FROM   ${tabela}  GROUP BY  CAST('strftime('%Y', origem)  AND strftime('%m', origem) AS INTEGER) ;` 
+
+// 2 busca no banco de dados
+const sql = 
+`
+SELECT  *, 
+strftime('%Y', origem) AS ANO,
+strftime('%B', origem) AS MES
+FROM ${tabela}
+GROUP BY MES 
+ORDER BY MES ASC ; 
+
+`
 db.all(sql, [], (error, rows) => {
-  if (error) return res.render('error', { error: error })
-    res.render('relatorio', {model: rows});});
-    // Automação de relatorio.pdf
-//Objeto: rows
+  if (error) return res.render('error', { error: error })   
+      // Renderizar para a pagina    
+       res.render('relatorio', {model: rows, tabela: tabela});
+      //  Criar pdf
+      // Directory to save the PDF
+ const location = '../static/uploads/';
+ const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' });
 
-// Estrategia 1: row Object()
+ // Create a new PDF document
+ const doc = new pdfDocument();
+ 
+ // Define the file path for the PDF
+ const filePath = path.join(location, `${tabela}.pdf`);
 
-// let dat = Object.keys(rows[1]);
-// let dat2 = Object.values(rows[1])
-// let dat3 = Object.entries(rows);
-// let teste = rows
-// console.log('Rows1',dat)
-// console.log('Rows2',dat2)
-// console.log('Rows3',dat3)
+//  Check if the file exists
+ fs.existsSync(filePath); 
+ fs.createWriteStream(filePath)
 
-// Estrategia 2
+ 
+ // Pipe the PDF output to a file
+ doc.pipe(fs.createWriteStream(filePath).on('error', (err) => { console.error("ERRO no arquivo  pdf:", err)}));
 
-// JSON.stringify()
-  const query = JSON.stringify(rows);    
-  //  Formatar JSON.stringify 
- // const query = temp.replace(/\\/g, ''); 
-  const relatorio = 'Adotantes';
-  const location = './static/uploads/'
-  const time =  new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-  const doc = new pdfDocument(); 
-    doc.pipe(fs.createWriteStream(location + relatorio + '.pdf'));
-     doc.fontSize(11).text(query + ' ' +' Relatório: ' + relatorio + ' gerado em  ' +time, 13 ,13); 
-     doc.end();  
-    console.log(" Criado com Sucesso   PDF:", relatorio);
-    })             
+ // Render the EJS template
+ ejs.renderFile(path.join(__dirname, `../../views/${tabela}.ejs`), rows, {}, function (err, str) {
+   if (err) {
+     console.error('Error rendering EJS template:', err);
+     return;
+   }
+
+   // Add the rendered content to the PDF
+   doc.fontSize(11).text(str + '\nRelatório: ' + tabela + ' gerado em ' + time, 13, 13);
+   
+   // Finalize the PDF document
+   doc.end();
+   console.log("PDF criado com sucesso:", filePath);
+   
+  });    
+ });
+ });
+
+  
+});            
     
-});
+  
 app.put('/relatorio', (req, res) => { res.render('relatorio')});
 
 

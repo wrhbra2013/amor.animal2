@@ -100,7 +100,7 @@ create_castracao();
 function create_procura_se(){
       const procurase = `CREATE TABLE IF NOT EXISTS procura_se (
         id INTEGER PRIMARY KEY,
-         data datetime default (date()),
+         origem datetime default (date()),
          arquivo blob,
          nomePet text,
          idadePet integer,
@@ -124,7 +124,7 @@ create_procura_se();
 function create_parceria(){
   const parceria =` CREATE TABLE IF NOT EXISTS parceria(
    id INTEGER PRIMARY KEY,
-   data datetime default (date()),
+   origem datetime default (date()),
     empresa text,
     localidade text,
     proposta text,
@@ -145,7 +145,7 @@ create_parceria();
 function create_home(){
     const home = `CREATE TABLE IF NOT EXISTS home(
         id INTEGER PRIMARY KEY,
-        data datetime default (date()),
+        origem datetime default (date()),
         arquivo blob, 
         titulo text,
         mensagem text

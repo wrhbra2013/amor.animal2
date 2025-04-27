@@ -15,7 +15,7 @@ function executeQuery(query) {
 /* 1 */const sqlHome = `SELECT * FROM home;`  
 /* tag adoção*/
 /* 2 */const query_adocao= `SELECT * FROM adocao;`  //Mostrar pets para adotar
-/* 3 */const query_adotante = `SELECT COUNT(*) FROM adotante;` //Mostrar quantidade de adotantes
+/* 3 */const query_adotante = `SELECT COUNT (*) FROM adotante;` //Mostrar quantidade de adotantes
 /* 4 */const query_adotado = `SELECT * FROM adotado;`
 /* tag castracao */
 /* 5 */const query_castracao = `SELECT COUNT(*) FROM castracao;`//Conatgem de castração
@@ -24,6 +24,8 @@ function executeQuery(query) {
 /* 8 */const query_procura_se = `SELECT * FROM procura_se;`
 /* tag parceria */
 /* 9 */const query_parceria = `SELECT * FROM parceria;`
+/* 10 */ const sql_adotante = `SELECT * FROM adotante;`
+
 
 async function executeAllQueries() {
     const queries = [
@@ -35,7 +37,7 @@ async function executeAllQueries() {
         { name: 'sql_castracao', query: sql_castracao },
         { name: 'procura_se', query: query_procura_se },
         { name: 'parceria', query: query_parceria },
-        
+        { name: 'sql_adotante', query: sql_adotante }
     ];
 
     const results = {};

@@ -3,8 +3,7 @@
     <h1>Adotantes</h1>
 </div>
 <div class="artigo">
-<table id="data">
-    
+<table id="data">    
 <% if (typeof model !=='undefined' && model.length> 0) {%>
     <!-- Loop bloco1 -->
     <!-- Loop de todo o array -->
@@ -39,4 +38,5 @@
 </div>
 
 <button type="button" onclick=javascript:window.print() style="margin-top:30px; ">Download HTML</button>
+<button type="button" onclick="gerarRelatiorio(rows)">Gerar Relatorio</button>
 <%-include("_footer")-%>

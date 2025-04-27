@@ -3,45 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Relatorio</title>
+    <link rel="stylesheet" href="/static/css/default.css">
+<link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
 </head>
-<body>
-  <form action="/relatorio/:tabela" method="get">
-    <% if (typeof model !=='undefined' && model.length> 0) {%>
-      <!-- Loop bloco1 -->
-      <!-- Loop de todo o array -->
-      <% for(const adotante of model) { %>    
-          <!-- Loop somente propriedaades do array -->
-      <tr>
-      <% for (const model in adotante) {%>
-      <th><%=model%></th> 
-      <%}%>   
-      <%break%> 
-      </tr> 
-      <%}%>
-      <!-- Loop bloco2 -->
-      <% for(const adotante of model) { %>    
-   </tr>
-     <!-- Loop dos objetos do array -->
-     <tr>
+<body style=" max-width: 100%; margin: 0 px auto;">
+  <div class="artigo">   
+  
+    <button type="button" onclick="{gerarRelatiorio('adotante')}"
+  </div>
+    
+      <table style="white-space: nowrap; overflow-x: auto;">
+       <thead >
+          <% if (typeof model !=='undefined' && model.length> 0) {%>     
+            <!-- Loop bloco1 -->
+            <!-- Loop de todo o array -->
+            <% for(const tabela of model) { %>    
+                <!-- Loop somente propriedaades do array -->
+                
+             <!-- Agrupar tabela -->
+             
+            <tr>
+            <% for (const model in tabela ) {%>
+          
+            <th><%=model%></th> 
+            <%}%>   
+            <%break%> 
+            </tr>
+            <%}%>      
+            
+          </tr>
+          
+        </thead>
       
-      <% for (const key in adotante) { %>
-    
-              <td> <%=adotante[key]%> 
-              </td>
-              <% } %>     
-    </tr>    
-    
-    <%}%>
-       <% } else { %>
-      <p>Adotantes: Nenhum dado disponível</p>
-      <script>document.getElementById('data').style.display="none";</script>
-      <% } %>
-  </table>
+        <tbody>
+           <!-- Loop bloco2 -->
+      <% for(const tabela  of model) { %>    
+      </tr>
+           
+        <!-- Loop dos objetos do array -->
+        <tr>
+         
+         <% for (const key in tabela ) { %>
+       
+                 <td> <%=tabela [key]%> 
+                 </td>
+                 <% } %>     
+       </tr>      
+        </tbody>
+        <%}%>
+        <% } else { %>
+       <p>Adotantes: Nenhum dado disponível</p>
+       <script>document.getElementById('data').style.display="none";</script>
+       <% } %>
+
+      </table>
+   
+  </div>
+ 
+  
+     
+     
+ 
+  
+  <div style="margin-top: 30px">
+    <button type="button" onclick="gerarRelatiorio()">Gerar Relatorio</button>
+         
+    <button type="button" onclick=javascript:window.print() >Download HTML</button>
+
   </div>
   
-  <button type="button" onclick=javascript:window.print() style="margin-top:30px; ">Download HTML</button>
-  </form>
-</body>
-</html>
-/
+ 
+  
+<%-include("_footer")-%>

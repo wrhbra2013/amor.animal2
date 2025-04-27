@@ -98,7 +98,7 @@ function insert_castracao(nome, contato, whatsapp,arquivo, idade, especie, porte
 
 function insert_procura_se(arquivo, nomePet, idadePet, especie, porte, caracteristicas, local, tutor, contato, whatsapp){
   const insert = `INSERT INTO procura_se (
-   data,
+   origem,
     arquivo,
     nomePet,
     idadePet,
@@ -122,7 +122,7 @@ function insert_procura_se(arquivo, nomePet, idadePet, especie, porte, caracteri
 
 function insert_parceria(empresa, localidade, proposta, representante, telefone, whatsapp, email) {
   const insert = `INSERT INTO parceria (
-  data,
+  origem,
   empresa,
   localidade,
   proposta,
@@ -144,7 +144,7 @@ function insert_parceria(empresa, localidade, proposta, representante, telefone,
 function insert_home(arquivo, titulo,mensagem)
 {
   const insert = `INSERT INTO home (
-  data,
+  origem,
   arquivo,
   titulo,
   mensagem
