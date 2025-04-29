@@ -1,46 +1,16 @@
-class MobileNavbar {
-    constructor(mobileMenu, navList, navLinks) {
-        this.mobileMenu = document.querySelector(mobileMenu);
-        this.navList = document.querySelector(navList);
-        this.navLinks = document.querySelectorAll(navLinks);
-        this.activeClass = "active";
+// Coloque isso em um arquivo .js linkado no seu HTML, ou dentro de <script> no final do body
 
-        this.handleClick = this.handleClick.bind(this);
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileToggle = document.querySelector('.nav-mobile-toggle');
+    const nav = document.querySelector('nav'); // Seleciona o elemento <nav>
 
+    if (mobileToggle && nav) {
+        mobileToggle.addEventListener('click', () => {
+            nav.classList.toggle('active'); // Adiciona/remove a classe 'active'
+
+            // Atualiza aria-expanded para acessibilidade
+            const isExpanded = nav.classList.contains('active');
+            mobileToggle.setAttribute('aria-expanded', isExpanded);
+        });
     }
-    handleClick() {
-        console.log(this)
-        this.navList.classList.toggle(this.activeClass);
-        this.mobileMenu.classList.toggle(this.activeClass);
-        this.animateLinks();
-
-    };
-    animateLinks() {
-        this.navLinks.forEach((link) => {
-            link.style.animation
-                ? (link.style.animation = "")
-                : (link.style.animation = `navLinkFade 0.5s ease forward 0.3s`);
-                
-
-
-        })
-
-    };
-
-    addClickEvent() {
-        this.mobileMenu.addEventListener("click", this.handleClick);
-    }
-    init() {
-        if (this.mobileMenu) {
-            this.addClickEvent()
-        }
-        return this;
-    }
-}
-
-const mobileNavbar = new MobileNavbar(
-    ".mobile-menu",
-    ".nav-list",
-    ".nav-list li",
-);
-mobileNavbar.init()
+});

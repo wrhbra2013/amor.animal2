@@ -1,544 +1,695 @@
-  html, body {
-  justify-content: center;
-  width: 100%;   
-  margin: 0;
-  border: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  background-image: url('/static/css/imagem/3.jpg');
-  background-repeat: no-repeat;
- }
 
+ /* ==========================================================================
+    Variáveis Globais e Reset Básico
+    ========================================================================== */
+ :root {
+   --cor-primaria: rgb(20, 18, 19);
+   --cor-secundaria: rgb(245, 245, 245);
+   --cor-hover-nav: rgb(20, 18, 19);
+   --cor-fundo-hover-nav: rgb(208, 221, 224);
+   --cor-erro: red;
+   --cor-borda-tabela: rgb(177, 174, 174);
+   --cor-fundo-hover-artigo: rgb(245, 238, 238); /* Exemplo de nova variável */
+   --cor-texto-hover-artigo: black; /* Exemplo de nova variável */
  
- .artigo {
-  margin-top: 10px;
-  background-image: url('');
-  display: flex;
-   flex-direction: column;
-   justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
-    /* display: grid; 
-   place-items: center; 
-   height: 100vh; */
+   --fonte-principal: Arial, Helvetica, sans-serif;
+   --tamanho-logo: 20px;
+   --altura-header: 8vh;
+   --altura-footer: 25px; /* Considere usar 'min-height' se o conteúdo puder crescer */
  }
-
- .artigo input,
- textarea,
- select, fieldset {
-   margin-top: 5px;
-   width: 60%;    
- }
-
-.artigo a {
-  text-decoration: none;
-} 
-
-.artigo a:hover{
-  display: block;
-  cursor: pointer;
-  font-size: x-large;
-  font-weight: bold;
- background-color: rgb(245, 238, 238);
-  font-weight: bold;
-   color: black;
-   background-size: cover;
-   animation-name: slide;
-   animation-fill-mode: both;
-   width: 100%;
-   height: 100%;
-   /* display: grid; 
-   place-items: center; 
-   height: 100vh; */
- }
-
-
-  .artigo img  {
-    width: 200px;
-    height: 200px;
-    }
-
-  
- .center {
-   /* justify-content: center;
-   display: flex;
-   flex-direction: row;
-   font-family: Arial, Helvetica, sans-serif;
-   width: 100%; */
-   display: inline-block; 
-   background-color: #f0f0f0; 
-   border-radius: 10px; 
-   text-align: center; 
-   padding: 20px; 
-   white-space: pre-line;
- }
-
- .center a {
-   color: blue;
- }
-
- .center h1 {
-   margin-top: 5%;
- }
-
- /* Elementos do Menu Nav Bar*/
- nav ul {
-   list-style-type: none;
+ 
+ html, body {
    margin: 0;
    padding: 0;
-   display: inline-block;
+   font-family: var(--fonte-principal);
+   /* Considere adicionar box-sizing: border-box; globalmente */
+   /* box-sizing: border-box; */
  }
-
  
-
- nav a {
-   color: rgb(20, 18, 19);
-   text-decoration: none;
-   transition: 0.8s;
-   text-align: center;
+ /* *, *::before, *::after {
+   box-sizing: inherit;
+ } */
+ 
+ /* ==========================================================================
+    Header / Navegação
+    ========================================================================== */
+ .nav-container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 20px;
+   height: var(--altura-header);
+   background: var(--cor-secundaria);
  }
-
- nav a:hover {
-   cursor: pointer;
-   opacity: 0.7;
-   color: rgb(10, 9, 27); 
-   background-color:rgb(208, 221, 224);
-   border-width: 100%;
-   font-size: large;
-   text-align: center;
-   font-style: oblique;
-   
-   
- }
-
  nav {
    display: flex;
-   justify-content: space-around;   
-   flex-direction: row;
-   align-items: center;
-   margin: 0 auto;
-   font-family: Arial, Helvetica, sans-serif;
-   background: whitesmoke;
-   height: 6vh;
+   gap: 20px;
+   list-style: none;
  }
-
+ .nav-mobile-toggle {
+   display: none;
+   cursor: pointer;
+   font-size: 1.5em;
+ }
 
  .logo {
-   font-size: 20px;
-   text-transform: uppercase;
-   letter-spacing: 4px;
-   text-align: center;
-
+   font-size: var(--tamanho-logo);
+   font-weight: bold;
+   /* ... outros estilos do logo ... */
  }
-
- main {
-   background: rgb(22, 23, 24) center center;
-   background-size: cover;
-   height: 1vh;
-    }
-
- .nav-list {
-   list-style: none;
-   display: flex;
-   text-align: center;
-
- }
-
- .nav-list li {
-   letter-spacing: 3px;
-   margin-left: 22px;
- }
-
+ nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
  
-
- .mobile-menu {
+ nav a {
+   color: var(--cor-primaria);
+   text-decoration: none;
+   padding: 10px 15px;
+   transition: background-color 0.3s ease, color 0.3s ease;
+ }
+ 
+ nav a:hover {
+   color: var(--cor-hover-nav);
+   background-color: var(--cor-fundo-hover-nav);
+ }
+ 
+ /* ==========================================================================
+    Conteúdo Principal / Artigos / Formulários
+    ========================================================================== */
+ .artigo {
+   padding: 20px; /* Exemplo de espaçamento */
+ }
+ 
+ .artigo input,
+ .artigo textarea,
+ .artigo select,
+ .artigo fieldset {
+   margin-top: 5px;
+   max-width: 400px; /* Exemplo: usar max-width fixo ou % */
+   width: 100%;
+   padding: 8px 12px; /* Espaçamento interno */
+   border: 1px solid var(--cor-borda-tabela); /* Exemplo de borda */
+   box-sizing: border-box; /* Importante com padding/border e width: 100% */
+ }
+ 
+ .artigo fieldset {
+   border: 1px solid var(--cor-borda-tabela);
+   padding: 15px;
+ }
+ 
+ .artigo a {
+   display: inline-block; /* Ou block se precisar ocupar linha inteira */
+   margin-top: 10px; /* Espaçamento */
+   padding: 8px 15px;
+   color: var(--cor-primaria);
+   text-decoration: none;
+   border: 1px solid transparent; /* Para evitar salto no hover se adicionar borda */
+   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+ }
+ 
+ .artigo a:hover {
    cursor: pointer;
-   display: none;
-   padding-left: 300px;
+   font-weight: bold;
+   background-color: var(--cor-fundo-hover-artigo);
+   color: var(--cor-texto-hover-artigo);
+   /* transform: scale(1.03); */ /* Efeito sutil de zoom */
  }
-
- .mobile-menu div {
-   width: 32px;
-   height: 2px;
-   background: rgb(39, 43, 44) center center;
-   margin: 8px;
-   transition: 0.3s;
-  
-
- }
-
- @media (max-width:999px) {
-   body {
-     overflow-x: hidden;
-   }
-
-   .nav-list {
-     position: fixed;
-     top: 8vh;
-     right: 0;     
-      background: whitesmoke;
-      width: 50vw;
-     height: 92vh;
-     background: whitesmoke;
-     flex-direction: column;
-     align-items: center;
-     justify-content: space-around;
-     transform: translateX(100%);
-     transition: transform 0.2s ease-in;
-
-   }
-
-   .nav-list li {
-     margin-left: 0;
-     opacity: 10px;
-   }
-
-   .mobile-menu {
-     display: block;
-     
-   }
- }
-
- .nav-list.active {
-   transform: translateX(0);
-   width: 50%;
-   animation: navLinkFade 1s;
-   
- }
-
- @keyframes navLinkFade {
-   from {
-     opacity: 0;
-     transform: translateX(0);
-
-   }
-
-   to {
-     opacity: 1;
-     transform: translateX(0px);
-  
-
-
-   }
- }
-
- .mobile-menu.active .line1 {
-   transform: rotate(-45deg) translate(-8px, 8px);
- }
-
- .mobile-menu.active .line2 {
-   opacity: 0;
- }
-
- .mobile-menu.active .line3 {
-   transform: rotate(45deg) translate(-5px, -7px);
- }
-
- .mobile-menu .line1,
- .mobile-menu .line2,
- .mobile-menu .line3 {
-   width: 32px;
-   height: 2px;
-   background: rgb(39, 43, 44);
-   margin: 8px;
-   transition: 0.3s;
-   
- }
-
- header {
-   position: sticky;
-   text-align: center;
-   font-family: Arial, Helvetica, sans-serif;
-   left: 0;
-   top: 0;
-   height: 8%;
-   width: 100%;
-   background-color: whitesmoke;
-   z-index: 1;
- }
-
  
- header a {
+ /* ==========================================================================
+    Tabelas
+    ========================================================================== */
+ .tabela-container {
+   width: 100%;
+   overflow-x: auto; /* Habilita rolagem horizontal */
+   margin-top: 30px;
+   border: 1px solid var(--cor-borda-tabela); /* Borda no container */
+ }
+ 
+ .tabela-container table {
+   width: 100%; /* Ocupa o container */
+   min-width: 600px; /* Exemplo: Largura mínima antes da rolagem aparecer */
+   border-collapse: collapse;
+   white-space: nowrap; /* Evita quebra de linha nas células */
+ }
+ 
+ .tabela-container th,
+ .tabela-container td {
+   border: 1px solid var(--cor-borda-tabela);
+   padding: 8px 12px; /* Espaçamento interno das células */
+   text-align: left; /* Alinhamento padrão */
+   vertical-align: top; /* Alinhamento vertical */
+ }
+ 
+ .tabela-container th {
+   background-color: var(--cor-secundaria); /* Cabeçalho destacado */
+   font-weight: bold;
+ }
+ 
+ /* ==========================================================================
+    Banner de Fotos / Parcerias
+    ========================================================================== */
+ .photobanner-container { /* Adicione um container se não existir */
+    overflow: hidden; /* Esconde partes da imagem que saem durante a animação */
+    width: 100%;
+    /* margin, padding conforme necessário */
+ }
+ 
+ .photobanner {
+   /* Seus estilos existentes: display: flex, width calculado, etc. */
    display: flex;
-   text-align: right;
- }
-
- header img {
-   padding-top: 25px;
-   width: 80px;
-   height: 70px; }
-
-
-
- footer {
-  position: static;
-   display:flex;
-   flex-direction: row;
-   justify-content: space-around;
-   align-items: center;
-   font-family: Arial, Helvetica, sans-serif;
-   text-align: center;   
-   right: 0;
-    left: 0;
-    
-   bottom: 0px;
-   height:25px; /* Changed from percentage to fixed height */
-   width: 100%;
-   background-color: whitesmoke;
-   z-index: 1;
- }
-
- main {
-   margin-bottom: 6%;
- }
-
- footer a {
-   display: inline;
- }
-
- footer img {
-   width: 25px;
-   height: 25px;
- }
-
- .scroll-watcher {
-   height: 5px;
-   position: fixed;
-   top: 0;
-   left: 0;
-   z-index: 1000;
-   background-color: rgb(255, 72, 0);
-   width: 100%;
-   scale: 0 1;
-   transform-origin: left;
-   animation: scroll-watcher linear;
-   animation-timeline: scroll(y);
- }
-
- @keyframes scroll-watcher {
-   to {
-     scale: 1 1;
-   }
- }
-   table {  
-     margin-top: 30px; 
-      display: table;
-      min-width: 100%;
-      height: 100%;
-      border-collapse: collapse;      
-      white-space: nowrap;
-    }
- table:hover{  
-  display:list-item;
-  background-color: rgb(255, 255, 255);
-  text-align: center;     
-   justify-content: center;
-  overflow-x: auto;
-  overflow-y: hidden;
- }
-  
-  
-
- table th {    
-   border-bottom: 1px solid #ca3d3d;
-   font-size: small;
-   color: rgb(29, 29, 22);
-   font-size:small;
-   
- }
-
- table td {       
-    text-align: center;
-     border: 1px solid rgb(177, 174, 174); 
- } 
-
- table img{
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    transition: width, height 2s;    
-    display: flex;
+   width: calc(200px * 10); /* Exemplo: largura_imagem * numero_imagens */
+   animation: bannermove 30s linear infinite; /* Ajuste a duração */
  }
  
- table img:hover{
-    width:  150px;
-    height: 150px;
-   
- }
-
-  
-.photobanner {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  top: 0;
-  white-space: nowrap;
-  animation: bannermove 20s linear infinite;
-  width: max-content; /* Ensures all elements are visible */
-}
-
-.photobanner img {
-  margin-right: 10px; /* Space between images */
-  margin-left: 10px; /* Space between images */
-  margin-top: 10px;
-  margin-bottom: 10px;
- 
-}
-
-.photobanner img:first-child {
-  margin-left: 0px; /* Remove left margin for the first image */
-
- 
-}
-.photobanner img:last-child {
-  margin-right: 0; /* Remove right margin for the last image */
-}
-.photobanner img:hover {
-  transform: scale(1.1);
-  z-index: 1;
-  transition: transform 0.5s;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  cursor: pointer;
-  animation: bannermove 20s linear infinite;
-  animation-play-state: running;
-  animation-direction: alternate;
-  animation-timing-function: ease-in-out;
-  animation-delay: 0.5s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-timing-function: ease-in-out;
-  animation-delay: 0.5s;
-}
-
-
-
  @keyframes bannermove {
-   0% {
-     transform: translateX(0);
-   }
-
-   100% {
-     transform: translateX(-100%);
-   }
+   0% { transform: translateX(0); }
+   100% { transform: translateX(-50%); } /* Move metade da largura total */
  }
-  
-  
- .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-   overflow: hidden;
-   position: relative;
-   width: 100%;
-   
+ 
+ .photobanner img {
+    width: 200px; /* Largura fixa da imagem */
+    height: auto; /* Mantém proporção */
+    margin-right: 10px; /* Espaço entre imagens */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Transição suave */
+    flex-shrink: 0; /* Evita que imagens encolham */
  }
-
- .container:hover .photobanner {
+ 
+ .photobanner img:hover {
+   transform: scale(1.1);
+   z-index: 10; /* Garante que a imagem ampliada fique sobre as outras */
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+   cursor: pointer;
+ }
+ 
+ .photobanner-container:hover .photobanner { /* Pausa no container */
    animation-play-state: paused;
  }
+ 
+ 
+ /* ==========================================================================
+    Footer
+    ========================================================================== */
+ footer {
+    background-color: var(--cor-secundaria);
+    min-height: var(--altura-footer); /* Usa min-height */
+    padding: 10px 20px; /* Espaçamento interno */
+    text-align: center;
+    margin-top: 40px; /* Espaço acima do footer */
+    box-sizing: border-box;
+    position: relative;
+    /* font-family já herdado */
+ }
+ 
+ /* ==========================================================================
+    Utilitários / Classes de Ajuda
+    ========================================================================== */
+ .error {
+    color: var(--cor-erro);
+    font-size: 0.9em;
+    margin-top: 5px;
+ }
+ 
+ 
+ 
+ /* Aplique a uma classe genérica ou a todas as imagens dentro de certas seções */
+ .noticia-img,
+ .adocao-img,
+ .historia-img,
+ .procurase-img,
+ .parceria-item img { /* Adicione outras classes/seletores conforme necessário */
+   max-width: 100%; /* Limita a largura máxima ao container pai */
+   height: auto;    /* Mantém a proporção da imagem */
+   display: block;  /* Evita espaços extras abaixo da imagem */
+   margin-left: auto; /* Opcional: centraliza se o container for maior */
+   margin-right: auto;/* Opcional: centraliza se o container for maior */
+ }
+ 
+ /* Exemplo para imagens de adoção com tamanho fixo */
+ .adocao-img {
+   width: 200px;   /* Largura desejada */
+   height: 150px;  /* Altura desejada */
+   object-fit: cover; /* Redimensiona a imagem para cobrir a área,
+                        mantendo a proporção (pode cortar partes) */
+   /* Alternativa: object-fit: contain; -> Mostra a imagem inteira,
+                                           pode deixar espaços vazios */
+   display: block;
+ }
+ 
+ /* Exemplo para imagens menores (thumbnails) */
+ .img-thumbnail {
+   width: 80px;
+   height: 80px;
+   object-fit: cover;
+   border-radius: 50%; /* Opcional: para fotos de perfil redondas */
+   display: block;
+ }
+ 
+ /* Exemplo para imagens médias */
+ .img-medium {
+   max-width: 300px; /* Define uma largura máxima */
+   height: auto;
+   display: block;
+   margin: 10px auto; /* Centraliza e adiciona margem */
+ }
+ 
+ /* No seu CSS do photobanner */
+ .photobanner img {
+    width: 200px; /* Largura fixa da imagem (exemplo) */
+    height: auto; /* Mantém proporção */
+    /* ... outros estilos ... */
+ }
+ 
+ /* Ou se precisar de altura fixa */
+ .photobanner img {
+    width: 200px;
+    height: 150px; /* Altura fixa */
+    object-fit: cover; /* Para preencher sem distorcer */
+    /* ... outros estilos ... */
+ }
+ 
+ .main-content {
+   padding: 20px; /* Espaçamento interno geral */
+   max-width: 1200px; /* Opcional: Limita a largura máxima do conteúdo */
+   margin: 0 auto; /* Centraliza o container se max-width for usado */
+ }
+ section { /* Aplica a todas as seções */
+   margin-bottom: 40px; /* Espaço abaixo de cada seção */
+   padding: 20px; /* Espaçamento interno de cada seção */
+   border-bottom: 1px solid #eee; /* Opcional: linha separadora sutil */
+ }
+ section:last-of-type {
+     border-bottom: none; /* Remove a borda da última seção */
+ }
+ .noticias-lista {
+   display: grid;
+   /* Cria colunas de tamanho igual, no mínimo 250px,
+      preenchendo o espaço disponível */
+   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+   gap: 20px; /* Espaço entre os itens da grade */
+ }
+ 
+ .noticia-item {
+   border: 1px solid #ddd;
+   padding: 15px;
+   border-radius: 8px;
+   background-color: #f9f9f9;
+   position: relative; /* Para posicionar o botão de deletar */
+ }
+ 
+ /* Estilo para o botão de deletar (exemplo) */
+ .noticia-item .form-delete {
+     position: absolute;
+     top: 5px;
+     right: 5px;
+ }
+ .noticia-item .btn-delete {
+     background-color: var(--cor-erro, red);
+     color: white;
+     border: none;
+     border-radius: 50%;
+     width: 25px;
+     height: 25px;
+     cursor: pointer;
+     font-weight: bold;
+     line-height: 25px; /* Centraliza o 'X' */
+     text-align: center;
+     padding: 0;
+ }
+ /* Se não usar photobanner, poderia ser assim: */
+ #slides-adocao { /* Ou outra classe container */
+     display: flex;
+     flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
+     gap: 15px; /* Espaço entre os cards */
+     justify-content: center; /* Centraliza os cards */
+ }
+ 
+ .adocao-card {
+     border: 1px solid #ccc;
+     border-radius: 8px;
+     padding: 10px;
+     text-align: center;
+     background-color: white;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     text-decoration: none;
+     color: inherit; /* Herda a cor do texto */
+     width: 220px; /* Largura fixa para o card */
+ }
+ .adocao-card:hover {
+     transform: translateY(-5px);
+     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+ }
+ .adocao-card .adocao-img { /* Aplica o CSS de tamanho fixo definido antes */
+     margin-bottom: 10px;
+ }
+ .adocao-card .adocao-nome {
+     font-weight: bold;
+     color: var(--cor-primaria);
+ }
+ h1 { font-size: 2.5em; margin-bottom: 15px; color: var(--cor-primaria); }
+ h2 { font-size: 2em; margin-bottom: 10px; color: var(--cor-primaria); border-bottom: 2px solid var(--cor-primaria); padding-bottom: 5px; margin-top: 30px; } /* Destaca títulos de seção */
+ h3 { font-size: 1.5em; margin-bottom: 8px; color: #333; }
+ h4 { font-size: 1.2em; margin-bottom: 5px; color: #555; }
+ p {
+   line-height: 1.6; /* Melhora a legibilidade */
+   margin-bottom: 15px; /* Espaço entre parágrafos */
+   color: #444; /* Cor de texto padrão */
+ }
+ .link-veja-mais,
+ .link-novo,
+ .link-adicionar-pet,
+ .link-adicionar-historia, .btn-delete {
+   display: inline-block; /* Para aplicar padding e margin */
+   background-color: var(--cor-primaria);
+   color: var(--cor-secundaria);
+   padding: 10px 20px;
+   border-radius: 5px;
+   text-decoration: none;
+   font-weight: bold;
+   transition: background-color 0.3s ease;
+   margin-top: 15px; /* Espaço acima */
+ }
+ 
+ .link-veja-mais p, /* Remove margem padrão do <p> dentro do <a> */
+ .link-novo p,
+ .link-adicionar-pet p,
+ .link-adicionar-historia p {
+     margin: 0;
+     padding: 0;
+ }
+ 
+ .link-veja-mais:hover,
+ .link-novo:hover,
+ .link-adicionar-pet:hover,
+ .link-adicionar-historia:hover, .btn-delete:hover {
+   background-color: var(--cor-fundo-hover-nav); /* Ou uma cor de hover específica */
+   color: var(--cor-hover-nav);
+ }
 
- .error {  
-   justify-content: center;
-   border: 1px solid white;
-   text-align: center;
-   white-space: pre-line;
-   font-size: large;
-   color: red;
+ /* Estilos para o menu mobile */
+ @media (max-width: 768px) {
+   .nav-container {
+     flex-direction: column;
+     align-items: flex-start;
+   }
+   .nav-mobile-toggle {
+     display: block;
+     align-self: flex-end;
+   }
+   nav {
+     display: none;
+     flex-direction: column;
+     width: 100%;
+     list-style: none;
+   }
+   nav.active {
+     display: flex;
+   }
+   nav a {
+     width: 100%;
+     text-align: center;
+     list-style: none;
+   }
+ }
+ @media (max-width: 768px) {
+   /* Ex: Colunas da grade de notícias viram uma única coluna */
+   .noticias-lista {
+     grid-template-columns: 1fr; /* Uma coluna */
+   }
+ 
+   /* Ex: Reduzir padding principal */
+   .main-content {
+     padding: 10px;
+   }
+ 
+   /* Ex: Ajustar tamanho das fontes */
+   h1 { font-size: 2em; }
+   h2 { font-size: 1.6em; }
+ 
+   /* Ex: Centralizar texto em algumas seções */
+   .section-sobre, .section-numeros {
+       text-align: center;
+   }
+ 
+   /* ... outros ajustes para mobile ... */
+ }
+ 
+ @media (max-width: 480px) {
+     /* Ajustes ainda menores se necessário */
+     .adocao-card {
+         width: 100%; /* Cards ocupam largura total */
+     }
+     .nav-container { padding: 0 10px; }
  }
  
 
- .show {
-  width:100px;
-  height: 30px;
-  border:1px solid;
-  outline:none;
-  cursor:pointer;
-  display: inline-block;
-  }
-  
-  .hidden{
-    display: none;
-    text-align: center;  
-  }
-  
-  .show:focus-visible + .hidden,
-  .show:focus + .hidden {
-    display: block;
-  }
 
-  
+ /* ==========================================================================
+    Header / Navegação
+    ========================================================================== */
  
-
-  
-
-  .home{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    padding: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    margin-top: 30px;
-    width: 100%;
-    height: 100%;
-     position: relative;
-     font-family: Arial, Helvetica, sans-serif;
-     background-image: url('/static/css/imagem/1.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: rgb(14, 14, 13); /* Fallback color */   
-    background-position: center;
-    display: block;
-     color: rgb(246, 250, 250);
-   
-  }
-  
-  .home a {
-    text-decoration: none;
-    height:10px;
-  }
-
-  .home a:hover{
-    display: block;
-    cursor: pointer;
-    font-size: x-large;
-    font-weight: bold;
-   background-color: rgb(245, 238, 238);
-    font-weight: bold;
-     color: black;
+ /* Container para logo, nav, e toggle */
+ .nav-container {
+   display: flex;
+   justify-content: space-between; /* Empurra logo para esquerda, nav/toggle para direita */
+   align-items: center;
+   padding: 0 20px; /* Espaçamento horizontal */
+   height: var(--altura-header);
+   background: var(--cor-secundaria);
+   position: relative; /* Necessário para posicionar o menu mobile absoluto */
+ }
+ 
+ .logo {
+   font-size: var(--tamanho-logo);
+   font-weight: bold;
+   /* Garante que a imagem do logo não ultrapasse a altura do header */
+   display: flex; /* Para alinhar a imagem verticalmente se necessário */
+   align-items: center;
+ }
+ .logo img {
+     max-height: calc(var(--altura-header) - 15px); /* Ex: Limita altura com margem */
+     width: auto; /* Mantém proporção */
+     display: block;
+ }
+ 
+ /* Navegação Desktop - A lista em si */
+ nav ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   display: flex; /* Itens lado a lado no desktop */
+   gap: 15px; /* Espaço entre os itens */
+ }
+ 
+ nav a {
+   color: var(--cor-primaria);
+   text-decoration: none;
+   padding: 10px 15px;
+   display: block; /* Faz toda a área do link ser clicável */
+   transition: background-color 0.3s ease, color 0.3s ease;
+   white-space: nowrap; /* Evita quebra de linha nos links */
+ }
+ 
+ nav a:hover {
+   color: var(--cor-hover-nav);
+   background-color: var(--cor-fundo-hover-nav);
+ }
+ 
+ /* Botão Toggle Mobile (Hamburger) */
+ .nav-mobile-toggle {
+   display: none; /* Escondido no desktop */
+   cursor: pointer;
+   font-size: 1.8em; /* Tamanho do ícone */
+   background: none; /* Sem fundo */
+   border: none; /* Sem borda */
+   padding: 5px;
+   color: var(--cor-primaria);
+   line-height: 1; /* Evita espaço vertical extra */
+ }
+ 
+ /* ==========================================================================
+     Estilos Mobile (Media Query Consolidada)
+    ========================================================================== */
+ @media (max-width: 768px) {
+ 
+   /* Ajusta padding do container */
+   .nav-container {
+     padding: 0 15px;
+   }
+ 
+   /* Esconde a lista de navegação desktop */
+   nav ul {
+     display: none;
+   }
+ 
+   /* Mostra o botão toggle */
+   .nav-mobile-toggle {
+     display: block;
+   }
+ 
+   /* Estiliza o container <nav> para o menu mobile */
+   nav {
+     display: none; /* Escondido por padrão no mobile */
+     position: absolute; /* Posicionado em relação ao .nav-container */
+     top: var(--altura-header); /* Logo abaixo do header */
+     left: 0;
+     right: 0; /* Ocupa toda a largura */
+     background-color: var(--cor-secundaria); /* Fundo do menu */
+     position: fixed;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+     z-index: 1000; /* Garante que fique sobre outros conteúdos */
+     border-top: 1px solid #ddd; /* Linha separadora */
+   }
+ 
+   /* Quando o <nav> recebe a classe .active (via JS) */
+   nav.active {
+     display: block; /* Mostra o menu */
+   }
+ 
+   /* Estiliza a lista DENTRO do menu mobile ativo */
+   nav.active ul {
+     display: flex; /* Reativa o display */
+     flex-direction: column; /* Itens um abaixo do outro */
+     width: 100%;
+     padding: 10px 0; /* Espaçamento vertical interno */
+     gap: 0; /* Remove o gap horizontal */
+   }
+ 
+   /* Estiliza os links DENTRO do menu mobile ativo */
+   nav.active a {
+     width: 100%;
+     text-align: left; /* Alinha texto à esquerda */
+     padding: 12px 20px; /* Mais padding para toque */
+     box-sizing: border-box;
+     border-bottom: 1px solid #eee; /* Linhas separadoras entre itens */
+     color: var(--cor-primaria);
+   }
+   nav.active li:last-child a {
+       border-bottom: none; /* Remove a borda do último item */
+   }
+ 
+   nav.active a:hover {
+     background-color: var(--cor-fundo-hover-nav);
+     color: var(--cor-hover-nav);
+   }
+ 
+   /* --- Outros Ajustes Mobile (Mantidos e Consolidados) --- */
+ 
+   .noticias-lista {
+     grid-template-columns: 1fr;
+   }
+ 
+   .main-content {
+     padding: 15px;
+   }
+ 
+   h1 { font-size: 2em; }
+   h2 { font-size: 1.6em; }
+ 
+   .section-sobre, .section-numeros {
+       text-align: center;
+   }
+ }
+ 
+ /* Ajustes para telas ainda menores */
+ @media (max-width: 480px) {
+     .adocao-card {
+         width: 100%;
      }
-
-.home img{
-  width: 200px;
-  height: 200px;
+     .nav-container { padding: 0 10px; }
+     h1 { font-size: 1.8em; }
+     h2 { font-size: 1.4em; }
+ }
+ 
+ /* Remova os blocos @media duplicados que você tinha antes */
+ /* ==========================================================================
+    Footer
+    ========================================================================== */
+footer {
+    background-color: var(--cor-secundaria);
+    min-height: var(--altura-footer);
+    padding: 10px 20px;
+    text-align: center;
+    margin-top: 40px;
+    box-sizing: border-box;
+    color: #555;
+    font-size: 0.9em;    
 }
 
+footer p {
+    margin: 0;
+    line-height: 1.5;
+}
 
+/* Estilo para o botão do Facebook */
+.facebook-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #3b5998; /* Cor do Facebook */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
 
+/* Hover para o botão do Facebook */
+.facebook-button:hover {
+    background-color: #2d4373; /* Cor mais escura no hover */
+}
 
+ /* Ajustes no Footer para Telas Menores (dentro da sua media query existente) */
+ @media (max-width: 768px) {
+   footer {
+     padding: 15px; /* Reduz padding lateral em telas menores */
+     margin-top: 30px; /* Reduz espaço acima */
+     font-size: 0.85em; /* Pode reduzir ainda mais a fonte */
+     min-height: 10px;
+     height: auto;   
+   }
+ }
+ 
+ @media (max-width: 480px) {
+     footer {
+         padding: 5px;
+         margin-top: 10px;
+         font-size: 0.7em;
+         min-height: 10px;
+         height: auto;
+     }
+ }
 
-
-    #cookie-alert {
-      position: fixed;    
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #f0f0f0;
-      color: #333;
-      padding: 10px;
-      text-align: center;
-      display: block;
-      z-index: 1000;
-    }
-    #cookie-alert button {
-      margin-left: 10px;
-    }
+ :root {
+   /* ... outras variáveis ... */
+   --altura-footer: 25px; /* Altura mínima padrão */
+ }
+ 
+ footer {
+   /* ... outros estilos ... */
+   min-height: var(--altura-footer); /* Aplica a variável */
+   /* ... outros estilos ... */
+ }
+ 
+ @media (max-width: 768px) {
+   footer {
+     /* ... outros estilos ... */
+     min-height: 10px; /* Reduz a altura mínima */
+     height: auto;
+   }
+ }
+ 
+ @media (max-width: 480px) {
+     footer {
+         /* ... outros estilos ... */
+         min-height: 10px; /* Mantém a altura mínima reduzida */
+         height: auto;
+     }
+ }
+ :root {
+   --altura-footer: 40px; /* Exemplo: Aumentando para 40px */
+ }
+ 
+ @media (max-width: 768px) {
+   footer {
+     min-height: 20px; /* Exemplo: Aumentando para 20px em telas menores */
+     /* ... */
+   }
+ }
+ 

@@ -1,35 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ONG Amor Animal Marilia.</title>
-<link rel="stylesheet" href="/static/css/default.css">
-<link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
-</head>
-
-<header>  
-     <nav>
-       
-        <a class=".logo" href="./home"> <img src="/static/css/imagem/ong.jpg" /></a>
-        <div class="mobile-menu">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </div>
-           <ul class="nav-list">
-            <li><a href="/home"> Inicio </a></li>
-            <li> <a href="/adocao"> Adoção </a></li>
-            <li><a href="/castracao"> Castração </a></li>
-            <li><a href="/doacao"> Doação </a></li>
-            <li><a href="/procura_se"> Procura_se </a> </li>
-            <li><a href="/parceria"> Parceria </a> </li>
-            <li><a href="/sobre"> Sobre</a> </li>           
-        </ul>
-    </nav>
+   <!DOCTYPE html>
+   <html lang="pt-br"> <!-- Mudado para pt-br -->
+   <head> <!-- Head tag fechada corretamente -->
+       <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>ONG Amor Animal Marilia.</title>
+       <link rel="stylesheet" href="/static/css/default.css">
+       <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
+   </head>
    
-</header>
-<main></main>
-<div class="scroll-watcher"></div>
-<body>
-<center>
+   <body> <!-- Body tag aberta aqui, envolvendo todo o conteúdo visível -->
+   
+   <div class="scroll-watcher"></div> 
+   <!-- _header.ejs -->
+   <header>
+       <div class="nav-container"> <!-- Container principal para alinhar logo e toggle/nav -->
+           <a class="logo" href="/home">
+               <img src="/static/css/imagem/ong.jpg" alt="Logo ONG Amor Animal" />
+               <!-- Ou <span class="logo-text">ONG Amor Animal</span> -->
+           </a>
+   
+           <!-- Botão Hamburger (Toggle) -->
+           <button class="nav-mobile-toggle" aria-label="Abrir menu" aria-expanded="false">
+               &#9776; <!-- Código HTML para o ícone hamburger (☰) -->
+               <!-- Você pode substituir por um SVG ou ícone de uma biblioteca -->
+           </button>
+   
+           <!-- Navegação Principal -->
+           <nav>
+               <ul class="nav-list">
+                   <li><a href="/home"> Início </a></li>
+                   <li><a href="/adocao"> Adoção </a></li>
+                   <li><a href="/castracao"> Castração </a></li>
+                   <li><a href="/doacao"> Doação </a></li>
+                   <li><a href="/procura_se"> Procura-se </a></li>
+                   <li><a href="/parceria"> Parceria </a></li>
+                   <li><a href="/sobre"> Sobre</a></li>
+               </ul>
+           </nav>
+       </div>
+   </header>
    

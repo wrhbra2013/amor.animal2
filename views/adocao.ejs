@@ -10,6 +10,7 @@
   </div>
 
   <div class="center">   
+    <% if (typeof model2 !=='undefined' && model2.length> 0) {%>   
       <% for(const adotado of model2) { %>
         <div class="artigo">
        
@@ -28,6 +29,10 @@
             class="center" />
         </form>
         <% } %>  
+        <% } else { %>
+          <p>Adotantes: Nenhum dado disponível</p>
+          <script>document.getElementById('data').style.display="none";</script>
+          <% } %>
         </div>
   </div>
 

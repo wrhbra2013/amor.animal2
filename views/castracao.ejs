@@ -21,7 +21,7 @@
     The for...in statement iterates over all enumerable properties of an object that are keyed by strings. 
      -->
     <table >
-      <!--   loop 1  thead-->
+        <% if (typeof model !=='undefined' && model.length> 0) {%>   
          <% for(const castracao of model) { %>                   
          <tr>
             <th>dia</th>
@@ -81,6 +81,10 @@
        
                  </tr>
           <% } %> 
+          <% } else { %>
+            <p>Adotantes: Nenhum dado disponível</p>
+            <script>document.getElementById('data').style.display="none";</script>
+            <% } %>
        
        </table>
 

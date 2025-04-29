@@ -27,6 +27,7 @@ function executeQuery(query) {
 /* 10 */ const sql_adotante = `SELECT * FROM adotante;`
 
 
+
 async function executeAllQueries() {
     const queries = [
         { name: 'home', query: sqlHome },
@@ -38,6 +39,8 @@ async function executeAllQueries() {
         { name: 'procura_se', query: query_procura_se },
         { name: 'parceria', query: query_parceria },
         { name: 'sql_adotante', query: sql_adotante }
+        
+
     ];
 
     const results = {};
