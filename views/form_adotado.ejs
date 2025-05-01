@@ -3,25 +3,31 @@
   <h1>Histórias de adoção..</h1>
 </div>
 <div class="artigo">
-  <button><a href="./home">Cancelar</a></button>  
+  <a href="./adocao" class="link-cancelar">Cancelar</a>
 </div>
 <div class="artigo">
   
   <p>Você pode contar a história do seu pet adotado, e ajudar outras pessoas a também adotarem um animalzinho.  
   As histórias serão publicadas na página de adoção.</p>
 </div>
-<div class="artigo">  
-    <form action=" " enctype="multipart/form-data" method="post">
-      <img id="frame" src="" width="300px" height="200px" alt="carregando..."/>
-      <br>
-      <input type="file" name="arquivo" id="arquivo" placeholder="Arquivo" onchange="preview()" />   
-      <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
-        <input type="text" placeholder="Nome  Pet" name="nome_pet" required>
-        <input type="text" placeholder="Nome  Tutor"  name="nome_tutor" required>
-        <textarea  name="historia" rows="4" cols="20"
-        placeholder="Historia"></textarea>
-        <input type="submit" value="Incluir" />
-    </form>
+<div class="artigo">
+  <form action=" " enctype="multipart/form-data" method="post" class="form-adotado">
+    <div class="form-group">
+      <img id="frame" src="" width="300px" height="200px" alt="carregando..." class="img-preview"/>
+      <input type="file" name="arquivo" id="arquivo" class="form-control-file" onchange="preview()" required/>
+      <button type="button" class="btn-limpar" onclick="document.getElementById('frame').src=''">Limpar</button>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="Nome do Pet" name="nome_pet" class="form-control" required/>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="Nome do Tutor" name="nome_tutor" class="form-control" required/>
+    </div>
+    <div class="form-group">
+      <textarea name="historia" rows="5" placeholder="Conte a história da adoção" class="form-control" required></textarea>
+    </div>
+    <input type="submit" value="Incluir" class="btn-incluir"/>
+  </form>
 </div>
 
 <%- include("_footer")-%>

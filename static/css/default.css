@@ -1,695 +1,2338 @@
+ /* /home/wander/amor.animal2/static/css/default.css */
 
  /* ==========================================================================
-    Variáveis Globais e Reset Básico
+    1. Variáveis Globais e Reset Básico
     ========================================================================== */
  :root {
+   /* Cores */
    --cor-primaria: rgb(20, 18, 19);
+   --cor-primaria-hover: #333; /* Adicionado para consistência */
    --cor-secundaria: rgb(245, 245, 245);
-   --cor-hover-nav: rgb(20, 18, 19);
-   --cor-fundo-hover-nav: rgb(208, 221, 224);
+   --cor-texto-padrao: #444; /* Adicionado conforme sugestão */
+   --cor-texto-secundario: #555;
+   --cor-borda: #ddd;
+   --cor-fundo-tabela-header: #f0f0f0;
+   --cor-fundo-tabela-zebra: #f9f9f9;
+   --cor-fundo-tabela-hover: #f5f5f5;
    --cor-erro: red;
-   --cor-borda-tabela: rgb(177, 174, 174);
-   --cor-fundo-hover-artigo: rgb(245, 238, 238); /* Exemplo de nova variável */
-   --cor-texto-hover-artigo: black; /* Exemplo de nova variável */
- 
+   --cor-sucesso: green;
+   --cor-info: blue;
+   --cor-aviso: orange;
+   --cor-facebook: #3b5998;
+   --cor-facebook-hover: #2d4373;
+   --cor-branco: white; /* Adicionado para clareza */
+
+   /* Fontes */
    --fonte-principal: Arial, Helvetica, sans-serif;
-   --tamanho-logo: 20px;
-   --altura-header: 8vh;
-   --altura-footer: 25px; /* Considere usar 'min-height' se o conteúdo puder crescer */
+
+   /* Tamanhos e Layout */
+   --altura-header: 12vh;
+   --altura-footer: 40px;
+   --tamanho-logo: 60px; /* Considerar se ainda é necessário se a imagem define a altura */
+   --largura-max-conteudo: 1200px;
+   --espacamento-padrao: 20px;
+   --espacamento-metade: 10px;
+   --espacamento-componente: 15px;
+   --border-radius-padrao: 4px;
+   --border-radius-grande: 5px; /* Consolidar ou escolher um */
+   --sombra-padrao: 0 2px 4px rgba(0, 0, 0, 0.1);
  }
- 
+
  html, body {
    margin: 0;
    padding: 0;
    font-family: var(--fonte-principal);
-   /* Considere adicionar box-sizing: border-box; globalmente */
-   /* box-sizing: border-box; */
+   box-sizing: border-box;
+   color: var(--cor-texto-padrao);
+   background-color: var(--cor-branco); /* Definir cor de fundo base */
  }
- 
- /* *, *::before, *::after {
+
+ *, *::before, *::after {
    box-sizing: inherit;
- } */
- 
+ }
+
  /* ==========================================================================
-    Header / Navegação
+    2. Estilos Base (Headings, Parágrafos, Links)
     ========================================================================== */
+ h1, h2, h3, h4, p {
+   margin: 0 0 0.5em 0; /* Reset de margem superior e adiciona inferior */
+   padding: 0;
+ }
+
+ h1 { font-size: 2em; }
+ h2 { font-size: 1.5em; }
+ h3 { font-size: 1.2em; }
+ h4 { font-size: 1em; }
+
+ p {
+   line-height: 1.6;
+   margin-bottom: 1em; /* Espaçamento padrão para parágrafos */
+ }
+
+ a {
+   color: var(--cor-primaria);
+   text-decoration: none;
+   transition: color 0.3s ease, background-color 0.3s ease; /* Adicionar transição base */
+ }
+ a:hover {
+   text-decoration: underline;
+   color: var(--cor-primaria-hover); /* Opcional: escurecer link no hover */
+ }
+
+ /* ==========================================================================
+    3. Layout Principal (Header, Nav, Main, Footer)
+    ========================================================================== */
+
+ /* --- Header e Navegação --- */
  .nav-container {
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: 0 20px;
+   padding: 0 var(--espacamento-padrao);
    height: var(--altura-header);
    background: var(--cor-secundaria);
- }
- nav {
-   display: flex;
-   gap: 20px;
-   list-style: none;
- }
- .nav-mobile-toggle {
-   display: none;
-   cursor: pointer;
-   font-size: 1.5em;
+   position: relative; /* Para o dropdown e menu mobile */
+   border-bottom: 1px solid var(--cor-borda); /* Adicionar separador visual */
  }
 
  .logo {
-   font-size: var(--tamanho-logo);
-   font-weight: bold;
-   /* ... outros estilos do logo ... */
- }
- nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
- 
- nav a {
-   color: var(--cor-primaria);
-   text-decoration: none;
-   padding: 10px 15px;
-   transition: background-color 0.3s ease, color 0.3s ease;
- }
- 
- nav a:hover {
-   color: var(--cor-hover-nav);
-   background-color: var(--cor-fundo-hover-nav);
- }
- 
- /* ==========================================================================
-    Conteúdo Principal / Artigos / Formulários
-    ========================================================================== */
- .artigo {
-   padding: 20px; /* Exemplo de espaçamento */
- }
- 
- .artigo input,
- .artigo textarea,
- .artigo select,
- .artigo fieldset {
-   margin-top: 5px;
-   max-width: 400px; /* Exemplo: usar max-width fixo ou % */
-   width: 100%;
-   padding: 8px 12px; /* Espaçamento interno */
-   border: 1px solid var(--cor-borda-tabela); /* Exemplo de borda */
-   box-sizing: border-box; /* Importante com padding/border e width: 100% */
- }
- 
- .artigo fieldset {
-   border: 1px solid var(--cor-borda-tabela);
-   padding: 15px;
- }
- 
- .artigo a {
-   display: inline-block; /* Ou block se precisar ocupar linha inteira */
-   margin-top: 10px; /* Espaçamento */
-   padding: 8px 15px;
-   color: var(--cor-primaria);
-   text-decoration: none;
-   border: 1px solid transparent; /* Para evitar salto no hover se adicionar borda */
-   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
- }
- 
- .artigo a:hover {
-   cursor: pointer;
-   font-weight: bold;
-   background-color: var(--cor-fundo-hover-artigo);
-   color: var(--cor-texto-hover-artigo);
-   /* transform: scale(1.03); */ /* Efeito sutil de zoom */
- }
- 
- /* ==========================================================================
-    Tabelas
-    ========================================================================== */
- .tabela-container {
-   width: 100%;
-   overflow-x: auto; /* Habilita rolagem horizontal */
-   margin-top: 30px;
-   border: 1px solid var(--cor-borda-tabela); /* Borda no container */
- }
- 
- .tabela-container table {
-   width: 100%; /* Ocupa o container */
-   min-width: 600px; /* Exemplo: Largura mínima antes da rolagem aparecer */
-   border-collapse: collapse;
-   white-space: nowrap; /* Evita quebra de linha nas células */
- }
- 
- .tabela-container th,
- .tabela-container td {
-   border: 1px solid var(--cor-borda-tabela);
-   padding: 8px 12px; /* Espaçamento interno das células */
-   text-align: left; /* Alinhamento padrão */
-   vertical-align: top; /* Alinhamento vertical */
- }
- 
- .tabela-container th {
-   background-color: var(--cor-secundaria); /* Cabeçalho destacado */
-   font-weight: bold;
- }
- 
- /* ==========================================================================
-    Banner de Fotos / Parcerias
-    ========================================================================== */
- .photobanner-container { /* Adicione um container se não existir */
-    overflow: hidden; /* Esconde partes da imagem que saem durante a animação */
-    width: 100%;
-    /* margin, padding conforme necessário */
- }
- 
- .photobanner {
-   /* Seus estilos existentes: display: flex, width calculado, etc. */
+   font-weight: bold; /* Se for texto */
    display: flex;
-   width: calc(200px * 10); /* Exemplo: largura_imagem * numero_imagens */
-   animation: bannermove 30s linear infinite; /* Ajuste a duração */
- }
- 
- @keyframes bannermove {
-   0% { transform: translateX(0); }
-   100% { transform: translateX(-50%); } /* Move metade da largura total */
- }
- 
- .photobanner img {
-    width: 200px; /* Largura fixa da imagem */
-    height: auto; /* Mantém proporção */
-    margin-right: 10px; /* Espaço entre imagens */
-    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Transição suave */
-    flex-shrink: 0; /* Evita que imagens encolham */
- }
- 
- .photobanner img:hover {
-   transform: scale(1.1);
-   z-index: 10; /* Garante que a imagem ampliada fique sobre as outras */
-   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-   cursor: pointer;
- }
- 
- .photobanner-container:hover .photobanner { /* Pausa no container */
-   animation-play-state: paused;
- }
- 
- 
- /* ==========================================================================
-    Footer
-    ========================================================================== */
- footer {
-    background-color: var(--cor-secundaria);
-    min-height: var(--altura-footer); /* Usa min-height */
-    padding: 10px 20px; /* Espaçamento interno */
-    text-align: center;
-    margin-top: 40px; /* Espaço acima do footer */
-    box-sizing: border-box;
-    position: relative;
-    /* font-family já herdado */
- }
- 
- /* ==========================================================================
-    Utilitários / Classes de Ajuda
-    ========================================================================== */
- .error {
-    color: var(--cor-erro);
-    font-size: 0.9em;
-    margin-top: 5px;
- }
- 
- 
- 
- /* Aplique a uma classe genérica ou a todas as imagens dentro de certas seções */
- .noticia-img,
- .adocao-img,
- .historia-img,
- .procurase-img,
- .parceria-item img { /* Adicione outras classes/seletores conforme necessário */
-   max-width: 100%; /* Limita a largura máxima ao container pai */
-   height: auto;    /* Mantém a proporção da imagem */
-   display: block;  /* Evita espaços extras abaixo da imagem */
-   margin-left: auto; /* Opcional: centraliza se o container for maior */
-   margin-right: auto;/* Opcional: centraliza se o container for maior */
- }
- 
- /* Exemplo para imagens de adoção com tamanho fixo */
- .adocao-img {
-   width: 200px;   /* Largura desejada */
-   height: 150px;  /* Altura desejada */
-   object-fit: cover; /* Redimensiona a imagem para cobrir a área,
-                        mantendo a proporção (pode cortar partes) */
-   /* Alternativa: object-fit: contain; -> Mostra a imagem inteira,
-                                           pode deixar espaços vazios */
-   display: block;
- }
- 
- /* Exemplo para imagens menores (thumbnails) */
- .img-thumbnail {
-   width: 80px;
-   height: 80px;
-   object-fit: cover;
-   border-radius: 50%; /* Opcional: para fotos de perfil redondas */
-   display: block;
- }
- 
- /* Exemplo para imagens médias */
- .img-medium {
-   max-width: 300px; /* Define uma largura máxima */
-   height: auto;
-   display: block;
-   margin: 10px auto; /* Centraliza e adiciona margem */
- }
- 
- /* No seu CSS do photobanner */
- .photobanner img {
-    width: 200px; /* Largura fixa da imagem (exemplo) */
-    height: auto; /* Mantém proporção */
-    /* ... outros estilos ... */
- }
- 
- /* Ou se precisar de altura fixa */
- .photobanner img {
-    width: 200px;
-    height: 150px; /* Altura fixa */
-    object-fit: cover; /* Para preencher sem distorcer */
-    /* ... outros estilos ... */
- }
- 
- .main-content {
-   padding: 20px; /* Espaçamento interno geral */
-   max-width: 1200px; /* Opcional: Limita a largura máxima do conteúdo */
-   margin: 0 auto; /* Centraliza o container se max-width for usado */
- }
- section { /* Aplica a todas as seções */
-   margin-bottom: 40px; /* Espaço abaixo de cada seção */
-   padding: 20px; /* Espaçamento interno de cada seção */
-   border-bottom: 1px solid #eee; /* Opcional: linha separadora sutil */
- }
- section:last-of-type {
-     border-bottom: none; /* Remove a borda da última seção */
- }
- .noticias-lista {
-   display: grid;
-   /* Cria colunas de tamanho igual, no mínimo 250px,
-      preenchendo o espaço disponível */
-   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-   gap: 20px; /* Espaço entre os itens da grade */
- }
- 
- .noticia-item {
-   border: 1px solid #ddd;
-   padding: 15px;
-   border-radius: 8px;
-   background-color: #f9f9f9;
-   position: relative; /* Para posicionar o botão de deletar */
- }
- 
- /* Estilo para o botão de deletar (exemplo) */
- .noticia-item .form-delete {
-     position: absolute;
-     top: 5px;
-     right: 5px;
- }
- .noticia-item .btn-delete {
-     background-color: var(--cor-erro, red);
-     color: white;
-     border: none;
-     border-radius: 50%;
-     width: 25px;
-     height: 25px;
-     cursor: pointer;
-     font-weight: bold;
-     line-height: 25px; /* Centraliza o 'X' */
-     text-align: center;
-     padding: 0;
- }
- /* Se não usar photobanner, poderia ser assim: */
- #slides-adocao { /* Ou outra classe container */
-     display: flex;
-     flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
-     gap: 15px; /* Espaço entre os cards */
-     justify-content: center; /* Centraliza os cards */
- }
- 
- .adocao-card {
-     border: 1px solid #ccc;
-     border-radius: 8px;
-     padding: 10px;
-     text-align: center;
-     background-color: white;
-     transition: transform 0.3s ease, box-shadow 0.3s ease;
-     text-decoration: none;
-     color: inherit; /* Herda a cor do texto */
-     width: 220px; /* Largura fixa para o card */
- }
- .adocao-card:hover {
-     transform: translateY(-5px);
-     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
- }
- .adocao-card .adocao-img { /* Aplica o CSS de tamanho fixo definido antes */
-     margin-bottom: 10px;
- }
- .adocao-card .adocao-nome {
-     font-weight: bold;
-     color: var(--cor-primaria);
- }
- h1 { font-size: 2.5em; margin-bottom: 15px; color: var(--cor-primaria); }
- h2 { font-size: 2em; margin-bottom: 10px; color: var(--cor-primaria); border-bottom: 2px solid var(--cor-primaria); padding-bottom: 5px; margin-top: 30px; } /* Destaca títulos de seção */
- h3 { font-size: 1.5em; margin-bottom: 8px; color: #333; }
- h4 { font-size: 1.2em; margin-bottom: 5px; color: #555; }
- p {
-   line-height: 1.6; /* Melhora a legibilidade */
-   margin-bottom: 15px; /* Espaço entre parágrafos */
-   color: #444; /* Cor de texto padrão */
- }
- .link-veja-mais,
- .link-novo,
- .link-adicionar-pet,
- .link-adicionar-historia, .btn-delete {
-   display: inline-block; /* Para aplicar padding e margin */
-   background-color: var(--cor-primaria);
-   color: var(--cor-secundaria);
-   padding: 10px 20px;
-   border-radius: 5px;
-   text-decoration: none;
-   font-weight: bold;
-   transition: background-color 0.3s ease;
-   margin-top: 15px; /* Espaço acima */
- }
- 
- .link-veja-mais p, /* Remove margem padrão do <p> dentro do <a> */
- .link-novo p,
- .link-adicionar-pet p,
- .link-adicionar-historia p {
-     margin: 0;
-     padding: 0;
- }
- 
- .link-veja-mais:hover,
- .link-novo:hover,
- .link-adicionar-pet:hover,
- .link-adicionar-historia:hover, .btn-delete:hover {
-   background-color: var(--cor-fundo-hover-nav); /* Ou uma cor de hover específica */
-   color: var(--cor-hover-nav);
- }
-
- /* Estilos para o menu mobile */
- @media (max-width: 768px) {
-   .nav-container {
-     flex-direction: column;
-     align-items: flex-start;
-   }
-   .nav-mobile-toggle {
-     display: block;
-     align-self: flex-end;
-   }
-   nav {
-     display: none;
-     flex-direction: column;
-     width: 100%;
-     list-style: none;
-   }
-   nav.active {
-     display: flex;
-   }
-   nav a {
-     width: 100%;
-     text-align: center;
-     list-style: none;
-   }
- }
- @media (max-width: 768px) {
-   /* Ex: Colunas da grade de notícias viram uma única coluna */
-   .noticias-lista {
-     grid-template-columns: 1fr; /* Uma coluna */
-   }
- 
-   /* Ex: Reduzir padding principal */
-   .main-content {
-     padding: 10px;
-   }
- 
-   /* Ex: Ajustar tamanho das fontes */
-   h1 { font-size: 2em; }
-   h2 { font-size: 1.6em; }
- 
-   /* Ex: Centralizar texto em algumas seções */
-   .section-sobre, .section-numeros {
-       text-align: center;
-   }
- 
-   /* ... outros ajustes para mobile ... */
- }
- 
- @media (max-width: 480px) {
-     /* Ajustes ainda menores se necessário */
-     .adocao-card {
-         width: 100%; /* Cards ocupam largura total */
-     }
-     .nav-container { padding: 0 10px; }
- }
- 
-
-
- /* ==========================================================================
-    Header / Navegação
-    ========================================================================== */
- 
- /* Container para logo, nav, e toggle */
- .nav-container {
-   display: flex;
-   justify-content: space-between; /* Empurra logo para esquerda, nav/toggle para direita */
    align-items: center;
-   padding: 0 20px; /* Espaçamento horizontal */
-   height: var(--altura-header);
-   background: var(--cor-secundaria);
-   position: relative; /* Necessário para posicionar o menu mobile absoluto */
+   order: 2; /* Direita no Desktop */
+   height: 100%; /* Ocupar altura do header */
  }
- 
- .logo {
-   font-size: var(--tamanho-logo);
-   font-weight: bold;
-   /* Garante que a imagem do logo não ultrapasse a altura do header */
-   display: flex; /* Para alinhar a imagem verticalmente se necessário */
-   align-items: center;
- }
+
  .logo img {
-     max-height: calc(var(--altura-header) - 15px); /* Ex: Limita altura com margem */
-     width: auto; /* Mantém proporção */
-     display: block;
+   max-height: calc(var(--altura-header) - var(--espacamento-metade)); /* Ajuste conforme necessário */
+   width: auto;
+   display: block;
  }
- 
- /* Navegação Desktop - A lista em si */
+
+ nav {
+   order: 1; /* Esquerda no Desktop */
+ }
+
  nav ul {
    list-style: none;
    padding: 0;
    margin: 0;
-   display: flex; /* Itens lado a lado no desktop */
-   gap: 15px; /* Espaço entre os itens */
+   display: flex;
+   gap: var(--espacamento-componente);
  }
- 
- nav a {
+
+ nav ul li {
+   display: flex; /* Para alinhar itens se houver ícones */
+   align-items: center;
+   position: relative; /* Para o submenu dropdown */
+ }
+
+ nav ul li a {
+   display: block;
+   padding: var(--espacamento-metade) var(--espacamento-componente); /* Ajustar padding */
    color: var(--cor-primaria);
    text-decoration: none;
-   padding: 10px 15px;
-   display: block; /* Faz toda a área do link ser clicável */
-   transition: background-color 0.3s ease, color 0.3s ease;
-   white-space: nowrap; /* Evita quebra de linha nos links */
+   border-radius: var(--border-radius-padrao); /* Adicionar para hover */
  }
- 
- nav a:hover {
-   color: var(--cor-hover-nav);
-   background-color: var(--cor-fundo-hover-nav);
+
+ nav ul li a:hover,
+ nav ul li:hover > a { /* Hover no LI afeta o A diretamente */
+   background-color: var(--cor-primaria);
+   color: var(--cor-secundaria);
+   text-decoration: none;
  }
- 
- /* Botão Toggle Mobile (Hamburger) */
+
+ nav ul li.active > a {
+   background-color: var(--cor-primaria);
+   color: var(--cor-secundaria);
+   font-weight: bold; /* Indicar item ativo */
+ }
+
+ /* Dropdown */
+ nav ul li.dropdown ul {
+   display: none;
+   position: absolute;
+   top: 100%;
+   left: 0;
+   background-color: var(--cor-secundaria);
+   padding: var(--espacamento-metade) 0; /* Espaçamento interno */
+   margin: 0;
+   min-width: 180px; /* Largura mínima para o dropdown */
+   border-radius: var(--border-radius-padrao);
+   box-shadow: var(--sombra-padrao);
+   z-index: 100; /* Para ficar sobre outros elementos */
+   border: 1px solid var(--cor-borda);
+ }
+
+ nav ul li.dropdown:hover ul {
+   display: block;
+ }
+
+ nav ul li.dropdown ul li {
+   display: block; /* Itens do dropdown um abaixo do outro */
+   width: 100%;
+ }
+
+ nav ul li.dropdown ul li a {
+   padding: var(--espacamento-metade) var(--espacamento-componente);
+   display: block;
+   white-space: nowrap; /* Evitar quebra de linha */
+   color: var(--cor-primaria); /* Cor padrão do submenu */
+   border-radius: 0; /* Remover radius individual se o hover for no LI */
+ }
+
+ nav ul li.dropdown ul li:hover {
+    background-color: var(--cor-primaria); /* Fundo no hover do LI */
+ }
+
+ nav ul li.dropdown ul li:hover a {
+   color: var(--cor-secundaria); /* Cor do texto no hover do LI */
+   background-color: transparent; /* Remover fundo do A se o hover for no LI */
+ }
+
+ nav ul li.dropdown ul li.active a {
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+    font-weight: bold;
+ }
+
+
+ /* --- Navegação Mobile --- */
  .nav-mobile-toggle {
    display: none; /* Escondido no desktop */
+   order: 1; /* Esquerda no Mobile */
    cursor: pointer;
-   font-size: 1.8em; /* Tamanho do ícone */
-   background: none; /* Sem fundo */
-   border: none; /* Sem borda */
-   padding: 5px;
+   padding: var(--espacamento-metade);
+   background: none;
+   border: none;
+ }
+
+ .nav-mobile-toggle span {
+   display: block;
+   width: 25px;
+   height: 3px;
+   background-color: var(--cor-primaria);
+   margin: 5px 0;
+   transition: all 0.3s ease;
+ }
+
+ .nav-mobile-toggle.active span:nth-child(1) {
+   transform: rotate(45deg) translate(5px, 5px);
+ }
+ .nav-mobile-toggle.active span:nth-child(2) {
+   opacity: 0;
+ }
+ .nav-mobile-toggle.active span:nth-child(3) {
+   transform: rotate(-45deg) translate(5px, -5px);
+ }
+
+ /* --- Conteúdo Principal --- */
+ .main-content {
+   flex-grow: 1; /* Para empurrar o footer para baixo em layouts flex */
+   padding-top: var(--espacamento-padrao); /* Espaço abaixo do header */
+   padding-bottom: var(--espacamento-padrao); /* Espaço acima do footer */
+ }
+
+ section {
+   padding: var(--espacamento-padrao) 0; /* Espaçamento vertical padrão para seções */
+   margin-bottom: var(--espacamento-padrao);
+ }
+ section:last-child {
+    margin-bottom: 0; /* Remover margem da última seção */
+ }
+
+ section h2 {
+   margin-bottom: var(--espacamento-componente); /* Espaçamento abaixo dos títulos de seção */
+   padding-bottom: var(--espacamento-metade); /* Linha ou espaçamento abaixo do título */
+   border-bottom: 1px solid var(--cor-borda); /* Exemplo de separador */
+ }
+
+ /* --- Containers --- */
+ .container,
+ .container-full,
+ .container-fluid,
+ .container-fluid-full {
+   margin-left: auto;
+   margin-right: auto;
+   padding-left: var(--espacamento-padrao);
+   padding-right: var(--espacamento-padrao);
+ }
+
+ .container {
+   max-width: var(--largura-max-conteudo);
+ }
+
+ .container-full {
+   width: 100%;
+ }
+
+ .container-fluid {
+   width: 100%;
+   max-width: 100%; /* Garante que não exceda a viewport */
+ }
+
+ .container-fluid-full {
+   width: 100%;
+   max-width: 100%;
+   padding-left: 0;
+   padding-right: 0;
+ }
+
+ /* --- Footer --- */
+ footer {
+   background-color: var(--cor-secundaria);
+   min-height: var(--altura-footer);
+   padding: var(--espacamento-metade) var(--espacamento-padrao);
+   text-align: center;
+   margin-top: calc(var(--espacamento-padrao) * 2); /* Mais espaço antes do footer */
+   box-sizing: border-box;
+   color: var(--cor-texto-secundario);
+   font-size: 0.9em;
+   border-top: 1px solid var(--cor-borda); /* Separador visual */
+ }
+
+ footer p {
+  margin: 0;
+  padding: 0;
+  line-height: var(--altura-footer); /* Centralizar verticalmente se for linha única */
+ }
+
+ footer a {
    color: var(--cor-primaria);
-   line-height: 1; /* Evita espaço vertical extra */
+ }
+ footer a:hover {
+   color: var(--cor-primaria-hover);
+   text-decoration: underline;
+ }
+
+ /* --- Botões de Redes Sociais (Exemplo) --- */
+ .social-buttons {
+   display: flex;
+   gap: var(--espacamento-metade);
+   justify-content: center;
+   margin-top: var(--espacamento-padrao); /* Espaçamento se estiver no footer */
+   padding-bottom: var(--espacamento-metade);
+ }
+
+ .social-button { /* Classe base para botões sociais */
+    color: var(--cor-branco);
+    padding: var(--espacamento-metade) var(--espacamento-componente);
+    border-radius: var(--border-radius-grande);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    display: inline-flex; /* Para alinhar ícone e texto se houver */
+    align-items: center;
+    gap: calc(var(--espacamento-metade) / 2);
+ }
+ .social-button:hover {
+    text-decoration: none;
+    opacity: 0.9; /* Efeito de hover genérico */
+ }
+
+ .facebook-button {
+   background-color: var(--cor-facebook);
+ }
+ .facebook-button:hover {
+   background-color: var(--cor-facebook-hover);
+ }
+ /* Adicionar outras redes .instagram-button, .twitter-button, etc. */
+
+
+ /* ==========================================================================
+    4. Componentes (Cards, Tabelas, Formulários, Banner, etc.)
+    ========================================================================== */
+
+ /* --- Componente Card Base --- */
+ .card {
+   border: 1px solid var(--cor-borda);
+   padding: var(--espacamento-metade); /* Padding interno menor */
+   margin-bottom: var(--espacamento-padrao); /* Espaçamento entre cards */
+   border-radius: var(--border-radius-grande);
+   box-shadow: var(--sombra-padrao);
+   background-color: var(--cor-branco);
+   position: relative; /* Para posicionar elementos internos como botões */
+   overflow: hidden; /* Para garantir que o border-radius funcione com imagens */
+ }
+
+ .card-img {
+   width: 100%;
+   height: 200px; /* Altura padrão para imagens de card */
+   object-fit: cover;
+   display: block; /* Remover espaço extra abaixo da imagem */
+   border-radius: var(--border-radius-grande) var(--border-radius-grande) 0 0; /* Arredondar cantos superiores */
+   margin: -var(--espacamento-metade) -var(--espacamento-metade) var(--espacamento-metade); /* Fazer imagem tocar bordas */
+   width: calc(100% + var(--espacamento-padrao)); /* Compensar padding negativo */
+ }
+
+ .card-body {
+    padding: var(--espacamento-metade); /* Espaçamento para o conteúdo textual */
+ }
+
+ .card h3 {
+   margin-top: 0; /* Remover margem superior do título */
+   margin-bottom: calc(var(--espacamento-metade) / 2);
+   font-size: 1.1em; /* Ajustar tamanho do título do card */
+ }
+
+ .card p {
+   margin-bottom: var(--espacamento-metade);
+   font-size: 0.95em;
+   color: var(--cor-texto-secundario);
+ }
+ .card p:last-of-type {
+    margin-bottom: 0;
+ }
+
+ .card a:not(.btn) { /* Links dentro do card que não são botões */
+   /* Estilos específicos se necessário */
+ }
+
+ .card .form-delete { /* Posicionamento do botão delete */
+   position: absolute;
+   top: var(--espacamento-metade);
+   right: var(--espacamento-metade);
+   text-align: right;
+ }
+ .card .form-delete .btn-delete {
+    padding: 5px 8px; /* Botão menor */
+    font-size: 0.8em;
+ }
+
+ /* --- Lista de Notícias --- */
+ .noticias-lista {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: var(--espacamento-padrao);
+ }
+ /* .noticia-item usa a classe .card */
+ .noticia-item .card-img { /* Alias para clareza */
+    /* Estilos específicos se houver */
+ }
+
+ /* --- Lista de Adoção --- */
+ .adocao-lista {
+   display: flex;
+   flex-wrap: wrap;
+   gap: var(--espacamento-padrao);
+   /* justify-content: space-between; */ /* Ou center, etc. */
+ }
+ /* .adocao-card usa a classe .card */
+ .adocao-card {
+   /* Largura definida no grid/flex container ou media queries */
+   /* Exemplo: width: calc(33.33% - var(--espacamento-padrao) * 2 / 3); */
+   flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
+   min-width: 250px; /* Largura mínima */
+ }
+ .adocao-card .adocao-img { /* Alias para clareza */
+    /* Estilos específicos se houver */
+ }
+
+ /* --- Histórias Adoção --- */
+ .adocao-historia-lista {
+   display: flex;
+   flex-wrap: wrap;
+   gap: var(--espacamento-padrao);
+ }
+ /* .adocao-historia-item usa a classe .card */
+ .adocao-historia-item {
+   flex: 1 1 300px;
+   min-width: 250px;
+ }
+ .adocao-historia-item .adocao-historia-imagem { /* Alias para clareza */
+    /* Estilos específicos se houver */
+ }
+
+
+ /* --- Tabelas --- */
+ .tabela-container {
+    overflow-x: auto; /* Permitir rolagem horizontal em telas pequenas */
+    margin-bottom: var(--espacamento-padrao);
+ }
+
+ .tabela-container table {
+   width: 100%;
+   border-collapse: collapse;
+   border: 1px solid var(--cor-borda);
+ }
+
+ .tabela-container th,
+ .tabela-container td {
+   border: 1px solid var(--cor-borda);
+   padding: var(--espacamento-metade) var(--espacamento-componente);
+   text-align: left;
+   vertical-align: middle; /* Alinhar conteúdo verticalmente */
+ }
+
+ .tabela-container th {
+   background-color: var(--cor-fundo-tabela-header);
+   font-weight: bold;
+ }
+
+ .tabela-container tr:nth-child(even) {
+   background-color: var(--cor-fundo-tabela-zebra);
+ }
+
+ .tabela-container tr:hover {
+   background-color: var(--cor-fundo-tabela-hover);
+ }
+
+ /* Botões na Tabela */
+ .tabela-container .btn-acoes { /* Container para botões */
+    display: flex;
+    gap: calc(var(--espacamento-metade) / 2);
+    white-space: nowrap; /* Evitar quebra de linha dos botões */
+ }
+
+ .tabela-container .btn { /* Estilo base para botões de tabela */
+   padding: 5px 10px;
+   border: none;
+   border-radius: var(--border-radius-padrao);
+   cursor: pointer;
+   text-decoration: none;
+   color: var(--cor-branco);
+   font-size: 0.9em;
+   transition: opacity 0.3s ease;
+ }
+ .tabela-container .btn:hover {
+   opacity: 0.8;
+   text-decoration: none;
+ }
+
+ .tabela-container .btn-edit { background-color: var(--cor-info); }
+ .tabela-container .btn-view { background-color: var(--cor-primaria); }
+ .tabela-container .btn-delete { background-color: var(--cor-erro); }
+ .tabela-container .btn-add { background-color: var(--cor-sucesso); }
+
+
+ /* --- Formulários --- */
+ .form-container { /* Wrapper opcional para formulários */
+    /* max-width: 600px; */ /* Limitar largura se necessário */
+    /* margin: 0 auto; */
+ }
+
+ .form-group {
+   margin-bottom: var(--espacamento-componente);
+ }
+
+ .form-group label {
+   display: block;
+   margin-bottom: 5px;
+   font-weight: bold;
+   font-size: 0.9em;
+ }
+
+ .form-control { /* Classe comum para inputs, textareas, selects */
+   width: 100%;
+   padding: var(--espacamento-metade) var(--espacamento-componente);
+   margin-bottom: 5px; /* Espaço pequeno abaixo do input antes de msg de erro */
+   border: 1px solid var(--cor-borda);
+   border-radius: var(--border-radius-padrao);
+   box-sizing: border-box;
+   background-color: var(--cor-branco);
+   color: var(--cor-texto-padrao);
+   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+ }
+ .form-control:focus {
+    border-color: var(--cor-primaria);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(20, 18, 19, 0.2); /* Exemplo de foco */
+ }
+
+ textarea.form-control {
+   height: 150px;
+   resize: vertical;
+ }
+
+ input[type="file"].form-control {
+   padding: calc(var(--espacamento-metade) / 1.5); /* Ajuste padding para file input */
+ }
+
+ /* Mensagens de erro/sucesso */
+ .form-error, .form-success {
+   display: block; /* Garante que ocupe a linha */
+   margin-top: 5px;
+   font-size: 0.85em;
+   padding: 5px;
+   border-radius: var(--border-radius-padrao);
+ }
+ .form-error {
+   color: var(--cor-erro);
+   /* background-color: rgba(255, 0, 0, 0.1); */ /* Fundo opcional */
+ }
+ .form-success {
+   color: var(--cor-sucesso);
+   /* background-color: rgba(0, 128, 0, 0.1); */ /* Fundo opcional */
+ }
+
+ /* Botão Submit */
+ .btn-submit { /* Classe específica para botão de submit */
+   background-color: var(--cor-primaria);
+   color: var(--cor-branco);
+   padding: var(--espacamento-metade) var(--espacamento-padrao);
+   border: none;
+   border-radius: var(--border-radius-padrao);
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+   font-size: 1em;
+   font-weight: bold;
+ }
+ .btn-submit:hover {
+   background-color: var(--cor-primaria-hover);
+ }
+
+ /* --- Banner --- */
+ .photobanner-container {
+   position: relative;
+   width: 100%;
+   height: 400px; /* Altura padrão do banner */
+   overflow: hidden;
+   background-color: var(--cor-primaria); /* Cor de fundo caso a imagem não carregue */
+ }
+
+ .photobanner-container img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover; /* Cobre o container, pode cortar a imagem */
+   display: block;
+   /* filter: brightness(0.7); */ /* Opcional: escurecer imagem para texto contrastar */
+ }
+
+ .photobanner-container .banner-text {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: var(--cor-branco);
+   text-align: center;
+   width: 90%; /* Limitar largura do texto */
+   max-width: var(--largura-max-conteudo); /* Não exceder largura máxima */
+   padding: 0 var(--espacamento-padrao);
+   z-index: 10; /* Ficar sobre a imagem */
+ }
+
+ .photobanner-container .banner-text h2 {
+   font-size: 3em;
+   margin-bottom: var(--espacamento-metade);
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+   border-bottom: none; /* Remover borda herdada de section h2 */
+   color: inherit; /* Garantir cor branca */
+ }
+
+ .photobanner-container .banner-text p {
+   font-size: 1.2em;
+   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+   margin-bottom: 0;
+   color: inherit; /* Garantir cor branca */
+ }
+
+ /* --- Botões Genéricos --- */
+ .btn { /* Classe base para todos os botões */
+    display: inline-block; /* Comportamento de link/botão */
+    padding: var(--espacamento-metade) var(--espacamento-componente);
+    border-radius: var(--border-radius-grande);
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    border: none; /* Resetar borda padrão */
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+    font-weight: bold;
+ }
+ .btn:hover {
+    text-decoration: none;
+ }
+
+ .btn-primario {
+    background-color: var(--cor-primaria);
+    color: var(--cor-branco);
+ }
+ .btn-primario:hover {
+    background-color: var(--cor-primaria-hover);
+    color: var(--cor-branco);
+ }
+
+ .btn-secundario {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-primaria);
+    border: 1px solid var(--cor-borda);
+ }
+ .btn-secundario:hover {
+    background-color: #e0e0e0; /* Leve escurecida */
+    color: var(--cor-primaria-hover);
+ }
+
+ .btn-delete { /* Estilo base do botão delete */
+   background-color: var(--cor-erro);
+   color: var(--cor-branco);
+ }
+ .btn-delete:hover {
+   opacity: 0.8;
+ }
+
+ /* Aplicar a classe .btn .btn-primario aos links existentes */
+ /* Ex: <a href="..." class="btn btn-primario">Veja Mais</a> */
+ .link-veja-mais,
+ .link-novo,
+ .link-adicionar-pet,
+ .link-adicionar-historia {
+    /* Estes podem ser removidos se usar .btn .btn-primario no HTML */
+    /* Se mantidos, aplicar estilos base: */
+    display: inline-block;
+    background-color: var(--cor-primaria);
+    color: var(--cor-branco);
+    padding: var(--espacamento-metade) var(--espacamento-componente);
+    border-radius: var(--border-radius-grande);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+ }
+ .link-veja-mais:hover,
+ .link-novo:hover,
+ .link-adicionar-pet:hover,
+ .link-adicionar-historia:hover {
+    background-color: var(--cor-primaria-hover);
+    text-decoration: none;
+ }
+
+
+ /* --- Páginas Específicas (Contato, Castração, Sobre, Doações) --- */
+ /* Usar uma classe base para estrutura comum */
+ .page-content-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   /* justify-content: center; */ /* Pode não ser necessário */
+   text-align: center; /* Centralizar texto por padrão */
+   max-width: 800px; /* Limitar largura do conteúdo */
+   margin: 0 auto; /* Centralizar container */
+ }
+
+ .page-content-container h2 {
+   margin-bottom: var(--espacamento-padrao);
+   width: 100%; /* Fazer título ocupar largura */
+ }
+
+ .page-content-container .page-image-container {
+   width: 100%;
+   max-width: 600px; /* Limitar tamanho da imagem */
+   height: auto;
+   margin-bottom: var(--espacamento-padrao);
+ }
+
+ .page-content-container .page-image-container img {
+   width: 100%;
+   height: auto;
+   border-radius: var(--border-radius-grande);
+   box-shadow: var(--sombra-padrao);
+   display: block;
+ }
+
+ .page-content-container .page-text-content {
+   margin-bottom: var(--espacamento-padrao);
+   text-align: left; /* Alinhar texto principal à esquerda */
+   width: 100%;
+ }
+
+ .page-content-container .page-text-content p {
+   margin-bottom: var(--espacamento-metade);
+ }
+
+ .page-content-container .page-text-content ul {
+   list-style: disc;
+   margin-left: var(--espacamento-padrao);
+   margin-bottom: var(--espacamento-metade);
+   padding-left: var(--espacamento-metade); /* Adicionar padding para afastar do marcador */
+ }
+
+ .page-content-container .page-text-content ul li {
+   margin-bottom: 5px;
+ }
+
+ 
+ .page-content-container .page-text-content a:hover {
+   text-decoration: underline;
  }
  
+ .page-content-container .page-text-content .page-action-button {
+   /* Usar .btn .btn-primario ou .btn-secundario no HTML */
+   margin-top: var(--espacamento-metade);
+   display: inline-block; /* Para aplicar margem */
+ }
+
+ /* Aplicar a classe base no HTML: <div class="page-content-container contato-container"> */
+ /* .contato-container, .castracao-container, .sobre-nos-container, .doacoes-container { */
+   /* Estilos específicos para cada página, se houver, podem ir aqui */
+ /* } */
+
+
  /* ==========================================================================
-     Estilos Mobile (Media Query Consolidada)
+    5. Classes Utilitárias
     ========================================================================== */
+ /* Mensagens */
+ .error { color: var(--cor-erro); }
+ .success { color: var(--cor-sucesso); }
+ .info { color: var(--cor-info); }
+ .warning { color: var(--cor-aviso); }
+
+ /* Visibilidade */
+ .hidden { display: none !important; } /* !important para garantir */
+
+ /* Alinhamento de Texto */
+ .text-center { text-align: center; }
+ .text-left { text-align: left; }
+ .text-right { text-align: right; }
+
+ /* Estilo de Texto */
+ .bold { font-weight: bold; }
+ .italic { font-style: italic; }
+ .underline { text-decoration: underline; }
+ .uppercase { text-transform: uppercase; }
+ .lowercase { text-transform: lowercase; }
+ .capitalize { text-transform: capitalize; }
+
+ /* Quebra de Texto */
+ .truncate {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+ }
+ .no-wrap { white-space: nowrap; }
+
+ /* Clearfix (para floats antigos) */
+ .clearfix::after {
+   content: "";
+   display: table;
+   clear: both;
+ }
+ .float-left { float: left; }
+ .float-right { float: right; }
+
+ /* Espaçamento (Exemplos - Adicionar mais conforme necessário) */
+ .mt-1 { margin-top: var(--espacamento-metade); }
+ .mt-2 { margin-top: var(--espacamento-padrao); }
+ .mb-1 { margin-bottom: var(--espacamento-metade); }
+ .mb-2 { margin-bottom: var(--espacamento-padrao); }
+ .ml-1 { margin-left: var(--espacamento-metade); }
+ .ml-2 { margin-left: var(--espacamento-padrao); }
+ .mr-1 { margin-right: var(--espacamento-metade); }
+ .mr-2 { margin-right: var(--espacamento-padrao); }
+ .pt-1 { padding-top: var(--espacamento-metade); }
+ .pt-2 { padding-top: var(--espacamento-padrao); }
+ .pb-1 { padding-bottom: var(--espacamento-metade); }
+ .pb-2 { padding-bottom: var(--espacamento-padrao); }
+ .pl-1 { padding-left: var(--espacamento-metade); }
+ .pl-2 { padding-left: var(--espacamento-padrao); }
+ .pr-1 { padding-right: var(--espacamento-metade); }
+ .pr-2 { padding-right: var(--espacamento-padrao); }
+
+ .no-margin { margin: 0 !important; }
+ .no-padding { padding: 0 !important; }
+
+ /* Imagens */
+ .img-responsive {
+   max-width: 100%;
+   height: auto;
+   display: block; /* Evitar espaço extra */
+ }
+ .img-thumbnail {
+   max-width: 100%;
+   height: auto;
+   border: 1px solid var(--cor-borda);
+   border-radius: var(--border-radius-padrao);
+   padding: 4px;
+   box-sizing: border-box;
+   background-color: var(--cor-branco);
+ }
+ .img-circle { border-radius: 50%; }
+ .img-rounded { border-radius: var(--border-radius-grande); }
+
+ /* Interação (Simplificado - remover as duplicadas/inválidas) */
+ .no-select { user-select: none; }
+ .no-pointer-events { pointer-events: none; }
+ /* Adicionar outras classes 'no-' úteis conforme necessário */
+
+
+ /* ==========================================================================
+    6. Responsividade (Media Queries Consolidadas)
+    ========================================================================== */
+
+ /* --- Breakpoint Médio (Ex: Tablets) --- */
+ @media (max-width: 992px) {
+   .adocao-historia-item,
+   .adocao-card {
+     /* Exemplo: 2 colunas */
+      flex-basis: calc(50% - var(--espacamento-padrao) / 2); 
+   }
+
+   .photobanner-container .banner-text h2 {
+      font-size: 2.5em;
+   }
+   .photobanner-container .banner-text p {
+      font-size: 1.1em;
+   }
+ }
+
+ /* --- Breakpoint Pequeno (Ex: Celulares) --- */
  @media (max-width: 768px) {
- 
-   /* Ajusta padding do container */
+   /* --- Layout e Navegação Mobile --- */
    .nav-container {
-     padding: 0 15px;
+      /* Ajustes se necessário, ex: padding menor */
+      padding: 0 var(--espacamento-metade);
    }
- 
-   /* Esconde a lista de navegação desktop */
-   nav ul {
-     display: none;
+
+   .logo img {
+      max-height: calc(var(--altura-header) - var(--espacamento-metade) * 1.5); /* Logo menor */
    }
- 
-   /* Mostra o botão toggle */
-   .nav-mobile-toggle {
+
+   nav { /* Container do menu mobile */
+     display: none; /* Escondido por padrão */
+     position: absolute; /* Ou fixed, dependendo do efeito desejado */
+     top: var(--altura-header); /* Abaixo do header */
+     left: 0;
+     width: 100%;
+     background-color: var(--cor-secundaria);
+     z-index: 1000;
+     padding: var(--espacamento-padrao);
+     box-shadow: var(--sombra-padrao);
+     border-top: 1px solid var(--cor-borda);
+   }
+
+   nav.active { /* Mostra o menu quando ativo */
      display: block;
    }
- 
-   /* Estiliza o container <nav> para o menu mobile */
-   nav {
-     display: none; /* Escondido por padrão no mobile */
-     position: absolute; /* Posicionado em relação ao .nav-container */
-     top: var(--altura-header); /* Logo abaixo do header */
-     left: 0;
-     right: 0; /* Ocupa toda a largura */
-     background-color: var(--cor-secundaria); /* Fundo do menu */
-     position: fixed;
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-     z-index: 1000; /* Garante que fique sobre outros conteúdos */
-     border-top: 1px solid #ddd; /* Linha separadora */
+
+   nav ul { /* Lista principal no mobile */
+     display: block; /* Mudar de flex para block */
+     flex-direction: column; /* Garantir que itens fiquem em coluna */
+     align-items: flex-start;
+     gap: 0; /* Remover gap do flex */
+     width: 100%;
    }
- 
-   /* Quando o <nav> recebe a classe .active (via JS) */
+
+   nav ul li {
+     width: 100%;
+     margin-bottom: var(--espacamento-metade); /* Espaço entre itens */
+   }
+   nav ul li:last-child {
+      margin-bottom: 0;
+   }
+
+   nav ul li a {
+     padding: var(--espacamento-metade); /* Padding uniforme */
+     display: block; /* Ocupar largura total */
+     width: 100%;
+     border: 1px solid transparent; /* Para manter alinhamento com dropdown */
+   }
+   nav ul li a:hover,
+   nav ul li:hover > a {
+      /* Manter hover do desktop ou ajustar */
+      background-color: var(--cor-primaria);
+      color: var(--cor-secundaria);
+      text-decoration: none;
+      
+   }
+   nav ul li.active > a {
+      /* Manter active do desktop ou ajustar */
+      background-color: var(--cor-primaria);
+      color: var(--cor-secundaria);
+      font-weight: bold;
+      
+   }
+
+   /* Dropdown no Mobile */
+   nav ul li.dropdown ul {
+     position: static; /* Remover posicionamento absoluto */
+     display: none; /* Escondido por padrão */
+     background-color: transparent; /* Sem fundo extra */
+     box-shadow: none;
+     border: none;
+     padding: 0 0 0 var(--espacamento-padrao); /* Indentação */
+     margin-top: var(--espacamento-metade); /* Espaço após o link pai */
+     min-width: auto; /* Remover largura mínima */
+   }
+   nav ul li.dropdown ul li a {
+     padding-left: calc(var(--espacamento-metade) * 2); /* Indentação dos subitens */
+   }
+
+   nav ul li.dropdown ul li:hover {
+      background-color: var(--cor-primaria);
+   }
+   nav ul li.dropdown ul li:hover a {
+      color: var(--cor-secundaria);
+   }
+   nav ul li.dropdown ul li.active a {
+      background-color: var(--cor-primaria);
+      color: var(--cor-secundaria);
+   }
+
+   /* Ajustes para o toggle (hamburguer) */
+   .nav-mobile-toggle {
+      display: block;
+      order: 2; /* Mover para a direita */
+   }
+
+   .logo {
+      order: 2; /* Mover para a esquerda */
+   }
+
+   /* Esconder menu desktop (se ainda estiver visível) */
+   nav > ul {
+      display: none;
+   }
+
+   /* Mostrar menu mobile quando ativo */
    nav.active {
-     display: block; /* Mostra o menu */
+      display: block;
    }
- 
-   /* Estiliza a lista DENTRO do menu mobile ativo */
+
+   /* Ajustes para o menu mobile */
    nav.active ul {
-     display: flex; /* Reativa o display */
-     flex-direction: column; /* Itens um abaixo do outro */
-     width: 100%;
-     padding: 10px 0; /* Espaçamento vertical interno */
-     gap: 0; /* Remove o gap horizontal */
+      display: block;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
    }
- 
-   /* Estiliza os links DENTRO do menu mobile ativo */
-   nav.active a {
-     width: 100%;
-     text-align: left; /* Alinha texto à esquerda */
-     padding: 12px 20px; /* Mais padding para toque */
-     box-sizing: border-box;
-     border-bottom: 1px solid #eee; /* Linhas separadoras entre itens */
-     color: var(--cor-primaria);
+
+   nav.active ul li {
+      width: 100%;
+      margin-bottom: var(--espacamento-metade);
    }
-   nav.active li:last-child a {
-       border-bottom: none; /* Remove a borda do último item */
+
+   nav.active ul li a {
+      display: block;
+      padding: var(--espacamento-metade);
+      width: 100%;
    }
- 
-   nav.active a:hover {
-     background-color: var(--cor-fundo-hover-nav);
-     color: var(--cor-hover-nav);
+
+   /* Dropdown no menu mobile */
+   nav.active ul li.dropdown ul {
+      position: static;
+      display: none;
+      padding-left: var(--espacamento-padrao);
+      margin-top: var(--espacamento-metade);
+      box-shadow: none;
+      border: none;
    }
- 
-   /* --- Outros Ajustes Mobile (Mantidos e Consolidados) --- */
- 
+
+   nav.active ul li.dropdown:hover ul,
+   nav.active ul li.dropdown.open ul {
+      display: block;
+   }
+
+   nav.active ul li.
+   nav ul li.dropdown:hover ul, /* Mostrar no hover (se desejado) */
+   nav ul li.dropdown.open ul { /* Ou mostrar com classe .open via JS */
+     display: block;
+   }
+
+   nav ul li.dropdown ul li {
+      margin-bottom: 5px; /* Espaço menor entre subitens */
+   }
+
+   nav ul li.dropdown ul li a {
+     padding: 5px var(--espacamento-metade); /* Padding menor */
+     font-size: 0.9em;
+     /* Estilos de hover/active para subitens mobile */
+   }
+   nav ul li.dropdown ul li:hover {
+      background-color: var(--cor-primaria);
+   }
+   nav ul li.dropdown ul li:hover a {
+      color: var(--cor-secundaria);
+   }
+   nav ul li.dropdown ul li.active a {
+      background-color: var(--cor-primaria);
+      color: var(--cor-secundaria);
+   }
+
+   .nav-mobile-toggle { /* Mostrar o botão hamburguer */
+     display: block;
+   }
+
+   nav > ul { /* Esconder o menu desktop */
+      display: none; /* Esconder ul principal */
+   }
+   nav.active > ul {
+      display: block; /* Mostrar ul principal quando nav.active */
+   }
+
+
+   /* --- Outros Ajustes Mobile --- */
+   h1 { font-size: 1.8em; }
+   h2 { font-size: 1.4em; }
+   h3 { font-size: 1.1em; }
+
+   .container,
+   .container-full,
+   .container-fluid,
+   .container-fluid-full {
+      padding-left: var(--espacamento-metade); /* Menos padding lateral */
+      padding-right: var(--espacamento-metade);
+   }
+
    .noticias-lista {
-     grid-template-columns: 1fr;
+     grid-template-columns: 1fr; /* 1 coluna */
+     gap: var(--espacamento-componente);
    }
- 
-   .main-content {
-     padding: 15px;
+
+   .adocao-lista,
+   .adocao-historia-lista {
+     gap: var(--espacamento-componente);
    }
- 
-   h1 { font-size: 2em; }
-   h2 { font-size: 1.6em; }
- 
-   .section-sobre, .section-numeros {
-       text-align: center;
+
+   .card {
+      /* Cards ocupam largura total por padrão devido ao flex/grid */
+      flex-basis: 100%;
+      min-width: unset; /* Remover min-width */
+   }
+   .card-img,
+   .adocao-historia-imagem, /* Alias */
+   .adocao-img { /* Alias */
+     height: 180px; /* Imagens menores */
+   }
+
+   .tabela-container {
+      overflow-x: auto; 
+
+   }
+   .tabela-container th,
+   .tabela-container td {
+      padding: 5px 8px; /* Menos padding nas células */
+      font-size: 0.9em;
+   }
+
+   footer {
+     min-height: auto; /* Altura automática */
+     padding: var(--espacamento-metade);
+     font-size: 0.85em;
+   }
+   footer p {
+      line-height: 1.5; /* Resetar line-height */
+   }
+   .social-buttons {
+      margin-top: var(--espacamento-metade);
+   }
+
+   .photobanner-container {
+      height: 250px; /* Banner menor */
+   }
+   .photobanner-container .banner-text h2 {
+      font-size: 1.8em;
+   }
+   .photobanner-container .banner-text p {
+      font-size: 1em;
+   }
+
+   .page-content-container {
+      padding-left: var(--espacamento-metade);
+      padding-right: var(--espacamento-metade);
    }
  }
- 
- /* Ajustes para telas ainda menores */
- @media (max-width: 480px) {
-     .adocao-card {
-         width: 100%;
-     }
-     .nav-container { padding: 0 10px; }
-     h1 { font-size: 1.8em; }
-     h2 { font-size: 1.4em; }
- }
- 
- /* Remova os blocos @media duplicados que você tinha antes */
  /* ==========================================================================
-    Footer
+    4. Componentes (Cards, Tabelas, Formulários, Banner, etc.)
     ========================================================================== */
-footer {
-    background-color: var(--cor-secundaria);
-    min-height: var(--altura-footer);
-    padding: 10px 20px;
+
+ /* ... (outros componentes) ... */
+
+ /* --- Tabelas --- */
+ .tabela-container {
+    width: 100%;
+    overflow-x: auto; /* Mantém rolagem para telas médias se necessário */
+    margin-bottom: var(--espacamento-padrao);
+    -webkit-overflow-scrolling: touch; /* Melhora rolagem em iOS */
+
+    /* Adiciona uma sombra sutil para indicar rolagem em telas que precisam */
+    /* Isso é mais complexo de fazer perfeitamente só com CSS,
+       mas podemos adicionar uma base */
+    position: relative; /* Necessário para pseudo-elementos de sombra se usados */
+ }
+
+ .tabela-container table {
+   width: 100%;
+   border-collapse: collapse;
+   border-spacing: 0; /* Remove espaçamento entre células */
+   /* border: 1px solid var(--cor-borda); */ /* Opcional: borda na tabela inteira */
+   background-color: var(--cor-branco); /* Fundo branco para a tabela */
+ }
+
+ .tabela-container th,
+ .tabela-container td {
+   padding: var(--espacamento-metade) var(--espacamento-componente); /* Ajustar padding */
+   text-align: left;
+   vertical-align: middle;
+   border-bottom: 1px solid var(--cor-borda); /* Linhas horizontais apenas */
+ }
+
+ .tabela-container th {
+   background-color: var(--cor-fundo-tabela-header);
+   font-weight: bold;
+   white-space: nowrap; /* Evitar quebra de linha nos cabeçalhos */
+   border-top: 1px solid var(--cor-borda); /* Borda superior nos headers */
+ }
+
+ .tabela-container tbody tr:nth-child(even) {
+   background-color: var(--cor-fundo-tabela-zebra);
+ }
+
+ .tabela-container tbody tr:hover {
+   background-color: var(--cor-fundo-tabela-hover);
+ }
+
+ /* Botões na Tabela */
+ .tabela-container .btn-acoes {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que botões quebrem linha se necessário */
+    gap: calc(var(--espacamento-metade) / 2);
+    align-items: center; /* Alinhar botões verticalmente */
+ }
+
+ .tabela-container .btn { /* Estilo base para botões de tabela */
+   padding: 6px 12px; /* Padding ligeiramente maior */
+   border: none;
+   border-radius: var(--border-radius-padrao);
+   cursor: pointer;
+   text-decoration: none;
+   color: var(--cor-branco);
+   font-size: 0.85em; /* Tamanho um pouco menor */
+   transition: opacity 0.2s ease, transform 0.2s ease; /* Adicionar transição de transform */
+   display: inline-flex; /* Para alinhar ícones se houver */
+   align-items: center;
+   justify-content: center;
+   line-height: 1.4; /* Melhorar altura da linha */
+ }
+ .tabela-container .btn:hover {
+   opacity: 0.85;
+   text-decoration: none;
+   transform: translateY(-1px); /* Leve efeito ao passar o mouse */
+ }
+ .tabela-container .btn:active {
+    transform: translateY(0); /* Resetar no clique */
+ }
+
+ /* Cores específicas dos botões (já existentes, mantidas) */
+ .tabela-container .btn-edit { background-color: var(--cor-info); }
+ .tabela-container .btn-view { background-color: var(--cor-primaria); }
+ .tabela-container .btn-delete { background-color: var(--cor-erro); }
+ .tabela-container .btn-add { background-color: var(--cor-sucesso); }
+
+ /* Opcional: Adicionar ícones (requer biblioteca de ícones como Font Awesome) */
+ /* .tabela-container .btn-view::before { content: '\f06e'; font-family: 'Font Awesome 5 Free'; margin-right: 5px; font-weight: 900; } */
+ /* .tabela-container .btn-edit::before { content: '\f044'; font-family: 'Font Awesome 5 Free'; margin-right: 5px; font-weight: 900; } */
+ /* .tabela-container .btn-delete::before { content: '\f2ed'; font-family: 'Font Awesome 5 Free'; margin-right: 5px; font-weight: 900; } */
+
+
+ /* ... (resto dos componentes) ... */
+
+
+ /* ==========================================================================
+    6. Responsividade (Media Queries Consolidadas)
+    ========================================================================== */
+
+ /* ... (outras media queries) ... */
+
+ /* --- Breakpoint Pequeno (Ex: Celulares) --- */
+ @media (max-width: 768px) { /* Ou um breakpoint menor como 640px se preferir */
+
+   /* ... (outros ajustes mobile) ...   /* ... (outros ajustes mobile) ... */
+
+   /* --- Ajustes da Tabela para Layout Empilhado --- */
+   .tabela-container {
+      overflow-x: visible; /* Desativar rolagem horizontal no modo empilhado */
+      /* Remover sombra se foi adicionada */
+   }
+
+   .tabela-container table {
+      border: none; /* Remover borda da tabela */
+      box-shadow: none; /* Remover sombra se houver */
+   }
+
+   .tabela-container thead {
+      display: none; /* Esconder cabeçalho original */
+   }
+
+   .tabela-container tr {
+      display: block; /* Cada linha vira um bloco */
+      margin-bottom: var(--espacamento-padrao); /* Espaço entre "cards" de linha */
+      border: 1px solid var(--cor-borda); /* Borda ao redor de cada "card" de linha */
+      border-radius: var(--border-radius-padrao);
+      background-color: var(--cor-branco); /* Fundo branco para cada linha */
+      box-shadow: var(--sombra-padrao); /* Sombra sutil */
+      overflow: hidden; /* Para conter floats ou elementos posicionados */
+   }
+    /* Remover fundo zebrado no modo empilhado */
+   .tabela-container tbody tr:nth-child(even) {
+      background-color: var(--cor-branco);
+   }
+   .tabela-container tbody tr:hover {
+      background-color: var(--cor-branco); /* Remover hover de fundo */
+   }
+
+
+   .tabela-container td {
+      display: flex; /* Usar flex para alinhar label e valor */
+      justify-content: space-between; /* Label à esquerda, valor à direita */
+      align-items: center; /* Alinhar verticalmente */
+      padding: var(--espacamento-metade) var(--espacamento-componente);
+      text-align: right; /* Alinhar valor à direita */
+      border: none; /* Remover bordas internas das células */
+      border-bottom: 1px dashed var(--cor-borda); /* Linha pontilhada entre "campos" */
+      position: relative;      min-height: 30px; /* Altura mínima para melhor toque */
+   }
+
+   .tabela-container td:last-child {
+      border-bottom: none; /* Remover borda da última célula */
+   }
+
+   .tabela-container td::before {
+      content: attr(data-label); /* Puxa o texto do atributo data-label */
+      font-weight: bold;
+      text-align: left; /* Alinhar label à esquerda */
+      margin-right: var(--espacamento-metade); /* Espaço entre label e valor */
+      white-space: nowrap; /* Evitar quebra de linha da label */
+      color: var(--cor-texto-secundario); /* Cor diferente para label */
+      flex-shrink: 0; /* Evitar que a label encolha */
+   }
+
+    /* Ajustes específicos para a coluna de ações */
+   .tabela-container td[data-label="Ações"] {
+      padding-top: var(--espacamento-componente); /* Mais espaço acima dos botões */
+      padding-bottom: var(--espacamento-componente); /* Mais espaço abaixo dos botões */
+   }
+
+   .tabela-container td[data-label="Ações"]::before {
+      display: none; /* Opcional: esconder a label "Ações" se os botões forem óbvios */
+   }
+
+   .tabela-container td[data-label="Ações"] .btn-acoes {
+      width: 100%; /* Fazer container de botões ocupar toda a largura */
+      justify-content: flex-end; /* Alinhar botões à direita */
+   }
+
+   .tabela-container td[data-label="Ações"] .btn {
+      font-size: 0.9em; /* Botões podem ser um pouco maiores no mobile */
+      padding: 8px 14px;
+   }
+
+   /* Remover ajustes de tabela anteriores na media query de 768px se houver */
+   .tabela-container th,
+   .tabela-container td {
+      padding: 5px 8px;
+      font-size: 0.9em;
+   }
+   
+   
+
+   .tabela-container {
+      overflow-x: visible; /* Desativar rolagem horizontal no modo empilhado */
+      /* Remover sombra se foi adicionada */
+   }
+
+   .tabela-container table {
+      border: none; /* Remover borda da tabela */
+      box-shadow: none; /* Remover sombra se houver */
+   }
+
+   .tabela-container thead {
+      display: none; /* Esconder cabeçalho original */
+   }
+
+   .tabela-container tr {
+      display: block; /* Cada linha vira um bloco */
+      margin-bottom: var(--espacamento-padrao); /* Espaço entre "cards" de linha */
+      border: 1px solid var(--cor-borda); /* Borda ao redor de cada "card" de linha */
+      border-radius: var(--border-radius-padrao);
+      background-color: var(--cor-branco); /* Fundo branco para cada linha */
+      box-shadow: var(--sombra-padrao); /* Sombra sutil */
+      overflow: hidden; /* Para conter floats ou elementos posicionados */
+   }
+    /* Remover fundo zebrado no modo empilhado */
+   .tabela-container tbody tr:nth-child(even) {
+      background-color: var(--cor-branco);
+   }
+   .tabela-container tbody tr:hover {
+      background-color: var(--cor-branco); /* Remover hover de fundo */
+   }
+
+
+   .tabela-container td {
+      display: flex; /* Usar flex para alinhar label e valor */
+      justify-content: space-between; /* Label à esquerda, valor à direita */
+      align-items: center; /* Alinhar verticalmente */
+      padding: var(--espacamento-metade) var(--espacamento-componente);
+      text-align: right; /* Alinhar valor à direita */
+      border: none; /* Remover bordas internas das células */
+      border-bottom: 1px dashed var(--cor-borda); /* Linha pontilhada entre "campos" */
+      position: relative;
+      min-height: 30px; /* Altura mínima para melhor toque */
+   }
+
+   .tabela-container td:last-child {
+      border-bottom: none; /* Remover borda da última célula */
+   }
+
+   .tabela-container td::before {
+      content: attr(data-label); /* Puxa o texto do atributo data-label */
+      font-weight: bold;
+      text-align: left; /* Alinhar label à esquerda */
+      margin-right: var(--espacamento-metade); /* Espaço entre label e valor */
+      white-space: nowrap; /* Evitar quebra de linha da label */
+      color: var(--cor-texto-secundario); /* Cor diferente para label */
+      flex-shrink: 0; /* Evitar que a label encolha */
+   }
+
+    /* Ajustes específicos para a coluna de ações */
+   .tabela-container td[data-label="Ações"] {
+      padding-top: var(--espacamento-componente); /* Mais espaço acima dos botões */
+      padding-bottom: var(--espacamento-componente); /* Mais espaço abaixo dos botões */
+   }
+
+   .tabela-container td[data-label="Ações"]::before {
+      display: none; /* Opcional: esconder a label "Ações" se os botões forem óbvios */
+   }
+
+   .tabela-container td[data-label="Ações"] .btn-acoes {
+      width: 100%; /* Fazer container de botões ocupar toda a largura */
+      justify-content: flex-end; /* Alinhar botões à direita */
+   }
+
+   .tabela-container td[data-label="Ações"] .btn {
+      font-size: 0.9em; /* Botões podem ser um pouco maiores no mobile */
+      padding: 8px 14px;
+   }
+
+   /* Remover ajustes de tabela anteriores na media query de 768px se houver */
+   .tabela-container th,
+   .tabela-container td {
+      padding: 5px 8px;
+      font-size: 0.9em;
+   }  /* <- Remover estas linhas se existirem na sua media query original */
+ 
+
+ /* Imagens (Já existente, verificar se está ok) */
+ .img-responsive {
+   max-width: 100%; /* Garante que a imagem não ultrapasse o contêiner */
+   height: 40%;    /* Mantém a proporção da imagem */
+   display: block;  /* Remove espaço extra abaixo da imagem (comportamento inline) */
+ }    /* Remover ajustes de tabela anteriores na media query de 768px se houver */
+ 
+
+ /* --- Componente Card Base --- */
+  .card {
+    border: 1px solid var(--cor-borda);
+    padding: var(--espacamento-metade); /* Manter padding original */
+    margin-bottom: var(--espacamento-padrao);
+    border-radius: var(--border-radius-grande);
+    box-shadow: var(--sombra-padrao);
+    background-color: var(--cor-branco);
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  .card-img {
+    width: 100%;
+    height: 200px; /* <-- Ajuste esta altura para desktop */
+    object-fit: cover;
+    display: block;
+    border-radius: var(--border-radius-padrao); /* Raio menor ou igual ao do card */
+    margin-bottom: var(--espacamento-metade); /* Espaço abaixo da imagem */
+    /* Remover margens negativas e width calc */
+  }
+ 
+  .card-body {
+     padding: 0; /* Remover padding extra se o card já tiver */
+  }
+ 
+  /* No @media (max-width: 768px) */
+  .card-img,
+  .adocao-historia-imagem, /* Alias */
+  .adocao-img { /* Alias */
+    height: 180px; /* <-- Ajuste esta altura para mobile */
+  }
+ .photobanner-container {
+   /* ... */
+   height: 400px; /* <-- Ajuste esta altura para desktop */
+   /* ... */
+ }
+ 
+ /* No @media (max-width: 768px) */
+ .photobanner-container {
+    height: 250px; /* <-- Ajuste esta altura para mobile */
+ }
+ .page-content-container .page-image-container {
+   /* ... */
+   max-width: 600px; /* <-- Ajuste este valor se necessário */
+   /* ... */
+ }
+  /* --- Banner --- */
+  .photobanner-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Altura padrão do banner */
+    overflow: hidden;
+    background-color: var(--cor-primaria); /* Cor de fundo caso a imagem não carregue */
+  }
+ 
+  .photobanner-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cobre o container, pode cortar a imagem */
+    display: block; 
+    filter: brightness(0.7); /* Opcional: escurecer imagem para texto contrastar */
+    transition: filter 0.3s ease; /* Suaviza a transição do filtro */
+  } *   /* Remover ajustes de tabela anteriores na media query de 768px se houver */
+  .photobanner-container:hover img {
+     filter: brightness(0.85);  /* Clarear levemente no hover (opcional) */
+  }
+ 
+  .photobanner-container .banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--cor-branco);
     text-align: center;
-    margin-top: 40px;
+    width: 90%; /* Limitar largura do texto */
+    max-width: var(--largura-max-conteudo); /* Não exceder largura máxima */
+    padding: 0 var(--espacamento-padrao);
+    z-index: 10; /* Ficar sobre a imagem */
+  }
+ 
+  .photobanner-container .banner-text h2 {
+    font-size: 3em;
+    margin-bottom: var(--espacamento-metade);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);  /* Melhorar contraste da sombra */
+    border-bottom: 2px solid var(--cor-branco); /* Adicionar linha abaixo do título */
+    padding-bottom: var(--espacamento-metade);
+    color: inherit; /* Garantir cor branca */
+    font-weight: bold;
+  }
+ 
+  .photobanner-container .banner-text p {
+    font-size: 1.2em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Melhorar contraste da sombra */
+    margin-bottom: 0;
+    color: inherit; /* Garantir cor branca */
+    line-height: 1.5; /* Melhorar legibilidade de parágrafos */
+  }
+ 
+  /* Responsividade */
+  @media (max-width: 992px) { /* Tablets e menores */
+    .photobanner-container {
+       height: 350px; /* Altura ligeiramente menor */
+    }
+    .photobanner-container .banner-text h2 {
+       font-size: 2.5em;
+    }
+    .photobanner-container .banner-text p {
+       font-size: 1.1em;
+    }
+  }
+ 
+  @media (max-width: 768px) { /* Celulares */
+    .photobanner-container {
+       height: 250px; /* Banner menor */
+    }
+    .photobanner-container .banner-text h2 {
+       font-size: 2em;
+    }
+    .photobanner-container .banner-text p {
+       font-size: 1em;
+    }
+  }
+ 
+  @media (max-width: 576px) {  /* Celulares muito pequenos */
+     .photobanner-container .banner-text {
+         width: 95%; /* Mais espaço nas laterais */
+         padding: 0 var(--espacamento-metade);
+     }
+    .photobanner-container .banner-text h2 {
+       font-size: 1.7em;
+       margin-bottom: var(--espacamento-metade); /* Mais espaço abaixo do título */
+    }
+    .photobanner-container .banner-text p {
+       font-size: 0.95em;
+       line-height: 1.4;
+    }
+  }
+ .photobanner-container .overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.3); /* Ajuste a opacidade (0 a 1) */
+   z-index: 5; /* Ficar entre a imagem e o texto */
+ }
+
+  /* Imagens */
+  .img-responsive {
+    max-width: 100%;
+    height: auto;    /* CORRIGIDO: Deve ser 'auto' para manter a proporção */
+    display: block; /* Evitar espaço extra */
+  }
+ /* Dentro de @media (max-width: 768px) */
+ .noticia-item .noticia-img {
+     /* height: 160px; */ /* Atual */
+     height: 200px; /* Exemplo: Mais alto/quadrado no mobile */
+ }
+ .historia-item .historia-img {
+     /* height: 140px; */ /* Atual */
+     height: 180px; /* Exemplo: Mais alto/quadrado no mobile */
+ }
+ /* Faça ajustes similares para .procurase-img, etc. */
+ 
+ /* Dentro de @media (max-width: 576px) */
+  .noticia-item .noticia-img {
+     /* height: 140px; */ /* Atual */
+     height: 180px; /* Exemplo: Mais alto/quadrado */
+  }
+  .historia-item .historia-img {
+     /* height: 120px; */ /* Atual */
+     height: 160px; /* Exemplo: Mais alto/quadrado */
+  }
+  /* ... etc ... */
+ /* Dentro de @media (max-width: 768px) */
+ .photobanner-container {
+    /* height: 250px; */ /* Atual */
+    height: 200px; /* Exemplo: Mais baixo/largo */
+ }
+ 
+ /* Dentro de @media (max-width: 576px) */
+ /* Você pode adicionar uma regra aqui se 200px ainda for muito alto */
+ @media (max-width: 576px) {
+     .photobanner-container {
+         height: 180px; /* Exemplo: Ainda mais baixo/largo */
+     }
+     /* ... outros ajustes para 576px ... */
+ }
+ /* --- Banner com Slides --- */
+ .photobanner-container {
+   position: relative;
+   width: 100%;
+   height: 400px; /* Mantenha ou ajuste a altura */
+   overflow: hidden; /* Essencial para esconder slides fora da área */
+   background-color: var(--cor-primaria);
+ }
+ 
+ /* Container dos slides - Não necessário se usar position: absolute nos slides */
+ /* .photobanner-slides {
+   display: flex; /* Ou usar position: relative; */
+   /* width: 300%; */ /* Ex: 100% * número de slides */
+   /* height: 100%; */
+   /* transition: transform 0.5s ease-in-out; */ /* Para efeito de slide horizontal */
+ /* } */
+ 
+ .photobanner-slide {
+   position: absolute; /* Posiciona todos os slides no mesmo lugar */
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   opacity: 0; /* Esconde slides por padrão */
+   transition: opacity 1s ease-in-out; /* Efeito de fade */
+   z-index: 1; /* Camada base para slides inativos */
+ }
+ 
+ .photobanner-slide.active {
+   opacity: 1; /* Mostra o slide ativo */
+   z-index: 2; /* Slide ativo fica na frente */
+ }
+ 
+ .photobanner-slide img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   display: block;
+   filter: brightness(0.7);
+   /* A transição do filtro pode ser removida ou mantida */
+   /* transition: filter 0.3s ease; */
+ }
+ /* .photobanner-slide:hover img { */ /* Hover pode ser confuso em slider */
+    /* filter: brightness(0.85); */
+ /* } */
+ 
+ /* Texto do banner - permanece o mesmo, mas dentro de cada slide */
+ .photobanner-slide .banner-text {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: var(--cor-branco);
+   text-align: center;
+   width: 90%;
+   max-width: var(--largura-max-conteudo);
+   padding: 0 var(--espacamento-padrao);
+   z-index: 10; /* Texto sobre a imagem e overlay */
+ }
+ .photobanner-slide .banner-text h2 {
+   font-size: 3em;
+   margin-bottom: var(--espacamento-metade);
+   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+   border-bottom: 2px solid var(--cor-branco);
+   padding-bottom: var(--espacamento-metade);
+   color: inherit;
+   font-weight: bold;
+ }
+ .photobanner-slide .banner-text p {
+   font-size: 1.2em;
+   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+   margin-bottom: 0;
+   color: inherit;
+   line-height: 1.5;
+ }
+ 
+ /* Overlay (opcional) - dentro de cada slide */
+ .photobanner-slide .overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.3);
+   z-index: 5; /* Entre imagem e texto */
+ }
+ 
+ /* Controles de Navegação (Opcional) */
+ .photobanner-control {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   background-color: rgba(0, 0, 0, 0.4);
+   color: white;
+   border: none;
+   padding: 10px 15px;
+   font-size: 1.5em;
+   cursor: pointer;
+   z-index: 15; /* Sobre o slide ativo */
+   border-radius: 3px;
+   transition: background-color 0.3s ease;
+ }
+ .photobanner-control:hover {
+   background-color: rgba(0, 0, 0, 0.7);
+ }
+ .photobanner-control.prev {
+   left: 15px;
+ }
+ .photobanner-control.next {
+   right: 15px;
+ }
+ 
+ /* Indicadores (Pontos) (Opcional) */
+ .photobanner-dots {
+   position: absolute;
+   bottom: 20px;
+   left: 50%;
+   transform: translateX(-50%);
+   display: flex;
+   gap: 10px;
+   z-index: 15; /* Sobre o slide ativo */
+ }
+ .photobanner-dots .dot {
+   width: 12px;
+   height: 12px;
+   background-color: rgba(255, 255, 255, 0.5);
+   border-radius: 50%;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+ }
+ .photobanner-dots .dot:hover {
+   background-color: rgba(255, 255, 255, 0.8);
+ }
+ .photobanner-dots .dot.active {
+   background-color: white;
+ }
+ 
+ /* Ajustes responsivos para texto, altura do banner, etc. permanecem os mesmos */
+ /* Aplique as media queries existentes aos novos seletores se necessário */
+ @media (max-width: 992px) {
+   .photobanner-container { height: 350px; }
+   .photobanner-slide .banner-text h2 { font-size: 2.5em; }
+   .photobanner-slide .banner-text p { font-size: 1.1em; }
+ }
+ @media (max-width: 768px) {
+   .photobanner-container { height: 250px; }
+   .photobanner-slide .banner-text h2 { font-size: 2em; }
+   .photobanner-slide .banner-text p { font-size: 1em; }
+   .photobanner-control { font-size: 1.2em; padding: 8px 12px; }
+   .photobanner-dots { bottom: 10px; }
+   .photobanner-dots .dot { width: 10px; height: 10px; }
+ }
+ @media (max-width: 576px) {
+   .photobanner-container { height: 200px; } /* Altura ajustada */
+   .photobanner-slide .banner-text h2 { font-size: 1.7em; }
+   .photobanner-slide .banner-text p { font-size: 0.95em; }
+ }
+ 
+ /* --- Histórias de Adotados --- */
+ .historias-adotados {
+     margin-top: var(--espacamento-padrao); /* Espaço acima da seção de histórias */
+     padding-top: var(--espacamento-padrao);
+     border-top: 1px solid var(--cor-borda); /* Separador visual */
+ }
+ 
+ .historias-adotados h3 {
+     text-align: center;
+     margin-bottom: var(--espacamento-metade);
+ }
+ 
+ .historias-adotados > p { /* Parágrafo introdutório */
+     text-align: center;
+     margin-bottom: var(--espacamento-padrao);
+     color: var(--cor-texto-secundario);
+ }
+ 
+ .historias-lista {
+     display: grid;
+     /* Cria colunas de no mínimo 280px, ajustando automaticamente */
+     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+     gap: var(--espacamento-padrao); /* Espaço entre os cards */
+ }
+ 
+ .historia-item.card {
+     /* Herda estilos de .card (borda, sombra, padding, etc.) */
+     display: flex; /* Para alinhar conteúdo interno */
+     flex-direction: column;
+ }
+ 
+ .historia-item figure {
+     margin: 0; /* Reset de margem da figure */
+     position: relative; /* Para posicionar a legenda se necessário */
+ }
+ 
+ .historia-item .historia-img.card-img {
+     /* Herda estilos de .card-img (width, object-fit, border-radius superior) */
+     height: 200px; /* Ajuste a altura conforme necessário */
+     /* A margem negativa e width calc podem não ser mais necessárias se .card tiver padding: 0 */
+ }
+ 
+ .historia-item figcaption.historia-pet {
+     position: absolute; /* Sobrepor à imagem */
+     bottom: 0;
+     left: 0;
+     width: 100%;
+     background-color: rgba(0, 0, 0, 0.6); /* Fundo semitransparente */
+     color: var(--cor-branco);
+     font-size: 0.9em;
+     padding: 5px 10px;
+     text-align: center;
+     box-sizing: border-box;
+     border-radius: 0 0 var(--border-radius-padrao) var(--border-radius-padrao); /* Arredonda cantos inferiores se a imagem tiver cantos superiores arredondados */
+ }
+ 
+ .historia-item .card-body {
+     /* Herda padding de .card-body */
+     flex-grow: 1; /* Faz o corpo ocupar espaço disponível */
+     display: flex;
+     flex-direction: column;
+ }
+ 
+ .historia-item .historia-tutor.card-title {
+     /* Herda estilos de .card-title */
+     margin-bottom: 10px;
+ }
+ 
+ .historia-item .historia-texto {
+     /* Herda estilos de .card-text */
+     font-style: italic;
+     margin-bottom: 15px;
+     flex-grow: 1; /* Ocupa espaço para alinhar a origem embaixo */
+     color: #555; /* Tom de cinza para o texto da história */
+     border-left: 3px solid var(--cor-borda); /* Detalhe visual de citação */
+     padding-left: 10px;
+ }
+ 
+ .historia-item .historia-origem {
+     /* Herda estilos de .card-text-secondary */
+     font-size: 0.85em;
+     color: #777;
+     margin-top: auto; /* Empurra para o final do card-body */
+     margin-bottom: 0;
+ }
+ 
+ /* Estilo para quando não há histórias */
+ .historia-sem-itens {
+     grid-column: 1 / -1; /* Ocupa todas as colunas do grid */
+     text-align: center;
+     padding: var(--espacamento-padrao) 0;
+     border: 2px dashed var(--cor-borda);
+     border-radius: var(--border-radius-padrao);
+     background-color: var(--cor-fundo-tabela-zebra);
+ }
+ .historia-sem-itens p {
+     margin-bottom: var(--espacamento-metade);
+     color: var(--cor-texto-secundario);
+ }
+ .historia-sem-itens .btn {
+     margin-top: 5px;
+ }
+ 
+ /* Ajustes Responsivos */
+ @media (max-width: 768px) {
+     .historia-item .historia-img.card-img {
+         height: 180px; /* Altura menor para mobile */
+     }
+ }
+ 
+ @media (max-width: 576px) {
+      .historias-lista {
+         /* Pode mudar para 1 coluna se preferir */
+          grid-template-columns: 1fr; 
+      }
+     .historia-item .historia-img.card-img {
+         height: 160px;
+     }
+ }
+ 
+ /* --- Seção Procura-se --- */
+ .section-procurase {
+     background-color: #fff8f0; /* Fundo levemente alaranjado/creme */
+     padding-top: var(--espacamento-padrao);
+     padding-bottom: var(--espacamento-padrao);
+ }
+ 
+ .section-procurase h2 {
+     text-align: center;
+     margin-bottom: var(--espacamento-metade);
+ }
+ 
+ .procurase-intro {
+     text-align: center;
+     margin-bottom: var(--espacamento-padrao);
+ }
+ .procurase-intro h3 {
+     margin-bottom: 5px;
+     color: var(--cor-primaria);
+ }
+ .procurase-intro h4 {
+     margin-bottom: 10px;
+     color: var(--cor-erro); /* Destaque para o chamado */
+     font-weight: bold;
+ }
+ .procurase-intro p {
+     margin-bottom: 15px;
+     color: var(--cor-texto-secundario);
+ }
+ .procurase-intro .btn {
+     margin-bottom: var(--espacamento-padrao); /* Espaço após o botão */
+ }
+ 
+ 
+ .procurase-lista {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+     gap: var(--espacamento-padrao);
+ }
+ 
+ .procurase-item.card {
+     /* Herda estilos de .card */
+     display: flex;
+     flex-direction: column;
+     background-color: var(--cor-branco); /* Fundo branco para contraste */
+ }
+ 
+ .procurase-item figure {
+     margin: 0;
+     position: relative;
+ }
+ 
+ .procurase-item .procurase-img.card-img {
+     /* Herda estilos de .card-img */
+     height: 220px; /* Altura ajustável */
+ }
+ 
+ .procurase-item figcaption.procurase-nome {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     width: 100%;
+     background-color: rgba(20, 18, 19, 0.7); /* Fundo escuro semitransparente */
+     color: var(--cor-branco);
+     font-size: 1em;
+     font-weight: bold;
+     padding: 8px 10px;
+     text-align: center;
+     box-sizing: border-box;
+     border-radius: 0 0 var(--border-radius-padrao) var(--border-radius-padrao);
+ }
+ 
+ .procurase-item .card-body {
+     /* Herda padding de .card-body */
+     flex-grow: 1;
+     display: flex;
+     flex-direction: column;
+ }
+ 
+ .procurase-item .card-text {
+     margin-bottom: 8px;
+     line-height: 1.5;
+ }
+ .procurase-item .card-text strong { /* Destaca os labels */
+     color: var(--cor-primaria);
+ }
+ 
+ .procurase-item .procurase-data {
+     /* Herda .card-text-secondary */
+     font-size: 0.85em;
+     margin-bottom: 10px;
+     order: -1; /* Coloca a data no topo do card-body */
+ }
+ 
+ .procurase-item .procurase-contato {
+     margin-top: auto; /* Empurra para o final */
+     margin-bottom: 0;
+     font-weight: bold;
+     background-color: var(--cor-fundo-tabela-zebra); /* Fundo leve para destacar */
+     padding: 8px;
+     border-radius: var(--border-radius-padrao);
+     border: 1px solid var(--cor-borda);
+ }
+ 
+ .procurase-item .contato-destaque {
+     color: var(--cor-erro); /* Cor de destaque para o contato */
+     word-break: break-word; /* Quebra o contato se for muito longo */
+ }
+ 
+ /* Estilo para quando não há itens */
+ .procurase-sem-itens {
+     grid-column: 1 / -1;
+     text-align: center;
+     padding: var(--espacamento-padrao);
+     border: 2px dashed #ffcc80; /* Borda tracejada alaranjada */
+     border-radius: var(--border-radius-padrao);
+     background-color: #fffaf0; /* Fundo muito claro */
+ }
+ .procurase-sem-itens p {
+     margin-bottom: 5px;
+     color: var(--cor-texto-secundario);
+ }
+ 
+ /* Ajustes Responsivos */
+ @media (max-width: 768px) {
+     .procurase-item .procurase-img.card-img {
+         height: 200px;
+     }
+ }
+ 
+ @media (max-width: 576px) {
+     .procurase-item .procurase-img.card-img {
+         height: 180px;
+     }
+ }
+ 
+/* --- Seção Parcerias --- */
+.section-parcerias {
+    background-color: var(--cor-secundaria); /* Fundo claro para a seção */
+    padding-top: var(--espacamento-padrao);
+    padding-bottom: var(--espacamento-padrao);
+    text-align: center; /* Centraliza títulos e links */
+}
+
+.section-parcerias h2 {
+    margin-bottom: var(--espacamento-metade);
+}
+
+.section-parcerias .empresas-apoiam {
+    margin-bottom: var(--espacamento-padrao);
+    color: var(--cor-texto-secundario);
+}
+
+/* Ajustes no container do photobanner de parcerias */
+#photobanner-parcerias {
+    height: 250px; /* Ajuste a altura conforme necessário */
+    background-color: var(--cor-branco); /* Fundo branco para o slider */
+    border-radius: var(--border-radius-grande);
+    box-shadow: var(--sombra-padrao);
+    margin-bottom: var(--espacamento-padrao);
+}
+
+/* Estilo do slide de parceria */
+.parceria-slide {
+    display: flex; /* Usar flex para alinhar logo e texto */
+    flex-direction: column; /* Empilhar logo e texto */
+    justify-content: center; /* Centralizar verticalmente */
+    align-items: center; /* Centralizar horizontalmente */
+    padding: var(--espacamento-padrao);
+    height: 100%; /* Ocupar altura do container */
     box-sizing: border-box;
-    color: #555;
-    font-size: 0.9em;    
+    /* Remover position:absolute e opacity se usar efeito de slide horizontal */
+    /* Se usar fade (como no JS anterior), mantenha position/opacity */
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     opacity: 0;
+     transition: opacity 1s ease-in-out;
+     z-index: 1;
+}
+.parceria-slide.active {
+    opacity: 1;
+    z-index: 2;
 }
 
-footer p {
-    margin: 0;
-    line-height: 1.5;
+
+.parceria-slide .parceria-logo {
+    max-width: 70%; /* Limitar largura do logo */
+    max-height: 50%; /* Limitar altura do logo */
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin-bottom: var(--espacamento-metade); /* Espaço entre logo e texto */
+    filter: none; /* Garantir que não haja filtro de brilho */
 }
 
-/* Estilo para o botão do Facebook */
-.facebook-button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 15px;
-    background-color: #3b5998; /* Cor do Facebook */
-    color: white;
-    text-decoration: none;
+.parceria-slide .banner-text {
+    /* Resetar estilos de banner sobreposto se não for o caso */
+    position: static;
+    transform: none;
+    color: var(--cor-texto-padrao);
+    text-shadow: none;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+}
+
+.parceria-slide .parceria-empresa {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--cor-primaria);
+}
+
+.parceria-slide .parceria-proposta {
+    font-size: 0.95em;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* Estilo para slide "Nenhuma parceria" */
+.parceria-slide .nenhuma-parceria {
+    font-style: italic;
+    color: var(--cor-texto-secundario);
+    margin-bottom: var(--espacamento-metade);
+}
+
+/* Ajustes responsivos para o slider de parcerias */
+@media (max-width: 768px) {
+    #photobanner-parcerias {
+        height: 220px; /* Altura menor */
+    }
+    .parceria-slide .parceria-logo {
+        max-height: 45%;
+    }
+     .parceria-slide .parceria-empresa {
+        font-size: 1em;
+    }
+    .parceria-slide .parceria-proposta {
+        font-size: 0.9em;
+    }
+}
+@media (max-width: 576px) {
+    #photobanner-parcerias {
+        height: 200px; /* Altura ainda menor */
+    }
+     .parceria-slide .parceria-logo {
+        max-height: 40%;
+    }
+}
+
+/* --- Seção Adoção --- */
+.section-adocao {
+    padding-top: var(--espacamento-padrao);
+    padding-bottom: var(--espacamento-padrao);
+    background-color: #f0f8ff; /* Fundo azul muito claro */
+}
+
+.section-adocao h2 {
+    text-align: center;
+    margin-bottom: var(--espacamento-padrao);
+}
+
+.adocao-intro {
+    text-align: center;
+    margin-bottom: var(--espacamento-padrao);
+}
+.adocao-intro h3 {
+    margin-bottom: 10px;
+    color: var(--cor-primaria);
+}
+.adocao-intro p {
+    color: var(--cor-texto-secundario);
+    max-width: 800px; /* Limita largura do texto intro */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ajustes no photobanner de adoção */
+#photobanner-adocao {
+    height: 300px; /* Altura do slider de pets */
+    margin-bottom: var(--espacamento-padrao);
+    background-color: #e6f2ff; /* Fundo ligeiramente mais escuro que a seção */
+    border-radius: var(--border-radius-grande);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1); /* Sombra interna */
+}
+/* Estilo da imagem placeholder */
+.adocao-img.placeholder-img {
+    opacity: 0.6;
+    border: 2px dashed var(--cor-borda);
+}
+
+/* Contagem de Adotantes */
+.contagem-adotantes {
+    text-align: center;
+    padding: var(--espacamento-metade) 0;
+    margin-bottom: var(--espacamento-padrao);
+    border-top: 1px solid var(--cor-borda);
+    border-bottom: 1px solid var(--cor-borda);
+}
+.contagem-adotantes-texto {
+    font-size: 1.1em;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 5px;
+}
+.contagem-adotantes-texto .fa-users { /* Estilo do ícone */
+    margin-right: 8px;
+    color: var(--cor-info); /* Cor do ícone */
+}
+.contagem-adotantes .numero-destaque {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: var(--cor-primaria);
+}
+.contagem-adotantes .btn {
+    margin-left: 10px; /* Espaço antes do botão */
+}
+
+/* Ajustes na seção de Histórias (já melhorada antes) */
+.historias-adotados {
+    margin-top: 0; /* Remover margem superior se já houver espaçamento */
+    padding-top: 0; /* Remover padding superior */
+    border-top: none; /* Remover borda superior se .contagem-adotantes já tiver */
+    text-align: center; /* Centralizar título e botão final */
+}
+.historias-adotados h3 {
+    margin-bottom: var(--espacamento-metade);
+}
+.historias-adotados > p { /* Parágrafo introdutório das histórias */
+     margin-bottom: var(--espacamento-padrao);
+     color: var(--cor-texto-secundario);
+     max-width: 800px;
+     margin-left: auto;
+     margin-right: auto;
+}
+.historias-adotados .btn { /* Botão "Ver Todas as Histórias" */
+    margin-top: var(--espacamento-padrao);
+}
+
+
+/* Ajustes Responsivos para a Seção Adoção */
+@media (max-width: 768px) {
+    #photobanner-adocao {
+        height: 250px;
+    }
+    .contagem-adotantes-texto {
+        font-size: 1em;
+    }
+     .contagem-adotantes .numero-destaque {
+        font-size: 1.2em;
+    }
+}
+@media (max-width: 576px) {
+     #photobanner-adocao {
+        height: 220px;
+    }
+}
+/* Estilos gerais para a tabela */
+.adotante-tabela {
+  width: 100%; /* Faz a tabela ocupar toda a largura do container */
+  border-collapse: collapse; /* Remove espaços entre as bordas das células */
+  margin-top: 20px; /* Adiciona um espaço acima da tabela */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
+  border: 1px solid #ddd; /* Adiciona uma borda externa */
+}
+
+/* Estilos para o cabeçalho da tabela */
+.adotante-tabela-header {
+  background-color: #f2f2f2; /* Cor de fundo para o cabeçalho */
+  color: #333; /* Cor do texto do cabeçalho */
+  padding: 12px 15px; /* Espaçamento interno */
+  text-align: left; /* Alinhamento do texto */
+  border-bottom: 2px solid #ddd; /* Linha separadora abaixo do cabeçalho */
+  text-transform: capitalize; /* Coloca a primeira letra de cada palavra em maiúsculo */
+}
+
+/* Estilos para as células da tabela */
+.adotante-tabela-celula {
+  padding: 10px 15px; /* Espaçamento interno */
+  border-bottom: 1px solid #eee; /* Linha separadora entre as linhas */
+  color: #555; /* Cor do texto das células */
+}
+
+/* Estilos para as linhas da tabela */
+.adotante-tabela-linha:nth-child(even) {
+  background-color: #f9f9f9; /* Cor de fundo alternada para melhor legibilidade (linhas pares) */
+}
+
+.adotante-tabela-linha:hover {
+  background-color: #f1f1f1; /* Cor de fundo ao passar o mouse sobre uma linha */
+  cursor: pointer; /* Muda o cursor para indicar interatividade (opcional) */
+}
+
+/* Estilo para a mensagem de "sem dados" */
+.adotante-sem-dados {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Estilos adicionais para o container e título (opcional) */
+.adotante-container {
+  padding: 20px;
+  max-width: 900px; /* Define uma largura máxima para o conteúdo */
+  margin: 20px auto; /* Centraliza o container na página */
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.adotante-titulo {
+  text-align: center;
+  color: #444;
+  margin-bottom: 30px;
+}
+
+/* Estilos para a área de ações */
+.adotante-acoes {
+    margin-top: 25px;
+    display: flex; /* Organiza os botões lado a lado */
+    justify-content: space-between; /* Espaça os botões */
+    align-items: center;
+}
+
+/* Estilos básicos para os botões (ajuste conforme necessário) */
+.adotante-btn-relatorio,
+.adotante-btn-download {
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease; /* Efeito suave na mudança de cor */
 }
 
-/* Hover para o botão do Facebook */
-.facebook-button:hover {
-    background-color: #2d4373; /* Cor mais escura no hover */
+.adotante-btn-relatorio {
+    background-color: #d9534f; /* Vermelho */
+    color: white;
 }
 
- /* Ajustes no Footer para Telas Menores (dentro da sua media query existente) */
- @media (max-width: 768px) {
-   footer {
-     padding: 15px; /* Reduz padding lateral em telas menores */
-     margin-top: 30px; /* Reduz espaço acima */
-     font-size: 0.85em; /* Pode reduzir ainda mais a fonte */
-     min-height: 10px;
-     height: auto;   
-   }
- }
- 
- @media (max-width: 480px) {
-     footer {
-         padding: 5px;
-         margin-top: 10px;
-         font-size: 0.7em;
-         min-height: 10px;
-         height: auto;
-     }
- }
+.adotante-btn-relatorio:hover {
+    background-color: #c9302c;
+}
 
- :root {
-   /* ... outras variáveis ... */
-   --altura-footer: 25px; /* Altura mínima padrão */
- }
- 
- footer {
-   /* ... outros estilos ... */
-   min-height: var(--altura-footer); /* Aplica a variável */
-   /* ... outros estilos ... */
- }
- 
- @media (max-width: 768px) {
-   footer {
-     /* ... outros estilos ... */
-     min-height: 10px; /* Reduz a altura mínima */
-     height: auto;
-   }
- }
- 
- @media (max-width: 480px) {
-     footer {
-         /* ... outros estilos ... */
-         min-height: 10px; /* Mantém a altura mínima reduzida */
-         height: auto;
-     }
- }
- :root {
-   --altura-footer: 40px; /* Exemplo: Aumentando para 40px */
- }
- 
- @media (max-width: 768px) {
-   footer {
-     min-height: 20px; /* Exemplo: Aumentando para 20px em telas menores */
-     /* ... */
-   }
- }
- 
+.adotante-btn-download {
+    background-color: #5bc0de; /* Azul claro */
+    color: white;
+}
+
+.adotante-btn-download:hover {
+    background-color: #31b0d5;
+}

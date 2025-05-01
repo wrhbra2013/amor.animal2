@@ -1,211 +1,252 @@
-<%- include("_header")-%>
+ <%- include("_header")-%>
+ 
+ <main class="main-content"> <!-- Envolve todo o conteúdo principal -->  
+     <section id="sobre" class="section-sobre">
+         <div class="container">
+             <h2>Sobre Nós</h2>
+             <div class="sobre-content">
+                 <div class="sobre-text">
+                     <h3>Nossa Missão</h3>
+                     <p>A ONG Amor Animal é uma organização dedicada ao resgate, cuidado e proteção de animais abandonados. Trabalhamos incansavelmente para garantir que cada animal tenha uma segunda chance em um lar amoroso.</p>
+                     <p>Nossa equipe é formada por voluntários apaixonados por animais, que dedicam seu tempo e esforço para fazer a diferença na vida de cada um deles.</p>
+                     <p>Além do resgate e adoção, também promovemos a conscientização sobre a importância da posse responsável e do respeito aos animais.</p>
+                 </div>
+                 <div class="sobre-image">
+                     <img src="/static/images/sobre-nos.jpg" alt="Imagem da ONG Amor Animal" class="img-fluid">
+                 </div>
+             </div>
+         </div>
+     </section>
+ 
+     <!-- Seção: Notícias -->
+     <section id="noticias" class="section-noticias">
+         <div class="container">
+             <h2>Notícias</h2>
+             <div class="noticias-content">
+                 <div class="noticia-item">
+                     <img src="/static/images/noticia-1.jpg" alt="Notícia 1" class="img-fluid">
+                     <h3>Evento de Adoção</h3>
+                     <p>Participe do nosso próximo evento de adoção! Teremos muitos pets esperando por um lar. Venha conhecer e se apaixonar!</p>
+                     <a href="#" class="btn btn-primary">Saiba Mais</a>
+                 </div>
+                 <div class="noticia-item">
+                     <img src="/static/images/noticia-2.jpg" alt="Notícia 2" class="img-fluid">
+                     <h3>Campanha de Vacinação</h3>
+                     <p>Estamos promovendo uma campanha de vacinação para pets. Não perca a oportunidade de proteger seu amigo!</p>
+                     <a href="#" class="btn btn-primary">Saiba Mais</a>
+                 </div>
+                 <div class="noticia-item">
+                     <                    <img src="/static/images/noticia-3.jpg" alt="Notícia 3" class="img-fluid">
+                     <h3>Dicas de Cuidados</h3>
+                     <p>Confira nossas dicas para manter seu pet saudável e feliz. Alimentação, exercícios e bem-estar!</p>
+                     <a href="#" class="btn btn-primary">Saiba Mais</a>
+                 </div>
+             </div>
+         </div>
+     </section>
+     
+ 
+     <!-- ... (Seção Sobre, Seção Notícias) ... -->
+ 
+     <!-- Seção: Adoção -->
+     <section id="adocao" class="section-adocao">
+         <div class="container"> <!-- Container principal da seção -->
+             <h2>Adoção</h2>
+             <div class="adocao-intro"> <!-- Agrupa texto introdutório -->
+                 <h3>Adote um PET e faça a diferença na vida dele!</h3>
+                 <p>Adotar um animal é um ato de amor e responsabilidade. Ao adotar, você não só ganha um novo amigo, mas também ajuda a salvar uma vida.</p>
+                 <p>Na ONG Amor Animal, temos muitos pets esperando por um lar amoroso. Cada um deles tem uma história única e está pronto para dar e receber amor.</p>
+             </div>
+ 
+             <!-- Photobanner para pets -->
+             <div class="photobanner-container" id="photobanner-adocao">
+                 <div class="photobanner-slides">
+                     <% if (typeof model2 !== 'undefined' && model2.length > 0) { %>
+                         <% model2.forEach((adocao, index) => { %>
+                             <div class="photobanner-slide <%= index === 0 ? 'active' : '' %>">
+                                 <a href="/adote"> <!-- Link para a página de detalhes/adoção -->
+                                     <img src="/static/uploads/adocao/<%= adocao.arquivo || 'default.jpg' %>" alt="Foto de <%= adocao.nome %> para adoção" class="adocao-img" />
+                                 </a>
+                                 <div class="banner-text">
+                                     <p class="adocao-nome"><%= adocao.nome %></p>
+                                 </div>
+                             </div>
+                         <% }) %>
+                     <% } else { %>
+                         <div class="photobanner-slide active">
+                              <img src="/static/images/placeholder-pet.jpg" alt="Nenhum pet para adoção no momento" class="adocao-img placeholder-img" /> <!-- Classe para placeholder -->
+                              <div class="banner-text">
+                                 <p>Nenhum pet disponível.</p>
+                                 <a href="/form_adocao" class="btn btn-sm btn-primary mt-1">Adicionar Pet</a>
+                              </div>
+                         </div>
+                     <% } %>
+                 </div>
+                 <!-- Controles e Indicadores do Photobanner -->
+                 <% if (typeof model2 !== 'undefined' && model2.length > 1) { %>
+                     <button class="photobanner-control prev">&lt;</button>
+                     <button class="photobanner-control next">&gt;</button>
+                     <div class="photobanner-dots">
+                         <% model2.forEach((adocao, index) => { %>
+                             <span class="dot <%= index === 0 ? 'active' : '' %>" data-slide="<%= index %>"></span>
+                         <% }) %>
+                     </div>
+                 <% } %>
+             </div> <!-- Fim #photobanner-adocao -->
+ 
+             <!-- Contagem de Adotantes -->
+             <div class="contagem-adotantes">
+                 <% if (typeof model3 !== 'undefined' && model3.length > 0 && model3[0]) { %>
+                 <% const contagemAdotantes = Object.values(model3[0])[0] || 0 %>
+                     <p class="contagem-adotantes-texto">
+                         <i class="fas fa-users"></i> <!-- Ícone (requer Font Awesome) -->
+                         Já temos <span class="numero-destaque"><%= contagemAdotantes %></span> adotantes na nossa comunidade!
+                     </p>
+                 <% } else { %>
+                     <p class="contagem-adotantes-texto">
+                          <i class="fas fa-users"></i> Adotantes: Nenhum dado disponível
+                     </p>
+                 <% } %>
+                  <a href="./adotante" class="btn btn-outline-secondary btn-sm">Ver Adotantes &gt;</a> <!-- Botão com estilo outline -->
+             </div>
+ 
+             <!-- Histórias de Adotados -->
+             <div class="historias-adotados">
+                 <h3>Histórias de Adotados</h3>
+                 <p>Leia as experiências de quem já adotou e inspire-se. Você também pode contar a história do seu pet!</p>
+ 
+                 <div class="historias-lista">
+                     <% if (typeof model4 !== 'undefined' && model4.length > 0) { %>
+                         <% model4.forEach(adotado => { %>
+                             <div class="historia-item card">
+                                 <figure>
+                                     <img src="/static/uploads/adotado/<%= adotado.arquivo %>" alt="Foto de <%= adotado.pet %>, adotado por <%= adotado.tutor %>" class="historia-img card-img"/>
+                                     <figcaption class="historia-pet">Pet: <%= adotado.pet %></figcaption>
+                                 </figure>
+                                 <div class="card-body">
+                                     <h4 class="historia-tutor card-title">Tutor: <%= adotado.tutor %></h4>
+                                     <blockquote class="historia-texto card-text">"<%= adotado.historia %>"</blockquote>
+                                     <p class="historia-origem card-text-secondary"><small>Origem: <%= adotado.origem %></small></p>
+                                 </div>
+                             </div>
+                         <% }) %>
+                     <% } else { %>
+                         <div class="historia-sem-itens">
+                             <p>Nenhuma história de adoção foi adicionada ainda.</p>
+                             <a href="/form_adotado" class="btn btn-primary">
+                                 Adicione sua História &gt;
+                             </a>
+                         </div>
+                     <% } %>
+                 </div> <!-- Fim .historias-lista -->
+                  <a href="/adocao" class="btn btn-secondary mt-2">Ver Todas as Histórias &gt;</a> <!-- Link para a página de histórias -->
+             </div> <!-- Fim .historias-adotados -->
+ 
+         </div> <!-- Fim .container da seção Adoção -->
+     </section> <!-- Fim #adocao -->
+ 
+     <!-- ... (Seção Números, Seção Procura-se, Seção Parcerias) ... -->
 
-<main class="main-content"> <!-- Envolve todo o conteúdo principal -->
-
-    <!-- Seção: Sobre a ONG -->
-    <section id="sobre" class="section-sobre"> <!-- Usando section e ID -->
-        <h1>O que é a ONG Amor Animal?</h1>
-        <p>A ONG Amor Animal é uma organização sem fins lucrativos dedicada à proteção e bem-estar dos animais. Nossa missão é resgatar, cuidar e encontrar lares amorosos para animais abandonados, promovendo a adoção responsável e a conscientização sobre a importância do respeito aos direitos dos animais.</p>
-        <p>Estamos comprometidos em fazer a diferença na vida dos animais e na sociedade, trabalhando em parceria com a comunidade para promover um mundo mais justo e solidário.</p>
-        <p>Você pode fazer a diferença na vida de um animal abandonado. Adote, doe ou faça parte da nossa equipe de voluntários!</p>
-        <p>Juntos, podemos transformar vidas e construir um futuro melhor para os animais!</p>
-        <p>Se você deseja fazer parte dessa causa, entre em contato conosco e descubra como pode ajudar!</p> 
-    </section>
-
-    <!-- Seção: Últimas Notícias -->
-    <section id="noticias" class="section-noticias">
-        <h2>Últimas Notícias</h2> <!-- Usando H2 para título da seção -->
-        <p>Fique por dentro das últimas novidades e eventos da ONG Amor Animal. Aqui você encontrará informações atualizadas sobre nossas atividades, campanhas de adoção, eventos beneficentes e muito mais!</p>
-        <p>Acompanhe nossas redes sociais e fique por dentro de tudo o que acontece na nossa ONG!</p>
-
-        <div class="noticias-lista"> <!-- Container para os itens de notícia -->
-            <% if (typeof model1 !== 'undefined' && model1.length > 0) { %>
-            <% for(const home of model1) { %>
-            <div class="noticia-item"> <!-- Classe específica para cada item -->
-                <form action="/delete_home/<%=home.id%>/<%=home.arquivo%>" method="post" class="form-delete">
-                    <input type="submit" value="X" class="btn btn-delete" onclick="return confirm('Deseja realmente excluir?')">
-                </form>
-                <p class="noticia-data"><%= home.data %></p>
-                <img class="noticia-img img-thumbnail" src="/static/uploads/home/<%= home.arquivo %>" alt="Imagem da notícia: <%= home.titulo %>" /> <!-- Caminho raiz e classe para imagem -->
-
-                <% if (home?.titulo && home?.mensagem) { %> <!-- Verifica ambos -->
-                <h3 class="noticia-titulo"><%= home.titulo %></h3> <!-- H3 para título da notícia -->
-                <p class="noticia-mensagem"><%= home.mensagem %></p>
-                <% } %>
-            </div>
-                <% } %>
-                <% } else { %>
-                <p>Nenhuma notícia disponível.</p>
-            <% } %>
-        </div>
-         <a href="form_home" class="link-novo"> <!-- Link para adicionar novo item -->
-            <p>Novo &gt;</p>
-        </a>
-    </section>
-
-    <!-- Seção: Adoção -->
-    <section id="adocao" class="section-adocao">
-        <h2>Adoção</h2>
-        <h3>Adote um PET e faça a diferença na vida dele!</h3> <!-- H3 como subtítulo -->
-        <p>Adotar um animal é um ato de amor e responsabilidade. Ao adotar, você não só ganha um novo amigo, mas também ajuda a salvar uma vida.</p>
-        <p>Na ONG Amor Animal, temos muitos pets esperando por um lar amoroso. Cada um deles tem uma história única e está pronto para dar e receber amor.</p>
-
-        <!-- Photobanner para pets -->
-        <div class="container photobanner-container"> <!-- Container para o banner -->
-            <div class="photobanner" id="slides-adocao"> <!-- ID específico -->
-                <% if (typeof model2 !== 'undefined' && model2.length > 0) { %>
-                <% for(const adocao of model2) { %>
-                <a href="/adote" class="adocao-card"> <!-- Link/Card do pet -->
-                    <img src="/static/uploads/adocao/<%= adocao.arquivo || 'default.jpg' %>" alt="Foto de <%= adocao.nome %> para adoção" class="adocao-img img-medium" /> <!-- Classe para imagem -->
-                    <p class="adocao-nome"><%= adocao.nome %></p>
-                </a>
-                <% } %>
-                <% } else { %>
-                <a href="/adote" class="link-adicionar-pet">
-                        <p>Adicionar um Pet.</p>
-                    </a>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- Contagem de Adotantes -->
-        <div class="contagem-adotantes">
-            <% if (typeof model3 !== 'undefined' && model3.length > 0 && model3[0]) { %>
-            <% const contagemAdotantes = Object.values(model3[0])[0] || 0 %>
-                <p>Adotantes: <span class="numero-destaque"><%= contagemAdotantes %></span> pessoas.</p>
-            <% } else { %>
-                <p>Adotantes: Nenhum dado disponível</p>
-            <% } %>
-             <a href="./adotante" class="link-veja-mais">Ver Adotantes &gt;</a>
-        </div>
-
-        <!-- Histórias de Adotados -->
-        <div class="historias-adotados">
-            <h3>Histórias de Adotados</h3> <!-- H3 -->
-            <p>Você pode contar a história do seu pet adotado e inspirar outras pessoas a também adotarem.</p>
-
-            <% if (typeof model4 !== 'undefined' && model4.length > 0) { %>
-            <% for(const adotado of model4) { %>
-            <div class="historia-item">
-                <img src="/static/uploads/adotado/<%= adotado.arquivo %>" alt="Foto de <%= adotado.pet %>, adotado por <%= adotado.tutor %>" class="historia-img img-medium"/>
-                <h4 class="historia-tutor"><%= adotado.tutor %></h4> <!-- H4 -->
-                <p class="historia-texto"><%= adotado.historia %></p>
-                <h4 class="historia-pet"><%= adotado.pet %></h4> <!-- H4 -->
-                <p class="historia-origem">Origem: <%= adotado.origem %></p>
-            </div>
-                <% } %>
-            <% } else { %>
-            <a href="/form_adotado" class="link-adicionar-historia">
-                    <p>Adicione sua história.</p>
-                </a>
-            <% } %>
-        </div>
-         <a href="./adocao" class="link-veja-mais">
-            <p>Veja Mais sobre Adoção &gt;</p>
-        </a>
-    </section>
-
-    <!-- Seção: A ONG em Números (Castração) -->
-    <section id="numeros" class="section-numeros">
-        <h2>A ONG em Números</h2>
-
-        <div class="numeros-castracao">
-            <h3>Castração</h3>
-            <!-- Contagem de Castração -->
-            <% if (typeof model5 !== 'undefined' && model5.length > 0 && model5[0]) { %>
-            <% const contagemCastracao = Object.values(model5[0])[0] || 0 %>
-            <p class="contagem-castracao">Castrações realizadas: <span class="numero-destaque-alt"><%= contagemCastracao %></span></p>
-            <% } else { %>
-                <p class="contagem-castracao">Castrações realizadas: Nenhum dado disponível</p>
-            <% } %>
-
-            <!-- Tabela de Castrações Recentes -->
-            <% if (typeof model6 !== 'undefined' && model6.length > 0) { %>
-                <div class="tabela-container"> <!-- Container para rolagem se necessário -->
-                    <table id="data-castracao" class="tabela-dados"> <!-- ID e classe específicos -->
-                        <thead> <!-- Usar thead para cabeçalhos -->
-                            <tr>
-                                <th>Ticket</th>
-                                <th>Dia</th>
-                                <th>Clínica</th>
-                                <th>Tutor</th>
-                            </tr>
-                        </thead>
-                        <tbody class="tabela-corpo"> <!-- Usar tbody para corpo da tabela -->
-                        <% for(const sql_castracao of model6) { %>
-                        <tr>
-                            <td class="coluna-ticket"><%= sql_castracao.ticket %></td>
-                            <td><%= sql_castracao.origem %></td>
-                            <td><%= sql_castracao.clinica %></td>
-                            <td class="coluna-nome"><%= sql_castracao.nome %></td>
-                        </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
-            <% } else { %>
-                <p>Nenhum registro de castração recente para exibir.</p>
-                <% // Não precisa mais do script para esconder a tabela se ela não for renderizada %>
-            <% } %>
-             <a href="./castracao" class="link-veja-mais">
-                <p>Veja Mais sobre Castração &gt;</p>
-            </a>
-        </div>
-    </section>
-
-    <!-- Seção: Procura-se -->
-    <section id="procurase" class="section-procurase">
-        <h2>Procura-se</h2>
-        <h3>Quer ajudar a encontrar um PET desaparecido?</h3>
-        <h4>ANUNCIE, nossa rede voluntária gostaria de ajudar!</h4>
-        <p>Se você tem um PET desaparecido e quer ajuda para encontrá-lo, ADICIONE!</p>
-
-        <div class="procurase-lista">
-            <% if (typeof model7 !== 'undefined' && model7.length > 0) { %>
-            <% for(const procura_se of model7) { %>
-            <div class="procurase-item">
-                <img src="/static/uploads/procura_se/<%= procura_se.arquivo %>" alt="Foto de <%= procura_se.nomePet %> desaparecido" class="procurase-img img-medium"/>
-                <p class="procurase-data">Desaparecido em: <%= procura_se.data %></p>
-                <p class="procurase-nome">Nome: <%= procura_se.nomePet %></p>
-                <p class="procurase-caracteristicas">Características: <%= procura_se.caracteristicas %></p>
-                <p class="procurase-local">Visto por último em: <%= procura_se.local %></p>
-                <p class="procurase-contato">Qualquer notícia, avise: <span class="contato-destaque"><%= procura_se.contato %></span></p> 
-            </div>
-                <% } %>
-            <% } else { %>
-                <p>Nenhum animal sendo procurado no momento.</p>
-            <% } %>
-        </div>
-         <a href="./procura_se" class="link-veja-mais">
-            <p>Veja Mais sobre Procura-se &gt;</p>
-        </a>
-    </section>
-
-    <!-- Seção: Parcerias -->
-    <section id="parcerias" class="section-parcerias">
-        <h2>Parcerias</h2>
-        <p>Estas são as empresas que nos apoiam:</p>
-        <div class="container photobanner-container"> <!-- Reutilizando container -->
-            <div class="photobanner" id="slides-parcerias"> <!-- ID específico -->
-                <% if (typeof model8 !== 'undefined' && model8.length > 0) { %>
-
-                <% for(const parceria of model8) { %>
-                <div class="parceria-item"> <!-- Item individual -->
-                    <img src="/static/uploads/parceria/<%= parceria.logo %>" alt="Logo <%= parceria.empresa %>" class="parceria-logo"/>
-                    <h3 class="parceria-empresa"><%= parceria.empresa %></h3>
-                    <p class="parceria-proposta"><%= parceria.proposta %></p>
-                </div>
-                <% } %>
-                <% } else { %>
-                    <p>Nenhuma parceria registrada no momento.</p>
-                <% } %>
-            </div>
-        </div>
-        <a href="./parceria" class="link-veja-mais">
-            <p>Veja Mais sobre Parcerias &gt;</p>
-        </a>
-    </section>
-
-</main> <!-- Fim do main-content -->
-
-<%- include("_footer")-%>
+     <!-- Seção: Números -->
+     <section id="numeros" class="section-numeros">
+         <div class="container">
+             <h2>Nossos Números</h2>
+             <div class="numeros-content">
+                 <div class="numero-item">
+                     <i class="fas fa-paw"></i>
+                     <h3>+<%= model5[0].total_animais %></h3>
+                     <p>Animais Resgatados</p>
+                 </div>
+                 <div class="numero-item">
+                     <i class="fas fa-home"></i>
+                     <h3>+<%= model6[0].total_adotados %></h3>
+                     <p>Animais Adotados</p>
+                 </div>
+                 <div class="numero-item">
+                     <i class="fas fa-handshake"></i>
+                     <h3>+<%= model7[0].total_parceiros %></h3>
+                     <p>Parceiros</p>
+                 </div>
+             </div>
+         </div>
+     </section>
+ 
+     <!-- Seção: Procura-se -->
+     <section id="procura-se" class="section-procura-se">
+         <div class="container">
+             <h2>Procura-se</h2>
+             <div class="procura-se-content">
+                 <div class="procura-se-intro">
+                     <h3>Ajude-nos a encontrar nossos amigos perdidos!</h3>
+                     <p>Aqui você encontra os animais que estão sendo procurados por seus tutores. Se você viu algum deles, entre em contato conosco!</p>
+                 </div>
+                 <div class="procura-se-lista">
+                     <% if (typeof model8 !== 'undefined' && model8.length > 0) { %>
+                         <% model8.forEach(procura => { %>
+                             <div class="procura-item card">
+                                 <figure>
+                                     <img src="/static/uploads/procura/<%= procura.arquivo %>" alt="Foto de <%= procura.nome %>" class="procura-img card-img"/>
+                                     <figcaption class="procura-nome">Nome: <%= procura.nome %></figcaption>
+                                 </figure>
+                                 <div class="card-body">
+                                     <p class="procura-descricao card-text"><%= procura.descricao %></p>
+                                     <p class="procura-contato card-text-secondary"><small>Contato: <%= procura.contato %></small></p>
+                                 </div>
+                             </div>
+                         <% }) %>
+                     <% } else { %>
+                         <div class="procura-sem-itens">
+                             <p>Nenhum animal perdido foi cadastrado ainda.</p>
+                             <a href="/form_procura" class="btn btn-primary">
+                                 Cadastre um Animal Perdido &gt;
+                             </a>
+                         </div>
+                     <% } %>
+                 </div> <!-- Fim .procura-se-lista -->
+                 <a href="/procura" class="btn btn-secondary mt-2">Ver Todos os Animais Perdidos &gt;</a>
+             </div> <!-- Fim .procura-se-content -->
+         </div>
+     </section>
+ 
+     <!-- Seção: Parcerias -->
+     <section id="parcerias" class="section-parcerias">
+         <div class="container">
+             <h2>Parcerias</h2>
+             <div class="parcerias-content">
+                 <div class="parcerias-intro">
+                     <h3>Conheça nossos parceiros que apoiam nossa causa!</h3>
+                     <p>Trabalhamos em conjunto com diversas empresas e profissionais para oferecer o melhor cuidado aos animais.</p>
+                 </div>
+                 <div class="parceiros-lista">
+                     <% if (typeof model9 !== 'undefined' && model9.length > 0) { %>
+                         <% model9.forEach(parceiro => { %>
+                             <div class="parceiro-item card">
+                                 <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer">
+                                     <img src="/static/uploads/parceiro/<%= parceiro.arquivo %>" alt="Logo de <%= parceiro.nome %>" class="parceiro-logo card-img"/>
+                                 </a>
+                                 <div class="card-body">
+                                     <h4 class="parceiro-nome card-title"><%= parceiro.nome %></h4>
+                                     <p class="parceiro-descricao card-text"><%= parceiro.descricao %></p>
+                                     <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Saiba Mais</a>                                     
+                                 </div>
+                             </div>
+                         <% }) %>
+                     <% } else { %>
+                         <div class="parceiros-sem-itens">
+                             <p>Nenhum parceiro cadastrado no momento.</p>
+                             <a href="/form_parceria" class="btn btn-primary">
+                                 Cadastre um Parceiro &gt;
+                             </a>
+                         </div>
+                     <% } %>
+                 </div> <!-- Fim .parceiros-lista -->
+                 <a href="/parceria" class="btn btn-secondary mt-2">Ver Todos os Parceiros &gt;</a>
+             </div> <!-- Fim .parcerias-content -->
+         </div>
+     </section>
+     
+ 
+ </main> <!-- Fim do main-content -->
+ 
+ <%- include("_footer")-%>
+ 

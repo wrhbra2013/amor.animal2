@@ -1,47 +1,44 @@
 <%-include("_header")-%>
-<div class="home">
-    <h1>Adotantes</h1>
-</div>
-<div class="artigo">
-<table id="data">    
-<% if (typeof model !=='undefined' && model.length> 0) {%>
-    <!-- Loop bloco1 -->
-    <!-- Loop de todo o array -->
-    <% for(const adotante of model) { %>    
-        <!-- Loop somente propriedaades do array -->
-    <tr>
-    <% for (const model in adotante) {%>
-    <th><%=model%></th> 
-    <%}%>   
-    <%break%> 
-    </tr> 
-    <%}%>
-    <!-- Loop bloco2 -->
-    <% for(const adotante of model) { %>    
- </tr>
-   <!-- Loop dos objetos do array -->
-   <tr>
-    
-    <% for (const key in adotante) { %>
-  
-            <td> <%=adotante[key]%> 
-            </td>
-            <% } %>     
-  </tr>    
-  
-  <%}%>
-     <% } else { %>
-    <p>Adotantes: Nenhum dado disponível</p>
-    <script>document.getElementById('data').style.display="none";</script>
-    <% } %>
-</table>
-</div>
+<div class="adotante-container">
+  <h1 class="adotante-titulo">Adotantes</h1>
 
-<div style="margin-top: 30px">    
-    <form action="/relatorio/adotante" method="post">
-      <input type="submit" value="Gerar Relatorio" class="btn btn-default btn-danger" onclick="confirm('Gerar Relatorio?')"
-        class="center" />
-    </form>
-     <button type="button" onclick=javascript:window.print() >Download HTML</button>    
+  <div class="adotante-lista">
+    <table id="data" class="adotante-tabela">
+      <% if (typeof model !=='undefined' && model.length> 0) {%>
+        <!-- Loop bloco1 -->
+        <!-- Loop de todo o array -->
+        <% for(const adotante of model) { %>
+          <!-- Loop somente propriedades do array -->
+          <tr>
+            <% for (const model in adotante) {%>
+              <th class="adotante-tabela-header"><%=model%></th>
+            <%}%>
+            <%break%>
+          </tr>
+        <%}%>
+        <!-- Loop bloco2 -->
+        <% for(const adotante of model) { %>
+          <tr class="adotante-tabela-linha">
+            <!-- Loop dos objetos do array -->
+            <% for (const key in adotante) { %>
+              <td class="adotante-tabela-celula">
+                <%=adotante[key]%>
+              </td>
+            <% } %>
+          </tr>
+        <%}%>
+      <% } else { %>
+        <p class="adotante-sem-dados">Adotantes: Nenhum dado disponível</p>
+        <script>document.getElementById('data').style.display="none";</script>
+      <% } %>
+    </table>
   </div>
+
+  <div class="adotante-acoes">
+    <form action="/relatorio/adotante" method="post" class="adotante-form-relatorio">
+      <input type="submit" value="Gerar Relatorio" class="btn btn-default btn-danger adotante-btn-relatorio" onclick="return confirm('Gerar Relatorio?')"/>
+    </form>
+    <button type="button" onclick="javascript:window.print()" class="adotante-btn-download">Download HTML</button>
+  </div>
+</div>
 <%-include("_footer")-%>

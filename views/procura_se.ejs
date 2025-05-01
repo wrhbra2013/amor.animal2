@@ -1,4 +1,6 @@
 <%- include("_header")-%>
+<link rel="stylesheet" href="../static/css/procura_se.css">
+<link rel="stylesheet" href="../static/css/table.css">
     <!--  elemento central -->
     
     <!-- artigo -->
@@ -9,47 +11,60 @@
     </div>
    
     <div class="box">
-        <h1> Lista de PETS desaparecidos</h1>
-        </div>   
+        <h1> Lista de PETS desaparecidos</h1></div>   
         <div class="artigo">
             <button><a href="./form_procura_se">Adicionar</a></button>  
-          </div>       
-   <table>  
-    
-        <tr>
-            <th>Data</th>
-            <th>Foto</th>
-            <th>Nome Pet</th>         
-            <th>Idade Pet</th>
-            <th>Especie</th>
-            <th>Porte</th>     
-            <th>Caracteristicas</th>
-            <th>Local</th>
-            <th>Tutor</th>
-            <th>Contato</th>
-            <th>Whatsapp</th>
-            <th></th>
-
-        </tr>
-        <% for (const procura_se of model) { %>  
-        <tr>
-            <td><%=procura_se.data%></td>
-             <td><img src="../static/uploads/procura_se/<%=procura_se.arquivo %>" width="100px" height="100px" alt="carregando..."/></td>
-             <td><%= procura_se.nomePet %></td>
-             <td><%= procura_se.idadePet %></td>
-             <td><%= procura_se.especie %></td>
-             <td><%= procura_se.porte %></td>
-             <td><%= procura_se.caracteristicas %></td>
-             <td><%= procura_se.local %></td>
-             <td><%= procura_se.tutor %></td>
-             <td><%= procura_se.contato %></td>
-             <td><%= procura_se.whatsapp %></td>
-             <td> <form action="/delete_procura_se/<%=procura_se._id%>" method="post">
-                <input type="submit" value="Deletar" class="btn btn-default" onclick="confirm('Deseja realmente excluir?')">
-            </form></td>
-          </tr>
-  <% } %>
-   </table>
-          <hr>    
-    
+          </div>
+    <section class="table-container" id="data">
+        <div class="card">
+            <div class="card-header">
+                Lista de Pets Desaparecidos
+            </div>
+            <div class="card-body">
+                <table class="procura-se-table table table-striped table-hover">
+                    <% if (typeof model !=='undefined' && model.length> 0) {%>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Foto</th>
+                            <th>Nome Pet</th>
+                            <th>Idade Pet</th>
+                            <th>Especie</th>
+                            <th>Porte</th>
+                            <th>Caracteristicas</th>
+                            <th>Local</th>
+                            <th>Tutor</th>
+                            <th>Contato</th>
+                            <th>Whatsapp</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (const procura_se of model) { %>
+                        <tr>
+                            <td><%=procura_se.data%></td>
+                            <td><div class="image-container"><img src="../static/uploads/procura_se/<%=procura_se.arquivo %>" width="100px" height="100px" alt="carregando..."/></div></td>
+                            <td><%= procura_se.nomePet %></td>
+                            <td><%= procura_se.idadePet %></td>
+                            <td><%= procura_se.especie %></td>
+                            <td><%= procura_se.porte %></td>
+                            <td><%= procura_se.caracteristicas %></td>
+                            <td><%= procura_se.local %></td>
+                            <td><%= procura_se.tutor %></td>
+                            <td><%= procura_se.contato %></td>
+                            <td><%= procura_se.whatsapp %></td>
+                            <td class="actions"> <form action="/delete_procura_se/<%=procura_se._id%>" method="post">
+                                <input type="submit" value="Deletar" class="btn btn-danger" onclick="return confirm('Deseja realmente excluir?')">
+                            </form></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                    <% } else { %>
+                    <p>Procura-se: Nenhum dado disponível</p>
+                    <script>document.getElementById('data').style.display="none";</script>
+                    <% } %>
+                </table>
+            </div>
+        </div>
+    </section>
     <%- include("_footer") -%>

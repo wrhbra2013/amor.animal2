@@ -1,40 +1,46 @@
-﻿<%- include("_header") -%>
-  <div class="box">   
-    <h2>Quer contar a sua história de adoção?</h2>
-    <p>Se você tem um PET adotado e quer contar a sua história, ADICIONE! </p>
-    <p>Compartilhe sua experiência e inspire outras pessoas a adotarem também!</p>
-  </div>
-  
-  <div class="artigo">
-    <button><a href="./form_adotado">Adicionar</a></button>
-  </div>
+﻿<!--  <%- include("_header") -%>
 
-  <div class="center">   
-    <% if (typeof model2 !=='undefined' && model2.length> 0) {%>   
-      <% for(const adotado of model2) { %>
-        <div class="artigo">
-       
-          <img src="/static/uploads/adotado/<%=adotado.arquivo %>"  style="margin-top: 30px;"/>
-          <h2 style="color:red;  ">
-            <%=adotado.tutor %>
-          </h2>
-          <%=adotado.historia %>
-            <h2 style="color:rgb(132, 0, 255);  ">
-              <%=adotado.pet %>
-            </h2>
-            <%=adotado.origem%>      
-        
-        <form action="/delete/adotado/<%=adotado.id %>/<%=adotado.arquivo %>" method="post">
-          <input type="submit" value="x" class="btn btn-default btn-danger" onclick="confirm('Apagar postagem?')"
-            class="center" />
+<!-- Bloco de chamada para ação -->
+<div class="box adocao-chamada"> <%# Adicionada classe específica %>
+  <h2>Quer contar a sua história de adoção?</h2>
+  <p>Se você tem um PET adotado e quer contar a sua história, ADICIONE!</p>
+  <p>Compartilhe sua experiência e inspire outras pessoas a adotarem também!</p>
+  <!-- Movido o botão para cá e usando classe do default.css -->
+  <a href="./form_adotado" class="link-adicionar-historia" style="margin-top: 15px;">Adicionar História</a>
+</div>
+
+<!-- Lista de histórias de adoção -->
+<div class="adocao-lista"> <%# Renomeado de .center %>
+  <% if (typeof model2 !=='undefined' && model2.length > 0) { %>
+    <% for(const adotado of model2) { %>
+      <div class="adocao-historia-item"> <%# Renomeado de .artigo %>
+
+        <img src="/static/uploads/adotado/<%= adotado.arquivo %>" class="adocao-historia-imagem" alt="Foto de <%= adotado.pet %>" /> <%# Classe adicionada e alt text %>
+
+        <h3 class="adocao-historia-tutor"> <%# Classe adicionada e mudado para h3 por hierarquia %>
+          Tutor: <%= adotado.tutor %>
+        </h3>
+        <p class="adocao-historia-texto">"<%= adotado.historia %>"</p> <%# Classe adicionada %>
+
+        <h4 class="adocao-historia-pet"> <%# Classe adicionada e mudado para h4 %>
+          Pet: <%= adotado.pet %>
+        </h4>
+        <p class="adocao-historia-origem">Origem: <%= adotado.origem %></p> <%# Classe adicionada %>
+
+        <!-- Formulário de exclusão posicionado (ver CSS) -->
+        <form action="/delete/adotado/<%= adotado.id %>/<%= adotado.arquivo %>" method="post" class="form-delete">
+          <input type="submit" value="×" class="btn-delete" <%# Usando classe do default.css %>
+                 onclick="return confirm('Tem certeza que deseja apagar esta postagem?')"
+                 aria-label="Apagar postagem de <%= adotado.pet %>" /> <%# aria-label para acessibilidade %>
         </form>
-        <% } %>  
-        <% } else { %>
-          <p>Adotantes: Nenhum dado disponível</p>
-          <script>document.getElementById('data').style.display="none";</script>
-          <% } %>
-        </div>
-  </div>
 
+      </div>
+    <% } %>
+  <% } else { %>
+    <p class="adocao-sem-historias">Nenhuma história de adoção foi adicionada ainda. Seja o primeiro!</p> <%# Classe adicionada %>
+    <%# Script removido pois #data não existe aqui %>
+  <% } %>
+</div>
 
-  <%- include("_footer")-%>
+<%- include("_footer") -%>
+

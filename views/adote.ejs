@@ -1,71 +1,83 @@
 <%- include("_header") -%>
-  <div class="home">
-    <h1> ADOÇÃO! </h1>
-  </div>
-  <!--Formulário-->
+<link rel="stylesheet" href="../static/css/adote.css">
+<main class="container">
+    <section class="content">
+        <div class="info-section card">
+            <fieldset class="card-body">
+                <legend class="card-title">IMPORTANTE</legend>
+                <p class="card-text">
+                    O Serviço de Adoção é realizado para o bem estar do animal, com total responsabilidade do adotante.
+                </p>
+            </fieldset>
+        </div>
 
-  <div class="artigo">
-    <button><a href="./form_adocao">Adicionar</a></button>
-  </div>
-  <table id="data">
-      <tr>
-        <th>Origem</th>
-        <th>Imagem</th>
-        <th>Nome</th>
-        <th>Idade</th>
-        <th>Especie</th>
-        <th>Porte</th>
-        <th>Caracteristicas</th>
-       <th></th>
-        <th class="hidden">Tutor</th>
-        <th class="hidden">Contato</th> 
-        <th class="hidden">Whatsapp</th>
-        <th></th>
-        <th></th>
-        <th></th>      
- 
-    </tr>   
-      <% if (model.length > 0) { %>
-        <% for(const adocao of model) { %>
-          <tr>
-      <td>
-        <%= adocao.origem %>
-      </td>
-         <td><img src="/static/uploads/adocao/<%=adocao.arquivo %>" /></td>
-         <td>
-        <%=adocao.nome%>
-      </td>
-      <td>
-        <%=adocao.idade%>
-      </td>
-      <td>
-        <%=adocao.especie%>
-      </td>
-      <td>
-        <%=adocao.porte%>
-      </td>
-      <td>
-        <%=adocao.caracteristicas%>
-      </td> 
-      <td><button onclick="toggleDetails()">Detalhes</button></td>     
-          <td class="hidden"> <%=adocao.tutor%></td>
-            <td class="hidden"> <%=adocao.contato%></td>
-              <td class="hidden"><%=adocao.whatsapp%></td>
-                <td>
-                  <form action="/delete/adocao/<%=adocao.id %>/<%= adocao.arquivo %>" method="post" class="hidden">
-                  <input class="btncustom" type="submit" value="Deletar"
-                    onclick="return confirm('Você tem certeza que deseja deletar?')">
-                </form>       
-      </td>
-      <% } %>    
-  
-      <% } else { %>
-        <p>Nenhum dado encontrado.</p>
-        <script>document.getElementById('data').style.display="none";</script>
-      <% } %>
-      <td> <a href="/form_adotante">Adote</a></td>
-      <td> <a class="btn btn-outline-dark cancel" href="./home">Cancelar</a> </td>     
-    </tr>
-  </table>
-  
- <%-include("_footer")-%>
+        <div class="home">
+            <div class="button-container">
+                <a href="./form_adocao" class="button">Adicionar</a>
+            </div>
+        </div>
+
+        <section class="table-container" id="data">
+            <div class="card">
+                <div class="card-header">
+                    Lista de Animais para Adoção
+                </div>
+                <div class="card-body">
+                    <table class="adocao-table table table-striped table-hover table-responsive">
+                        <% if (typeof model !=='undefined' && model.length> 0) {%>
+                        <thead>
+                            <tr>
+                                <th>Origem</th>
+                                <th>Imagem</th>
+                                <th>Nome</th>
+                                <th>Idade</th>
+                                <th>Especie</th>
+                                <th>Porte</th>
+                                <th>Caracteristicas</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(const adocao of model) { %>
+                            <tr>
+                                <td><%= adocao.origem %></td>
+                                <td>
+                                    <div class="image-container">
+                                        <img class="img-thumbnail" src="/static/uploads/adocao/<%=adocao.arquivo %>"
+                                            alt="Imagem do Animal para Adoção" />
+                                    </div>
+                                </td>
+                                <td><%=adocao.nome%></td>
+                                <td><%=adocao.idade%></td>
+                                <td><%=adocao.especie%></td>
+                                <td><%=adocao.porte%></td>
+                                <td><%=adocao.caracteristicas%></td>
+                                <td class="action-buttons">
+                                    <button class="delete-button"
+                                        onclick="confirmDelete('<%=adocao.id %>', '<%=adocao.arquivo %>')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    <button class="adopt-button"><a href="/form_adotante">Adote</a></button>
+                                    <button class="cancel-button"><a href="./home">Cancelar</a></button>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                        <% } else { %>
+                        <p>Animais para Adoção: Nenhum dado disponível</p>
+                        <script>document.getElementById('data').style.display="none";</script>
+                        <% } %>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <script>
+            function confirmDelete(id, arquivo) {
+                if (confirm('Tem certeza de que deseja excluir este animal da lista de adoção?')) {
+                    window.location.href = `/delete/adocao/${id}/${arquivo}`;
+                }
+            }
+        </script>
+    </section>
+</main>
+<%- include("_footer")-%>
