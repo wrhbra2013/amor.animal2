@@ -1,30 +1,53 @@
 <%- include("_header")-%>
-    
 
-    <!-- artigo -->
-    <div class="box">
-        <h1> Quer fazer parte da causa PET?...</h1>
-        <h1> ....Saiba como a sua CONTRIBUIÇÃO pode ajudar!</h1>
-              <p>Se você tem uma empresa e quer ajudar a ONG Amor Animal, entre em contato conosco! </p>
-    </div>
-    <div class="artigo">
-        <button><a href="./form_parceria">Adicionar</a></button>  
-      </div>    
-    <div class="artigo">
-    <p>Estas são as empresas que nos apoiam:</p>
-    <div class="container">
-        <div class="photobanner">
-            <% for(const parceria of model){ %>
-                <h2><%=parceria.proposta %></h2>
-                
-            
-                <h1  style="color: red; font-size: 50px; display:inline; padding-left: 30px;" ><%=parceria.empresa %></h1>
-               
-                
-                <% } %>        
+<div class="container mt-4 mb-4">
+  <div class="page-header mb-3 text-center">
+    <h1><i class="fas fa-handshake"></i> Junte-se à Causa PET!</h1>
+    <p class="lead">Descubra como sua empresa pode fazer a diferença na vida dos animais.</p>
+    <p>Se você representa uma empresa e deseja apoiar a ONG Amor Animal, entre em contato ou adicione sua proposta!</p>
+    <a href="./form_parceria" class="btn btn-primary mt-3">
+      <i class="fas fa-plus-circle"></i> Adicionar Proposta de Parceria
+    </a>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <h2 class="text-center mb-4">Empresas que Apoiam Nossa Causa</h2>
+
+  <% if (typeof model !== 'undefined' && model.length > 0) { %>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% for (const parceria of model) { %>
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><%= parceria.empresa %></h5>
+          <h6 class="card-subtitle mb-2 text-muted">
+            Localidade: <%= parceria.localidade || 'Não informada' %>
+          </h6>
+          <p class="card-text">
+            <strong>Proposta:</strong> <%= parceria.proposta %>
+          </p>
+          <p class="card-text">
+            <strong>Representante:</strong> <%= parceria.representante %>
+          </p>
+          <p class="card-text">
+            <strong>Contato:</strong> <%= parceria.telefone %> <%= parceria.whatsapp === 'sim' ? '(Whatsapp disponível)' : '' %>
+          </p>
+          <% if (parceria.email) { %>
+          <p class="card-text">
+            <strong>Email:</strong> <a href="mailto:<%= parceria.email %>"><%= parceria.email %></a>
+          </p>
+          <% } %>
         </div>
+      </div>
     </div>
-    </div>
+    <% } %>
+  </div>
+  <% } else { %>
+  <div class="alert alert-info text-center" role="alert">
+    Nenhuma parceria cadastrada no momento. Seja o primeiro a propor uma!
+  </div>
+  <% } %>
+</div>
 
-  
-    <%- include("_footer")-%>
+<%- include("_footer")-%>

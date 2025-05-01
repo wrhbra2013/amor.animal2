@@ -1,6 +1,16 @@
 <%-include("_header")-%>
 <div class="adotante-container">
   <h1 class="adotante-titulo">Adotantes</h1>
+  <div class="adotante-filtro">
+    <form action="/adotante/filtrar" method="post" class="adotante-form-filtro">
+      <input type="text" name="nome" placeholder="Filtrar por nome" class="adotante-input-filtro">
+      <input type="submit" value="Filtrar" class="btn btn-default btn-primary adotante-btn-filtrar">
+    </form>
+  </div>
+  <div class="adotante-acoes">    <form action="/adotante/novo" method="get" class="adotante-form-novo">
+      <input type="submit" value="Novo Adotante" class="btn btn-default btn-success adotante-btn-novo">
+    </form>
+    </div>
 
   <div class="adotante-lista">
     <table id="data" class="adotante-tabela">
@@ -11,7 +21,7 @@
           <!-- Loop somente propriedades do array -->
           <tr>
             <% for (const model in adotante) {%>
-              <th class="adotante-tabela-header"><%=model%></th>
+              <th class="adotante-tabela-header"><%= model.charAt(0).toUpperCase() + model.slice(1) %></th>
             <%}%>
             <%break%>
           </tr>
@@ -24,7 +34,7 @@
               <td class="adotante-tabela-celula">
                 <%=adotante[key]%>
               </td>
-            <% } %>
+            <% } %> 
           </tr>
         <%}%>
       <% } else { %>

@@ -1,27 +1,35 @@
 {
-  "name": "amor.animal2",
-  "version": "1.0.0",
-  "description": "Aplicação Web ONG Amor Animal",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "type": "module",
-    "start": "node index.js"
-  },
-  "author": "wander-2025",
-  "license": "MIT",
-  "devDependencies": {
-    "body-parser": "^1.20.3",
-    "ejs": "^3.1.10",
-    "express": "^4.21.2",
-    "sqlite3": "^5.1.7"
-  },
-  "dependencies": {
-    "fs": "^0.0.1-security",
-    "gh-pages": "^6.3.0",
-    "multer": "^1.4.5-lts.1",
-    "pdfkit": "^0.17.0",
-    "prompt-sync": "^4.2.0"
-  },
-  "homepage": "https://https://wrhbra2013.github.io/amor.animal2/"
+   "name": "amor.animal2",
+   "version": "1.0.0",
+   "description": "Aplicação Web ONG Amor Animal",
+   "main": "index.js",
+   "keywords": [
+      "amor",
+      "animal"
+   ],
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node index.js",
+      "dev": "nodemon index.js",
+      "predeploy": "npm run build",
+      "deploy": "gh-pages -d public"
+   },
+   "author": "wander-2025",
+   "license": "MIT",
+   "devDependencies": {
+      "body-parser": "^1.20.3",
+      "ejs": "^3.1.10",
+      "express": "^4.21.2",
+      "open": "^10.1.2",
+      "sqlite3": "^5.1.7"
+   },
+   "dependencies": {
+      "fs": "^0.0.1-security",
+      "gh-pages": "^6.3.0",
+      "multer": "^1.4.5-lts.1",
+      "nodemon": "^3.1.10",
+      "pdfkit": "^0.17.0",
+      "prompt-sync": "^4.2.0"
+   },
+   "homepage": "https://wrhbra2013.github.io/amor.animal2/"
 }

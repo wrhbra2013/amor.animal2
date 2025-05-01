@@ -21,21 +21,35 @@
      <section id="noticias" class="section-noticias">
          <div class="container">
              <h2>Notícias</h2>
+             <% if (typeof model1 !== 'undefined' && model1.length > 0) { %>
+                 <% model1.forEach(noticia => { %>
+                     <div class="noticia-item">
+                         <img src="/static/uploads/noticia/<%= noticia.arquivo %>" alt="<%= noticia.titulo %>" class="img-fluid">
+                         <h3><%= noticia.titulo %></h3>
+                         <p><%= noticia.conteudo %></p>
+                         <a href="<%= noticia.link %>" class="btn btn-primary">Leia Mais</a>
+                     </div>
+                 <% }) %>
+             <% } else { %>
+                 <p>Nenhuma notícia disponível no momento.</p>
+             <% } %>
+
              <div class="noticias-content">
                  <div class="noticia-item">
-                     <img src="/static/images/noticia-1.jpg" alt="Notícia 1" class="img-fluid">
+                     <img src="/static/css/favicon/email.png" alt="Notícia 2" class="img-fluid">
+                     <h3>Campanha de Doação</h3>
+                     <p>Estamos arrecadando fundos para ajudar nos custos de tratamento e abrigo dos animais. Sua doação faz a diferença!</p>
+                     <a href="./doacao" class="btn btn-primary">Doe Agora</a>
+                 </div>
+                 
+                 <div class="noticia-item">
+                     <img src="/static/css/favicon/email.png" alt="Notícia 1" class="img-fluid">
                      <h3>Evento de Adoção</h3>
                      <p>Participe do nosso próximo evento de adoção! Teremos muitos pets esperando por um lar. Venha conhecer e se apaixonar!</p>
                      <a href="#" class="btn btn-primary">Saiba Mais</a>
                  </div>
-                 <div class="noticia-item">
-                     <img src="/static/images/noticia-2.jpg" alt="Notícia 2" class="img-fluid">
-                     <h3>Campanha de Vacinação</h3>
-                     <p>Estamos promovendo uma campanha de vacinação para pets. Não perca a oportunidade de proteger seu amigo!</p>
-                     <a href="#" class="btn btn-primary">Saiba Mais</a>
-                 </div>
-                 <div class="noticia-item">
-                     <                    <img src="/static/images/noticia-3.jpg" alt="Notícia 3" class="img-fluid">
+                       <div class="noticia-item">
+                     <img src="/static/css/favicon/email.png" alt="Notícia 3" class="img-fluid">
                      <h3>Dicas de Cuidados</h3>
                      <p>Confira nossas dicas para manter seu pet saudável e feliz. Alimentação, exercícios e bem-estar!</p>
                      <a href="#" class="btn btn-primary">Saiba Mais</a>
@@ -146,29 +160,33 @@
  
      <!-- ... (Seção Números, Seção Procura-se, Seção Parcerias) ... -->
 
-     <!-- Seção: Números -->
-     <section id="numeros" class="section-numeros">
-         <div class="container">
-             <h2>Nossos Números</h2>
-             <div class="numeros-content">
-                 <div class="numero-item">
-                     <i class="fas fa-paw"></i>
-                     <h3>+<%= model5[0].total_animais %></h3>
-                     <p>Animais Resgatados</p>
-                 </div>
-                 <div class="numero-item">
-                     <i class="fas fa-home"></i>
-                     <h3>+<%= model6[0].total_adotados %></h3>
-                     <p>Animais Adotados</p>
-                 </div>
-                 <div class="numero-item">
-                     <i class="fas fa-handshake"></i>
-                     <h3>+<%= model7[0].total_parceiros %></h3>
-                     <p>Parceiros</p>
-                 </div>
-             </div>
-         </div>
-     </section>
+       <!-- Seção: Números -->
+       <section id="numeros" class="section-numeros">
+           <div class="container">
+               <h2>Nossos Números</h2>
+               <div class="numeros-content">
+                   <div class="numero-item">
+                       <i class="fas fa-paw"></i>
+                       <!-- Check if model5 exists and has data -->
+                       <h3>+<%= (typeof model5 !== 'undefined' && model5.length > 0 && model5[0].total_animais) ? model5[0].total_animais : '0' %></h3>
+                       <p>Animais Resgatados</p>
+                   </div>
+                   <div class="numero-item">
+                       <i class="fas fa-home"></i>
+                       <!-- Check if model6 exists and has data -->
+                       <h3>+<%= (typeof model6 !== 'undefined' && model6.length > 0 && model6[0].total_adotados) ? model6[0].total_adotados : '0' %></h3>
+                       <p>Animais Adotados</p>
+                   </div>
+                   <div class="numero-item">
+                       <i class="fas fa-handshake"></i>
+                       <!-- Check if model7 exists and has data -->
+                       <h3>+<%= (typeof model7 !== 'undefined' && model7.length > 0 && model7[0].total_parceiros) ? model7[0].total_parceiros : '0' %></h3>
+                       <p>Parceiros</p>
+                   </div>
+               </div>
+           </div>
+       </section>
+  
  
      <!-- Seção: Procura-se -->
      <section id="procura-se" class="section-procura-se">
@@ -196,13 +214,13 @@
                      <% } else { %>
                          <div class="procura-sem-itens">
                              <p>Nenhum animal perdido foi cadastrado ainda.</p>
-                             <a href="/form_procura" class="btn btn-primary">
+                             <a href="/form_procura_se" class="btn btn-primary">
                                  Cadastre um Animal Perdido &gt;
                              </a>
                          </div>
                      <% } %>
                  </div> <!-- Fim .procura-se-lista -->
-                 <a href="/procura" class="btn btn-secondary mt-2">Ver Todos os Animais Perdidos &gt;</a>
+                 <a href="/procura_se" class="btn btn-secondary mt-2">Ver Todos os Animais Perdidos &gt;</a>
              </div> <!-- Fim .procura-se-content -->
          </div>
      </section>

@@ -1,66 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatorio</title>
-    <link rel="stylesheet" href="/static/css/default.css">
-  <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
-</head>
-<p id="table" style="display:none"><%=tabela%></p>
-<body style=" max-width: 100%; margin: 0 px auto;">
-     <table id ="table" style="white-space: nowrap; overflow-x: auto;">
-       <thead >
-          <% if (typeof model !=='undefined' && model.length ) {%>     
-            <!-- Loop bloco1 -->
-            <!-- Loop de todo o array -->
-            <% for(const tabela of model) { %>    
-                <!-- Loop somente propriedaades do array -->
-                
-             <!-- Agrupar tabela -->
-             
-            <tr>
-            <% for (const model in tabela ) {%>
-          
-            <th><%=model%></th> 
-            <%}%>   
-            <%break%> 
-            </tr>
-            <%}%>      
-            
-          </tr>
-          
-        </thead>
-      
-        <tbody>
-           <!-- Loop bloco2 -->
-      <% for(const tabela  of model) { %>    
-      </tr>
-           
-        <!-- Loop dos objetos do array -->
-        <tr>
-         
-         <% for (const key in tabela ) { %>
-       
-                 <td> <%=tabela [key]%> 
-                 </td>
-                 <% } %>     
-       </tr>      
-        </tbody>
-        <%}%>
-        <% } else { %>
-       <p>Dados: Nenhum dado disponível</p>
-       <script>document.getElementById('data').style.display="none";</script>
-       <% } %>
-
-      </table>   
-      </div>  
-     
-  <div style="margin-top: 30px">    
-    <form action="/relatorio/<%=tabela%>" method="post">
-      <input type="submit" value="Gerar Relatorio" class="btn btn-default btn-danger" onclick="confirm('Gerar Relatorio?')"
-        class="center" />
-    </form>
-     <button type="button" onclick=javascript:window.print() >Download HTML</button>    
-  </div>
-<%-include("_footer")-%>
+ <%- include("_header") -%> <%# Inclui o cabeçalho padrão %>
+ 
+ <div class="container mt-4 mb-5">
+ 
+     <%# Verifica se a variável 'tabela' (nome do relatório) foi passada %>
+     <% const reportName = typeof tabela !== 'undefined' ? tabela.charAt(0).toUpperCase() + tabela.slice(1) : 'Geral'; %>
+ 
+     <div class="d-flex justify-content-between align-items-center mb-4">
+         <h1><i class="fas fa-file-alt me-2"></i>Relatório: <%= reportName %></h1>
+         <a href="javascript:history.back()" class="btn btn-secondary">
+              <i class="fas fa-arrow-left me-1"></i> Voltar
+         </a>
+     </div>
+ 
+     <%# Verifica se há dados no 'model' para exibir %>
+     <% if (typeof model !== 'undefined' && model.length > 0) { %>
+ 
+         <div class="card shadow-sm">
+             <div class="card-header">
+                 Dados do Relatório
+             </div>
+             <div class="card-body">
+                 <div class="table-responsive"> <%# Torna a tabela rolável em telas pequenas %>
+                     <table class="table table-striped table-bordered table-hover table-sm align-middle"> <%# Classes Bootstrap para tabela %>
+                         <thead class="table-light">
+                             <%# Gera o Cabeçalho (usa as chaves do primeiro objeto como colunas) %>
+                             <% if (model.length > 0) { %>
+                                 <tr>
+                                     <% const firstItem = model[0]; %>
+                                     <% for (const key in firstItem) { %>
+                                         <%# Capitaliza a primeira letra da chave para o cabeçalho %>
+                                         <th><%= key.charAt(0).toUpperCase() + key.slice(1) %></th>
+                                     <% } %>
+                                 </tr>
+                             <% } %>
+                         </thead>
+                         <tbody>
+                             <%# Gera as Linhas da Tabela %>
+                             <% for (const item of model) { %>
+                                 <tr>
+                                     <% for (const key in item) { %>
+                                         <td><%= item[key] %></td>
+                                     <% } %>
+                                 </tr>
+                             <% } %>
+                         </tbody>
+                     </table>
+                 </div>
+             </div>
+         </div>
+ 
+         <%# Seção de Ações %>
+         <div class="mt-4 d-flex justify-content-center gap-3">
+             <%# Formulário para gerar o relatório (ex: PDF/Excel no backend) %>
+             <% if (typeof tabela !== 'undefined') { %>
+             <form action="/relatorio/<%= tabela %>" method="post" onsubmit="return confirm('Gerar relatório em formato específico (ex: PDF/Excel)?')">
+                 <button type="submit" class="btn btn-success">
+                     <i class="fas fa-download me-1"></i> Gerar Relatório <%# (Ex: PDF/Excel) %>
+                 </button>
+             </form>
+             <% } %>
+ 
+             <%# Botão para imprimir a visualização HTML atual %>
+             <button type="button" class="btn btn-info" onclick="window.print()">
+                 <i class="fas fa-print me-1"></i> Imprimir/Salvar HTML
+             </button>
+         </div>
+ 
+     <% } else { %>
+         <%# Mensagem caso não haja dados %>
+         <div class="alert alert-warning text-center" role="alert">
+             Nenhum dado disponível para gerar o relatório de <strong><%= reportName %></strong>.
+         </div>
+     <% } %>
+ 
+ </div>
+ 
+ <%- include("_footer") -%> <%# Inclui o rodapé padrão %>
+ 

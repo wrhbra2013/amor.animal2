@@ -737,6 +737,7 @@ fs.unlinkSync(caminho, error => {
 console.log(error)
 }) 
 });
+
 app.post('/delete/procura_se/:id/:arq', (req, res) => {
 const id = req.params.id;
 const arq = req.params.arq;
@@ -787,11 +788,32 @@ console.log(error)
 })
 });
 
-app.listen(port, (error) => {
-if (error) return res.render('error', { error: error })
-console.log(`Aplicação ATIVA em http://localhost:${port}`)
+// ... (outros requires e configurações) ...
 
+// REMOVA a linha: const open = require('open');
+
+// ... (restante do seu código) ...
+
+app.listen(port, async (error) => { // Adicione 'async' aqui
+    if (error) {
+        console.error("Erro ao iniciar o servidor:", error);
+        return;
+    }
+    const url = `http://localhost:${port}`;
+    console.log(`Aplicação ATIVA em ${url}`);
+
+    try {
+        // Usa import() dinâmico para carregar o módulo ESM
+        const open = (await import('open')).default; // Pega o export 'default'
+        await open(url); // Chama a função open
+        console.log(`Navegador aberto em ${url}`);
+    } catch (err) {
+        console.error('Erro ao tentar abrir o navegador:', err);
+    }
 });
+
+// ... (module.exports, se houver) ...
+
 
 module.exports = {
 path: path

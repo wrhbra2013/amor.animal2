@@ -1,42 +1,46 @@
-   <!DOCTYPE html>
-   <html lang="pt-br"> <!-- Mudado para pt-br -->
-   <head> <!-- Head tag fechada corretamente -->
-       <meta charset="utf-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>ONG Amor Animal Marilia.</title>
-       <link rel="stylesheet" href="/static/css/default.css">
-       <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
-   </head>
-   
-   <body> <!-- Body tag aberta aqui, envolvendo todo o conteúdo visível -->
-   
-   <div class="scroll-watcher"></div> 
-   <!-- _header.ejs -->
-   <header>
-       <div class="nav-container"> <!-- Container principal para alinhar logo e toggle/nav -->
-           <a class="logo" href="/home">
-               <img src="/static/css/imagem/ong.jpg" alt="Logo ONG Amor Animal" />
-               <!-- Ou <span class="logo-text">ONG Amor Animal</span> -->
-           </a>
-   
-           <!-- Botão Hamburger (Toggle) -->
-           <button class="nav-mobile-toggle" aria-label="Abrir menu" aria-expanded="false">
-               &#9776; <!-- Código HTML para o ícone hamburger (☰) -->
-               <!-- Você pode substituir por um SVG ou ícone de uma biblioteca -->
-           </button>
-   
-           <!-- Navegação Principal -->
-           <nav>
-               <ul class="nav-list">
-                   <li><a href="/home"> Início </a></li>
-                   <li><a href="/adocao"> Adoção </a></li>
-                   <li><a href="/castracao"> Castração </a></li>
-                   <li><a href="/doacao"> Doação </a></li>
-                   <li><a href="/procura_se"> Procura-se </a></li>
-                   <li><a href="/parceria"> Parceria </a></li>
-                   <li><a href="/sobre"> Sobre</a></li>
-               </ul>
-           </nav>
-       </div>
-   </header>
-   
+  <!DOCTYPE html>
+  <html lang="pt-br">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>ONG Amor Animal Marilia.</title>
+      <link rel="stylesheet" href="/static/css/default.css">
+      <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
+      <!-- Inclua o script de acessibilidade AQUI -->
+      <script src="/static/js/accessibility.js" defer></script>
+  </head>
+ 
+  <body>
+ 
+ 
+  <!-- _header.ejs -->
+  <header class="main-header"> <!-- Added class for potential specific header styling -->
+      <div class="nav-container"> <!-- Container for logo, toggle, and nav -->
+          <a class="logo" href="/home">
+              <img src="/static/css/imagem/ong.jpg" alt="Logo ONG Amor Animal" />
+              <!-- <span class="logo-text">ONG Amor Animal</span> -->
+          </a>
+ 
+ 
+      </div> <!-- Fechamento do nav-container -->
+      <!-- Navegação Principal -->
+      <nav class="main-nav">
+          <ul class="nav-list" id="main-nav-list">
+              <li><a href="/home">Início</a></li>
+              <li><a href="/adocao">Adoção</a></li>
+              <li><a href="/castracao">Castração</a></li>
+              <li><a href="/doacao">Doação</a></li>
+              <li><a href="/procura_se">Procura-se</a></li>
+              <li><a href="/parceria">Parceria</a></li>
+              <li><a href="/sobre">Sobre</a></li>
+          </ul>
+      </nav>
+  </header>
+ 
+     <!-- O botão permanece o mesmo -->
+     <button onclick="toggleHighContrast()"  style="border: none; cursor: pointer; ;"><img src="/static/css/favicon/contrast.png" alt="Alternar Alto Contraste"></button>
+     <!-- Adicionado alt text para acessibilidade -->
+ 
+ 
+  <!-- O restante do seu conteúdo -->
+ 

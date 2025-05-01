@@ -1,44 +1,59 @@
-﻿<%- include("_header") -%>
-
-<!-- Bloco de chamada para ação -->
-<div class="container mt-4 mb-4">
-  <div class="page-header mb-3">
-  <h2>Quer contar a sua história de adoção?</h2>
-  <p>Se você tem um PET adotado e quer contar a sua história, ADICIONE!</p>
-  <p>Compartilhe sua experiência e inspire outras pessoas a adotarem também!</p>
-  <a href="./form_adotado" class="btn btn-primary mt-3">Adicionar História</a>
-  </div>
-</div>
-
-<div class="container">
-  <% if (typeof model2 !=='undefined' && model2.length > 0) { %>
-    <% for(const adotado of model2) { %>
-      <div class="adocao-historia-item"> <%# Renomeado de .artigo %>
-
-        <img src="/static/uploads/adotado/<%= adotado.arquivo %>" class="adocao-historia-imagem" alt="Foto de <%= adotado.pet %>" /> <%# Classe adicionada e alt text %>
-
-        <h3 class="adocao-historia-tutor"> <%# Classe adicionada e mudado para h3 por hierarquia %>
-          Tutor: <%= adotado.tutor %>
-        </h3>
-        <p class="adocao-historia-texto">"<%= adotado.historia.substring(0, 150) %>..."</p> <%# Classe adicionada %>
-
-        <h4 class="adocao-historia-pet"> <%# Classe adicionada e mudado para h4 %>
-          Pet: <%= adotado.pet %>
-        </h4>
-        <p class="adocao-historia-origem">Origem: <%= adotado.origem %></p>
-
-        <div class="d-flex justify-content-between align-items-center">
-          <a href="/adocao/<%= adotado.id %>" class="btn btn-outline-secondary btn-sm">Ler Mais &gt;</a>
-          <form action="/delete/adotado/<%= adotado.id %>/<%= adotado.arquivo %>" method="post" onsubmit="return confirm('Tem certeza que deseja apagar esta postagem?')">
-            <button type="submit" class="btn btn-danger btn-sm">Apagar</button>
-          </form>
-        </div>
-
-      </div>
-    <% } %>
-  <% } else { %>
-    <p class="text-center">Nenhuma história de adoção foi adicionada ainda. Seja o primeiro!</p>
-  <% } %>
-</div>
-
-<%- include("_footer") -%>
+﻿ <%- include("_header") -%>
+ 
+ <!-- Bloco de chamada para ação (Seems good, keeping as is) -->
+ <div class="container mt-4 mb-4">
+   <div class="page-header mb-3">
+     <h2>Quer contar a sua história de adoção?</h2>
+     <p>Se você tem um PET adotado e quer contar a sua história, ADICIONE!</p>
+     <p>Compartilhe sua experiência e inspire outras pessoas a adotarem também!</p>
+     <a href="./form_adotado" class="btn btn-primary mt-3">Adicionar História</a>
+   </div>
+ </div>
+ 
+ <!-- Listagem de Histórias -->
+ <div class="container mb-5"> <!-- Added bottom margin for spacing -->
+ 
+   <% if (typeof model2 !=='undefined' && model2.length > 0) { %>
+     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> <!-- Bootstrap Grid: 1 col default, 2 on medium screens, 3 on large, g-4 adds gutters -->
+       <% for(const adotado of model2) { %>
+         <div class="col"> <!-- Grid column -->
+           <div class="card h-100 shadow-sm"> <!-- Bootstrap Card, h-100 for equal height cards in a row, optional shadow -->
+ 
+             <img src="/static/uploads/adotado/<%= adotado.arquivo %>" class="card-img-top" alt="Foto de <%= adotado.pet %>" style="height: 200px; object-fit: cover;">
+             <!-- card-img-top places image at the top -->
+             <!-- Added inline style for consistent image height and cropping -->
+ 
+             <div class="card-body d-flex flex-column"> <!-- Card body using flexbox to push buttons down -->
+               <h5 class="card-title">Pet: <%= adotado.pet %></h5> <!-- Use card-title for main heading -->
+               <h6 class="card-subtitle mb-2 text-muted">Tutor: <%= adotado.tutor %></h6> <!-- card-subtitle for secondary info -->
+ 
+               <p class="card-text flex-grow-1"> <!-- card-text for the main content, flex-grow pushes elements below it down -->
+                 "<%= adotado.historia.substring(0, 120) %>..." <%# Slightly shorter preview %>
+               </p>
+               <!-- Optional: Display origin if available/needed
+               <%# if (adotado.origem) { %>
+                 <p class="card-text"><small class="text-muted">Origem: <%#= adotado.origem %></small></p>
+               <%# } %>
+               -->
+ 
+               <!-- Action Buttons aligned at the bottom -->
+               <div class="mt-auto d-flex justify-content-between align-items-center"> <!-- mt-auto pushes this block to the bottom of the flex container -->
+                  <a href="/adocao/<%= adotado.id %>" class="btn btn-outline-secondary btn-sm">Ler Mais &gt;</a>
+                  <!-- Ensure form doesn't break flex layout -->
+                  <form action="/delete/adotado/<%= adotado.id %>/<%= adotado.arquivo %>" method="post" onsubmit="return confirm('Tem certeza que deseja apagar esta postagem?')" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm">Apagar</button>
+                  </form>
+               </div>
+             </div> <!-- End card-body -->
+ 
+           </div> <!-- End card -->
+         </div> <!-- End col -->
+       <% } %>
+     </div> <!-- End row -->
+   <% } else { %>
+     <p class="text-center mt-4">Nenhuma história de adoção foi adicionada ainda. Seja o primeiro!</p> <!-- Added margin top -->
+   <% } %>
+ </div> <!-- End container -->
+ 
+ <%- include("_footer") -%>
+ 

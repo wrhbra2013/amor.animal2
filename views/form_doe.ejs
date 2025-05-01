@@ -1,48 +1,113 @@
-<%- include("_header")-%>
-<div class="center">
-  <h1> Doações</h1>
-</div>
-<div class="artigo">
-  <button><a href="./home">Cancelar</a></button>  
-</div>
-
-<div class="artigo">
-  <h2>Como você gostaria de ajudar?</h2>
-  <p>Selecione uma opção abaixo:</p>
-  <p>Você pode ajudar de várias maneiras, como doações financeiras, doações de ração ou oferecendo seu tempo como voluntário.</p>
-  <p>Se você optar por uma doação financeira, você pode fazer isso através de PIX ou transferência bancária.</p>
-  <p>Se você escolher doação de ração, entre em contato conosco para saber os locais de coleta.</p>
-  <p>Se você deseja se voluntariar, entre em contato conosco para saber mais sobre as oportunidades disponíveis.</p>
-  <p>Obrigado por considerar ajudar!</p>
-  </div>
+ <%- include("_header") -%>
  
-  <select onchange="handleOptionChange(this)">
-    <option value="0">Selecione uma opção</option>
-    <option value="1">Doação Financeira</option>
-    <option value="2">Doação de Voluntariado</option>
-    <option value="3">Doação de ração</option>
-  </select>
+ <div class="container mt-4 mb-5"> <!-- Container principal para espaçamento e centralização -->
  
-
-  <div id="pix-info" aria-labelledby="pix-info-label">
-    <p>Obrigado por considerar uma doação financeira!</p>
-    <p id="pix-info-label">Exclusivo: PIX CNPJ 40.472.777.0001.73</p>
-    <p id="pix-info-label">Nome: Associação Grupo Amor Animal</p>
-    <img src="/static/css/imagem/qrcodepix.png" alt="QR Code para PIX" />
-   
-  </div>
-
-  <div id="volunteer-info" >
-    <p>Obrigado por considerar se voluntariar!</p>
-    <p>Por favor, entre em contato com nossos canais de atendimento.</p>
-    <p>Você pode se voluntariar em várias áreas, como cuidados com os animais, eventos de arrecadação e muito mais.</p>
-    <p>Se você tem habilidades específicas, como fotografia, marketing ou cuidados veterinários, também adoraríamos contar com sua ajuda!</p>
-    <p>Se você tem interesse em se voluntariar, entre em contato conosco para saber mais sobre as oportunidades disponíveis.</p>   
-  </div>
-  
-  <div id="food-donation-info" >
-    <p>Obrigado por considerar fazer uma doação de ração!</p>
-     <p>Se você tem interesse em fazer uma doação de ração, entre em contato conosco para saber mais sobre os locais de coleta disponíveis.</p>
-    </div>
-    
-<%- include("_footer")-%>
+     <div class="text-center mb-4"> <!-- Centraliza o título -->
+         <h1><i class="fas fa-donate me-2"></i>Doações</h1> <!-- Ícone adicionado para consistência -->
+     </div>
+ 
+     <div class="card shadow-sm mb-4"> <!-- Usando card para agrupar o conteúdo inicial -->
+         <div class="card-body">
+             <h2 class="card-title h4">Como você gostaria de ajudar?</h2> <!-- Título dentro do card -->
+             <p class="card-text">Selecione uma opção abaixo:</p>
+             <p>Você pode ajudar de várias maneiras, como doações financeiras, doações de ração ou oferecendo seu tempo como voluntário.</p>
+             <ul> <!-- Usando lista para melhor semântica das opções -->
+                 <li><strong>Doação Financeira:</strong> Você pode fazer isso através de PIX (veja detalhes abaixo).</li>
+                 <li><strong>Doação de Ração:</strong> Entre em contato conosco para saber os locais de coleta.</li>
+                 <li><strong>Voluntariado:</strong> Entre em contato conosco para saber mais sobre as oportunidades disponíveis.</li>
+             </ul>
+             <p class="mt-3">Obrigado por considerar ajudar!</p>
+         </div>
+     </div>
+ 
+     <div class="mb-4"> <!-- Espaçamento antes do select -->
+         <label for="donation-option" class="form-label fw-bold">Selecione o tipo de ajuda:</label> <!-- Label associado ao select -->
+         <select id="donation-option" class="form-select form-select-lg" onchange="handleOptionChange(this)"> <!-- Classes Bootstrap para o select -->
+             <option value="0" selected>Selecione uma opção...</option> <!-- 'selected' na opção padrão -->
+             <option value="1">Doação Financeira (PIX)</option>
+             <option value="2">Voluntariado</option>
+             <option value="3">Doação de Ração</option>
+         </select>
+     </div>
+ 
+     <!-- Seções de Informação (inicialmente ocultas via JS ou CSS) -->
+     <!-- É recomendado controlar a visibilidade com JS adicionando/removendo a classe 'd-none' do Bootstrap -->
+     <div id="pix-info" class="card border-info mb-3 d-none"> <!-- Usando card e classe d-none para ocultar inicialmente -->
+         <div class="card-header bg-info text-white">
+             <i class="fas fa-piggy-bank me-2"></i>Informações para Doação Financeira (PIX)
+         </div>
+         <div class="card-body text-info">
+             <p class="card-text">Obrigado por sua generosidade!</p>
+             <p><strong>PIX (CNPJ):</strong> 40.472.777.0001.73</p>
+             <p><strong>Nome:</strong> Associação Grupo Amor Animal</p>
+             <div class="text-center"> <!-- Centraliza o QR Code -->
+                 <img src="/static/css/imagem/qrcodepix.png" alt="QR Code para PIX" class="img-fluid" style="max-width: 200px;"> <!-- img-fluid para responsividade -->
+             </div>
+         </div>
+     </div>
+ 
+     <div id="volunteer-info" class="card border-success mb-3 d-none"> <!-- Usando card e classe d-none -->
+          <div class="card-header bg-success text-white">
+             <i class="fas fa-hands-helping me-2"></i>Informações sobre Voluntariado
+         </div>
+         <div class="card-body text-success">
+             <p class="card-text">Obrigado por seu interesse em ser voluntário!</p>
+             <p>Você pode se voluntariar em várias áreas, como cuidados com os animais, eventos de arrecadação e muito mais. Se você tem habilidades específicas (fotografia, marketing, veterinária, etc.), sua ajuda será muito bem-vinda!</p>
+             <p><strong>Para saber mais sobre as oportunidades, por favor, entre em contato conosco através dos nossos canais de atendimento.</strong></p>
+         </div>
+     </div>
+ 
+     <div id="food-donation-info" class="card border-warning mb-3 d-none"> <!-- Usando card e classe d-none -->
+          <div class="card-header bg-warning text-dark"> <!-- Fundo warning, texto escuro para contraste -->
+             <i class="fas fa-bone me-2"></i>Informações sobre Doação de Ração
+         </div>
+         <div class="card-body text-dark"> <!-- Texto escuro para contraste -->
+             <p class="card-text">Obrigado por considerar doar ração!</p>
+             <p>Sua doação ajuda a alimentar muitos animais necessitados.</p>
+             <p><strong>Por favor, entre em contato conosco para combinarmos a entrega ou informarmos os pontos de coleta mais próximos.</strong></p>
+         </div>
+     </div>
+ 
+     <!-- Botão Cancelar/Voltar -->
+     <div class="mt-4 text-center"> <!-- Espaçamento e centralização -->
+         <a href="./home" class="btn btn-secondary">
+              <i class="fas fa-arrow-left me-1"></i> Voltar para Home <!-- Melhor texto e ícone -->
+         </a>
+     </div>
+ 
+ </div> <!-- Fim container -->
+ 
+ <!-- Script para mostrar/ocultar seções (Exemplo) -->
+ <script>
+     function handleOptionChange(selectElement) {
+         const selectedValue = selectElement.value;
+         const pixInfo = document.getElementById('pix-info');
+         const volunteerInfo = document.getElementById('volunteer-info');
+         const foodInfo = document.getElementById('food-donation-info');
+ 
+         // Oculta todas as seções primeiro
+         pixInfo.classList.add('d-none');
+         volunteerInfo.classList.add('d-none');
+         foodInfo.classList.add('d-none');
+ 
+         // Mostra a seção correspondente
+         if (selectedValue === '1') {
+             pixInfo.classList.remove('d-none');
+         } else if (selectedValue === '2') {
+             volunteerInfo.classList.remove('d-none');
+         } else if (selectedValue === '3') {
+             foodInfo.classList.remove('d-none');
+         }
+     }
+ 
+     // Chama a função uma vez no carregamento caso haja um valor pré-selecionado (embora aqui não haja)
+     // document.addEventListener('DOMContentLoaded', () => {
+     //     const select = document.getElementById('donation-option');
+     //     if (select) {
+     //         handleOptionChange(select);
+     //     }
+     // });
+ </script>
+ 
+ <%- include("_footer") -%>
+ 

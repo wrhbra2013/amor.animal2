@@ -1,70 +1,92 @@
-<%- include("_header")-%>
-<link rel="stylesheet" href="../static/css/procura_se.css">
-<link rel="stylesheet" href="../static/css/table.css">
-    <!--  elemento central -->
-    
-    <!-- artigo -->
-      <div class="box">
-        <h1> Quer ajudar a encontrar um PET desaparecido?.</h1>
-        <h2> ANUNCIE, nossa rede voluntária gostaria de ajudar!</h2>
-        <p>Se você tem um PET desaparecido e quer ajuda para encontrá-lo, ADICIONE! </p>
-    </div>
-   
-    <div class="box">
-        <h1> Lista de PETS desaparecidos</h1></div>   
-        <div class="artigo">
-            <button><a href="./form_procura_se">Adicionar</a></button>  
-          </div>
-    <section class="table-container" id="data">
-        <div class="card">
-            <div class="card-header">
-                Lista de Pets Desaparecidos
-            </div>
-            <div class="card-body">
-                <table class="procura-se-table table table-striped table-hover">
-                    <% if (typeof model !=='undefined' && model.length> 0) {%>
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Foto</th>
-                            <th>Nome Pet</th>
-                            <th>Idade Pet</th>
-                            <th>Especie</th>
-                            <th>Porte</th>
-                            <th>Caracteristicas</th>
-                            <th>Local</th>
-                            <th>Tutor</th>
-                            <th>Contato</th>
-                            <th>Whatsapp</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (const procura_se of model) { %>
-                        <tr>
-                            <td><%=procura_se.data%></td>
-                            <td><div class="image-container"><img src="../static/uploads/procura_se/<%=procura_se.arquivo %>" width="100px" height="100px" alt="carregando..."/></div></td>
-                            <td><%= procura_se.nomePet %></td>
-                            <td><%= procura_se.idadePet %></td>
-                            <td><%= procura_se.especie %></td>
-                            <td><%= procura_se.porte %></td>
-                            <td><%= procura_se.caracteristicas %></td>
-                            <td><%= procura_se.local %></td>
-                            <td><%= procura_se.tutor %></td>
-                            <td><%= procura_se.contato %></td>
-                            <td><%= procura_se.whatsapp %></td>
-                            <td class="actions"> <form action="/delete_procura_se/<%=procura_se._id%>" method="post">
-                                <input type="submit" value="Deletar" class="btn btn-danger" onclick="return confirm('Deseja realmente excluir?')">
-                            </form></td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                    <% } else { %>
-                    <p>Procura-se: Nenhum dado disponível</p>
-                    <script>document.getElementById('data').style.display="none";</script>
-                    <% } %>
-                </table>
-            </div>
-        </div>
-    </section>
-    <%- include("_footer") -%>
+ <%- include("_header") -%>
+ <%# <link rel="stylesheet" href="../static/css/procura_se.css"> %> <%# Removido se os estilos estiverem em default.css/bootstrap %>
+ <%# <link rel="stylesheet" href="../static/css/table.css"> %> <%# Removido se os estilos estiverem em default.css/bootstrap %>
+ 
+ <!-- Header/CTA Section -->
+ <div class="container mt-4 mb-5"> <!-- Aumentei um pouco a margem inferior para separar mais da tabela -->
+     <div class="text-center py-3"> <!-- Usei padding vertical (py) e mantive centralizado -->
+         <h1><i class="fas fa-search me-2"></i>Procurando um PET?</h1> <!-- Adicionado espaço (me-2) após o ícone -->
+         <p class="lead">Quer ajudar a encontrar um PET desaparecido? ANUNCIE, nossa rede voluntária gostaria de ajudar!</p>
+         <p>Se você tem um PET desaparecido e quer ajuda para encontrá-lo, adicione as informações abaixo.</p>
+          <!-- Botão "Anunciar" -->
+          <a href="./form_procura_se" class="btn btn-primary mt-3">
+              <i class="fas fa-plus-circle me-1"></i>Anunciar Desaparecimento <!-- Adicionado espaço (me-1) após o ícone -->
+          </a>
+     </div>
+     
+ </div>
+ 
+ <!-- Table Section -->
+ <div class="container mb-5">
+     <h2 class="text-center mb-4">Pets Desaparecidos Atualmente</h2>
+ 
+     <% if (typeof model !=='undefined' && model.length > 0) { %>
+         <div class="card shadow-sm">
+             <div class="card-header">
+                 Lista de Pets Desaparecidos
+             </div>
+             <div class="card-body">
+                 <div class="table-responsive">
+                     <!-- Adicionada classe 'procura-se-table' se houver estilos customizados para ela -->
+                     <table class="procura-se-table table table-striped table-hover align-middle caption-top"> <!-- Adicionado caption-top para melhor acessibilidade/estrutura -->
+                         <caption>Lista detalhada de pets desaparecidos.</caption> <!-- Adicionada legenda para acessibilidade -->
+                         <thead class="table-light">
+                             <tr>
+                                 <th>Data</th>
+                                 <th>Foto</th>
+                                 <th>Nome Pet</th>
+                                 <th>Idade</th>
+                                 <th>Espécie</th>
+                                 <th>Porte</th>
+                                 <th>Características</th>
+                                 <th>Local</th>
+                                 <th>Tutor</th>
+                                 <th>Contato</th>
+                                 <th>Whatsapp</th>
+                                 <th class="text-center">Ações</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <% for (const procura_se of model) { %>
+                             <tr>
+                                 <td><%= procura_se.data ? new Date(procura_se.data).toLocaleDateString('pt-BR') : 'N/A' %></td>
+                                 <td>
+                                     <img src="../static/uploads/procura_se/<%= procura_se.arquivo %>"
+                                          width="80" height="80"
+                                          style="object-fit: cover;" <!-- Removido border-radius inline -->
+                                          alt="Foto de <%= procura_se.nomePet %>"
+                                          class="img-thumbnail p-1 rounded"/> <!-- Adicionado 'rounded' do Bootstrap -->
+                                 </td>
+                                 <td><%= procura_se.nomePet %></td>
+                                 <td><%= procura_se.idadePet %></td>
+                                 <td><%= procura_se.especie %></td>
+                                 <td><%= procura_se.porte %></td>
+                                 <td style="min-width: 150px;"><%= procura_se.caracteristicas %></td>
+                                 <td><%= procura_se.local %></td>
+                                 <td><%= procura_se.tutor %></td>
+                                 <td><%= procura_se.contato %></td>
+                                 <td><%= procura_se.whatsapp %></td>
+                                 <td class="text-center">
+                                     <form action="/delete_procura_se/<%= procura_se._id %>/<%= procura_se.arquivo %>" method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este anúncio?')">
+                                         <button type="submit" class="btn btn-danger btn-sm" title="Excluir Anúncio">
+                                             <i class="fas fa-trash-alt"></i>
+                                             <span class="visually-hidden">Excluir</span> <!-- Texto para leitores de tela -->
+                                         </button>
+                                     </form>
+                                 </td>
+                             </tr>
+                             <% } %>
+                         </tbody>
+                     </table>
+                 </div> <!-- End table-responsive -->
+             </div> <!-- End card-body -->
+         </div> <!-- End card -->
+     <% } else { %>
+         <div class="alert alert-info text-center shadow-sm" role="alert"> <!-- Adicionado shadow-sm para consistência visual -->
+             Nenhum PET desaparecido anunciado no momento.
+         </div>
+     <% } %>
+ </div> <!-- End container -->
+ 
+ <%- include("_footer") -%>
+ 

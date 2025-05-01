@@ -1,39 +1,99 @@
-<%- include("_header")-%>
-<div class="home">
-  <h1>Parceria</h1>
-</div>
-<div class="artigo">
-  <a href="./home" class="link-cancelar"> Cancelar</a>
-</div>
-<div class="artigo">
-  <form action="" method="post" class="form-container">
-    <div class="form-group">
-      <input type="text" name="empresa" placeholder="Empresa" class="form-control" required/>
-    </div>
-    <div class="form-group">
-      <input type="text" name="localidade" placeholder="Localidade" class="form-control"/>
-    </div>
-    <div class="form-group">
-      <textarea name="proposta" rows="4" placeholder="Proposta" class="form-control"></textarea>
-    </div>
-    <div class="form-group">
-      <input type="text" name="representante" placeholder="Representante" class="form-control" required/>
-    </div>
-    <div class="form-group">
-      <input type="tel" name="telefone" id="phone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" class="form-control" required/>
-    </div>
-    <div class="form-group">
-      <select name="whatsapp" id="whatsapp" class="form-control">
-        <option value=" ">Whatsapp</option>
-        <option value="sim">Aceito</option>
-        <option value="nao">Não</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <input type="email" name="email" placeholder="Email" class="form-control"/>
-    </div>
-    <input type="submit" value="Cadastrar" class="btn btn-primary" onclick="return confirm('Os dados estão atualizados?')"/>
-  </form>
-</div>
-  
-<%- include("_footer")-%>
+ <%- include("_header")-%>
+ 
+ <div class="container mt-4 mb-4">
+     <div class="page-header mb-3">
+         <h1>Proposta de Parceria</h1>
+         <p class="lead">
+             Compartilhe sua proposta de parceria e vamos juntos fazer a diferença na vida dos animais.
+         </p>
+     </div>
+ 
+     <div class="form-container card p-4 shadow-sm"> <!-- Added shadow for consistency -->
+         <form action="/parceria" method="post" class="row g-3" id="form-parceria"> <!-- Added action and ID -->
+             <div class="col-md-6">
+                 <label for="empresa" class="form-label">Empresa <span class="text-danger">*</span></label> <!-- Added asterisk -->
+                 <input type="text" name="empresa" id="empresa" placeholder="Nome da Empresa" class="form-control" required/>
+             </div>
+             <div class="col-md-6">
+                 <label for="localidade" class="form-label">Localidade:</label>
+                 <input type="text" name="localidade" id="localidade" placeholder="Cidade/Estado" class="form-control"/>
+             </div>
+             <div class="col-12">
+                 <!-- Changed label text slightly for clarity -->
+                 <label for="proposta" class="form-label">Descrição da Proposta:</label>
+                 <textarea name="proposta" id="proposta" rows="4" placeholder="Descreva como sua empresa gostaria de colaborar..." class="form-control"></textarea>
+             </div>
+             <div class="col-md-6">
+                 <label for="representante" class="form-label">Representante <span class="text-danger">*</span></label> <!-- Added asterisk -->
+                 <input type="text" name="representante" id="representante" placeholder="Nome do Representante" class="form-control" required/>
+             </div>
+             <div class="col-md-6">
+                 <label for="telefone" class="form-label">Telefone <span class="text-danger">*</span></label> <!-- Added asterisk -->
+                 <!-- Consider adding pattern for basic validation or using a JS masking library -->
+                 <input type="tel" name="telefone" id="telefone" placeholder="(00) 00000-0000" class="form-control" required/>
+                 <!-- Removed inline JS formatting - better handled by a library or pattern -->
+                 <!-- <input type="tel" name="telefone" id="telefone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" class="form-control" required/> -->
+             </div>
+             <div class="col-md-6">
+                 <label for="whatsapp" class="form-label">Disponível no Whatsapp?</label> <!-- Clearer label -->
+                 <select name="whatsapp" id="whatsapp" class="form-select">
+                     <!-- Changed default option value to empty string and made it clearer -->
+                     <option value="" selected>Não informado</option>
+                     <option value="sim">Sim</option>
+                     <option value="nao">Não</option>
+                 </select>
+             </div>
+             <div class="col-md-6">
+                 <label for="email" class="form-label">Email:</label>
+                 <input type="email" name="email" id="email" placeholder="exemplo@empresa.com" class="form-control"/>
+             </div>
+             <div class="col-12 d-flex justify-content-between align-items-center mt-3"> <!-- Added margin-top -->
+                 <a href="./parceria" class="btn btn-secondary">Cancelar</a>
+                 <!-- Removed inline confirm - consider JS validation function instead -->
+                 <button type="submit" class="btn btn-primary">Enviar Proposta</button>
+                 <!-- <input type="submit" value="Enviar Proposta" class="btn btn-primary" onclick="return confirm('Os dados estão corretos?')"/> -->
+             </div>
+             <div class="col-12"> <!-- Ensure the small text is also in a column -->
+                  <small class="form-text text-muted mt-2"><span class="text-danger">*</span> Campos obrigatórios</small>
+             </div>
+         </form>
+     </div>
+ </div>
+ <a href="/relatorio/parceria" class="btn btn-primary mt-3">Gerar Relatório</a>
+ <!-- Optional: Add JS for phone formatting if needed -->
+ <!-- <script>
+     // Example phone formatting function (needs refinement for robustness)
+     function phoneFormat(input) {
+         // Basic formatting logic - consider a dedicated library for better UX/validation
+         input = input.replace(/\D/g, ''); // Remove non-digits
+         input = input.replace(/^(\d{2})(\d)/g, '($1) $2'); // Add parens
+         input = input.replace(/(\d{5})(\d)/, '$1-$2'); // Add hyphen
+         return input.substring(0, 15); // Limit length
+     }
+ 
+     const phoneInput = document.getElementById('telefone');
+     if (phoneInput) {
+         phoneInput.addEventListener('input', (e) => {
+             e.target.value = phoneFormat(e.target.value);
+         });
+     }
+ 
+     // Optional: Add form validation logic here before submission
+     // const form = document.getElementById('form-parceria');
+     // form.addEventListener('submit', (event) => {
+     //     if (!form.checkValidity()) {
+     //         event.preventDefault();
+     //         event.stopPropagation();
+     //         // Add custom validation feedback if needed
+     //     } else {
+     //         // Optional: Show confirmation dialog here if still desired
+     //         if (!confirm('Os dados estão corretos?')) {
+     //             event.preventDefault();
+     //         }
+     //     }
+     //     form.classList.add('was-validated'); // Trigger Bootstrap validation styles
+     // });
+ </script> -->
+ 
+ <%- include("_footer")-%>
+ 

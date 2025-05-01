@@ -1,42 +1,117 @@
 <%- include("_header")-%>
-<div class="home">
-  <h1>Procura-se</h1> 
+
+<div class="container mt-4 mb-5"> <!-- Aumentei a margem inferior para mb-5 -->
+
+    <!-- Header Section -->
+    <div class="text-center mb-4"> <!-- Centralizado e com margem inferior -->
+        <h1><i class="fas fa-search-location me-2"></i>Anunciar PET Desaparecido</h1> <!-- Ícone adicionado -->
+        <p class="lead">Preencha o formulário abaixo para anunciar o desaparecimento do seu pet. Quanto mais detalhes, melhor!</p>
+    </div>
+
+    <!-- Form Section -->
+    <div class="card shadow-sm p-4"> <!-- Adicionado shadow-sm -->
+        <form action="/procura_se" enctype="multipart/form-data" method="post" id="form-procura-se">
+
+            <div class="mb-4"> <!-- Aumentei a margem inferior -->
+                <label for="arquivo" class="form-label fw-bold">Foto do Pet:*</label> <!-- Label em negrito -->
+                <!-- Image Preview Area -->
+                <div id="image-preview-container" class="text-center border rounded p-3 mb-2 bg-light" style="min-height: 220px; display: flex; align-items: center; justify-content: center;">
+                    <img id="frame" src="" width="300" height="200" alt="Pré-visualização da foto do pet" class="img-fluid rounded" style="display: none; object-fit: cover; max-width: 100%; height: auto;"/>
+                    <span id="preview-placeholder" class="text-muted">Nenhuma imagem selecionada</span> <!-- Placeholder text -->
+                </div>
+                <input type="file" name="arquivo" id="arquivo" class="form-control" onchange="previewImage(event)" accept="image/*" required/>
+                <div class="mt-2"> <!-- Div para alinhar o botão -->
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearImagePreview()">
+                        <i class="fas fa-times me-1"></i>Limpar Imagem <!-- Ícone adicionado -->
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3"> <!-- Usando row e g-3 para espaçamento entre colunas -->
+                <div class="col-md-8">
+                    <label for="nomePet" class="form-label fw-bold">Nome do Pet:*</label> <!-- Label em negrito -->
+                    <input type="text" placeholder="Nome do Pet" name="nomePet" id="nomePet" class="form-control" required/>
+                </div>
+                <div class="col-md-4">
+                    <label for="idadePet" class="form-label fw-bold">Idade (anos):</label> <!-- Label em negrito -->
+                    <input type="number" placeholder="Ex: 2" name="idadePet" id="idadePet" class="form-control" min="0"/> <!-- Adicionado min="0" -->
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="especie" class="form-label fw-bold">Espécie:*</label> <!-- Label em negrito -->
+                    <select id="especie" name="especie" class="form-select" required>
+                        <option value="" selected disabled>Selecione...</option>
+                        <option value="canino">Canino</option>
+                        <option value="felino">Felino</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="porte" class="form-label fw-bold">Porte:*</label> <!-- Label em negrito -->
+                    <select id="porte" name="porte" class="form-select" required>
+                        <option value="" selected disabled>Selecione...</option>
+                        <option value="pequeno">Pequeno</option>
+                        <option value="medio">Médio</option>
+                        <option value="grande">Grande</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="caracteristicas" class="form-label fw-bold">Características Distintivas:*</label> <!-- Label em negrito -->
+                <textarea id="caracteristicas" name="caracteristicas" rows="3" class="form-control" placeholder="Descreva cor, marcas, coleira (se usava), comportamento..." required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="local" class="form-label fw-bold">Local e Data do Desaparecimento:*</label> <!-- Label em negrito -->
+                <input type="text" placeholder="Ex: Próximo ao Parque Central, dia 10/05" id="local" name="local" class="form-control" required/>
+            </div>
+
+            <hr class="my-4"> <!-- Linha divisória para separar dados do pet e do tutor -->
+
+            <h5 class="mb-3">Informações de Contato</h5>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="tutor" class="form-label fw-bold">Nome do Responsável:*</label> <!-- Label em negrito -->
+                    <input type="text" placeholder="Seu nome completo" id="tutor" name="tutor" class="form-control" required/>
+                </div>
+                <div class="col-md-6">
+                    <label for="contato" class="form-label fw-bold">Telefone de Contato:*</label> <!-- Label em negrito -->
+                    <input type="tel" name="contato" id="contato" class="form-control" placeholder="(00) 00000-0000" required/>
+                    <!-- Poderia adicionar pattern para máscara, mas JS é mais robusto -->
+                </div>
+            </div>
+
+            <div class="mb-4"> <!-- Aumentei a margem inferior -->
+                <label for="whatsapp" class="form-label fw-bold">Disponível no WhatsApp?</label> <!-- Label em negrito -->
+                <select name="whatsapp" id="whatsapp" class="form-select">
+                    <option value="" selected>Não informado</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+
+            <hr class="my-4"> <!-- Linha divisória antes dos botões -->
+
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="./procura_se" class="btn btn-secondary">
+                    <i class="fas fa-times me-1"></i>Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary"> <!-- Mudado para button -->
+                    <i class="fas fa-bullhorn me-1"></i>Anunciar Desaparecimento <!-- Ícone adicionado -->
+                </button>
+            </div>
+            <small class="form-text text-muted mt-3 d-block">(*) Campos obrigatórios</small> <!-- Garantir que seja block e margem -->
+        </form>
+    </div>
 </div>
-<div class="artigo">
-  <button><a href="./home">Cancelar</a></button>  
+
+
+<div class="button-container">
+    <a href="/relatorio/procura_se" class="btn btn-primary mt-3">Gerar Relatório</a>
 </div>
-<div class="artigo">
-      <form action=" " enctype="multipart/form-data" method="post">
-        <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
-        <br>
-        <input type="file" name="arquivo" onchange="preview()">            
-        <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />  
-          <input type="text" placeholder="Nome  Pet" id="nomePet" name="nomePet" required>
-          <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet"/>
-          <select id="especie" name="especie">
-              <option value=" " required>Especie</option>
-              <option value="canino">Canino</option>
-              <option value="felino">Felino</option>
-          </select>
-          <select id="porte" name="porte">
-              <option value=" ">Porte</option>
-              <option value="pequeno">Pequeno</option>
-              <option value="medio">Medio</option>
-              <option value="grande">Grande</option>
-          </select>
-          <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
-              placeholder="Caracteristicas Pet"></textarea>
-            <input type="text" placeholder="Local de desaparecimento" id="local" name="local" />
-          <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
-          <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000 - 0000" required/> 
-          <select name="whatsapp" id="whatsapp">
-              <option value=" ">Whatsapp</option>
-              <option value="sim">Aceito</option>
-              <option value="nao">Não</option>
-          </select>
-                    
-            <input type="submit" value="Cadastrar" class="btn btn-default"
-              onclick="confirm('Os dados estão atualizados?')">
-      </form>
-</div>
+
 <%- include("_footer")-%>

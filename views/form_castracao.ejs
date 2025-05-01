@@ -1,69 +1,115 @@
 <%- include("_header") -%>
-<div class="home">
-    <h1>Interessados em Castração</h1>
-    
-</div>
-<br>
-        <fieldset>
-            <legend>IMPORTANTE</legend>
-            <p>Levar a partir das 08h30  da manhã e buscar a tarde ou no horario combinado na clinica!</p>
-            <p> Fazer jejum com a ração a partir das 23h do dia anterior.</p>
-            <p>Tomar agua a vontade.</p>
-            <p>Gatos levar na caixa de transporte e cães na coleira.</p>
-            <p>Pagamento direto na clinica, a vista no PIX, e débito ou dinheiro.</p>
-          
-        </fieldset>
-        <br>        
-<div class="artigo">
-    <button><a href="./castracao">Cancelar</a></button>  
-</div>
-<div class="artigo">
-       <form action="" enctype="multipart/form-data" method="post">
-        <input type="text" name="nome" placeholder="Nome " required/>
-        <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required /> 
-        <select name="whatsapp" id="whatsapp">
-            <option value=" ">Whatsapp</option>
-            <option value="sim">Aceito</option>
-            <option value="nao">Não</option>
-        </select>
-        <br>
-        <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
-        <br>
-        <input type="file" name="arquivo" onchange="preview()">   
-        <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
-        <input type="number" name="idade_pet" placeholder=" Idade Pet" />
-        <select name="especie">
-            <option value="">Espécie</option>
-            <option value="gato">Gato - R$110,00 com medicação</option>            
-            <option value="gata">Gata - R$120,00 com medicação</option>
-            <option value="cachorro">Cachorro - R$200,00 com medicação</option>
-        </select>
-        <select name="porte">
-            <option value="">Porte</option>
-            <option value="pequeno">Pequeno</option>
-            <option value="medio">Medio</option>
-            <option value="grande">Grande</option>
-        </select>
-          <select name="clinica">
-            <option value="">Clínica</option>
-            <option value="Pet Shop É O Bicho - Av. Republica, 644">Pet Shop É O Bicho - Av. Republica, 644</option>
-            <option value="Pet 15 - Av. Santo Antônio, 1513">Pet 15 - Av. Santo Antônio, 1513</option>            
-        </select>        
-        <select name="agenda">
-            <option value="">agenda</option>
-            <option value="segunda-feira">Segunda</option>
-            <option value="terça-feira">Terça</option>
-            <option value="quarta-feira">Quarta</option>
-            <option value="quinta-feira">Quinta</option>
-            <option value="sexta-feira">Sexta</option>
-        </select>
-        
-        <input type="submit" value="Cadastrar" class="btn btn-default"
-            onclick="confirm('Os dados estão atualizados?')"/>
-    </form>
+
+<main class="container mt-4 mb-5">
+    <section class="card">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">Interessados em Castração</h1>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info" role="alert">
+                <h5 class="alert-heading">Importante</h5>
+                <ul class="mb-0">
+                    <li>Levar a partir das 08h30 da manhã e buscar à tarde ou no horário combinado na clínica!</li>
+                    <li>Fazer jejum com a ração a partir das 23h do dia anterior.</li>
+                    <li>Tomar água à vontade.</li>
+                    <li>Gatos levar na caixa de transporte e cães na coleira.</li>
+                    <li>Pagamento direto na clínica, à vista no PIX, débito ou dinheiro.</li>
+                </ul>
+            </div>
+
+            <form action="" enctype="multipart/form-data" method="post" class="row g-3">
+                <div class="col-md-6">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">Telefone</label>
+                    <input type="tel" class="form-control" name="contato" id="phone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="whatsapp" class="form-label">Whatsapp</label>
+                    <select name="whatsapp" id="whatsapp" class="form-select">
+                        <option value=" ">Selecione</option>
+                        <option value="sim">Aceito</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="arquivo" class="form-label">Foto do Pet</label>
+                    <input type="file" class="form-control" name="arquivo" id="arquivo" onchange="preview()">
+                    <img id="frame" src="" width="100px" height="100px" alt="Pré-visualização" class="mt-2 img-thumbnail"/>
+                    <button type="button" class="btn btn-secondary mt-2" onclick="clearImage()">Limpar Foto</button>
+                </div>
+                <div class="col-md-6">
+                    <label for="idade_pet" class="form-label">Idade do Pet</label>
+                    <input type="number" class="form-control" name="idade_pet" id="idade_pet" placeholder="Idade do Pet">
+                </div>
+                <div class="col-md-6">
+                    <label for="especie" class="form-label">Espécie</label>
+                    <select name="especie" id="especie" class="form-select">
+                        <option value="">Selecione</option>
+                        <option value="gato">Gato - R$110,00 com medicação</option>
+                        <option value="gata">Gata - R$120,00 com medicação</option>
+                        <option value="cachorro">Cachorro - R$200,00 com medicação</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="porte" class="form-label">Porte</label>
+                    <select name="porte" id="porte" class="form-select">
+                        <option value="">Selecione</option>
+                        <option value="pequeno">Pequeno</option>
+                        <option value="medio">Médio</option>
+                        <option value="grande">Grande</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="clinica" class="form-label">Clínica</label>
+                    <select name="clinica" id="clinica" class="form-select">
+                        <option value="">Selecione</option>
+                        <option value="Pet Shop É O Bicho - Av. Republica, 644">Pet Shop É O Bicho - Av. Republica, 644</option>
+                        <option value="Pet 15 - Av. Santo Antônio, 1513">Pet 15 - Av. Santo Antônio, 1513</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="agenda" class="form-label">Agenda</label>
+                    <select name="agenda" id="agenda" class="form-select">
+                        <option value="">Selecione</option>
+                        <option value="segunda-feira">Segunda-feira</option>
+                        <option value="terça-feira">Terça-feira</option>
+                        <option value="quarta-feira">Quarta-feira</option>
+                        <option value="quinta-feira">Quinta-feira</option>
+                        <option value="sexta-feira">Sexta-feira</option>
+                    </select>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <a href="./castracao" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Os dados estão atualizados?')">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<script>
+    function preview() {
+        frame.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    function clearImage() {
+        document.getElementById('arquivo').value = null;
+        frame.src = "";
+    }
+
+    function phoneFormat(phone) {
+        return phone.replace(/\D/g, '')
+                    .replace(/^(\d{2})(\d)/, '($1) $2')
+                    .replace(/(\d{5})(\d)/, '$1-$2')
+                    .replace(/(-\d{4})\d+?$/, '$1');
+    }
+</script>
 
 </div>
 
-
+<a href="/relatorio/castracao" class="btn btn-primary mt-3">Gerar Relatório</a>
 
     <%- include("_footer")-%>
