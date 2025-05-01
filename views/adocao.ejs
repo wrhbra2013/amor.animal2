@@ -1,16 +1,16 @@
-﻿<!--  <%- include("_header") -%>
+﻿<%- include("_header") -%>
 
 <!-- Bloco de chamada para ação -->
-<div class="box adocao-chamada"> <%# Adicionada classe específica %>
+<div class="container mt-4 mb-4">
+  <div class="page-header mb-3">
   <h2>Quer contar a sua história de adoção?</h2>
   <p>Se você tem um PET adotado e quer contar a sua história, ADICIONE!</p>
   <p>Compartilhe sua experiência e inspire outras pessoas a adotarem também!</p>
-  <!-- Movido o botão para cá e usando classe do default.css -->
-  <a href="./form_adotado" class="link-adicionar-historia" style="margin-top: 15px;">Adicionar História</a>
+  <a href="./form_adotado" class="btn btn-primary mt-3">Adicionar História</a>
+  </div>
 </div>
 
-<!-- Lista de histórias de adoção -->
-<div class="adocao-lista"> <%# Renomeado de .center %>
+<div class="container">
   <% if (typeof model2 !=='undefined' && model2.length > 0) { %>
     <% for(const adotado of model2) { %>
       <div class="adocao-historia-item"> <%# Renomeado de .artigo %>
@@ -20,27 +20,25 @@
         <h3 class="adocao-historia-tutor"> <%# Classe adicionada e mudado para h3 por hierarquia %>
           Tutor: <%= adotado.tutor %>
         </h3>
-        <p class="adocao-historia-texto">"<%= adotado.historia %>"</p> <%# Classe adicionada %>
+        <p class="adocao-historia-texto">"<%= adotado.historia.substring(0, 150) %>..."</p> <%# Classe adicionada %>
 
         <h4 class="adocao-historia-pet"> <%# Classe adicionada e mudado para h4 %>
           Pet: <%= adotado.pet %>
         </h4>
-        <p class="adocao-historia-origem">Origem: <%= adotado.origem %></p> <%# Classe adicionada %>
+        <p class="adocao-historia-origem">Origem: <%= adotado.origem %></p>
 
-        <!-- Formulário de exclusão posicionado (ver CSS) -->
-        <form action="/delete/adotado/<%= adotado.id %>/<%= adotado.arquivo %>" method="post" class="form-delete">
-          <input type="submit" value="×" class="btn-delete" <%# Usando classe do default.css %>
-                 onclick="return confirm('Tem certeza que deseja apagar esta postagem?')"
-                 aria-label="Apagar postagem de <%= adotado.pet %>" /> <%# aria-label para acessibilidade %>
-        </form>
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="/adocao/<%= adotado.id %>" class="btn btn-outline-secondary btn-sm">Ler Mais &gt;</a>
+          <form action="/delete/adotado/<%= adotado.id %>/<%= adotado.arquivo %>" method="post" onsubmit="return confirm('Tem certeza que deseja apagar esta postagem?')">
+            <button type="submit" class="btn btn-danger btn-sm">Apagar</button>
+          </form>
+        </div>
 
       </div>
     <% } %>
   <% } else { %>
-    <p class="adocao-sem-historias">Nenhuma história de adoção foi adicionada ainda. Seja o primeiro!</p> <%# Classe adicionada %>
-    <%# Script removido pois #data não existe aqui %>
+    <p class="text-center">Nenhuma história de adoção foi adicionada ainda. Seja o primeiro!</p>
   <% } %>
 </div>
 
 <%- include("_footer") -%>
-

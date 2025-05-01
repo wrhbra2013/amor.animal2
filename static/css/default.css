@@ -404,45 +404,101 @@
    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
    gap: var(--espacamento-padrao);
  }
- /* .noticia-item usa a classe .card */
- .noticia-item .card-img { /* Alias para clareza */
-    /* Estilos específicos se houver */
- }
+ 
+  /* --- Lista de Adoção --- */
+  .adocao-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacamento-padrao);
+    /* justify-content: space-between; */ /* Ou center, etc. */
+  }
+  /* .adocao-card usa a classe .card */
+  .adocao-card {
+    /* Largura definida no grid/flex container ou media queries */
+    /* Exemplo: width: calc(33.33% - var(--espacamento-padrao) * 2 / 3); */
+    flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
+    min-width: 250px; /* Largura mínima */
+  }
+ 
+  .adocao-card .card-body {
+    padding: var(--espacamento-metade);
+  }
+  .adocao-card h3 {
+    font-size: 1.1em;
+    margin-bottom: calc(var(--espacamento-metade) / 2);
+  }
+  .adocao-card p {
+    font-size: 0.95em;
+    color: var(--cor-texto-secundario);
+  }
+  .adocao-card .btn {
+    position: absolute;
+    bottom: var(--espacamento-metade);
+    right: var(--espacamento-metade);
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border-radius: var(--border-radius-padrao);
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .adocao-card .btn:hover {
+    background-color: var(--cor-primaria-hover);
+    text-decoration: none;
+    
+  }
+ 
+  /* --- Histórias Adoção --- */
+  .adocao-historia-lista {
+    display: flex;
+    flex-wrap
+ 
 
- /* --- Lista de Adoção --- */
- .adocao-lista {
-   display: flex;
-   flex-wrap: wrap;
-   gap: var(--espacamento-padrao);
-   /* justify-content: space-between; */ /* Ou center, etc. */
- }
- /* .adocao-card usa a classe .card */
- .adocao-card {
-   /* Largura definida no grid/flex container ou media queries */
-   /* Exemplo: width: calc(33.33% - var(--espacamento-padrao) * 2 / 3); */
-   flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
-   min-width: 250px; /* Largura mínima */
- }
- .adocao-card .adocao-img { /* Alias para clareza */
-    /* Estilos específicos se houver */
- }
-
- /* --- Histórias Adoção --- */
+ /* --- Lista de Histórias de Adoção --- */
  .adocao-historia-lista {
-   display: flex;
-   flex-wrap: wrap;
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
    gap: var(--espacamento-padrao);
  }
  /* .adocao-historia-item usa a classe .card */
- .adocao-historia-item {
-   flex: 1 1 300px;
-   min-width: 250px;
- }
- .adocao-historia-item .adocao-historia-imagem { /* Alias para clareza */
+ .adocao-historia-item .card-img { /* Alias para clareza */
     /* Estilos específicos se houver */
  }
 
+ /* --- Lista de Pets para Adoção --- */
+ .adocao-lista {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+   gap: var(--espacamento-padrao);
+ }
+ /* .adocao-item usa a classe .card */
+ .adocao-item .card-img { /* Alias para clareza */
+    /* Estilos específicos se houver */
+ }
 
+ /* --- Lista de Procurados --- */
+ .procurados-lista {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+   gap: var(--espacamento-padrao);
+ }
+ /* .procurado-item usa a classe .card */
+ .procurado-item .card-img { /* Alias para clareza */
+    /* Estilos específicos se houver */
+ }
+
+ /* --- Lista de Parcerias --- */
+ .parcerias-lista {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   gap: var(--espacamento-padrao);
+ }
+ /* .parceria-item usa a classe .card */
+ .parceria-item .card-img { /* Alias para clareza */
+    /* Estilos específicos se houver */
+ }
+ 
  /* --- Tabelas --- */
  .tabela-container {
     overflow-x: auto; /* Permitir rolagem horizontal em telas pequenas */
@@ -2335,4 +2391,16 @@
 
 .adotante-btn-download:hover {
     background-color: #31b0d5;
+}
+
+.section-sobre .sobre-image {
+    max-width: 40%; /* Adjust this value as needed */
+    margin-left: auto; /* Optional: center the container if it becomes smaller than the available space */
+    margin-right: auto; /* Optional: center the container */
+}
+
+/* Ensure the image still fills its container */
+.section-sobre .sobre-image img {
+   width: 40%; /* Make image fill the container width */
+   height: 40%; /* Maintain aspect ratio */
 }

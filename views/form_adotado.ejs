@@ -1,33 +1,87 @@
 <%- include("_header")-%>
-<div class="home">
-  <h1>Histórias de adoção..</h1>
-</div>
-<div class="artigo">
-  <a href="./adocao" class="link-cancelar">Cancelar</a>
-</div>
-<div class="artigo">
-  
-  <p>Você pode contar a história do seu pet adotado, e ajudar outras pessoas a também adotarem um animalzinho.  
-  As histórias serão publicadas na página de adoção.</p>
-</div>
-<div class="artigo">
-  <form action=" " enctype="multipart/form-data" method="post" class="form-adotado">
-    <div class="form-group">
-      <img id="frame" src="" width="300px" height="200px" alt="carregando..." class="img-preview"/>
-      <input type="file" name="arquivo" id="arquivo" class="form-control-file" onchange="preview()" required/>
-      <button type="button" class="btn-limpar" onclick="document.getElementById('frame').src=''">Limpar</button>
+
+<div class="container mt-4 mb-4">
+    <div class="page-header mb-3">
+        <h1>Conte a História da Sua Adoção!</h1>
+        <p class="lead">Compartilhe a experiência do seu pet adotado e inspire outras pessoas a darem um lar amoroso a um animalzinho.</p>
     </div>
-    <div class="form-group">
-      <input type="text" placeholder="Nome do Pet" name="nome_pet" class="form-control" required/>
+
+    <div class="form-container card p-4">
+        <form action="/adotado" enctype="multipart/form-data" method="post" id="form-adotado">
+
+            <div class="mb-3">
+                <label for="arquivo" class="form-label">Foto do Pet:*</label>
+                <div class="mb-2">
+                    <img id="frame" src="" width="300px" height="200px" alt="Pré-visualização da foto do pet" class="img-preview border rounded" style="display: none; object-fit: cover;"/>
+                </div>
+                <input type="file" name="arquivo" id="arquivo" class="form-control" onchange="previewImage(event)" accept="image/*" required/>
+                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearImagePreview()">Limpar Imagem</button>
+            </div>
+
+            <div class="mb-3">
+                <label for="nome_pet" class="form-label">Nome do Pet:*</label>
+                <input type="text" placeholder="Nome do Pet" name="nome_pet" id="nome_pet" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="nome_tutor" class="form-label">Nome do Tutor:*</label>
+                <input type="text" placeholder="Seu nome" name="nome_tutor" id="nome_tutor" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="historia" class="form-label">História da Adoção:*</label>
+                <textarea name="historia" id="historia" rows="5" placeholder="Conte como foi a adoção, os momentos especiais..." class="form-control" required></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="./adocao" class="btn btn-secondary">Cancelar</a>
+                <input type="submit" value="Enviar História" class="btn btn-primary"/>
+            </div>
+            <small class="form-text text-muted mt-2">(*) Campos obrigatórios</small>
+
+        </form>
     </div>
-    <div class="form-group">
-      <input type="text" placeholder="Nome do Tutor" name="nome_tutor" class="form-control" required/>
-    </div>
-    <div class="form-group">
-      <textarea name="historia" rows="5" placeholder="Conte a história da adoção" class="form-control" required></textarea>
-    </div>
-    <input type="submit" value="Incluir" class="btn-incluir"/>
-  </form>
 </div>
+
+<script>
+    const frame = document.getElementById('frame');
+    const fileInput = document.getElementById('arquivo');
+
+    function previewImage(event) {
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                frame.src = e.target.result;
+                frame.style.display = 'block';
+                frame.alt = `Pré-visualização de ${event.target.files[0].name}`;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        } else {
+            clearImagePreview();
+        }
+    }
+
+    function clearImagePreview() {
+        frame.src = '';
+        frame.style.display = 'none';
+        frame.alt = 'Pré-visualização da foto do pet';
+        if (fileInput) {
+            fileInput.value = null;
+        }
+    }
+
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            const form = document.getElementById('form-adotado');
+            if (form) {
+                form.reset();
+            }
+            clearImagePreview();
+        }
+    });
+
+    clearImagePreview();
+
+</script>
 
 <%- include("_footer")-%>

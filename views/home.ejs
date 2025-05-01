@@ -1,6 +1,5 @@
  <%- include("_header")-%>
- 
- <main class="main-content"> <!-- Envolve todo o conteúdo principal -->  
+     
      <section id="sobre" class="section-sobre">
          <div class="container">
              <h2>Sobre Nós</h2>
@@ -12,7 +11,7 @@
                      <p>Além do resgate e adoção, também promovemos a conscientização sobre a importância da posse responsável e do respeito aos animais.</p>
                  </div>
                  <div class="sobre-image">
-                     <img src="/static/images/sobre-nos.jpg" alt="Imagem da ONG Amor Animal" class="img-fluid">
+                     <img src="/static/css/imagem/ong2.jpg" alt="Imagem da ONG Amor Animal" class="img-fluid">
                  </div>
              </div>
          </div>
@@ -218,6 +217,40 @@
                      <p>Trabalhamos em conjunto com diversas empresas e profissionais para oferecer o melhor cuidado aos animais.</p>
                  </div>
                  <div class="parceiros-lista">
+                     <!-- Photobanner para Parceiros -->
+                     <div class="photobanner-container" id="photobanner-parceiros">
+                         <div class="photobanner-slides">
+                             <% if (typeof model9 !== 'undefined' && model9.length > 0) { %>
+                                 <% model9.forEach((parceiro, index) => { %>
+                                     <div class="photobanner-slide <%= index === 0 ? 'active' : '' %>">
+                                         <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer">
+                                             <img src="/static/uploads/parceiro/<%= parceiro.arquivo %>" alt="Logo de <%= parceiro.nome %>" class="parceiro-logo" />
+                                         </a>
+                                         <div class="banner-text">
+                                             <h4 class="parceiro-nome"><%= parceiro.nome %></h4>
+                                             <p class="parceiro-descricao"><%= parceiro.descricao %></p>
+                                             <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Saiba Mais</a>
+                                         </div>
+                                     </div>
+                                 <% }) %>
+                             <% } else { %>
+                                 <div class="photobanner-slide active">
+                                     <p>Nenhum parceiro cadastrado no momento.</p>
+                                     <a href="/form_parceria" class="btn btn-primary">Cadastre um Parceiro &gt;</a>
+                                 </div>
+                             <% } %>
+                         </div>
+                         <!-- Controles e Indicadores do Photobanner -->
+                         <% if (typeof model9 !== 'undefined' && model9.length > 1) { %>
+                             <button class="photobanner-control prev">&lt;</button>
+                             <button class="photobanner-control next">&gt;</button>
+                             <div class="photobanner-dots">
+                                 <% model9.forEach((parceiro, index) => { %>
+                                     <span class="dot <%= index === 0 ? 'active' : '' %>" data-slide="<%= index %>"></span>
+                                 <% }) %>
+                             </div>
+                         <% } %>
+                     </div> <!-- Fim #photobanner-parceiros -->
                      <% if (typeof model9 !== 'undefined' && model9.length > 0) { %>
                          <% model9.forEach(parceiro => { %>
                              <div class="parceiro-item card">

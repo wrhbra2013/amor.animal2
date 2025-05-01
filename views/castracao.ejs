@@ -18,64 +18,79 @@
             </div>
         </div>
 
-    <section class="table-container" id="data">
-        <div class="card">
-            <div class="card-header">
-                Lista de Castrações Agendadas
-            </div>
-            <div class="card-body">
-                <table class="castracao-table table table-striped table-hover table-responsive">
-                    <% if (typeof model !=='undefined' && model.length> 0) {%>
-                    <thead>
-                            <th>Data</th>
-                            <th>Nº Ticket</th>
-                            <th>Nome</th>
-                            <th>Telefone</th>
-                            <th>Whatsapp</th>
-                            <th>Imagem</th>
-                            <th>Idade</th>
-                            <th>Especie</th>
-                            <th>Porte</th>
-                            <th>Clinica</th>
-                            <th>Agenda</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for(const castracao of model) { %><tr>
-                            <td><%=castracao.data%></td>
-                            <td class="ticket"><%=castracao.ticket%></td>
-                            <td><%=castracao.nome%></td>
-                            <td><%=castracao.telefone%></td>
-                            <td><%=castracao.whatsapp%></td>
-                            <td>
-                                <div class="image-container">
-                                    <img class="img-thumbnail"
-                                        src="../static/uploads/castracao/<%=castracao.arquivo%>"
-                                        alt="Imagem da Castração" />
-                                </div>
-                            </td>
-                            <td><%=castracao.idade%></td>
-                            <td><%=castracao.especie%></td>
-                            <td><%=castracao.porte%></td>
-                            <td><%=castracao.clinica%></td>
-                            <td><%=castracao.agenda%></td>
-                            <td class="action-buttons">
-                                <button class="delete-button"
-                                    onclick="confirmDelete('<%=castracao.ticket %>', '<%=castracao.arquivo %>')">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                                <button class="cancel-button"><a href="./home">Cancelar</a></button>
-                            </td>
-                        </tr><% } %>
-                    </tbody>
-                    <% } else { %>
-                    <p>Castrações: Nenhum dado disponível</p>
-                    <script>document.getElementById('data').style.display="none";</script>
-                    <% } %>
-                </table>
-            </div>
-        </div>
+   <div class="card-body">
+       <table class="castracao-table table table-striped table-hover table-responsive">
+           <% if (typeof model !=='undefined' && model.length> 0) {%>
+           <thead>
+               <tr> <!-- Movido o <tr> para dentro do thead -->
+                   <th>Data</th>
+                   <th>Nº Ticket</th>
+                   <th>Nome</th>
+                   <th>Telefone</th>
+                   <th>Whatsapp</th>
+                   <th>Imagem</th>
+                   <th>Idade</th>
+                   <th>Especie</th>
+                   <th>Porte</th>
+                   <th>Clinica</th>
+                   <th>Agenda</th>
+                   <th>Ações</th>
+               </tr> <!-- Fechamento correto do <tr> -->
+           </thead>
+           <tbody>
+               <% for(const castracao of model) { %>
+               <tr>
+                   <td><%=castracao.data%></td>
+                   <td class="ticket"><%=castracao.ticket%></td>
+                   <td><%=castracao.nome%></td>
+                   <td><%=castracao.telefone%></td>
+                   <td><%=castracao.whatsapp%></td>
+                   <td>
+                       <div class="image-container">
+                           <img class="img-thumbnail"
+                               src="../static/uploads/castracao/<%=castracao.arquivo%>"
+                               alt="Imagem da Castração de <%= castracao.nome %>" /> <!-- Alt text melhorado -->
+                       </div>
+                   </td>
+                   <td><%=castracao.idade%></td>
+                   <td><%=castracao.especie%></td>
+                   <td><%=castracao.porte%></td>
+                   <td><%=castracao.clinica%></td>
+                   <td><%=castracao.agenda%></td>
+                   <td class="action-buttons">
+                       <button class="delete-button btn btn-sm btn-danger" <!-- Adicionando classes Bootstrap -->
+                           onclick="confirmDelete('<%=castracao.ticket %>', '<%=castracao.arquivo %>')"
+                           title="Excluir"> <!-- Adicionando title para acessibilidade -->
+                           <i class="fa fa-trash"></i>
+                       </button>
+                       <!-- O botão Cancelar parece redundante aqui, pois não cancela a linha específica -->
+                       <!-- Considere remover ou alterar a funcionalidade -->
+                       <!-- <button class="cancel-button btn btn-sm btn-secondary"><a href="./home" style="color: inherit; text-decoration: none;">Cancelar</a></button> -->
+                   </td>
+               </tr>
+               <% } %>
+           </tbody>
+           <% } else { %>
+               </table> <!-- Fechar a tabela antes da mensagem 'else' -->
+               <p class="text-center mt-3">Nenhuma castração agendada no momento.</p> <!-- Mensagem mais clara -->
+               <script>
+                   // Ocultar o container da tabela se não houver dados
+                   const tableContainer = document.querySelector('.table-container');
+                   if (tableContainer) {
+                       tableContainer.style.display = "none";
+                   }
+               </script>
+           <% } %>
+           <% if (typeof model !=='undefined' && model.length> 0) {%>
+                </table> <!-- Fechar a tabela se houver dados -->
+           <% } %>
+       </div>
+   </div>
+   
+
+
+
+
     </section>
     <script>
         function confirmDelete(ticket, arquivo) {
