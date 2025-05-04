@@ -6,41 +6,54 @@
       <title>ONG Amor Animal Marilia.</title>
       <link rel="stylesheet" href="/static/css/default.css">
       <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
-      <!-- Inclua o script de acessibilidade AQUI -->
-      <script src="/static/js/accessibility.js" defer></script>
-  </head>
- 
-  <body>
- 
- 
+     
+  </head>   
+  
+  <body> 
+  <main class="main-content">
+   
+
+
+    <button  type="button"  iid="high-contrast-toggle" class="btn btn-accessibility" onclick="toggleHighContrast()"  ><img src="/static/css/favicon/contrast.png" alt="Alternar Alto Contraste"></button>
   <!-- _header.ejs -->
   <header class="main-header"> <!-- Added class for potential specific header styling -->
       <div class="nav-container"> <!-- Container for logo, toggle, and nav -->
-          <a class="logo" href="/home">
-              <img src="/static/css/imagem/ong.jpg" alt="Logo ONG Amor Animal" />
-              <!-- <span class="logo-text">ONG Amor Animal</span> -->
-          </a>
- 
- 
+       
+        <img src="/static/css/imagem/ong.jpg" alt="Logo ONG AMOR ANIMAL MARILIA" />
+        <div class="user-info">
+          <% if (user) { %>
+            <span class="welcome-message">Olá, <%= user.username %>!</span>
+            <a href="./logout" class="logout-button">Sair</a>
+          <% } else { %>
+            <a href="/auth/login" class="login-button">Login</a>
+         
+          <% } %>
+        </div>
+       <!-- /home/wander/amor.animal2/views/_header.ejs -->
+     
+       
       </div> <!-- Fechamento do nav-container -->
       <!-- Navegação Principal -->
-      <nav class="main-nav">
-          <ul class="nav-list" id="main-nav-list">
-              <li><a href="/home">Início</a></li>
-              <li><a href="/adocao">Adoção</a></li>
-              <li><a href="/castracao">Castração</a></li>
-              <li><a href="/doacao">Doação</a></li>
-              <li><a href="/procura_se">Procura-se</a></li>
-              <li><a href="/parceria">Parceria</a></li>
-              <li><a href="/sobre">Sobre</a></li>
-          </ul>
-      </nav>
+      <div class="nav-wrapper"> <!-- Added a wrapper for nav and user info -->
+          <nav class="main-nav">
+              <ul class="nav-list" id="main-nav-list">         
+
+                  <li><a href="/home">Início</a></li>
+                  <li><a href="/adocao">Adoção</a></li>
+                  <li><a href="/castracao">Castração</a></li>
+                  <li><a href="/doacao">Doação</a></li>
+                  <li><a href="/procura_se">Procura-se</a></li>
+                  <li><a href="/parceria">Parceria</a></li>
+                  <li><a href="/sobre">Sobre</a></li>
+
+              </ul>
+          </nav>
+        </div> <!-- Fechamento do nav-wrapper -->
   </header>
- 
-     <!-- O botão permanece o mesmo -->
-     <button onclick="toggleHighContrast()"  style="border: none; cursor: pointer; ;"><img src="/static/css/favicon/contrast.png" alt="Alternar Alto Contraste"></button>
-     <!-- Adicionado alt text para acessibilidade -->
- 
- 
-  <!-- O restante do seu conteúdo -->
+
+
+     
+    
+    
+    
  

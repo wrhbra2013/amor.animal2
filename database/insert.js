@@ -38,11 +38,13 @@ function insert_adotante(q1, q2, q3, nome, contato,whatsapp, cep, endereco, nume
    complemento,
    bairro,
    cidade, 
-   estado
-   ) 
+   estado,
+   idPet,
+   nomePet
+    ) 
    VALUES (   
-   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-    );`
+   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+     );`
    const qTotal = parseInt(q1) + parseInt(q2) + parseInt(q3) ;
    const values = [`${q1}`, `${q2}`, `${q3}`, `${qTotal}`,`${nome}`, `${contato}`, `${whatsapp}`,  `${cep}`, `${endereco}`, `${numero}`, `${complemento}`, `${bairro}`, `${cidade}`, `${estado}`];
    const sql = db.run( insert,  values,  error => {
@@ -157,6 +159,9 @@ function insert_home(arquivo, titulo,mensagem)
     });
  return sql;
 }
+
+
+
 module.exports = {
   insert_adocao: insert_adocao,
   insert_adotante: insert_adotante,
@@ -164,6 +169,7 @@ module.exports = {
   insert_castracao: insert_castracao,
   insert_parceria: insert_parceria,
   insert_procura_se: insert_procura_se,
-  insert_home: insert_home
+  insert_home: insert_home,
+
 }
  

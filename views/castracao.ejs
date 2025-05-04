@@ -1,107 +1,101 @@
-<%- include("_header")-%>
-<link rel="stylesheet" href="../static/css/castracao.css">
-<main class="container">
-    <section class="content">
-        <div class="info-section card">
-            <fieldset class="card-body">
-                <legend class="card-title">IMPORTANTE</legend>
-                <p class="card-text">
-                    O Serviço de Castração é realizado dentro de um limite de cotas mensais, a um valor de baixo custo
-                    por atendimento com
-                    medicação inclusa, dentro do dia e horario disponivel nas clinicas convêniadas. </p>
-            </fieldset>
-        </div>
-
-        <div class="home">
-            <div class="button-container">
-                <a href="./form_castracao" class="button">Agendar</a>
-            </div>
-        </div>
-
-
-
-   <div class="card-body">
-       <table class="castracao-table table table-striped table-hover table-responsive">
-           <% if (typeof model !=='undefined' && model.length> 0) {%>
-           <thead>
-               <tr> <!-- Movido o <tr> para dentro do thead -->
-                   <th>Data</th>
-                   <th>Nº Ticket</th>
-                   <th>Nome</th>
-                   <th>Telefone</th>
-                   <th>Whatsapp</th>
-                   <th>Imagem</th>
-                   <th>Idade</th>
-                   <th>Especie</th>
-                   <th>Porte</th>
-                   <th>Clinica</th>
-                   <th>Agenda</th>
-                   <th>Ações</th>
-               </tr> <!-- Fechamento correto do <tr> -->
-           </thead>
-           <tbody>
-               <% for(const castracao of model) { %>
-               <tr>
-                   <td><%=castracao.data%></td>
-                   <td class="ticket"><%=castracao.ticket%></td>
-                   <td><%=castracao.nome%></td>
-                   <td><%=castracao.telefone%></td>
-                   <td><%=castracao.whatsapp%></td>
-                   <td>
-                       <div class="image-container">
-                           <img class="img-thumbnail"
-                               src="../static/uploads/castracao/<%=castracao.arquivo%>"
-                               alt="Imagem da Castração de <%= castracao.nome %>" /> <!-- Alt text melhorado -->
-                       </div>
-                   </td>
-                   <td><%=castracao.idade%></td>
-                   <td><%=castracao.especie%></td>
-                   <td><%=castracao.porte%></td>
-                   <td><%=castracao.clinica%></td>
-                   <td><%=castracao.agenda%></td>
-                   <td class="action-buttons">
-                       <button class="delete-button btn btn-sm btn-danger" <!-- Adicionando classes Bootstrap -->
-                           onclick="confirmDelete('<%=castracao.ticket %>', '<%=castracao.arquivo %>')"
-                           title="Excluir"> <!-- Adicionando title para acessibilidade -->
-                           <i class="fa fa-trash"></i>
-                       </button>
-                       <!-- O botão Cancelar parece redundante aqui, pois não cancela a linha específica -->
-                       <!-- Considere remover ou alterar a funcionalidade -->
-                       <!-- <button class="cancel-button btn btn-sm btn-secondary"><a href="./home" style="color: inherit; text-decoration: none;">Cancelar</a></button> -->
-                   </td>
-               </tr>
-               <% } %>
-           </tbody>
-           <% } else { %>
-               </table> <!-- Fechar a tabela antes da mensagem 'else' -->
-               <p class="text-center mt-3">Nenhuma castração agendada no momento.</p> <!-- Mensagem mais clara -->
-               <script>
-                   // Ocultar o container da tabela se não houver dados
-                   const tableContainer = document.querySelector('.table-container');
-                   if (tableContainer) {
-                       tableContainer.style.display = "none";
-                   }
-               </script>
-           <% } %>
-           <% if (typeof model !=='undefined' && model.length> 0) {%>
-                </table> <!-- Fechar a tabela se houver dados -->
-           <% } %>
-       </div>
-   </div>
-   
-
-
-
-
-    </section>
-    <script>
-        function confirmDelete(ticket, arquivo) {
-            if (confirm('Tem certeza de que deseja excluir esta castração?')) {
-                // Se o usuário confirmar, redireciona para a rota de exclusão
-                window.location.href = `/delete/castracao/${ticket}/${arquivo}`;
-            }
-            // Se o usuário cancelar, não faz nada
-        }
-    </script>
-</main>
-<%- include("_footer")-%>
+ <%- include("_header")-%>
+ <link rel="stylesheet" href="../static/css/castracao.css">
+ <main class="container">
+     <section class="content">
+         <div class="info-section card mb-4"> <!-- Added margin bottom -->
+             <fieldset class="card-body">
+                 <legend class="card-title">IMPORTANTE</legend>
+                 <p class="card-text">
+                     O Serviço de Castração é realizado dentro de um limite de cotas mensais, a um valor de baixo custo
+                     por atendimento com
+                     medicação inclusa, dentro do dia e horario disponivel nas clinicas convêniadas. </p>
+             </fieldset>
+         </div>
+ 
+         <div class="home mb-4"> <!-- Added margin bottom -->
+             <div class="button-container">
+                 <a href="./form_castracao" class="btn btn-primary">Agendar</a> <!-- Use Bootstrap button class -->
+             </div>
+         </div>
+ 
+         <!-- Wrap the table in a responsive container and add table classes -->
+         <div class="card"> <!-- Optional: Wrap table in a card for consistent styling -->
+             <div class="card-header"> <!-- Optional: Add a header -->
+                 <h5 class="card-title mb-0">Agendamentos de Castração</h5>
+             </div>
+             <div class="card-body">
+                 <% if (typeof model !== 'undefined' && model.length > 0) { %>
+                     <div class="table-responsive"> <!-- Add this div for responsiveness -->
+                         <table class="table table-striped table-hover table-sm"> <!-- Apply Bootstrap table classes -->
+                             <thead>
+                                 <tr>
+                                     <th>Data</th>
+                                     <th>Nº Ticket</th>
+                                     <th>Nome</th>
+                                     <th>Telefone</th>
+                                     <th>Whatsapp</th>
+                                     <th>Imagem</th>
+                                     <th>Idade</th>
+                                     <th>Espécie</th>
+                                     <th>Porte</th>
+                                     <th>Clínica</th>
+                                     <th>Agenda</th>
+                                     <tr>
+                                        <!-- ... table headers ... -->
+                                        <%# Show "Ações" column only if admin is logged in %>
+                                        <% if (typeof user !== 'undefined' && user.isAdmin) { %>
+                                            <th>Ações</th>
+                                        <% } %>
+                              
+                             </thead>
+                             <tbody>
+                                 <% for(const castracao of model) { %>
+                                 <tr>
+                                     <td><%= castracao.origem %></td> <!-- Consider formatting this date -->
+                                     <td class="ticket"><%= castracao.ticket %></td>
+                                     <td><%= castracao.nome %></td>
+                                     <td><%= castracao.contato %></td>
+                                     <td><%= castracao.whatsapp %></td>
+                                     <td>
+                                         <!-- Removed image-container div, Bootstrap handles img-thumbnail well -->
+                                         <img class="img-thumbnail"
+                                              style="max-width: 60px; height: auto;" 
+                                              src="../static/uploads/castracao/<%= castracao.arquivo %>"
+                                              alt="Foto de <%= castracao.nome %>" /> <!-- Simplified Alt text -->
+                                     </td>
+                                     <td><%= castracao.idade %></td>
+                                     <td><%= castracao.especie %></td>
+                                     <td><%= castracao.porte %></td>
+                                     <td><%= castracao.clinica %></td>
+                                     <td><%= castracao.agenda %></td> <!-- Consider formatting this date/time -->
+                                     <td class="action-buttons">
+                                         <button class="delete-button btn btn-sm btn-danger"
+                                                 onclick="confirmDelete('<%= castracao.ticket %>', '<%= castracao.arquivo %>')"
+                                                 title="Excluir">
+                                             <i class="fa fa-trash"></i> <span class="d-none d-md-inline">Excluir</span> <!-- Hide text on small screens -->
+                                         </button>
+                                         <!-- Removed redundant cancel button -->
+                                     </td>
+                                 </tr>
+                                 <% } %>
+                             </tbody>
+                         </table>
+                     </div> <!-- Close table-responsive -->
+                 <% } else { %>
+                     <p class="text-center text-muted mt-3">Nenhuma castração agendada no momento.</p>
+                     <!-- Removed the script to hide table container, Bootstrap handles empty states better -->
+                 <% } %>
+             </div> <!-- Close card-body -->
+         </div> <!-- Close card -->
+ 
+     </section>
+     <script>
+         function confirmDelete(ticket, arquivo) {
+             if (confirm('Tem certeza de que deseja excluir esta castração? Ticket: ' + ticket)) { // Added ticket to confirm message
+                 window.location.href = `/delete/castracao/${ticket}/${arquivo}`;
+             }
+         }
+     </script>
+ </main>
+ <%- include("_footer")-%>
+ 

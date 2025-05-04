@@ -43,8 +43,10 @@ function create_adotante() {
     bairro text,
     cidade text,
     estado text,    
-    idPet integer,   
-    FOREIGN KEY (idPet) REFERENCES adocao (id)
+    idPet integer NOT NULL,   
+    nomePet text NOT NULL,     
+    FOREIGN KEY (idPet) REFERENCES adocao (id),
+    FOREIGN KEY (nomePet) REFERENCES adocao (nome)
 );`
 const sql = db.run(adotante,   error => {
     if (error)   console.log(error)
@@ -148,7 +150,8 @@ function create_home(){
         origem datetime default (date()),
         arquivo blob, 
         titulo text,
-        mensagem text
+        mensagem text,
+        link text
     );`
     const sql = db.run(home,   error => {   
         if (error)   console.log(error)
@@ -157,6 +160,70 @@ function create_home(){
        return sql;
 }
 create_home();
+
+function create_login() {
+    const createTableSql = `CREATE TABLE IF NOT EXISTS login(
+        id INTEGER PRIMARY KEY,
+        origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
+        usuario TEXT UNIQUE NOT NULL, -- Adicionado UNIQUE NOT NULL
+        senha TEXT NOT NULL          -- Adicionado NOT NULL
+    );`;
+
+    // 1. Cria a tabela (se não existir)
+    db.run(createTableSql, error => {
+        if (error) {
+            console.error('Erro ao criar/verificar tabela login:', error);
+            return; // Para a execução se a tabela não puder ser criada/verificada
+        }
+        console.log('Tabela: Login ATIVA.');
+
+        // 2. Verifica se o usuário admin padrão já existe
+        const checkUserSql = `SELECT id FROM login WHERE usuario = ?;`;
+        const defaultUser = '@admin';
+        // !!! NUNCA armazene senhas em texto plano em produção !!!
+        // Use bcrypt.hashSync(senha, saltRounds) para gerar o hash ao criar
+        const defaultPass = '@amoranimal2025'; // Substitua por um HASH de senha real
+
+        db.get(checkUserSql, [defaultUser], (err, row) => {
+            if (err) {
+                console.error('Erro ao verificar usuário admin:', err);
+                return;
+            }
+
+            // 3. Se o usuário NÃO existir (row é undefined/null), insere o padrão
+            if (!row) {
+                console.log(`Usuário '${defaultUser}' não encontrado, criando...`);
+                const insertSql = `INSERT INTO login (usuario, senha) VALUES (?, ?);`;
+
+                // Se estivesse usando bcrypt:
+                // bcrypt.hash(defaultPass, saltRounds, (hashErr, hashedPassword) => {
+                //    if(hashErr) { console.error("Erro ao gerar hash:", hashErr); return; }
+                //    db.run(insertSql, [defaultUser, hashedPassword], insertErr => { ... });
+                // });
+
+                // Sem bcrypt (NÃO RECOMENDADO PARA PRODUÇÃO):
+                db.run(insertSql, [defaultUser, defaultPass], insertErr => {
+                    if (insertErr) {
+                        // Pode dar erro se outro processo inseriu entre o GET e o RUN (raro, mas possível)
+                        // ou se houver outra violação de constraint.
+                        console.error('Erro ao inserir usuário admin padrão:', insertErr);
+                    } else {
+                        console.log(`Usuário admin padrão '${defaultUser}' CRIADO.`);
+                    }
+                });
+            } else {
+                // Opcional: Logar que o usuário já existe
+                console.log(`Usuário admin padrão '${defaultUser}' já existe.`);
+            }
+        });
+    });
+    // db.run é assíncrono, retornar algo aqui não reflete a conclusão das operações no DB.
+    // A função em si não precisa retornar nada.
+}
+
+// Chama a função para garantir que a tabela e o usuário existam
+create_login();
+
 
 
 module.exports ={
@@ -167,4 +234,5 @@ module.exports ={
     create_procura_se: create_procura_se,
     create_parceria: create_parceria,
      create_home: create_home
-    }
+}
+

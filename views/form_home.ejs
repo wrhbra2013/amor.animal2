@@ -1,17 +1,63 @@
 <%-include ("_header")-%>
 
-<div class="artigo">
-<h1>Primeira Pagina</h1>
-<form action=" " method="post" class="home" enctype="multipart/form-data">
-    <br>
-    <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
-    <br>
-    <input type="file" name="arquivo" onchange="preview()" required>   
-    <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
-    <input type="text" name="titulo" placeholder="Titulo" required/>
-     <textarea name="mensagem" rows="4" cols="20" placeholder="Mensagem" required></textarea>
-    <input type="submit" value="Enviar">
-</form>
+<div class="container mt-4 mb-5">
+    <div class="text-center mb-4">
+        <h1><i class="fas fa-newspaper me-2"></i>Criar Notícia</h1>
+        <p class="lead">Preencha o formulário abaixo para adicionar uma nova notícia à página inicial.</p>
+    </div>
+
+    <div class="card shadow-sm p-4">
+        <form action="/form_home" enctype="multipart/form-data" method="post" id="form-home">
+
+            <div class="mb-4">
+                <label for="arquivo" class="form-label fw-bold">Imagem da Notícia:*</label>
+                <div id="image-preview-container" class="text-center border rounded p-3 mb-2 bg-light" style="min-height: 220px; display: flex; align-items: center; justify-content: center;">
+                    <img id="frame" src="" alt="Pré-visualização da imagem" class="img-fluid rounded" style="display: none; object-fit: cover; max-width: 100%; height: auto;"/>
+                    <span id="preview-placeholder" class="text-muted">Nenhuma imagem selecionada</span>
+                </div>
+                <input type="file" name="arquivo" id="arquivo" class="form-control" onchange="preview()" accept="image/*" required/>
+                <div class="mt-2">
+                    <button type="reset" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('frame').src=''">
+                        <i class="fas fa-times me-1"></i>Limpar
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="titulo" class="form-label fw-bold">Título da Notícia:*</label>
+                <input type="text" placeholder="Título da Notícia" name="titulo" id="titulo" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="conteudo" class="form-label fw-bold">Conteúdo da Notícia:*</label>
+                <textarea id="conteudo" name="conteudo" rows="5" class="form-control" placeholder="Conteúdo da Notícia" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="link" class="form-label fw-bold">Link para Mais Informações:</label>
+                <select name="link" id="link" class="form-select">
+                    <option value="" selected>Selecione uma opção...</option>
+                    <option value="https://www.facebook.com/amoranimal190" onclick="window.open(this.value, '_blank')">Facebook</option>
+                    <option value="https://www.instagram.com/grupoamoranimal" onclick="window.open(this.value, '_blank')">Instagram</option>
+                    <option value="https://wa.me/send?phone=5514998151723&text=ONGAmor%20Animal" onclick="window.open(this.value, '_blank')">WhatsApp</option>
+                    <option value="outro" onclick="window.open('', '_blank')">Outro</option>
+                </select>
+            </div>
+            
+
+            <hr class="my-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/home" class="btn btn-secondary">
+                    <i class="fas fa-times me-1"></i>Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-1"></i>Adicionar Notícia
+                </button>
+            </div>
+            <small class="form-text text-muted mt-3 d-block">(*) Campos obrigatórios</small>
+        </form>
+    </div>
 </div>
 
 <%-include ("_footer")-%>

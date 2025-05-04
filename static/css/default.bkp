@@ -31,10 +31,10 @@
   --hc-text-color: white;
   --hc-container-bg: #1a1a1a; /* Consistent dark container */
   --hc-container-shadow: rgba(255, 255, 255, 0.2);
-  --hc-container-border: #555;
+  --hc-container-border: #f7f4f4;
   --hc-heading-color: white;
   --hc-paragraph-color: #ddd;
-  --hc-link-color: cyan;
+  --hc-link-color: rgb(69, 216, 216);
   --hc-link-hover-decoration: underline;
   --hc-border-color: #555;
   --hc-table-header-bg: #222; /* Darker table header */
@@ -45,9 +45,9 @@
   --hc-input-bg: #333;
   --hc-input-text: white;
   --hc-input-border: #888;
-  --hc-input-placeholder: #bbb;
+  --hc-input-placeholder: rgb(194, 190, 190);
   --hc-button-bg: #0056b3; /* Using the primary blue from later styles */
-  --hc-button-text: white;
+  --hc-button-text:rgb(69, 216, 216);
   --hc-button-hover-bg: #004085;
 }
 
@@ -104,6 +104,26 @@ header { /* Assuming .main-header from EJS */
   margin-bottom: 30px;
   /* Add specific header styles if needed */
 }
+
+.nav-container {
+  display: flex;
+  flex-direction: column;
+}
+.nav-container img{  
+  height: auto;  
+  width: auto;
+  margin: 0 auto;
+  
+}
+ .nav-container span{
+  
+  
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
+ }
+
+
 
 nav { /* Assuming .main-nav or similar */
   background-color: var(--nav-bg);
@@ -271,7 +291,7 @@ input[type="search"],
 input[type="tel"],
 input[type="url"],
 textarea,
-select {
+select{
   width: 100%;
   padding: 0.375rem 0.75rem; /* Bootstrap-like padding */
   margin-bottom: 1rem; /* Consistent bottom margin */
@@ -281,7 +301,8 @@ select {
   background-color: var(--input-bg);
   color: var(--input-text);
   line-height: 1.5; /* Ensure text height is consistent */
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out; 
+  box-shadow: 0.15s ease-in-out; 
 }
 
 /* Specific high-contrast for Bootstrap's .form-control */
@@ -296,11 +317,7 @@ body.high-contrast .form-control::placeholder {
   opacity: 1;
 }
 
-/* High contrast for select dropdown arrow (might need browser prefixes) */
-body.high-contrast select {
-   /* Basic styling, might need more specific selectors depending on browser */
-   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cccccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-}
+
 
 fieldset {
   padding: 1em; /* Add padding inside fieldset */
@@ -578,10 +595,10 @@ body.high-contrast .text-muted {
   }
 
   /* Show mobile menu button and hide main nav if needed */
-  /*
+/*
   .main-nav { display: none; }
   .mobile-menu-button { display: block; }
-  */
+
 
   /* Adjust grid columns if not using Bootstrap's responsive classes */
   /* Example: Make all columns full width on small screens */
@@ -597,4 +614,58 @@ body.high-contrast .text-muted {
 @media (max-width: 600px) {
     /* Further adjustments for very small screens */
     /* Reduce padding further? */
+}
+
+* Style ONLY the high contrast button */
+#high-contrast-toggle {
+    /* Styles for the high contrast button in its default state */
+    background-color: #eee;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    /* Add other specific styles */
+}
+
+#high-contrast-toggle.active, /* Example class for active state */
+body.high-contrast #high-contrast-toggle { /* Example if body class changes */
+    /* Styles for the high contrast button when active/high contrast mode is on */
+    background-color: yellow;
+    color: black;
+    border: 1px solid black;
+}
+
+/* --- Styles for Navigation --- */
+
+/* Make nav link styles specific */
+.main-navbar a.nav-link {
+    /* Styles for nav links */
+    color: blue;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.main-navbar a.nav-link:hover,
+.main-navbar a.nav-link.active-nav-item { /* Example class for active nav item */
+    /* Styles for hovered or active nav links - won't affect #high-contrast-toggle */
+    background-color: lightblue;
+    color: darkblue;
+}
+
+/* Avoid generic button styles within the nav that could conflict */
+/* Bad example (might affect the contrast button if it's inside/near nav): */
+/* .main-navbar button { background-color: red; } */
+
+/* Better example (if nav has buttons): */
+.main-navbar .nav-button {
+   /* Styles specific to buttons *inside* the navbar */
+}
+
+.img-fluid-rouded{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+    
+
 }

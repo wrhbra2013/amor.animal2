@@ -1,54 +1,92 @@
 <%-include("_header")-%>
-<div class="adotante-container">
-  <h1 class="adotante-titulo">Adotantes</h1>
-  <div class="adotante-filtro">
-    <form action="/adotante/filtrar" method="post" class="adotante-form-filtro">
-      <input type="text" name="nome" placeholder="Filtrar por nome" class="adotante-input-filtro">
-      <input type="submit" value="Filtrar" class="btn btn-default btn-primary adotante-btn-filtrar">
-    </form>
-  </div>
-  <div class="adotante-acoes">    <form action="/adotante/novo" method="get" class="adotante-form-novo">
-      <input type="submit" value="Novo Adotante" class="btn btn-default btn-success adotante-btn-novo">
-    </form>
+
+<div class="container mt-4 mb-5"> <!-- Added container and margins -->
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0"><i class="fas fa-users me-2"></i>Adotantes</h1> <!-- Added icon and adjusted margin -->
+        <a href="/form_adotante" class="btn btn-success"> <!-- Changed form to a direct link/button -->
+            <i class="fas fa-plus me-1"></i>Novo Adotante
+        </a>
     </div>
 
-  <div class="adotante-lista">
-    <table id="data" class="adotante-tabela">
-      <% if (typeof model !=='undefined' && model.length> 0) {%>
-        <!-- Loop bloco1 -->
-        <!-- Loop de todo o array -->
-        <% for(const adotante of model) { %>
-          <!-- Loop somente propriedades do array -->
-          <tr>
-            <% for (const model in adotante) {%>
-              <th class="adotante-tabela-header"><%= model.charAt(0).toUpperCase() + model.slice(1) %></th>
-            <%}%>
-            <%break%>
-          </tr>
-        <%}%>
-        <!-- Loop bloco2 -->
-        <% for(const adotante of model) { %>
-          <tr class="adotante-tabela-linha">
-            <!-- Loop dos objetos do array -->
-            <% for (const key in adotante) { %>
-              <td class="adotante-tabela-celula">
-                <%=adotante[key]%>
-              </td>
-            <% } %> 
-          </tr>
-        <%}%>
-      <% } else { %>
-        <p class="adotante-sem-dados">Adotantes: Nenhum dado disponível</p>
-        <script>document.getElementById('data').style.display="none";</script>
-      <% } %>
-    </table>
-  </div>
+    <!-- Adotantes Table -->
+    <!-- Added card wrapper for styling consistency -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Responsive wrapper for the table -->
+            <div class="table-responsive">
+                <table class="table table-striped table-hover"> <!-- Added Bootstrap table classes -->
+                    <thead>
+                        <tr>
+                            <% if (typeof listaPrincipal !== 'undefined' && listaPrincipal.length > 0) { %>
+                                <% const firstAdotante = listaPrincipal[0]; %>
+                                <% for (const key in firstAdotante) { %>
+                                    <!-- Capitalize header, handle 'id' specifically if needed -->
+                                    <th><%= key === 'id' ? 'ID' : key.charAt(0).toUpperCase() + key.slice(1) %></th>
+                                <% } %>
+                                <th class="text-center">Ações</th> <!-- Centered Actions Header -->
+                            <% } else { %>
+                                <th>Informação</th> <!-- Header for the 'no data' message -->
+                            <% } %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (typeof listaPrincipal !== 'undefined' && listaPrincipal.length > 0) { %>
+                            <% for(const adotante of listaPrincipal) { %>
+                                <tr>
+                                    <% for (const key in adotante) { %>
+                                        <td><%= adotante[key] %></td>
+                                    <% } %>
+                                    <!-- Action Buttons Cell -->
+                                    <td class="text-center action-buttons"> <!-- Centered buttons -->
+                                        <a href="/form_adotante/<%= adotante.id %>" class="btn btn-sm btn-primary me-1" title="Editar"> <!-- Added margin -->
+                                            <i class="fas fa-edit"></i> <!-- Edit Icon -->
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('<%= adotante.id %>')" title="Excluir">
+                                            <i class="fas fa-trash-alt"></i> <!-- Delete Icon -->
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } else { %>
+                            <tr>
+                                <!-- Message spanning across potential columns -->
+                                <td colspan="100%" class="text-center text-muted"> <!-- Use colspan="100%" or calculate exact columns if needed -->
+                                    Nenhum adotante cadastrado no momento.
+                                    <a href="/form_adotante" class="btn btn-sm btn-link">Adicionar um?</a> <!-- Optional link -->
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-  <div class="adotante-acoes">
-    <form action="/relatorio/adotante" method="post" class="adotante-form-relatorio">
-      <input type="submit" value="Gerar Relatorio" class="btn btn-default btn-danger adotante-btn-relatorio" onclick="return confirm('Gerar Relatorio?')"/>
-    </form>
-    <button type="button" onclick="javascript:window.print()" class="adotante-btn-download">Download HTML</button>
-  </div>
-</div>
+    <!-- Bottom Actions -->
+    <div class="mt-4 d-flex justify-content-end gap-2"> <!-- Use flexbox for layout, gap for spacing -->
+        <form action="/relatorio/adotante" method="post" class="d-inline"> <!-- Make form inline -->
+            <button type="submit" class="btn btn-info" onclick="return confirm('Gerar Relatório PDF?')"> <!-- Changed color, added icon -->
+                <i class="fas fa-file-pdf me-1"></i>Gerar Relatório PDF
+            </button>
+        </form>
+        <button type="button" onclick="javascript:window.print()" class="btn btn-secondary"> <!-- Changed color, added icon -->
+            <i class="fas fa-print me-1"></i>Imprimir / Salvar HTML
+        </button>
+    </div>
+
+</div> <!-- End container -->
+
+<script>
+  function confirmDelete(id) {
+    // Consider using a more modern confirmation dialog/modal library if available
+    if (confirm('Tem certeza de que deseja excluir este adotante? Esta ação não pode ser desfeita.')) {
+      // Use fetch API for potentially better UX (no full page reload on failure)
+      // Or keep window.location.href for simplicity
+      window.location.href = `/delete/adotante/${id}`;
+    }
+  }
+</script>
+
 <%-include("_footer")-%>

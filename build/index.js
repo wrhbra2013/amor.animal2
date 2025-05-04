@@ -1,0 +1,1 @@
+/home/wander/amor.animal2/index.js

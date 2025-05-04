@@ -1,58 +1,36 @@
-/* funçao foto */
-function preview() {
-    frame.src=URL.createObjectURL(event.target.files[0]);
-  };
+const frame = document.getElementById('frame');
+const placeholder = document.getElementById('preview-placeholder');
+const fileInput = document.getElementById('arquivo');
 
-     // Script do preview da imagem (ajustado para placeholder)
-     const frame = document.getElementById('frame');
-     const fileInput = document.getElementById('arquivo');
-     const previewPlaceholder = document.getElementById('preview-placeholder'); // Get placeholder element
- 
-     function previewImage(event) {
-         if (event.target.files && event.target.files[0]) {
-             const reader = new FileReader();
-             reader.onload = function(e) {
-                 frame.src = e.target.result;
-                 frame.style.display = 'block'; // Show image
-                 frame.alt = `Pré-visualização de ${event.target.files[0].name}`;
-                 if (previewPlaceholder) {
-                     previewPlaceholder.style.display = 'none'; // Hide placeholder
-                 }
-             }
-             reader.readAsDataURL(event.target.files[0]);
-         } else {
-             clearImagePreview(); // Clear if no file selected
-         }
-     }
- 
-     function clearImagePreview() {
-         frame.src = '';
-         frame.style.display = 'none'; // Hide image
-         frame.alt = 'Pré-visualização da foto do pet';
-         if (previewPlaceholder) {
-             previewPlaceholder.style.display = 'block'; // Show placeholder
-         }
-         if (fileInput) {
-             try {
-                 fileInput.value = null;
-             } catch(err) {
-                 console.log("Error resetting file input: ", err);
-             }
-         }
-     }
- 
-     // Reset form and preview on page show (e.g., back button)
-     window.addEventListener('pageshow', function(event) {
-         if (event.persisted) {
-             const form = document.getElementById('form-procura-se');
-             if (form) {
-                 form.reset();
-             }
-             clearImagePreview();
-         }
-     });
- 
-      // Initial state setup on load
-      document.addEventListener('DOMContentLoaded', () => {
-         clearImagePreview(); // Ensure initial state is correct
-     });
+function preview() {
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            frame.src = e.target.result;
+            frame.style.display = 'block'; // Show the image
+            placeholder.style.display = 'none'; // Hide the placeholder
+        }
+
+        reader.readAsDataURL(fileInput.files[0]); // Read the file as a Data URL
+    } else {
+        // Optional: Handle case where no file is selected after trying
+        clearPreview();
+    }
+}
+
+function clearPreview() {
+    frame.src = ''; // Clear the image source
+    frame.style.display = 'none'; // Hide the image
+    placeholder.style.display = 'block'; // Show the placeholder
+    // Note: The type="reset" on the button will clear the file input itself
+    // If you didn't use type="reset", you'd need: fileInput.value = null;
+}
+
+// Optional: Add event listener to the form's reset event for robustness
+const form = document.getElementById('form-procura-se');
+if (form) {
+    form.addEventListener('reset', clearPreview);
+}
+preview()
+clearPreview()

@@ -10,19 +10,19 @@
 
     <!-- Form Section -->
     <div class="card shadow-sm p-4"> <!-- Adicionado shadow-sm -->
-        <form action="/procura_se" enctype="multipart/form-data" method="post" id="form-procura-se">
+        <form action="/form_procura_se" enctype="multipart/form-data" method="post" id="form-procura-se">
 
             <div class="mb-4"> <!-- Aumentei a margem inferior -->
                 <label for="arquivo" class="form-label fw-bold">Foto do Pet:*</label> <!-- Label em negrito -->
                 <!-- Image Preview Area -->
                 <div id="image-preview-container" class="text-center border rounded p-3 mb-2 bg-light" style="min-height: 220px; display: flex; align-items: center; justify-content: center;">
-                    <img id="frame" src="" width="300" height="200" alt="Pré-visualização da foto do pet" class="img-fluid rounded" style="display: none; object-fit: cover; max-width: 100%; height: auto;"/>
+                    <img id="frame" src=""  alt="Pré-visualização da foto do pet" class="img-fluid rounded" style="display: none; object-fit: cover; max-width: 100%; height: auto;"/>
                     <span id="preview-placeholder" class="text-muted">Nenhuma imagem selecionada</span> <!-- Placeholder text -->
                 </div>
-                <input type="file" name="arquivo" id="arquivo" class="form-control" onchange="previewImage(event)" accept="image/*" required/>
+                <input type="file" name="arquivo" id="arquivo" class="form-control" onchange="preview()" accept="image/*" required/>
                 <div class="mt-2"> <!-- Div para alinhar o botão -->
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearImagePreview()">
-                        <i class="fas fa-times me-1"></i>Limpar Imagem <!-- Ícone adicionado -->
+                    <button type="reset" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('frame').src=''">
+                        <i class="fas fa-times me-1"></i>Limpar  <!-- Ícone adicionado -->
                     </button>
                 </div>
             </div>
@@ -79,9 +79,8 @@
                     <input type="text" placeholder="Seu nome completo" id="tutor" name="tutor" class="form-control" required/>
                 </div>
                 <div class="col-md-6">
-                    <label for="contato" class="form-label fw-bold">Telefone de Contato:*</label> <!-- Label em negrito -->
-                    <input type="tel" name="contato" id="contato" class="form-control" placeholder="(00) 00000-0000" required/>
-                    <!-- Poderia adicionar pattern para máscara, mas JS é mais robusto -->
+                    <label for="phone" class="form-label">Telefone</label>
+                    <input type="tel" class="form-control" name="contato" id="phone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" required>
                 </div>
             </div>
 

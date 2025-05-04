@@ -1,84 +1,110 @@
- <%- include("_header")-%>
-     
-     <section id="sobre" class="section-sobre">
+ <%- include("_header") -%>
+ 
+ <main class="main-content"> <!-- Added a main wrapper -->
+ 
+     <!-- Seção: Sobre Nós -->
+     <section id="sobre" class="section-sobre py-5"> <!-- Added padding -->
          <div class="container">
-             <h2>Sobre Nós</h2>
-             <div class="sobre-content">
-                 <div class="sobre-text">
+             <h2 class="text-center mb-4">Sobre Nós</h2> <!-- Centered title -->
+             <div class="sobre-content row align-items-center"> <!-- Use Bootstrap row for layout -->
+                 <div class="sobre-text col-md-7"> <!-- Text column -->
                      <h3>Nossa Missão</h3>
                      <p>A ONG Amor Animal é uma organização dedicada ao resgate, cuidado e proteção de animais abandonados. Trabalhamos incansavelmente para garantir que cada animal tenha uma segunda chance em um lar amoroso.</p>
                      <p>Nossa equipe é formada por voluntários apaixonados por animais, que dedicam seu tempo e esforço para fazer a diferença na vida de cada um deles.</p>
                      <p>Além do resgate e adoção, também promovemos a conscientização sobre a importância da posse responsável e do respeito aos animais.</p>
                  </div>
-                 <div class="sobre-image">
-                     <img src="/static/css/imagem/ong2.jpg" alt="Imagem da ONG Amor Animal" class="img-fluid">
+                 <div class="sobre-image col-md-5 text-center"> <!-- Image column -->
+                     <img src="/static/css/imagem/ong2.jpg" alt="Imagem da ONG Amor Animal" class="img-fluid rounded shadow"> <!-- Added rounded corners and shadow -->
                  </div>
              </div>
          </div>
      </section>
  
      <!-- Seção: Notícias -->
-     <section id="noticias" class="section-noticias">
+     <section id="noticias" class="section-noticias py-5 bg-light"> <!-- Added padding and background -->
          <div class="container">
-             <h2>Notícias</h2>
-             <% if (typeof model1 !== 'undefined' && model1.length > 0) { %>
-                 <% model1.forEach(noticia => { %>
-                     <div class="noticia-item">
-                         <img src="/static/uploads/noticia/<%= noticia.arquivo %>" alt="<%= noticia.titulo %>" class="img-fluid">
-                         <h3><%= noticia.titulo %></h3>
-                         <p><%= noticia.conteudo %></p>
-                         <a href="<%= noticia.link %>" class="btn btn-primary">Leia Mais</a>
-                     </div>
-                 <% }) %>
-             <% } else { %>
-                 <p>Nenhuma notícia disponível no momento.</p>
-             <% } %>
-
-             <div class="noticias-content">
-                 <div class="noticia-item">
-                     <img src="/static/css/favicon/email.png" alt="Notícia 2" class="img-fluid">
-                     <h3>Campanha de Doação</h3>
-                     <p>Estamos arrecadando fundos para ajudar nos custos de tratamento e abrigo dos animais. Sua doação faz a diferença!</p>
-                     <a href="./doacao" class="btn btn-primary">Doe Agora</a>
-                 </div>
-                 
-                 <div class="noticia-item">
-                     <img src="/static/css/favicon/email.png" alt="Notícia 1" class="img-fluid">
-                     <h3>Evento de Adoção</h3>
-                     <p>Participe do nosso próximo evento de adoção! Teremos muitos pets esperando por um lar. Venha conhecer e se apaixonar!</p>
-                     <a href="#" class="btn btn-primary">Saiba Mais</a>
-                 </div>
-                       <div class="noticia-item">
-                     <img src="/static/css/favicon/email.png" alt="Notícia 3" class="img-fluid">
-                     <h3>Dicas de Cuidados</h3>
-                     <p>Confira nossas dicas para manter seu pet saudável e feliz. Alimentação, exercícios e bem-estar!</p>
-                     <a href="#" class="btn btn-primary">Saiba Mais</a>
-                 </div>
+             <div class="d-flex justify-content-between align-items-center mb-4">
+                 <h2>Notícias</h2>
+                 <a href="/noticias" class="btn btn-outline-primary">Ver Todas</a>
              </div>
+ 
+             <div class="row gy-4">
+ 
+                 <%# Dynamic News Items from model1 %>
+                 <% if (typeof model1 !== 'undefined' && model1.length > 0) { %>
+                     <% model1.forEach(noticia => { %>
+                         <div class="col-md-6 col-lg-4">
+                             <div class="card h-100 shadow-sm noticia-item">
+                                 <% if (noticia.arquivo) { %>
+                                     <img src="/static/uploads/noticia/<%= noticia.arquivo %>" alt="<%= noticia.titulo %>" class="card-img-top noticia-img-fixed-height">
+                                 <% } else { %>
+                                     <img src="/static/images/placeholder-news.jpg" alt="Placeholder" class="card-img-top noticia-img-fixed-height">
+                                 <% } %>
+                                 <div class="card-body d-flex flex-column">
+                                     <h5 class="card-title"><%= noticia.titulo %></h5>
+                                     <%# Limit content length for preview %>
+                                     <p class="card-text flex-grow-1"><%= noticia.conteudo.substring(0, 100) %>...</p>
+                                     <% if (noticia.link) { %>
+                                         <a href="<%= noticia.link %>" target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-auto align-self-start">Leia Mais</a> <!-- Added target blank for external links -->
+                                     <% } else { %>
+                                          <a href="/noticia/<%= noticia.id %>" class="btn btn-primary mt-auto align-self-start">Leia Mais</a> <%# Link to internal detail page %>
+                                     <% } %>
+                                 </div>
+                             </div>
+                         </div>
+                     <% }) %>
+                 <% } else { %>
+                     <div class="col-12">
+                         <p class="text-center text-muted">Nenhuma notícia dinâmica disponível no momento.</p>
+                     </div>
+                 <% } %>
+ 
+                 <%# Static/Featured News Items (Examples) %>
+                 <div class="col-md-6 col-lg-4">
+                     <div class="card h-100 shadow-sm noticia-item">
+                         <div class="card-body d-flex flex-column">
+                              <h5 class="card-title"><i class="fas fa-donate me-2 text-success"></i>Campanha de Doação</h5>
+                              <p class="card-text flex-grow-1">Estamos arrecadando fundos para ajudar nos custos de tratamento e abrigo dos animais. Sua doação faz a diferença!</p>
+                              <a href="./doacao" class="btn btn-success mt-auto align-self-start">Doe Agora</a>
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <div class="col-md-6 col-lg-4">
+                      <div class="card h-100 shadow-sm noticia-item">
+                         <div class="card-body d-flex flex-column">
+                              <h5 class="card-title"><i class="fas fa-calendar-alt me-2 text-info"></i>Evento de Adoção</h5>
+                              <p class="card-text flex-grow-1">Participe do nosso próximo evento de adoção! Teremos muitos pets esperando por um lar. Venha conhecer e se apaixonar!</p>
+                              <a href="#" class="btn btn-info mt-auto align-self-start">Saiba Mais</a> <!-- Link to event page -->
+                         </div>
+                     </div>
+                 </div>
+                 <%# Add more static items if needed %>
+ 
+             </div> <!-- End .row -->
+              <%# Add CSS for noticia-img-fixed-height if needed, e.g.: %>
+              <%# <style>.noticia-img-fixed-height { height: 200px; object-fit: cover; }</style> %>
          </div>
      </section>
-     
- 
-     <!-- ... (Seção Sobre, Seção Notícias) ... -->
  
      <!-- Seção: Adoção -->
-     <section id="adocao" class="section-adocao">
-         <div class="container"> <!-- Container principal da seção -->
-             <h2>Adoção</h2>
-             <div class="adocao-intro"> <!-- Agrupa texto introdutório -->
+     <section id="adocao" class="section-adocao py-5"> <!-- Added padding -->
+         <div class="container">
+             <h2 class="text-center mb-4">Adoção</h2> <!-- Centered title -->
+             <div class="adocao-intro text-center mb-4"> <!-- Centered intro text -->
                  <h3>Adote um PET e faça a diferença na vida dele!</h3>
                  <p>Adotar um animal é um ato de amor e responsabilidade. Ao adotar, você não só ganha um novo amigo, mas também ajuda a salvar uma vida.</p>
                  <p>Na ONG Amor Animal, temos muitos pets esperando por um lar amoroso. Cada um deles tem uma história única e está pronto para dar e receber amor.</p>
              </div>
  
-             <!-- Photobanner para pets -->
-             <div class="photobanner-container" id="photobanner-adocao">
+             <!-- Photobanner para pets (model2) -->
+             <div class="photobanner-container mb-4" id="photobanner-adocao">
                  <div class="photobanner-slides">
                      <% if (typeof model2 !== 'undefined' && model2.length > 0) { %>
                          <% model2.forEach((adocao, index) => { %>
                              <div class="photobanner-slide <%= index === 0 ? 'active' : '' %>">
-                                 <a href="/adote"> <!-- Link para a página de detalhes/adoção -->
-                                     <img src="/static/uploads/adocao/<%= adocao.arquivo || 'default.jpg' %>" alt="Foto de <%= adocao.nome %> para adoção" class="adocao-img" />
+                                 <a href="/adote"> <!-- Link to the main adoption page -->
+                                     <img src="/static/uploads/adocao/<%= adocao.arquivo || 'placeholder-pet.jpg' %>" alt="Foto de <%= adocao.nome %> para adoção" class="adocao-img" />
                                  </a>
                                  <div class="banner-text">
                                      <p class="adocao-nome"><%= adocao.nome %></p>
@@ -87,9 +113,9 @@
                          <% }) %>
                      <% } else { %>
                          <div class="photobanner-slide active">
-                              <img src="/static/images/placeholder-pet.jpg" alt="Nenhum pet para adoção no momento" class="adocao-img placeholder-img" /> <!-- Classe para placeholder -->
+                              <img src="/static/images/placeholder-pet.jpg" alt="Nenhum pet para adoção no momento" class="adocao-img placeholder-img" />
                               <div class="banner-text">
-                                 <p>Nenhum pet disponível.</p>
+                                 <p>Nenhum pet disponível para adoção no momento.</p>
                                  <a href="/form_adocao" class="btn btn-sm btn-primary mt-1">Adicionar Pet</a>
                               </div>
                          </div>
@@ -107,197 +133,247 @@
                  <% } %>
              </div> <!-- Fim #photobanner-adocao -->
  
-             <!-- Contagem de Adotantes -->
-             <div class="contagem-adotantes">
-                 <% if (typeof model3 !== 'undefined' && model3.length > 0 && model3[0]) { %>
-                 <% const contagemAdotantes = Object.values(model3[0])[0] || 0 %>
-                     <p class="contagem-adotantes-texto">
-                         <i class="fas fa-users"></i> <!-- Ícone (requer Font Awesome) -->
-                         Já temos <span class="numero-destaque"><%= contagemAdotantes %></span> adotantes na nossa comunidade!
-                     </p>
-                 <% } else { %>
-                     <p class="contagem-adotantes-texto">
-                          <i class="fas fa-users"></i> Adotantes: Nenhum dado disponível
-                     </p>
-                 <% } %>
-                  <a href="./adotante" class="btn btn-outline-secondary btn-sm">Ver Adotantes &gt;</a> <!-- Botão com estilo outline -->
+             <!-- Contagem de Adotantes (model3) -->
+             <div class="contagem-adotantes text-center mb-5"> <!-- Centered -->
+                 <%
+                 let adotantesCountText = '0'; // Default value
+                 // Check if model3 exists, has items, the first item exists, and its value is defined
+                 if (typeof model3 !== 'undefined' && model3.length > 0 && model3[0] && typeof Object.values(model3[0])[0] !== 'undefined') {
+                     adotantesCountText = Object.values(model3[0])[0];
+                 }
+                 %>
+                 <p class="contagem-adotantes-texto fs-5"> <!-- Increased font size -->
+                     <i class="fas fa-users me-2"></i> <!-- Ícone -->
+                     Já temos <span class="numero-destaque fw-bold"><%= adotantesCountText %></span> adotantes na nossa comunidade!
+                 </p>
+                  <a href="/adotante" class="btn btn-outline-secondary btn-sm">Ver Adotantes &gt;</a>
              </div>
  
-             <!-- Histórias de Adotados -->
+             <!-- Histórias de Adotados (model4) -->
              <div class="historias-adotados">
-                 <h3>Histórias de Adotados</h3>
-                 <p>Leia as experiências de quem já adotou e inspire-se. Você também pode contar a história do seu pet!</p>
+                 <h3 class="text-center mb-4">Histórias de Adotados</h3> <!-- Centered title -->
+                 <p class="text-center mb-4">Leia as experiências de quem já adotou e inspire-se. Você também pode contar a história do seu pet!</p>
  
-                 <div class="historias-lista">
+                 <div class="row gy-4"> <!-- Use Bootstrap grid -->
                      <% if (typeof model4 !== 'undefined' && model4.length > 0) { %>
                          <% model4.forEach(adotado => { %>
-                             <div class="historia-item card">
-                                 <figure>
-                                     <img src="/static/uploads/adotado/<%= adotado.arquivo %>" alt="Foto de <%= adotado.pet %>, adotado por <%= adotado.tutor %>" class="historia-img card-img"/>
-                                     <figcaption class="historia-pet">Pet: <%= adotado.pet %></figcaption>
-                                 </figure>
-                                 <div class="card-body">
-                                     <h4 class="historia-tutor card-title">Tutor: <%= adotado.tutor %></h4>
-                                     <blockquote class="historia-texto card-text">"<%= adotado.historia %>"</blockquote>
-                                     <p class="historia-origem card-text-secondary"><small>Origem: <%= adotado.origem %></small></p>
+                             <div class="col-md-6 col-lg-4"> <!-- Grid column -->
+                                 <div class="historia-item card h-100 shadow-sm"> <!-- Use Bootstrap card -->
+                                     <img src="/static/uploads/adotado/<%= adotado.arquivo %>" alt="Foto de <%= adotado.pet %>, adotado por <%= adotado.tutor %>" class="card-img-top historia-img-fixed-height"/> <!-- Added class for fixed height -->
+                                     <div class="card-body d-flex flex-column">
+                                         <h5 class="card-title historia-pet">Pet: <%= adotado.pet %></h5>
+                                         <h6 class="card-subtitle mb-2 text-muted historia-tutor">Tutor: <%= adotado.tutor %></h6>
+                                         <blockquote class="historia-texto card-text flex-grow-1">"<%= adotado.historia %>"</blockquote>
+                                         <p class="historia-origem card-text mt-auto"><small class="text-muted">Origem: <%= adotado.origem %></small></p>
+                                     </div>
                                  </div>
                              </div>
                          <% }) %>
                      <% } else { %>
-                         <div class="historia-sem-itens">
-                             <p>Nenhuma história de adoção foi adicionada ainda.</p>
-                             <a href="/form_adotado" class="btn btn-primary">
-                                 Adicione sua História &gt;
-                             </a>
+                         <div class="col-12">
+                             <div class="historia-sem-itens text-center p-4 border rounded bg-light">
+                                 <p>Nenhuma história de adoção foi adicionada ainda.</p>
+                                 <a href="/form_adotado" class="btn btn-primary">
+                                     Adicione sua História &gt;
+                                 </a>
+                             </div>
                          </div>
                      <% } %>
-                 </div> <!-- Fim .historias-lista -->
-                  <a href="/adocao" class="btn btn-secondary mt-2">Ver Todas as Histórias &gt;</a> <!-- Link para a página de histórias -->
+                 </div> <!-- Fim .row -->
+                  <div class="text-center mt-4"> <!-- Centered button -->
+                     <a href="/adocao" class="btn btn-secondary">Ver Todas as Histórias &gt;</a>
+                  </div>
+                  <%# Add CSS for historia-img-fixed-height if needed, e.g.: %>
+                  <%# <style>.historia-img-fixed-height { height: 250px; object-fit: cover; }</style> %>
              </div> <!-- Fim .historias-adotados -->
  
          </div> <!-- Fim .container da seção Adoção -->
      </section> <!-- Fim #adocao -->
  
-     <!-- ... (Seção Números, Seção Procura-se, Seção Parcerias) ... -->
-
-       <!-- Seção: Números -->
-       <section id="numeros" class="section-numeros">
-           <div class="container">
-               <h2>Nossos Números</h2>
-               <div class="numeros-content">
-                   <div class="numero-item">
-                       <i class="fas fa-paw"></i>
-                       <!-- Check if model5 exists and has data -->
-                       <h3>+<%= (typeof model5 !== 'undefined' && model5.length > 0 && model5[0].total_animais) ? model5[0].total_animais : '0' %></h3>
-                       <p>Animais Resgatados</p>
-                   </div>
-                   <div class="numero-item">
-                       <i class="fas fa-home"></i>
-                       <!-- Check if model6 exists and has data -->
-                       <h3>+<%= (typeof model6 !== 'undefined' && model6.length > 0 && model6[0].total_adotados) ? model6[0].total_adotados : '0' %></h3>
-                       <p>Animais Adotados</p>
-                   </div>
-                   <div class="numero-item">
-                       <i class="fas fa-handshake"></i>
-                       <!-- Check if model7 exists and has data -->
-                       <h3>+<%= (typeof model7 !== 'undefined' && model7.length > 0 && model7[0].total_parceiros) ? model7[0].total_parceiros : '0' %></h3>
-                       <p>Parceiros</p>
-                   </div>
-               </div>
-           </div>
-       </section>
-  
+     <!-- Seção: Números -->
+     <section id="numeros" class="section-numeros bg-light py-5">
+         <div class="container">
+             <h2 class="text-center mb-5">Nossos Números</h2> <!-- Increased bottom margin -->
+             <div class="row text-center gy-4 justify-content-center">
+ 
+                 <!-- Card: Castrações -->
+                 <div class="col-md-4">
+                     <div class="card h-100 shadow-sm">
+                         <div class="card-body d-flex flex-column align-items-center justify-content-center p-4"> <!-- Added padding -->
+                             <i class="fas fa-cut fa-3x text-primary mb-3"></i>
+                             <h5 class="card-title">Castrações Realizadas</h5>
+                             <%# Use castracaoCount passed from server %>
+                             <p class="card-text display-4 fw-bold mb-1"><%= typeof castracaoCount !== 'undefined' ? castracaoCount : '0' %></p>
+                             <p class="text-muted">Desde <%= typeof anoOrigem !== 'undefined' ? anoOrigem : 'N/A' %></p>
+                             <a href="/castracao" class="btn btn-outline-primary mt-3">Detalhes Castração</a> <!-- Adjusted margin -->
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <!-- Card: Parceiros -->
+                 <div class="col-md-4">
+                     <div class="card h-100 shadow-sm">
+                         <div class="card-body d-flex flex-column align-items-center justify-content-center p-4"> <!-- Added padding -->
+                             <i class="fas fa-handshake fa-3x text-success mb-3"></i>
+                             <h5 class="card-title">Parceiros Ativos</h5>
+                              <%# Use parceirosCount passed from server %>
+                             <p class="card-text display-4 fw-bold"><%= typeof parceirosCount !== 'undefined' ? parceirosCount : '0' %></p>
+                             <a href="/parceria" class="btn btn-outline-success mt-3">Veja Nossos Parceiros</a> <!-- Adjusted margin -->
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <!-- Card: Adotantes -->
+                 <div class="col-md-4">
+                     <div class="card h-100 shadow-sm">
+                         <div class="card-body d-flex flex-column align-items-center justify-content-center p-4"> <!-- Added padding -->
+                             <i class="fas fa-users fa-3x text-info mb-3"></i>
+                             <h5 class="card-title">Adotantes na Comunidade</h5>
+                              <%# Use adotantesCount passed from server (preferred over recalculating from model3 here) %>
+                             <p class="card-text display-4 fw-bold"><%= typeof adotantesCount !== 'undefined' ? adotantesCount : '0' %></p>
+                             <a href="/adotante" class="btn btn-outline-info mt-3">Conheça os Adotantes</a> <!-- Adjusted margin -->
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <!-- Section: Tickets de Castração (model6) -->
+                 <div class="col-12 mt-5">
+                     <div class="card shadow-sm">
+                         <div class="card-body">
+                             <h5 class="card-title text-center mb-3"><i class="fas fa-ticket-alt me-2"></i>Últimos Tickets de Castração</h5>
+                             <%# Check if model6 was passed and has items %>
+                             <% if (typeof model6 !== 'undefined' && model6.length > 0) { %>
+                                 <div class="table-responsive">
+                                     <table class="table table-striped table-hover table-sm caption-top"> <!-- Added caption-top -->
+                                         <caption>Lista dos últimos tickets registrados</caption>
+                                         <thead>
+                                             <tr>
+                                                 <th>Ticket</th>
+                                                 <th>Data</th>
+                                                 <th>Nome</th>
+                                                 <th>Espécie</th>
+                                                 <th>Clínica</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                         <% for (const castracao of model6) { %>
+                                             <tr>
+                                                 <td><%= castracao.ticket %></td>
+                                                 <%# Consider formatting the date server-side or using client-side JS %>
+                                                 <td><%= castracao.data ? new Date(castracao.data).toLocaleDateString('pt-BR') : 'N/A' %></td> <!-- Basic date formatting -->
+                                                 <td><%= castracao.nome %></td>
+                                                 <td><%= castracao.especie %></td>
+                                                 <td><%= castracao.clinica %></td>
+                                             </tr>
+                                         <% } %>
+                                         </tbody>
+                                     </table>
+                                 </div>
+                                 <div class="text-center mt-3">
+                                     <a href="/castracao" class="btn btn-secondary">Ver Todos os Tickets</a>
+                                 </div>
+                             <% } else { %>
+                                 <p class="text-center text-muted mt-3">Nenhum ticket de castração recente para exibir.</p>
+                             <% } %>
+                         </div>
+                     </div>
+                 </div>
+ 
+             </div> <!-- End row -->
+         </div> <!-- End container -->
+     </section>
  
      <!-- Seção: Procura-se -->
-     <section id="procura-se" class="section-procura-se">
+     <section id="procura-se" class="section-procura-se py-5"> <!-- Added padding -->
          <div class="container">
-             <h2>Procura-se</h2>
+             <div class="d-flex justify-content-between align-items-center mb-4"> <!-- Header with link -->
+                  <h2>Procura-se</h2>
+                  <a href="/procura_se" class="btn btn-outline-secondary">Ver Todos</a>
+             </div>
              <div class="procura-se-content">
-                 <div class="procura-se-intro">
+                 <div class="procura-se-intro text-center mb-4"> <!-- Centered intro -->
                      <h3>Ajude-nos a encontrar nossos amigos perdidos!</h3>
-                     <p>Aqui você encontra os animais que estão sendo procurados por seus tutores. Se você viu algum deles, entre em contato conosco!</p>
+                     <p>Aqui você encontra os animais que estão sendo procurados por seus tutores. Se você viu algum deles, entre em contato conosco ou com o tutor!</p>
                  </div>
-                 <div class="procura-se-lista">
+                 <div class="row gy-4"> <!-- Use Bootstrap grid -->
                      <% if (typeof model8 !== 'undefined' && model8.length > 0) { %>
                          <% model8.forEach(procura => { %>
-                             <div class="procura-item card">
-                                 <figure>
-                                     <img src="/static/uploads/procura/<%= procura.arquivo %>" alt="Foto de <%= procura.nome %>" class="procura-img card-img"/>
-                                     <figcaption class="procura-nome">Nome: <%= procura.nome %></figcaption>
-                                 </figure>
-                                 <div class="card-body">
-                                     <p class="procura-descricao card-text"><%= procura.descricao %></p>
-                                     <p class="procura-contato card-text-secondary"><small>Contato: <%= procura.contato %></small></p>
+                             <div class="col-md-6 col-lg-4"> <!-- Grid column -->
+                                 <div class="procura-item card h-100 shadow-sm"> <!-- Use Bootstrap card -->
+                                     <img src="/static/uploads/procura/<%= procura.arquivo %>" alt="Foto de <%= procura.nome %>" class="card-img-top procura-img-fixed-height"/> <!-- Added class for fixed height -->
+                                     <div class="card-body d-flex flex-column">
+                                         <h5 class="card-title procura-nome">Nome: <%= procura.nome %></h5>
+                                         <p class="procura-descricao card-text flex-grow-1"><%= procura.descricao %></p>
+                                         <p class="procura-contato card-text mt-auto"><small class="text-muted">Contato: <%= procura.contato %></small></p>
+                                         <!-- Optional: Add a button/link if there's a detail page -->
+                                         <!-- <a href="/procura_se/<%= procura.id %>" class="btn btn-sm btn-outline-info mt-2 align-self-start">Detalhes</a> -->
+                                     </div>
                                  </div>
                              </div>
                          <% }) %>
                      <% } else { %>
-                         <div class="procura-sem-itens">
-                             <p>Nenhum animal perdido foi cadastrado ainda.</p>
-                             <a href="/form_procura_se" class="btn btn-primary">
-                                 Cadastre um Animal Perdido &gt;
-                             </a>
+                         <div class="col-12">
+                             <div class="procura-sem-itens text-center p-4 border rounded bg-light">
+                                 <p>Nenhum animal perdido foi cadastrado ainda.</p>
+                                 <a href="/form_procura_se" class="btn btn-primary">
+                                     Cadastre um Animal Perdido &gt;
+                                 </a>
+                             </div>
                          </div>
                      <% } %>
-                 </div> <!-- Fim .procura-se-lista -->
-                 <a href="/procura_se" class="btn btn-secondary mt-2">Ver Todos os Animais Perdidos &gt;</a>
+                 </div> <!-- Fim .row -->
+                  <%# Add CSS for procura-img-fixed-height if needed, e.g.: %>
+                  <%# <style>.procura-img-fixed-height { height: 250px; object-fit: cover; }</style> %>
+                  <%# Removed redundant "Ver Todos" button, moved to header %>
              </div> <!-- Fim .procura-se-content -->
          </div>
      </section>
  
      <!-- Seção: Parcerias -->
-     <section id="parcerias" class="section-parcerias">
+     <section id="parcerias" class="section-parcerias py-5 bg-light"> <!-- Added padding and background -->
          <div class="container">
-             <h2>Parcerias</h2>
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h2>Parcerias</h2>
+                  <a href="/parceria" class="btn btn-outline-secondary">Ver Todos</a>
+              </div>
              <div class="parcerias-content">
-                 <div class="parcerias-intro">
+                 <div class="parcerias-intro text-center mb-4">
                      <h3>Conheça nossos parceiros que apoiam nossa causa!</h3>
                      <p>Trabalhamos em conjunto com diversas empresas e profissionais para oferecer o melhor cuidado aos animais.</p>
                  </div>
-                 <div class="parceiros-lista">
-                     <!-- Photobanner para Parceiros -->
-                     <div class="photobanner-container" id="photobanner-parceiros">
-                         <div class="photobanner-slides">
-                             <% if (typeof model9 !== 'undefined' && model9.length > 0) { %>
-                                 <% model9.forEach((parceiro, index) => { %>
-                                     <div class="photobanner-slide <%= index === 0 ? 'active' : '' %>">
-                                         <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer">
-                                             <img src="/static/uploads/parceiro/<%= parceiro.arquivo %>" alt="Logo de <%= parceiro.nome %>" class="parceiro-logo" />
-                                         </a>
-                                         <div class="banner-text">
-                                             <h4 class="parceiro-nome"><%= parceiro.nome %></h4>
-                                             <p class="parceiro-descricao"><%= parceiro.descricao %></p>
-                                             <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Saiba Mais</a>
-                                         </div>
-                                     </div>
-                                 <% }) %>
-                             <% } else { %>
-                                 <div class="photobanner-slide active">
-                                     <p>Nenhum parceiro cadastrado no momento.</p>
-                                     <a href="/form_parceria" class="btn btn-primary">Cadastre um Parceiro &gt;</a>
-                                 </div>
-                             <% } %>
-                         </div>
-                         <!-- Controles e Indicadores do Photobanner -->
-                         <% if (typeof model9 !== 'undefined' && model9.length > 1) { %>
-                             <button class="photobanner-control prev">&lt;</button>
-                             <button class="photobanner-control next">&gt;</button>
-                             <div class="photobanner-dots">
-                                 <% model9.forEach((parceiro, index) => { %>
-                                     <span class="dot <%= index === 0 ? 'active' : '' %>" data-slide="<%= index %>"></span>
-                                 <% }) %>
-                             </div>
-                         <% } %>
-                     </div> <!-- Fim #photobanner-parceiros -->
+ 
+                 <div class="row gy-4 justify-content-center"> <!-- Use Bootstrap grid, centered -->
                      <% if (typeof model9 !== 'undefined' && model9.length > 0) { %>
                          <% model9.forEach(parceiro => { %>
-                             <div class="parceiro-item card">
-                                 <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer">
-                                     <img src="/static/uploads/parceiro/<%= parceiro.arquivo %>" alt="Logo de <%= parceiro.nome %>" class="parceiro-logo card-img"/>
-                                 </a>
-                                 <div class="card-body">
-                                     <h4 class="parceiro-nome card-title"><%= parceiro.nome %></h4>
-                                     <p class="parceiro-descricao card-text"><%= parceiro.descricao %></p>
-                                     <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Saiba Mais</a>                                     
+                             <div class="col-md-6 col-lg-3"> <!-- Adjust grid columns (e.g., 4 per row on large screens) -->
+                                 <div class="card h-100 shadow-sm parceiro-item text-center">
+                                     <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer" class="p-3 d-block"> <!-- Added padding and display block -->
+                                         <img src="/static/uploads/parceiro/<%= parceiro.arquivo %>" alt="Logo de <%= parceiro.nome %>" class="parceiro-logo img-fluid" style="max-height: 100px; width: auto; object-fit: contain;"> <!-- Use img-fluid, constrained height -->
+                                     </a>
+                                     <div class="card-body d-flex flex-column">
+                                         <h5 class="parceiro-nome card-title"><%= parceiro.nome %></h5>
+                                         <p class="parceiro-descricao card-text flex-grow-1 small"><%= parceiro.descricao %></p> <!-- Smaller text for description -->
+                                         <a href="<%= parceiro.site %>" target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-auto btn-sm">Saiba Mais</a> <!-- Smaller button -->
+                                     </div>
                                  </div>
                              </div>
                          <% }) %>
                      <% } else { %>
-                         <div class="parceiros-sem-itens">
-                             <p>Nenhum parceiro cadastrado no momento.</p>
-                             <a href="/form_parceria" class="btn btn-primary">
-                                 Cadastre um Parceiro &gt;
-                             </a>
+                         <div class="col-12">
+                             <div class="parceiros-sem-itens text-center p-4 border rounded">
+                                 <p>Nenhum parceiro cadastrado no momento.</p>
+                                 <a href="/form_parceria" class="btn btn-primary">
+                                     Cadastre um Parceiro &gt;
+                                 </a>
+                             </div>
                          </div>
                      <% } %>
-                 </div> <!-- Fim .parceiros-lista -->
-                 <a href="/parceria" class="btn btn-secondary mt-2">Ver Todos os Parceiros &gt;</a>
+                 </div> <!-- Fim .row -->
              </div> <!-- Fim .parcerias-content -->
          </div>
      </section>
-     
  
  </main> <!-- Fim do main-content -->
  
- <%- include("_footer")-%>
+ <%- include("_footer") -%>
  

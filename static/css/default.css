@@ -1,216 +1,133 @@
- /*
- *
- *  amor.animal2 default css
- *
- *  Based on pages styles css
- *
- */
+/* ==========================================================================
+   Base Styles & Variables (Consider using CSS variables for colors)
+   ========================================================================== */
+
+:root {
+  /* Define base colors - makes high contrast easier later */
+  --bg-color: #f8fafd;
+  --text-color: black;
+  --container-bg: #fff;
+  --container-shadow: rgba(0, 0, 0, 0.1);
+  --container-border: transparent; /* No border by default */
+  --heading-color: #333;
+  --paragraph-color: #555;
+  --link-color: #007bff;
+  --link-hover-decoration: underline;
+  --border-color: #ddd;
+  --table-header-bg: #f2f2f2;
+  --nav-bg: #343a40;
+  --nav-text: #fff;
+  --footer-bg: #f0f0f0;
+  --footer-text: #555;
+  --input-bg: #fff; /* Default input background */
+  --input-text: #212529; /* Default input text (Bootstrap-like) */
+  --input-border: #ced4da; /* Default input border (Bootstrap-like) */
+  --button-bg: #28a745; /* Example .button class bg */
+  --button-text: #fff;
+  --button-hover-bg: #218838; /* Darker green for hover */
+
+  /* High Contrast Variables */
+  --hc-bg-color: black;
+  --hc-text-color: white;
+  --hc-container-bg: #1a1a1a; /* Consistent dark container */
+  --hc-container-shadow: rgba(255, 255, 255, 0.2);
+  --hc-container-border: #f7f4f4;
+  --hc-heading-color: white;
+  --hc-paragraph-color: #ddd;
+  --hc-link-color: rgb(69, 216, 216);
+  --hc-link-hover-decoration: underline;
+  --hc-border-color: #555;
+  --hc-table-header-bg: #222; /* Darker table header */
+  --hc-nav-bg: #000;
+  --hc-nav-text: white;
+  --hc-footer-bg: black;
+  --hc-footer-text: #bbb; /* Lighter footer text */
+  --hc-input-bg: #333;
+  --hc-input-text: white;
+  --hc-input-border: #888;
+  --hc-input-placeholder: rgb(194, 190, 190);
+  --hc-button-bg: #0056b3; /* Using the primary blue from later styles */
+  --hc-button-text:rgb(69, 216, 216);
+  --hc-button-hover-bg: #004085;
+}
 
 body {
   font-family: sans-serif;
-  background-color: #f8f9fa;
   margin: 0;
   padding: 0;
-  color: black;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6; /* Set base line-height */
 }
+
+/* ==========================================================================
+   High Contrast Mode Toggle
+   ========================================================================== */
 
 body.high-contrast {
-  background-color: black;
-  color: white;
-}
-body.high-contrast a {
-  color: cyan; /* Example: change link color in high contrast */
+  background-color: var(--hc-bg-color);
+  color: var(--hc-text-color);
 }
 
-footer {
+/* Apply high-contrast variables when the class is present */
+body.high-contrast {
+  --bg-color: var(--hc-bg-color);
+  --text-color: var(--hc-text-color);
+  --container-bg: var(--hc-container-bg);
+  --container-shadow: var(--hc-container-shadow);
+  --container-border: var(--hc-container-border);
+  --heading-color: var(--hc-heading-color);
+  --paragraph-color: var(--hc-paragraph-color);
+  --link-color: var(--hc-link-color);
+  --link-hover-decoration: var(--hc-link-hover-decoration);
+  --border-color: var(--hc-border-color);
+  --table-header-bg: var(--hc-table-header-bg);
+  --nav-bg: var(--hc-nav-bg);
+  --nav-text: var(--hc-nav-text);
+  --footer-bg: var(--hc-footer-bg);
+  --footer-text: var(--hc-footer-text);
+  --input-bg: var(--hc-input-bg);
+  --input-text: var(--hc-input-text);
+  --input-border: var(--hc-input-border);
+  --button-bg: var(--hc-button-bg);
+  --button-text: var(--hc-button-text);
+  --button-hover-bg: var(--hc-button-hover-bg);
+}
+
+
+/* ==========================================================================
+   Layout Elements (Header, Nav, Footer, Container)
+   ========================================================================== */
+
+header { /* Assuming .main-header from EJS */
   text-align: center;
-  margin-top: 20px;
-  padding: 20px; /* Increased padding */
-  background-color: #f0f0f0; /* Light gray background */
-  color: #555; /* Darker text color */
- /* ... other styles ... */
+  margin-bottom: 30px;
+  /* Add specific header styles if needed */
+}
+
+.nav-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  min-height: 30px; /* Adjust based on your content */
+  flex-direction: column;
 }
-
-footer img{
-  display:inline;
-}
-
-
-.social-icons {
-  margin-top: 10px;
-}
-
-.social-icons a {
-  display: inline-block;
-  margin: 0 10px;
-  color: #555;
-  font-size: 1.5em; /* Adjust icon size */
-}
-
-.social-icons a:hover {
-  color: #007bff; /* Or your primary color */
-}
-
-.container {
-  max-width: 800px;
-  margin: 20px auto;
-  background-color: #fff;
-  padding: 20px; /* Increased padding */
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.container.high-contrast {
-  background-color: #333; /* Dark background for high contrast */
-  color: #fff; /* Light text color */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjust shadow for visibility */
-  border: 1px solid #555; /* Darker border for high contrast */
-}
-footer, body.high-contrast .container {
-  background-color: #333; /* Dark background for high contrast */
-  color: #fff; /* Light text color */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjust shadow for visibility */
+.nav-container img{  
+  height: auto;  
+  width: auto;
+  margin: 0 auto;
   
 }
-
-/* Headings */
-
-h1, h2, h3 {
-  color: #333;
-}
-
-p {
-  line-height: 1.6;
-  color: #555;
-}
-
-body.high-contrast h1, body.high-contrast h2, body.high-contrast h3 {
-  color: #fff; /* Light heading color in high contrast */
-}
-body.high-contrast p {
-  color: #ddd; /* Lighter text for paragraphs */
-}
-
-a { /* Links */
-  color: #007bff;
-  text-decoration: none;
-} /* Default link color */
-
-
-a:hover {
-  text-decoration: underline;
-}
-
-.button {
-  display: inline-block; /* Make button inline */
-  padding: 10px 15px;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-body.high-contrast .button {
-  background-color: #007bff; /* Different button color in high contrast */
-}
-
-
-.button:hover {
-  background-color: #0056b3;
-}
-
-/* Specific elements */
-
-header {
-  text-align: center; /* Center header content */
-  margin-bottom: 30px; /* Increased bottom margin */
-}
-
-footer {
+ .nav-container span{
+  
+  
+  font-weight: bold;
+  font-size: larger;
   text-align: center;
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
-  color: #777;
-}
-body.high-contrast footer {
-  color: #777;
-}
-/* Forms */
-/* Form elements (if needed) */
-
-input[type="text"],
-input[type="email"],
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px; /* Rounded corners */
-  box-sizing: border-box; /* Ensure padding doesn't affect overall width */
-}
-body.high-contrast input[type="text"],
-body.high-contrast input[type="email"],
-body.high-contrast textarea {
-  background-color: #555; /* Darker input background */
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-/* Responsive adjustments (example) */
-
-@media (max-width: 600px) {
-  .container {
-    margin: 10px;
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 2em; /* Adjust heading size for smaller screens */
-  }
-}
-
-/* Table styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-body.high-contrast th, body.high-contrast td {
-  border-color: #555; /* Darker border in high contrast */
-}
+ }
 
 
-th {
-  background-color: #f2f2f2;
-}
 
-/* Images */
-/* Image styles */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-/* Navigation */
-/* Navigation styles */
-nav {
-  background-color: #343a40; /* Dark background */
-  color: #fff;
+nav { /* Assuming .main-nav or similar */
+  background-color: var(--nav-bg);
+  color: var(--nav-text);
   padding: 10px 0;
 }
 
@@ -227,257 +144,103 @@ nav li {
 }
 
 nav a {
-  color: #fff;
+  color: var(--nav-text);
   text-decoration: none;
 }
 
 nav a:hover {
-  text-decoration: underline;
-}
-body.high-contrast nav {
-  background-color: #000; /* Even darker nav */
+  text-decoration: var(--link-hover-decoration);
 }
 
-/* Utilities */
-/* Utility classes */
-.text-center {
-  text-align: center;
-}
-
-.mt-2 {
-  margin-top: 10px;
-}
-
-.mt-3 {
-  margin-top: 15px;
-}
-
-.mt-4 {
-  margin-top: 20px;
-}
-
-.mb-2 {
-  margin-bottom: 10px;
-}
-
-.mb-3 {
-  margin-bottom: 15px;
-}
-
-.mb-4 {
-  margin-bottom: 20px;
-}
-
-.mb-5 {
-  margin-bottom: 25px;
-}
-.bg-contrast {
-}
-}/* Alert styles */
-.alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-
-.alert-primary {
-  color: #004085;
-  background-color: #cce5ff;
-  border-color: #b8daff;
-}
-
-.alert-secondary {
-  color: #383d41;
-  background-color: #e2e3e5;
-  border-color: #d6d8db;
-}
-
-.alert-success {
-  color: #155724;
-  background-color: #c3e6cb;
-  border-color: #b1dfbb;
-}
-
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-}
-
-.alert-warning {
-  color: #856404;
-  background-color: #fff3cd;
-  border-color: #ffeeba;
-}
-
-.alert-info {
-  color: #0c5460;
-  background-color: #d1ecf1;
-  border-color: #bee5eb;
-}
-
-.alert-light {
-  color: #818182;
-  background-color: #fefefe;
-  border-color: #fdfdfe;
-}
-
-.alert-dark {
-  color: #1b1e21;
-  background-color: #d6d8d9;
-  border-color: #c6c8ca;
-}
-/* Cards */
-/* Card styles */
-.card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-body.high-contrast .card {
-  border-color: #555; /* Darker card border */
-  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* Adjust shadow */
-}
-
-.card-header {
-  background-color: #f8f9fa;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.card-body {
+.container { /* General content container */
+  max-width: 800px; /* Or your preferred max-width */
+  margin: 20px auto;
+  background-color: var(--container-bg);
+  color: var(--text-color); /* Inherit from body or set specifically */
   padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px var(--container-shadow);
+  border: 1px solid var(--container-border);
 }
 
-.card-title {
-  margin-bottom: 10px;
-}
-
-/* Grid */
-/* Grid styles */
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-
-.col-md-6 {
-  position: relative;
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-@media (min-width: 768px) {
-  .col-md-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-}
-/* Lists */
-/* List styles */
-ul.list-unstyled {
-  list-style: none;
-  padding-left: 0;
-}
-
-ul.list-unstyled li {
-  margin-bottom: 5px;
-}
-
-ul.list-checked {
-  list-style: none;
-  padding-left: 0;
-}
-
-ul.list-checked li {
-  margin-bottom: 5px;
-}
-
-ul.list-checked li::before {
-  content: "✓";
-  color: green;
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-/* Mobile Menu */
-.mobile-menu-button {
-  display: none;
-  background-color: #343a40;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.mobile-menu {
-  display: none;
-  background-color: #343a40;
-  color: #fff;
-  padding: 10px 0;
-}
-
-.mobile-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+footer {
   text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  min-height: 30px; /* Adjust as needed */
+  border-top: 1px solid var(--border-color); /* Consistent border */
+  /* display: flex; flex-direction: row; justify-content: center; */ /* Keep if needed for specific layout */
 }
 
-.mobile-menu li {
-  padding: 10px;
+footer img {
+  display: inline; /* Keep if you have inline images in footer */
+  vertical-align: middle; /* Good practice for inline images */
 }
 
-.mobile-menu a {
-  color: #fff;
+
+/* ==========================================================================
+   Typography (Headings, Paragraphs, Links)
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+  margin-top: 1.5em; /* Add some default spacing */
+  margin-bottom: 0.5em;
+}
+
+h1 { font-size: 2.5em; } /* Example sizes */
+h2 { font-size: 2em; }
+h3 { font-size: 1.75em; }
+
+p {
+  color: var(--paragraph-color);
+  margin-bottom: 1em; /* Default paragraph spacing */
+}
+
+a {
+  color: var(--link-color);
   text-decoration: none;
 }
-/* --- High Contrast Styles for form_adotado.ejs --- */
 
-/* Ensure card background and text contrast */
-body.high-contrast .card {
-  background-color: #1a1a1a; /* Darker background for the card */
-  border: 1px solid #ccc; /* Lighter border for visibility */
-  color: white; /* Ensure text inside the card is white */
+a:hover {
+  text-decoration: var(--link-hover-decoration);
 }
 
-/* Adjust form input/textarea appearance */
-body.high-contrast .form-control {
-  background-color: #333; /* Dark background for inputs */
-  color: white; /* White text in inputs */
-  border: 1px solid #888; /* Lighter border for inputs */
+hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 1.5em 0; /* Add vertical spacing */
 }
 
-/* Style placeholders for high contrast */
-body.high-contrast .form-control::placeholder {
-  color: #bbb; /* Lighter placeholder text */
-  opacity: 1; /* Ensure placeholder is fully opaque */
+/* ==========================================================================
+   Components (Buttons, Cards, Forms, Tables, Alerts, Lists)
+   ========================================================================== */
+
+/* --- Buttons --- */
+/* Generic .button class (if not using Bootstrap's .btn exclusively) */
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.15s ease-in-out; /* Smooth hover */
 }
 
-/* Adjust form labels */
-body.high-contrast .form-label {
-  color: white; /* Ensure labels are white */
+.button:hover {
+  background-color: var(--button-hover-bg);
+  text-decoration: none; /* Ensure no underline on hover */
 }
 
-/* Style the image preview area */
-body.high-contrast #image-preview-container {
-  background-color: #222; /* Darker background for preview area */
-  border-color: #888; /* Lighter border */
-}
-
-body.high-contrast #preview-placeholder {
-    color: #bbb; /* Lighter placeholder text */
-}
-
-/* Ensure buttons have good contrast */
+/* High Contrast Styles for Bootstrap Buttons (Keep these) */
 body.high-contrast .btn-primary {
-  background-color: #0056b3; /* Adjust primary button color if needed */
+  background-color: #0056b3;
   border-color: #0056b3;
   color: white;
 }
@@ -487,7 +250,7 @@ body.high-contrast .btn-primary:hover {
 }
 
 body.high-contrast .btn-secondary {
-  background-color: #5a6268; /* Adjust secondary button color */
+  background-color: #5a6268;
   border-color: #545b62;
   color: white;
 }
@@ -497,21 +260,621 @@ body.high-contrast .btn-secondary:hover {
 }
 
 body.high-contrast .btn-outline-secondary {
-    color: #ccc; /* Lighter text for outline button */
-    border-color: #888; /* Lighter border */
+    color: #ccc;
+    border-color: var(--hc-input-border); /* Use consistent border */
 }
 body.high-contrast .btn-outline-secondary:hover {
-    background-color: #444; /* Darker background on hover */
+    background-color: #444;
     color: white;
 }
 
-/* Adjust muted text */
+/* --- Forms --- */
+label,
+.form-label { /* Target Bootstrap class too */
+  font-weight: bold;
+  display: block; /* Ensure labels take full width */
+  margin-bottom: 0.5rem; /* Spacing below label */
+  color: var(--heading-color); /* Use heading color for labels */
+}
+
+body.high-contrast label,
+body.high-contrast .form-label {
+    color: var(--hc-heading-color);
+}
+
+/* General styling for common inputs (can be overridden by .form-control) */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select{
+  width: 100%;
+  padding: 0.375rem 0.75rem; /* Bootstrap-like padding */
+  margin-bottom: 1rem; /* Consistent bottom margin */
+  border: 1px solid var(--input-border);
+  border-radius: 0.25rem; /* Bootstrap-like radius */
+  box-sizing: border-box;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  line-height: 1.5; /* Ensure text height is consistent */
+  transition: border-color 0.15s ease-in-out; 
+  box-shadow: 0.15s ease-in-out; 
+}
+
+/* Specific high-contrast for Bootstrap's .form-control */
+body.high-contrast .form-control {
+  background-color: var(--hc-input-bg);
+  color: var(--hc-input-text);
+  border: 1px solid var(--hc-input-border);
+}
+
+body.high-contrast .form-control::placeholder {
+  color: var(--hc-input-placeholder);
+  opacity: 1;
+}
+
+
+
+fieldset {
+  padding: 1em; /* Add padding inside fieldset */
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+body.high-contrast fieldset {
+    border-color: var(--hc-border-color);
+}
+
+/* Image Preview Area */
+#image-preview-container {
+  /* Add default styles if needed */
+  border: 2px dashed var(--border-color);
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  min-height: 100px; /* Example minimum height */
+  display: flex; /* Use flexbox for alignment */
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa; /* Light background */
+}
+
+#preview-placeholder {
+    color: var(--paragraph-color);
+}
+
+body.high-contrast #image-preview-container {
+  background-color: #222;
+  border-color: var(--hc-input-border); /* Consistent border */
+}
+
+body.high-contrast #preview-placeholder {
+    color: var(--hc-input-placeholder);
+}
+
+/* --- Tables --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem; /* Consistent margin */
+  background-color: var(--container-bg); /* Ensure table bg matches container */
+}
+
+th, td {
+  padding: 0.75rem; /* Bootstrap-like padding */
+  border: 1px solid var(--border-color);
+  text-align: left;
+  vertical-align: top; /* Align content to top */
+}
+
+th {
+  background-color: var(--table-header-bg);
+  font-weight: bold;
+  color: var(--heading-color); /* Use heading color */
+}
+  
+/* Use Bootstrap table classes for consistent styling */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529; /* Bootstrap's default text color */
+    background-color: transparent; /* Default transparent background */
+}
+
+
+body.high-contrast th {
+    color: var(--hc-heading-color);
+}
+
+/* --- Cards --- */
+.card {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px var(--container-shadow); /* Use container shadow */
+  background-color: var(--container-bg); /* Ensure card bg matches container */
+  overflow: hidden; /* Ensure content respects border-radius */
+}
+
+.card-header {
+  background-color: var(--table-header-bg); /* Use table header bg */
+  padding: 0.75rem 1.25rem; /* Bootstrap-like padding */
+  border-bottom: 1px solid var(--border-color);
+  /* border-top-left-radius/right-radius removed as overflow:hidden handles it */
+}
+
+.card-body {
+  padding: 1.25rem; /* Bootstrap-like padding */
+}
+
+.card-title {
+  margin-bottom: 0.75rem; /* Bootstrap-like margin */
+  font-size: 1.25rem; /* Example size */
+  font-weight: 500; /* Medium weight */
+  color: var(--heading-color);
+}
+
+body.high-contrast .card-title {
+    color: var(--hc-heading-color);
+}
+
+/* Specific High Contrast for Card (overrides container styles if needed) */
+body.high-contrast .card {
+  background-color: var(--hc-container-bg);
+  border-color: var(--hc-border-color);
+  box-shadow: 0 2px 5px var(--hc-container-shadow);
+  color: var(--hc-text-color);
+}
+
+body.high-contrast .card-header {
+    background-color: #222; /* Slightly different from table header */
+    border-bottom-color: var(--hc-border-color);
+}
+
+/* --- Alerts (Assuming Bootstrap classes) --- */
+.alert {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+/* Add high-contrast versions if needed, ensuring sufficient contrast */
+body.high-contrast .alert-primary {
+    background-color: #002752;
+    color: #e6f2ff;
+    border-color: #004085;
+}
+body.high-contrast .alert-success {
+    background-color: #0b2e13;
+    color: #d4edda;
+    border-color: #155724;
+}
+/* Add others as needed */
+
+/* --- Lists --- */
+ul, ol {
+    padding-left: 2em; /* Standard indentation */
+    margin-bottom: 1rem;
+}
+
+ul.list-unstyled {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.list-checked {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.list-checked li {
+  position: relative; /* Needed for absolute positioning of pseudo-element */
+  padding-left: 1.5em; /* Make space for the check */
+  margin-bottom: 5px;
+}
+
+ul.list-checked li::before {
+  content: "✓";
+  color: green;
+  position: absolute;
+  left: 0;
+  /* display: inline-block; width: 1em; margin-left: -1em; */ /* Replaced by absolute positioning */
+}
+
+body.high-contrast ul.list-checked li::before {
+    color: lightgreen; /* Brighter green for high contrast */
+}
+
+
+/* ==========================================================================
+   Images
+   ========================================================================== */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Prevents extra space below image */
+  /* margin: 0 auto; */ /* Remove global centering, apply where needed */
+  vertical-align: middle; /* Good practice */
+}
+
+/* ==========================================================================
+   Utilities (Margins, Text Alignment, etc.)
+   ========================================================================== */
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+/* Muted Text */
+.text-muted {
+    color: #6c757d; /* Bootstrap's default muted color */
+    opacity: 1; /* Ensure it's not transparent */
+}
 body.high-contrast .text-muted {
-    color: #bbb !important; /* Lighter muted text, !important might be needed depending on specificity */
+    color: var(--hc-footer-text) !important; /* Use footer text color, !important might be needed */
 }
 
-/* Adjust horizontal rule */
-body.high-contrast hr {
-    border-top: 1px solid #555; /* Lighter horizontal rule */
+
+/* Spacing Utilities (Keep as they are useful) */
+.mt-2 { margin-top: 10px !important; } /* Add !important if needed to override Bootstrap */
+.mt-3 { margin-top: 15px !important; }
+.mt-4 { margin-top: 20px !important; }
+.mb-2 { margin-bottom: 10px !important; }
+.mb-3 { margin-bottom: 15px !important; }
+.mb-4 { margin-bottom: 20px !important; }
+.mb-5 { margin-bottom: 25px !important; }
+/* Add padding utilities (pt, pb, pl, pr, p) if needed */
+
+
+/* ==========================================================================
+   Grid System (Assuming Bootstrap Grid is Primarily Used)
+   ========================================================================== */
+
+/*
+   Your existing grid styles (.row, .col-*, .col-md-*) seem like an attempt
+   to replicate Bootstrap's grid. If you are including the Bootstrap CSS file,
+   you generally DO NOT need to redefine these grid classes here.
+   Remove them if Bootstrap's CSS is linked in your HTML/EJS.
+   If you are *not* using Bootstrap's CSS file, then keep and complete them,
+   but it's usually better to just use the framework's grid.
+*/
+
+/* Example: Keep only if NOT using Bootstrap CSS */
+/*
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6,
+.col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col,
+.col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6,
+.col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm,
+.col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6,
+.col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md,
+.col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6,
+.col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg,
+.col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6,
+.col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl,
+.col-xl-auto {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+*/
+/* Add the rest of the grid definitions if needed */
+
+
+/* ==========================================================================
+   Responsive Design & Mobile Menu
+   ========================================================================== */
+
+/* Mobile Menu Placeholders (Keep if you implement this) */
+.mobile-menu-button {
+  display: none; /* Hidden by default */
+  /* Add styles */
+}
+
+.mobile-menu {
+  display: none; /* Hidden by default */
+ /* Add styles */
+}
+
+/* Example Media Query */
+@media (max-width: 768px) { /* Adjust breakpoint as needed (e.g., Bootstrap's 768px for md) */
+  .container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.75em;
+  }
+
+  /* Show mobile menu button and hide main nav if needed */
+/*
+  .main-nav { display: none; }
+  .mobile-menu-button { display: block; }
+
+
+  /* Adjust grid columns if not using Bootstrap's responsive classes */
+  /* Example: Make all columns full width on small screens */
+  /*
+  .col-1, .col-2, ... .col-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+  }
+  */
+}
+
+/* Another breakpoint example */
+@media (max-width: 600px) {
+    /* Further adjustments for very small screens */
+    /* Reduce padding further? */
+}
+
+* Style ONLY the high contrast button */
+#high-contrast-toggle {
+    /* Styles for the high contrast button in its default state */
+    background-color: #eee;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    /* Add other specific styles */
+}
+
+#high-contrast-toggle.active, /* Example class for active state */
+body.high-contrast #high-contrast-toggle { /* Example if body class changes */
+    /* Styles for the high contrast button when active/high contrast mode is on */
+    background-color: yellow;
+    color: black;
+    border: 1px solid black;
+}
+
+/* --- Styles for Navigation --- */
+
+/* Make nav link styles specific */
+.main-navbar a.nav-link {
+    /* Styles for nav links */
+    color: blue;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.main-navbar a.nav-link:hover,
+.main-navbar a.nav-link.active-nav-item { /* Example class for active nav item */
+    /* Styles for hovered or active nav links - won't affect #high-contrast-toggle */
+    background-color: lightblue;
+    color: darkblue;
+}
+
+/* Avoid generic button styles within the nav that could conflict */
+/* Bad example (might affect the contrast button if it's inside/near nav): */
+/* .main-navbar button { background-color: red; } */
+
+/* Better example (if nav has buttons): */
+.main-navbar .nav-button {
+   /* Styles specific to buttons *inside* the navbar */
+}
+
+.img-fluid-rouded{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+    
+
+}
+
+/* Adicionado para overflow de tabelas em telas maiores e menores */
+.table-responsive {
+    width: 100%; /* Garante que a tabela ocupe 100% da largura */
+    overflow-x: auto; /* Adiciona rolagem horizontal quando necessário */
+}
+
+.table-responsive:hover {
+    overflow-x: auto; /* Mantém a rolagem horizontal no hover */
+}
+
+body.high-contrast .table td { /* Seleciona 'td' dentro de '.table' quando 'body' tem 'high-contrast' */
+  color: var(--hc-text-color); /* Usa a variável de cor de texto definida para alto contraste (branco) */
+}
+
+.photobanner,
+.historia-item {
+    overflow-x: auto;
+    white-space: nowrap; /* Impede que o conteúdo quebre para a próxima linha */
+    padding-bottom: 10px; /* Adiciona um pouco de espaço na parte inferior para a barra de rolagem */
+}
+
+.photobanner::-webkit-scrollbar,
+.historia-item::-webkit-scrollbar {
+    height: 8px; /* Altura da barra de rolagem */
+}
+
+.photobanner::-webkit-scrollbar-track,
+.historia-item::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor de fundo da área da barra de rolagem */
+    border-radius: 4px; /* Bordas arredondadas */
+}
+
+.photobanner::-webkit-scrollbar-thumb,
+.historia-item::-webkit-scrollbar-thumb {
+    background: #888; /* Cor do "polegar" da barra de rolagem */
+    border-radius: 4px; /* Bordas arredondadas */
+}
+
+.photobanner::-webkit-scrollbar-thumb:hover,
+.historia-item::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor do "polegar" ao passar o mouse */
+}
+
+.photobanner .scroll-content,
+.historia-item .scroll-content {
+    display: inline-block; /* Permite que o conteúdo seja rolado horizontalmente */
+    animation: scroll-x 30s linear infinite; /* Ajuste a duração conforme necessário */
+}
+
+/* Define a animação de rolagem horizontal */
+@keyframes scroll-x {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%); /* Rola todo o conteúdo para a esquerda */
+    }
+}
+
+/* Pausa a animação quando o mouse passa sobre o container */
+.photobanner:hover .scroll-content,
+.historia-item:hover .scroll-content {
+    animation-play-state: paused;
+}
+
+/* Retoma a animação quando o mouse sai do container */
+.photobanner:not(:hover) .scroll-content,
+.historia-item:not(:hover) .scroll-content {
+    animation-play-state: running;
+}
+
+.table th,
+.table td {
+    white-space: nowrap;
+}
+
+/* Estilo específico para células de dados (td) em alto contraste */
+body.high-contrast .table td {
+    color: var(--hc-text-color); /* Mantém a regra anterior para cor em alto contraste */
+}
+.login-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.login-container button {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-container button:hover {
+  background-color: #4cae4c;
+}
+.noticia-img-fixed-height,
+     .historia-img-fixed-height,
+     .procura-img-fixed-height {
+         height: 200px; /* Adjust as needed */
+         object-fit: cover; /* Crop image to fit */
+         width: 100%;
+     }
+     .adocao-img {
+         /* Style for adoption photobanner images */
+         max-height: 400px; /* Example max height */
+         width: 100%;
+         object-fit: cover;
+     }
+     .photobanner-container {
+         position: relative;
+         overflow: hidden; /* Hide overflowing slides */
+     }
+     .photobanner-slides {
+         display: flex;
+         transition: transform 0.5s ease-in-out; /* Smooth transition */
+     }
+     .photobanner-slide {
+         min-width: 100%;
+         box-sizing: border-box;
+         position: relative; /* For banner text positioning */
+         display: none; /* Hide all slides initially */
+     }
+     .photobanner-slide.active {
+         display: block; /* Show active slide */
+     }
+     .banner-text {
+         position: absolute;
+         bottom: 10px;
+         left: 10px;
+         background-color: rgba(0, 0, 0, 0.6);
+         color: white;
+         padding: 5px 10px;
+         border-radius: 4px;
+     }
+     .photobanner-control {
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+         background-color: rgba(0, 0, 0, 0.5);
+         color: white;
+         border: none;
+         padding: 10px;
+         cursor: pointer;
+         z-index: 10;
+     }
+     .photobanner-control.prev { left: 10px; }
+     .photobanner-control.next { right: 10px; }
+     .photobanner-dots {
+         text-align: center;
+         position: absolute;
+         bottom: 10px;
+         width: 100%;
+         z-index: 10;
+     }
+     .dot {
+         cursor: pointer;
+         height: 12px;
+         width: 12px;
+         margin: 0 3px;
+         background-color: #bbb;
+         border-radius: 50%;
+         display: inline-block;
+         transition: background-color 0.3s ease;
+     }
+     .dot.active {
+         background-color: #717171;
+     }
+     /* Add basic JS for photobanner if not already present */
+     /* Example:
+     document.addEventListener('DOMContentLoaded', () => {
+         // Basic photobanner logic here (next/prev/dots)
+     });
+     */
+ 

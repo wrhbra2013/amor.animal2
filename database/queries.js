@@ -19,12 +19,13 @@ function executeQuery(query) {
 /* 4 */const query_adotado = `SELECT * FROM adotado;`
 /* tag castracao */
 /* 5 */const query_castracao = `SELECT COUNT(*) FROM castracao;`//Conatgem de castração
-/*7 */const sql_castracao = `SELECT * FROM castracao;`//Leitura da castração
+/*6 */const sql_castracao = `SELECT * FROM castracao;`//Leitura da castração
 /* tag procura_se */
-/* 8 */const query_procura_se = `SELECT * FROM procura_se;`
+/* 7 */const query_procura_se = `SELECT * FROM procura_se;`
 /* tag parceria */
-/* 9 */const query_parceria = `SELECT * FROM parceria;`
-/* 10 */ const sql_adotante = `SELECT * FROM adotante;`
+/* 8 */const query_parceria = `SELECT * FROM parceria;`
+/* 9 */ const sql_adotante = `SELECT * FROM adotante;`
+/* 10 */ const sql_login = `SELECT * FROM login;`
 
 
 
@@ -38,7 +39,8 @@ async function executeAllQueries() {
         { name: 'sql_castracao', query: sql_castracao },
         { name: 'procura_se', query: query_procura_se },
         { name: 'parceria', query: query_parceria },
-        { name: 'sql_adotante', query: sql_adotante }
+        { name: 'sql_adotante', query: sql_adotante },
+        { name: 'sql_login', query: sql_login }
         
 
     ];
