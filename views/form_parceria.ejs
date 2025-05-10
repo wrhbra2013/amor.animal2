@@ -9,7 +9,7 @@
      </div>
  
      <div class="form-container card p-4 shadow-sm"> <!-- Added shadow for consistency -->
-         <form action="/parceria" method="post" class="row g-3" id="form-parceria"> <!-- Added action and ID -->
+         <form action="" method="post" class="row g-3" id="form-parceria"> <!-- Added action and ID -->
              <div class="col-md-6">
                  <label for="empresa" class="form-label">Empresa <span class="text-danger">*</span></label> <!-- Added asterisk -->
                  <input type="text" name="empresa" id="empresa" placeholder="Nome da Empresa" class="form-control" required/>
@@ -48,7 +48,7 @@
                  <input type="email" name="email" id="email" placeholder="exemplo@empresa.com" class="form-control"/>
              </div>
              <div class="col-12 d-flex justify-content-between align-items-center mt-3"> <!-- Added margin-top -->
-                 <a href="./parceria" class="btn btn-secondary">Cancelar</a>
+                 <a href="/parceria" class="btn btn-secondary">Cancelar</a>
                  <!-- Removed inline confirm - consider JS validation function instead -->
                  <button type="submit" class="btn btn-primary">Enviar Proposta</button>
                  <!-- <input type="submit" value="Enviar Proposta" class="btn btn-primary" onclick="return confirm('Os dados estão corretos?')"/> -->
@@ -60,40 +60,8 @@
      </div>
  </div>
  <a href="/relatorio/parceria" class="btn btn-primary mt-3">Gerar Relatório</a>
- <!-- Optional: Add JS for phone formatting if needed -->
- <!-- <script>
-     // Example phone formatting function (needs refinement for robustness)
-     function phoneFormat(input) {
-         // Basic formatting logic - consider a dedicated library for better UX/validation
-         input = input.replace(/\D/g, ''); // Remove non-digits
-         input = input.replace(/^(\d{2})(\d)/g, '($1) $2'); // Add parens
-         input = input.replace(/(\d{5})(\d)/, '$1-$2'); // Add hyphen
-         return input.substring(0, 15); // Limit length
-     }
- 
-     const phoneInput = document.getElementById('telefone');
-     if (phoneInput) {
-         phoneInput.addEventListener('input', (e) => {
-             e.target.value = phoneFormat(e.target.value);
-         });
-     }
- 
-     // Optional: Add form validation logic here before submission
-     // const form = document.getElementById('form-parceria');
-     // form.addEventListener('submit', (event) => {
-     //     if (!form.checkValidity()) {
-     //         event.preventDefault();
-     //         event.stopPropagation();
-     //         // Add custom validation feedback if needed
-     //     } else {
-     //         // Optional: Show confirmation dialog here if still desired
-     //         if (!confirm('Os dados estão corretos?')) {
-     //             event.preventDefault();
-     //         }
-     //     }
-     //     form.classList.add('was-validated'); // Trigger Bootstrap validation styles
-     // });
- </script> -->
+
+  
  
  <%- include("_footer")-%>
  

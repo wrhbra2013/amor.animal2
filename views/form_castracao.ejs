@@ -50,7 +50,7 @@
                         <option value="">Selecione</option>
                         <option value="gato">Gato - R$110,00 com medicação</option>
                         <option value="gata">Gata - R$120,00 com medicação</option>
-                        <option value="cachorro">Cachorro - R$200,00 com medicação</option>
+                        <option value="cachorro">Cachorro(a) - R$200,00 com medicação</option>
                     </select>
                 </div>
                 <div class="col-md-6">
@@ -82,7 +82,7 @@
                     </select>
                 </div>
                 <div class="col-12 d-flex justify-content-end">
-                    <a href="./castracao" class="btn btn-secondary me-2">Cancelar</a>
+                    <a href="/castracao" class="btn btn-secondary me-2">Cancelar</a>
                     <button type="submit" class="btn btn-primary" onclick="return confirm('Os dados estão atualizados?')">Cadastrar</button>
                 </div>
             </form>
@@ -90,23 +90,7 @@
     </section>
 </main>
 
-<script>
-    function preview() {
-        frame.src = URL.createObjectURL(event.target.files[0]);
-    }
 
-    function clearImage() {
-        document.getElementById('arquivo').value = null;
-        frame.src = "";
-    }
-
-    function phoneFormat(phone) {
-        return phone.replace(/\D/g, '')
-                    .replace(/^(\d{2})(\d)/, '($1) $2')
-                    .replace(/(\d{5})(\d)/, '$1-$2')
-                    .replace(/(-\d{4})\d+?$/, '$1');
-    }
-</script>
 
 </div>
 

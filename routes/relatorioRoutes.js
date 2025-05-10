@@ -3,13 +3,20 @@ const express = require('express');
 const { db } = require('../database/database'); // Adjust path
 const fs = require('fs');
 const path = require('path');
+const pdfDocument = require('pdfkit');
 const { isAdmin } = require('../middleware/auth'); // Assuming you moved isAdmin
 const router = express.Router();
 
+router.get('/', isAdmin, (req, res) => {
+    const tabelas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home'];
+    res.render('relatorio', { tabelas: tabelas });
+    
+})
 
 
 // Gerador de pdf
-router.get('/relatorio/:tabela',isAdmin, (req, res) => { 
+router.get('/:tabela',isAdmin, (req, res) => { 
+
 // 1 Seleçầo de tabela
 const tabela = req.params.tabela;
 //  busca no banco de dados
@@ -30,7 +37,7 @@ res.render('relatorio', {model: rows, tabela:tabela});
 });  
 
 // ESTA É A DEFINIÇÃO CORRETA A SER MODIFICADA
-router.post('/relatorio/:tabela', isAdmin,(req, res) => {
+router.post('/:tabela', isAdmin,(req, res) => {
   const tabela = req.params.tabela;
   // Validação básica do nome da tabela (ADICIONADO PARA SEGURANÇA)
   const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home'];
@@ -73,7 +80,7 @@ router.post('/relatorio/:tabela', isAdmin,(req, res) => {
       const pageMargins = { top: 40, bottom: 40, left: 30, right: 30 };
       const doc = new pdfDocument({
           size: 'A4',
-          layout: 'landscape',
+          layout: 'portrait', //landscape or portrait
           margins: pageMargins,
       });
 
@@ -109,7 +116,7 @@ router.post('/relatorio/:tabela', isAdmin,(req, res) => {
     doc.pipe(escrita);
 
     // --- Desenhar Cabeçalho do Relatório ---
-      const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+      const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
       const reportHeaderText = `Relatório: ${tabela}\nGerado em: ${time}`;
       doc.fontSize(12).font('Helvetica-Bold').text(reportHeaderText, { align: 'center' });
       doc.moveDown(1.5);

@@ -13,7 +13,7 @@
  // const key = 'castracao'; // No longer needed with specific upload instance
  
  // GET /castracao
- router.get('/castracao', (req, res ) =>{
+ router.get('/', (req, res ) =>{
     executeAllQueries()
     .then((results) =>{
     const{sql_castracao}=results;
@@ -77,4 +77,6 @@ console.log(error)
 });
  
 module.exports = router;
+ 
+ 
  

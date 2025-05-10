@@ -14,7 +14,7 @@
  
          <div class="home mb-4"> <!-- Added margin bottom -->
              <div class="button-container">
-                 <a href="./form_castracao" class="btn btn-primary">Agendar</a> <!-- Use Bootstrap button class -->
+                 <a href="/castracao/form" class="btn btn-primary">Agendar</a> <!-- Use Bootstrap button class -->
              </div>
          </div>
  
@@ -68,13 +68,15 @@
                                      <td><%= castracao.porte %></td>
                                      <td><%= castracao.clinica %></td>
                                      <td><%= castracao.agenda %></td> <!-- Consider formatting this date/time -->
+                                     <% if (typeof user !== 'undefined' && user.isAdmin) { %>
                                      <td class="action-buttons">
-                                         <button class="delete-button btn btn-sm btn-danger"
-                                                 onclick="confirmDelete('<%= castracao.ticket %>', '<%= castracao.arquivo %>')"
-                                                 title="Excluir">
-                                             <i class="fa fa-trash"></i> <span class="d-none d-md-inline">Excluir</span> <!-- Hide text on small screens -->
-                                         </button>
-                                         <!-- Removed redundant cancel button -->
+                                        <form action="/delete/castracao/<%= castracao._id %>/<%= castracao.arquivo %>" method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este agendamento?')">
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Excluir Agendamento">
+                                                <i class="fas fa-trash-alt"></i>
+                                                <span class="visually-hidden">Excluir</span> <!-- Texto para leitores de tela -->
+                                            </button>
+                                        </form>
+                                       <% } %>                                      <!-- Removed redundant cancel button -->
                                      </td>
                                  </tr>
                                  <% } %>
@@ -89,13 +91,7 @@
          </div> <!-- Close card -->
  
      </section>
-     <script>
-         function confirmDelete(ticket, arquivo) {
-             if (confirm('Tem certeza de que deseja excluir esta castração? Ticket: ' + ticket)) { // Added ticket to confirm message
-                 window.location.href = `/delete/castracao/${ticket}/${arquivo}`;
-             }
-         }
-     </script>
+    
  </main>
  <%- include("_footer")-%>
  

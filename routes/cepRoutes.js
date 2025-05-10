@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 // GET /cep - Rota para exibir o formulário de busca de CEP
-router.get('/cep/:numero', async (req, res) => {
+router.get('cep/:numero', async (req, res) => {
     const cep = req.params.numero
     await fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then(response => response.json())

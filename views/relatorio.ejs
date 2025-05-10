@@ -1,5 +1,21 @@
  <%- include("_header") -%> <%# Inclui o cabeçalho padrão %>
  
+ <div class="container mt-3 mb-3">
+    <label for="tabela" class="form-label">Selecionar Relatório para Visualizar:</label>
+    <select name="tabela" id="tabela" class="form-select d-inline-block" style="max-width: 300px; margin-left: 10px;">
+        <option value="">-- Escolha uma tabela --</option>
+        <option value="adocao" <%= (typeof tabela !== 'undefined' && tabela === 'adocao') ? 'selected' : '' %>>Adoção</option>
+        <option value="adotante" <%= (typeof tabela !== 'undefined' && tabela === 'adotante') ? 'selected' : '' %>>Adotantes</option>
+        <option value="adotado" <%= (typeof tabela !== 'undefined' && tabela === 'adotado') ? 'selected' : '' %>>Adotados</option>
+        <option value="castracao" <%= (typeof tabela !== 'undefined' && tabela === 'castracao') ? 'selected' : '' %>>Castração</option>
+        <option value="procura_se" <%= (typeof tabela !== 'undefined' && tabela === 'procura_se') ? 'selected' : '' %>>Procura-se</option>
+        <option value="parceria" <%= (typeof tabela !== 'undefined' && tabela === 'parceria') ? 'selected' : '' %>>Parceria</option>
+        <option value="login" <%= (typeof tabela !== 'undefined' && tabela === 'login') ? 'selected' : '' %>>Login</option>
+    </select>
+    <!-- O formulário original e o botão "Gerar Relatório" que estavam aqui foram removidos,
+         pois a seleção agora aciona a navegação diretamente. -->
+ </div>
+
  <div class="container mt-4 mb-5">
  
      <%# Verifica se a variável 'tabela' (nome do relatório) foi passada %>
@@ -55,14 +71,14 @@
              <% if (typeof tabela !== 'undefined') { %>
              <form action="/relatorio/<%= tabela %>" method="post" onsubmit="return confirm('Gerar relatório em formato específico (ex: PDF/Excel)?')">
                  <button type="submit" class="btn btn-success">
-                     <i class="fas fa-download me-1"></i> Gerar Relatório <%# (Ex: PDF/Excel) %>
+                     <i class="fas fa-download me-1"></i> relatorio pdf <%# (Ex: PDF/Excel) %>
                  </button>
              </form>
              <% } %>
  
              <%# Botão para imprimir a visualização HTML atual %>
              <button type="button" class="btn btn-info" onclick="window.print()">
-                 <i class="fas fa-print me-1"></i> Imprimir/Salvar HTML
+                 <i class="fas fa-print me-1"></i> relatorio HTML
              </button>
          </div>
  

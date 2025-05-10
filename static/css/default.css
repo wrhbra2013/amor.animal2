@@ -105,6 +105,35 @@ header { /* Assuming .main-header from EJS */
   /* Add specific header styles if needed */
 }
 
+nav.main-nav { /* Sua navegação principal */
+  background-color: var(--nav-bg);
+  color: var(--nav-text);
+  padding: 10px 0;
+  /* display: block; Por padrão, ela é visível */
+}
+
+nav.main-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+nav.main-nav li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav.main-nav a {
+  color: var(--nav-text);
+  text-decoration: none;
+}
+
+nav.main-nav a:hover {
+  text-decoration: var(--link-hover-decoration);
+}
+
+
 .nav-container {
   display: flex;
   flex-direction: column;
@@ -580,14 +609,96 @@ body.high-contrast .text-muted {
 
 /* Mobile Menu Placeholders (Keep if you implement this) */
 .mobile-menu-button {
-  display: none; /* Hidden by default */
-  /* Add styles */
+  display: none; /* Escondido por padrão em telas grandes */
+  background-color: var(--nav-bg); /* Ou outra cor que desejar */
+  color: var(--nav-text);
+  border: 1px solid var(--nav-text);
+  padding: 8px 12px;
+  font-size: 1.5em;
+  cursor: pointer;
+  position: absolute; /* Ou ajuste conforme seu layout */
+  top: 15px;
+  right: 15px;
+  z-index: 1001; 
 }
 
 .mobile-menu {
-  display: none; /* Hidden by default */
- /* Add styles */
+  display: none; /* Escondido por padrão em telas grandes */
+  background-color: var(--nav-bg); /* Ou outra cor que desejar */
+  color: var(--nav-text);
+  border: 1px solid var(--nav-text);
+  padding: 8px 12px;
+  font-size: 1.5em;
+  cursor: pointer;
+  position: absolute; /* Ou ajuste conforme seu layout */
+  top: 15px;
+  right: 15px;
+  z-index: 1001; 
+  
+  
 }
+
+.mobile-menu.active { /* Classe para mostrar o menu */
+   display: block;
+  animation: slide-in 0.3s ease-in-out forwards; /* 
+  Adiciona animação */
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100vh;
+  overflow-y: hidden; /* Permite rolagem se o conteúdo for longo */
+  padding-top: 60px; /* Espaço para o botão de fechar */
+  font-size: medium;
+  
+}
+
+.mobile-menu ul {
+list-style: none;
+padding: 20px;
+margin: 0;
+}
+
+.mobile-menu li {
+margin-bottom: 20px;
+background-color: grey;
+}
+
+.mobile-menu li:hover{
+  font-size: larger;
+}
+
+.mobile-menu a {
+color: var(--nav-text);
+text-decoration: none;
+font-size: 1.2em;
+display: block; /* Para ocupar a largura toda e facilitar o clique */
+padding: 10px;
+}
+
+.mobile-menu a:hover {
+background-color: rgba(255, 255, 255, 0.1); /* Um leve destaque no hover */
+}
+
+/* Define a animação de slide-in */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%); /* Começa fora da tela à direita */
+  }
+  to { transform: translateX(0); } /* Termina na posição original */
+}
+
+/* Botão para fechar o menu móvel (opcional, mas recomendado) */
+.mobile-menu-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2em;
+  color: var(--nav-text);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 
 /* Example Media Query */
 @media (max-width: 768px) { /* Adjust breakpoint as needed (e.g., Bootstrap's 768px for md) */
@@ -602,6 +713,90 @@ body.high-contrast .text-muted {
   h2 {
     font-size: 1.75em;
   }
+
+  nav.main-nav {
+    display: none; /* Esconde a navegação principal */
+  }
+
+  .mobile-menu-button {
+    display: block; /* Mostra o botão do menu móvel */
+  }
+  /* Show mobile menu button and hide main nav if needed */
+  /*
+  .main-nav { display: none; }
+  .mobile-menu-button { display: block; }
+*/
+  /* Adjust grid columns if not using Bootstrap's responsive classes */
+  /* Example: Make all columns full width on small screens */
+  /*
+  .col-1, .col-2, ... .col-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+  }
+  */
+}
+
+/* Another breakpoint example */
+@media (max-width: 600px) {
+    /* Further adjustments for very small screens */
+    /* Reduce padding further? */
+
+  .container {
+    margin: 5px;
+    
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.75em;
+  }
+  h2 {
+    font-size: 1.5em;
+   
+}
+
+/* Style ONLY the high contrast button */
+#high-contrast-toggle {
+    /* Styles for the high contrast button in its default state */
+    background-color: #eee;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    /* Add other specific styles */
+}
+
+#high-contrast-toggle.active, /* Example class for active state */
+body.high-contrast #high-contrast-toggle { /* Example if body class changes */
+    /* Styles for the high contrast button when active/high contrast mode is on */
+    background-color: yellow;
+    color: black;
+    border: 1px solid black;
+}
+
+/* --- Styles for Navigation --- */
+
+/* Make nav link styles specific */
+.main-navbar a.nav-link {
+    /* Styles for nav links */
+    color: blue;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.main-navbar a.nav-link:hover,
+.main-navbar a.nav-link.active-nav-item { /* Example class for active nav item */
+    /* Styles for hovered or active nav links - won't affect #high-contrast-toggle */
+    background-color: lightblue;
+    color: darkblue;
+}
+
+/* Avoid generic button styles within the nav that could conflict */
+/* Bad example (might affect the contrast button if it's inside/near nav): */
+
+ 
+  
+}
 
   /* Show mobile menu button and hide main nav if needed */
 /*
@@ -877,4 +1072,111 @@ body.high-contrast .table td {
          // Basic photobanner logic here (next/prev/dots)
      });
      */
- 
+  /* Estilos básicos para o banner - ajuste conforme necessário */
+  .cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
+    display: flex; /* Para alinhar itens lado a lado */
+    justify-content: center; /* Centralizar conteúdo */
+    align-items: center; /* Alinhar verticalmente */
+    gap: 15px; /* Espaço entre texto e botão */
+}
+.cookie-consent-banner p {
+    margin: 0;
+    flex-grow: 1; /* Permite que o texto ocupe espaço */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+.cookie-consent-banner button {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Estilos básicos para o modo de alto contraste */
+.high-contrast {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.high-contrast a {
+  color: #ffff00 !important; /* Amarelo para links em alto contraste */
+}
+.high-contrast button,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+ background-color: #333 !important;
+ color: #fff !important;
+ border: 1px solid #fff !important;
+}
+.high-contrast .table {
+  border-color: #fff !important;
+}
+.high-contrast th,
+.high-contrast td {
+  border-color: #fff !important;
+}
+.high-contrast .card {
+  background-color: #333 !important;
+  border: 1px solid #fff !important;
+}
+.high-contrast .card-header {
+  background-color: #444 !important;
+  border-bottom: 1px solid #fff !important;
+}
+.high-contrast .alert {
+  background-color: #333 !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+}
+.high-contrast .alert-success {
+  background-color: #224422 !important;
+}
+.high-contrast .alert-danger {
+  background-color: #442222 !important;
+}
+.high-contrast .alert-warning {
+  background-color: #444422 !important;
+}
+.high-contrast .alert-info {
+  background-color: #222244 !important;
+}
+.high-contrast .nav-link {
+  color: #fff !important;
+}
+.high-contrast .nav-link:hover {
+  background-color: #555 !important;
+}
+.high-contrast .btn-primary {
+  background-color: #0056b3 !important;
+  border-color: #0056b3 !important;
+}
+.high-contrast .btn-secondary {
+  background-color: #5a6268 !important;
+  border-color: #545b62 !important;
+}
+.high-contrast .btn-success {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}
+.high-contrast .btn-danger {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}
+.high-contrast .btn-warning {
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+}
+.high-contrast .btn-info {
+  background-color: #17a2b8 !important;
+  border-color: #17a2b8 !important;
+}

@@ -1,48 +1,74 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONG Amor Animal Marilia.</title>
-    <link rel="stylesheet" href="/static/css/default.css">
-    <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
-   
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Login</h3>
-                    </div>
-                    <div class="card-body">
-                        <form action="/login" method="post">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Username:</label>
-                                <input type="text" id="username" name="username" class="form-control" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control" required>
-                            </div>
-
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="card-footer text-center">
-                        <p class="mb-0">
-                            <!--  Add a link to a registration page if needed -->
-                            <!-- <a href="/register">Don't have an account? Register</a> -->
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<%-include("_footer")-%>
+ <!DOCTYPE html>
+ <html>
+ <head>
+     <title>Login</title>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- Removido título duplicado, mantendo o do _header ou um específico -->
+     <link rel="stylesheet" href="/static/css/default.css">
+     <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
+    
+ </head>
+ <body>
+    <a href="/home">Return</a>
+     <div class="container mt-5">
+         <div class="row justify-content-center">
+             <div class="col-md-6">
+                 <div class="card">
+                     <div class="card-header">
+                         <h3 class="text-center">Acesso ao sistema</h3>
+                     </div>
+                     <div class="card-body">
+                         <form action="/auth/login" method="post"> <!-- Adicione a action correta -->
+                             <div class="mb-3">
+                                 <label for="usuario" class="form-label">Usuário:</label> <!-- Corrigido 'for' para 'usuario' -->
+                                 <input type="text" id="usuario" name="usuario" class="form-control" required>
+                             </div>
+ 
+                             <div class="mb-3">
+                                 <label for="senha" class="form-label">Senha:</label> <!-- Corrigido 'for' para 'senha' -->
+                                 <input type="password" id="senha" name="senha" class="form-control" required>
+                                 <!-- Adicionar checkbox para mostrar/ocultar senha -->
+                                 <div class="form-check mt-2">
+                                    <label class="form-check-label" for="mostrarSenhaCheckbox">
+                                        Mostrar Senha
+                                    </label>
+                                     <input class="form-check-input" type="checkbox" id="mostrarSenhaCheckbox">                                    
+                                 </div>
+                             </div>
+ 
+                             <div class="d-grid">
+                                 <button type="submit" class="btn btn-primary">Login</button>
+                             </div>
+                         </form>
+                         <% if (typeof error !== 'undefined' && error) { %>
+                             <div class="alert alert-danger mt-3"><%= error %></div>
+                         <% } %>
+                     </div>
+                     <div class="card-footer text-center">
+                         <p class="mb-0">
+                             <!--  Adicione um link para uma página de registro, se necessário -->
+                             <!-- <a href="/register">Não tem uma conta? Registre-se</a> -->
+                         </p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ 
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         const senhaInput = document.getElementById('senha');
+         const mostrarSenhaCheckbox = document.getElementById('mostrarSenhaCheckbox');
+ 
+         if (senhaInput && mostrarSenhaCheckbox) {
+             mostrarSenhaCheckbox.addEventListener('change', function() {
+                 // Se o checkbox estiver marcado, muda o tipo para 'text', senão para 'password'
+                 senhaInput.type = this.checked ? 'text' : 'password';
+             });
+         }
+     });
+ </script>
+ 
+ <%-include("_footer")-%>
+ 

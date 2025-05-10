@@ -25,7 +25,7 @@ function executeQuery(query) {
 /* tag parceria */
 /* 8 */const query_parceria = `SELECT * FROM parceria;`
 /* 9 */ const sql_adotante = `SELECT * FROM adotante;`
-/* 10 */ const sql_login = `SELECT * FROM login;`
+
 
 
 
@@ -39,11 +39,8 @@ async function executeAllQueries() {
         { name: 'sql_castracao', query: sql_castracao },
         { name: 'procura_se', query: query_procura_se },
         { name: 'parceria', query: query_parceria },
-        { name: 'sql_adotante', query: sql_adotante },
-        { name: 'sql_login', query: sql_login }
-        
-
-    ];
+        { name: 'sql_adotante', query: sql_adotante }
+        ];
 
     const results = {};
     for (const { name, query } of queries) {
@@ -60,10 +57,11 @@ async function executeAllQueries() {
 // Execute all queries and log the results
 executeAllQueries()
     .then(results => {
-        console.log('Results:', results);
+        results,
+        console.log('Todas as TABELAS funcionando.. ')
     })
     .catch(error => {
-        console.error('Error executing queries:', error);
+        console.error('Erro nas TABELAS SQL:', error);
     }); 
     
     module.exports = {

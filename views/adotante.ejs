@@ -5,7 +5,7 @@
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0"><i class="fas fa-users me-2"></i>Adotantes</h1> <!-- Added icon and adjusted margin -->
-        <a href="/form_adotante" class="btn btn-success"> <!-- Changed form to a direct link/button -->
+        <a href="/adotante/form" class="btn btn-success"> <!-- Changed form to a direct link/button -->
             <i class="fas fa-plus me-1"></i>Novo Adotante
         </a>
     </div>
@@ -40,12 +40,7 @@
                                     <% } %>
                                     <!-- Action Buttons Cell -->
                                     <td class="text-center action-buttons"> <!-- Centered buttons -->
-                                        <a href="/form_adotante/<%= adotante.id %>" class="btn btn-sm btn-primary me-1" title="Editar"> <!-- Added margin -->
-                                            <i class="fas fa-edit"></i> <!-- Edit Icon -->
-                                        </a>
-                                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('<%= adotante.id %>')" title="Excluir">
-                                            <i class="fas fa-trash-alt"></i> <!-- Delete Icon -->
-                                        </button>
+                                        <form action="/delete/adotante/<%= adotante._id %>" method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este cadastro?')">
                                     </td>
                                 </tr>
                             <% } %>
@@ -54,7 +49,7 @@
                                 <!-- Message spanning across potential columns -->
                                 <td colspan="100%" class="text-center text-muted"> <!-- Use colspan="100%" or calculate exact columns if needed -->
                                     Nenhum adotante cadastrado no momento.
-                                    <a href="/form_adotante" class="btn btn-sm btn-link">Adicionar um?</a> <!-- Optional link -->
+                                    <a href="/adotante/form" class="btn btn-sm btn-link">Adicionar um?</a> <!-- Optional link -->
                                 </td>
                             </tr>
                         <% } %>
@@ -78,15 +73,6 @@
 
 </div> <!-- End container -->
 
-<script>
-  function confirmDelete(id) {
-    // Consider using a more modern confirmation dialog/modal library if available
-    if (confirm('Tem certeza de que deseja excluir este adotante? Esta ação não pode ser desfeita.')) {
-      // Use fetch API for potentially better UX (no full page reload on failure)
-      // Or keep window.location.href for simplicity
-      window.location.href = `/delete/adotante/${id}`;
-    }
-  }
-</script>
+
 
 <%-include("_footer")-%>

@@ -1,3 +1,14 @@
+<div id="cookie-consent-banner" class="cookie-consent-banner">
+    <p>
+        Nós usamos cookies para melhorar sua experiência de navegação. Bem como pode ocorrer o pedido de alguns dados sensiveis em algumas páginas do site. Ao continuar a navegar, você concorda com a nossa <a href="privacy/policy" style="color: #a7d7a9;">Política de Privacidade.</a>.
+        <!-- Adapte o texto e o link -->
+             <% if (typeof showCookieBanner !== 'undefined' && showCookieBanner) { %>
+            <%- include("_cookie-banner") %>
+        <% } %>
+    
+    </p>
+    <button id="accept-cookie-btn">Entendi</button>
+</div
     <footer> <!-- Mantendo a tag footer -->
         <div class="footer-content"> <!-- Adicionando um container para o conteúdo do footer -->
             <p class="footer-copyright"> <!-- Adicionando classe para o parágrafo de copyright -->
@@ -27,6 +38,8 @@
     <script src="/static/js/banner.js"></script>
     <script src="/static/js/adotante.js"></script>
     <script src="/static/js/constraste.js"></script>
+    <script src="/static/js/relatorio.js"></script>
+    
 
   
 
