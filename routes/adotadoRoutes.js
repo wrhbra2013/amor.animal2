@@ -27,35 +27,29 @@ router.get('/', (req, res) => {
 
    router.get('/form', (req, res) => res.render('form_adotado'));
 
-router.post('/form', uploadAdotado.single('imagem'), (req, res) => {
-    let destination = req.file.destination;
-   let temp_file = req.file.filename;
-   //Transformar arquivo em objeto  sequencial 
-   const contagem= fs.readdirSync(destination).length
-   // Numero aleatorio
-   //  let numero = Math.floor(Math.random() * 99999); 
-   let  final_file = contagem + path.extname(req.file.originalname);  
-   console.log('Final_file ->', final_file);
-   fs.rename(destination + temp_file, destination + final_file, error => {
-   if (error) return res.render('error', { error: error })
-   console.log('Arquivo ENVIADO.')
-   });
-   console.log('nome do arquivo', destination + final_file);
-   let forms = {
-   arquivo: final_file,
-   nome: req.body.nomePet,
-   idade: req.body.idadePet,
-   especie: req.body.especie,
-   porte: req.body.porte,
-   caracteristicas: req.body.caracteristicas,
-   responsavel: req.body.tutor,
-   contato: req.body.contato,
-   whatsapp: req.body.whatsapp
-   };
-   console.log(forms);
-   insert_adotado(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato, forms.whatsapp);
-   res.redirect('/home');
-   });
+router.post('/form', uploadAdotado.single('arquivo'), (req, res) => {
+    if (!req.file) {
+        return res.render('error', { error: 'Nenhum arquivo foi enviado.' });
+        }
+        let dest = req.file.destination;
+        let temp = req.file.filename;
+        let final = req.file.originalname;
+        
+        fs.rename(dest + temp, dest + final, error => {
+        if (error) return res.render('error', { error: error });
+        console.log('Arquivo ENVIADO.');
+        });
+        console.log(dest, temp, final)
+        const form5 = {
+        foto: final,
+        pet: req.body.nome_pet,
+        tutor: req.body.nome_tutor,
+        historia: req.body.historia
+        };
+        console.log(form5);
+        insert_adotado(form5.foto, form5.pet, form5.tutor, form5.historia);
+        res.redirect('/home');
+        });
      
    router.post('/delete/adotado/:id/:arq', isAdmin, (req, res) => {
        const id = req.params.id;

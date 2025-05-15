@@ -9,7 +9,7 @@
      </div>
  
      <div class="form-container card p-4 shadow-sm"> <!-- Added shadow for consistency -->
-         <form action="" method="post" class="row g-3" id="form-parceria"> <!-- Added action and ID -->
+         <form action="/parceria/form" method="post" class="row g-3" id="form-parceria"> <!-- Added action and ID -->
              <div class="col-md-6">
                  <label for="empresa" class="form-label">Empresa <span class="text-danger">*</span></label> <!-- Added asterisk -->
                  <input type="text" name="empresa" id="empresa" placeholder="Nome da Empresa" class="form-control" required/>
@@ -30,9 +30,9 @@
              <div class="col-md-6">
                  <label for="telefone" class="form-label">Telefone <span class="text-danger">*</span></label> <!-- Added asterisk -->
                  <!-- Consider adding pattern for basic validation or using a JS masking library -->
-                 <input type="tel" name="telefone" id="telefone" placeholder="(00) 00000-0000" class="form-control" required/>
+              
                  <!-- Removed inline JS formatting - better handled by a library or pattern -->
-                 <!-- <input type="tel" name="telefone" id="telefone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" class="form-control" required/> -->
+                 <input type="tel" name="telefone" id="telefone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" class="form-control" required/>
              </div>
              <div class="col-md-6">
                  <label for="whatsapp" class="form-label">Disponível no Whatsapp?</label> <!-- Clearer label -->

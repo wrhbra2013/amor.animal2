@@ -2,34 +2,42 @@
    Base Styles & Variables (Consider using CSS variables for colors)
    ========================================================================== */
 
-:root {
-  /* Define base colors - makes high contrast easier later */
-  --bg-color: #f8fafd;
-  --text-color: black;
-  --container-bg: #fff;
-  --container-shadow: rgba(0, 0, 0, 0.1);
-  --container-border: transparent; /* No border by default */
-  --heading-color: #333;
-  --paragraph-color: #555;
-  --link-color: #007bff;
-  --link-hover-decoration: underline;
-  --border-color: #ddd;
-  --table-header-bg: #f2f2f2;
-  --nav-bg: #343a40;
-  --nav-text: #fff;
-  --footer-bg: #f0f0f0;
-  --footer-text: #555;
-  --input-bg: #fff; /* Default input background */
-  --input-text: #212529; /* Default input text (Bootstrap-like) */
-  --input-border: #ced4da; /* Default input border (Bootstrap-like) */
-  --button-bg: #28a745; /* Example .button class bg */
-  --button-text: #fff;
-  --button-hover-bg: #218838; /* Darker green for hover */
+/* /home/wander/amor.animal2/static/css/default.css */
+:root {  
+  --bg-color: whitesmoke; /* Linen - um bege muito claro e suave para o fundo geral */
+  --text-color: black; /* Cinza escuro para boa legibilidade */
+  --container-bg:#FCF6F5; /* Branco puro para contêineres, criando contraste com o fundo Linen */
+  --container-shadow: rgba(0, 0, 0, 0.08); /* Sombra sutil */
+  --container-border: transparent; /* Sem borda visível por padrão nos contêineres */
+  
+  --heading-color: #d66d6d; /* Cinza um pouco mais suave para cabeçalhos */
+  --paragraph-color: #050505; /* Cinza padrão para parágrafos */
+  
+  --link-color: #3294cc; /* Azul acinzentado suave para links */
 
-  /* High Contrast Variables */
+    --link-hover-decoration: underline;
+  
+  --border-color: #E0E0E0; /* Borda geral um pouco mais suave (ex: para hr, tabelas) */
+  --table-header-bg: #f7f7f7; /* Cabeçalho de tabela bem claro, quase branco */
+  
+  --nav-bg: #343a40; /* Navegação escura para contraste (pode ser suavizada se preferir) */
+  --nav-text: #fff;
+  
+  --footer-bg: #f9f9f9; /* Footer bem claro, quase branco */
+  --footer-text: #555;
+  
+  --input-bg: #fff;
+  --input-text: #495057;
+  --input-border: #ced4da; /* Cinza padrão para bordas de input */
+  
+  --button-bg: #A3D2A1; /* Verde pastel para botões */
+  --button-text: #2F4F4F; /* Texto escuro (cinza esverdeado) para contraste no botão */
+  --button-hover-bg: #8FBC8F; /* Verde pastel um pouco mais escuro para hover */
+
+  /* Variáveis de Alto Contraste (mantenha como estão) */
   --hc-bg-color: black;
   --hc-text-color: white;
-  --hc-container-bg: #1a1a1a; /* Consistent dark container */
+  --hc-container-bg: #1a1a1a;
   --hc-container-shadow: rgba(255, 255, 255, 0.2);
   --hc-container-border: #f7f4f4;
   --hc-heading-color: white;
@@ -37,16 +45,16 @@
   --hc-link-color: rgb(69, 216, 216);
   --hc-link-hover-decoration: underline;
   --hc-border-color: #555;
-  --hc-table-header-bg: #222; /* Darker table header */
+  --hc-table-header-bg: #222;
   --hc-nav-bg: #000;
   --hc-nav-text: white;
   --hc-footer-bg: black;
-  --hc-footer-text: #bbb; /* Lighter footer text */
+  --hc-footer-text: #bbb;
   --hc-input-bg: #333;
   --hc-input-text: white;
   --hc-input-border: #888;
   --hc-input-placeholder: rgb(194, 190, 190);
-  --hc-button-bg: #0056b3; /* Using the primary blue from later styles */
+  --hc-button-bg: #0056b3;
   --hc-button-text:rgb(69, 216, 216);
   --hc-button-hover-bg: #004085;
 }
@@ -529,7 +537,7 @@ img {
   height: auto;
   display: block; /* Prevents extra space below image */
   /* margin: 0 auto; */ /* Remove global centering, apply where needed */
-  vertical-align: middle; /* Good practice */
+  /*vertical-align: middle; /* Good practice */
 }
 
 /* ==========================================================================
@@ -624,32 +632,34 @@ body.high-contrast .text-muted {
 
 .mobile-menu {
   display: none; /* Escondido por padrão em telas grandes */
-  background-color: var(--nav-bg); /* Ou outra cor que desejar */
-  color: var(--nav-text);
+   /* background-color: var(--nav-bg);  */
+  background-color:#256db9; 
+  color: var(--nav-text); 
   border: 1px solid var(--nav-text);
   padding: 8px 12px;
-  font-size: 1.5em;
+  font-size: small;  
   cursor: pointer;
   position: absolute; /* Ou ajuste conforme seu layout */
   top: 15px;
   right: 15px;
-  z-index: 1001; 
-  
+  z-index: 1001;   
   
 }
 
 .mobile-menu.active { /* Classe para mostrar o menu */
    display: block;
-  animation: slide-in 0.3s ease-in-out forwards; /* 
-  Adiciona animação */
+   animation: slide-in 0.3s ease-in-out forwards; 
+  
+
+  /* Adiciona animação */ 
+  position: fixed;
+  margin-top: 60px;
   top: 0;
   left: 0;
-  width: 80%;
+  width: 100%;
   height: 100vh;
-  overflow-y: hidden; /* Permite rolagem se o conteúdo for longo */
-  padding-top: 60px; /* Espaço para o botão de fechar */
-  font-size: medium;
-  
+  overflow-y: auto; /* Permite rolagem se o conteúdo for longo */
+  padding-top: 10px; /* Espaço para o botão de fechar */  
 }
 
 .mobile-menu ul {
@@ -660,7 +670,7 @@ margin: 0;
 
 .mobile-menu li {
 margin-bottom: 20px;
-background-color: grey;
+background-color: whitesmoke;
 }
 
 .mobile-menu li:hover{
@@ -676,7 +686,8 @@ padding: 10px;
 }
 
 .mobile-menu a:hover {
-background-color: rgba(255, 255, 255, 0.1); /* Um leve destaque no hover */
+background-color: whitesmoke; /* Um leve destaque no hover */
+color: #000;
 }
 
 /* Define a animação de slide-in */
@@ -812,7 +823,7 @@ body.high-contrast #high-contrast-toggle { /* Example if body class changes */
       max-width: 100%;
   }
   */
-}
+
 
 /* Another breakpoint example */
 @media (max-width: 600px) {
@@ -861,9 +872,9 @@ body.high-contrast #high-contrast-toggle { /* Example if body class changes */
 /* .main-navbar button { background-color: red; } */
 
 /* Better example (if nav has buttons): */
-.main-navbar .nav-button {
+/* .main-navbar .nav-button {
    /* Styles specific to buttons *inside* the navbar */
-}
+
 
 .img-fluid-rouded{
   width: 200px;
@@ -1180,3 +1191,22 @@ body.high-contrast .table td {
   background-color: #17a2b8 !important;
   border-color: #17a2b8 !important;
 }
+.noticia-img-fixed-height,
+.historia-img-fixed-height,
+.procura-img-fixed-height {
+    height: 200px; /* Ajuste a altura conforme necessário */
+    object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+    width: 100%;
+}
+
+/* Para imagens no photobanner da seção de adoção */
+.adocao-img {
+    height: 300px; /* Ajuste a altura conforme necessário */
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Para o placeholder no photobanner, se necessário um estilo específico */
+/* .adocao-img.placeholder-img {
+    /* Estilos adicionais se o placeholder precisar de tratamento diferente */
+

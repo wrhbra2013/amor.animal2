@@ -43,10 +43,9 @@ function create_adotante() {
     bairro text,
     cidade text,
     estado text,    
-    idPet integer NOT NULL,   
-    nomePet text NOT NULL,     
-    FOREIGN KEY (idPet) REFERENCES adocao (id),
-    FOREIGN KEY (nomePet) REFERENCES adocao (nome)
+    idPet integer NOT NULL,        
+    FOREIGN KEY (idPet) REFERENCES adocao (id)
+    
 );`
 const sql = db.run(adotante,   error => {
     if (error)   console.log(error)
@@ -165,49 +164,36 @@ create_home();
 // ... (outras funções create_*) ...
 
 function create_login() {
-    const createTableSql = `CREATE TABLE IF NOT EXISTS login(
+    const login = `CREATE TABLE IF NOT EXISTS login(
         id INTEGER PRIMARY KEY,
         origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
         usuario TEXT UNIQUE NOT NULL,
         senha TEXT NOT NULL,
-        isAdmin BOOLEAN DEFAULT FALSE
+        isAdmin BOOLEAN DEFAULT TRUE
     );`;
+    const sql =  db.run(login, (error) => {
+        if (error)  console.error("Erro ao criar tabela 'login':", error.message);
+        console.log('Tabela: Login ATIVA.');  
 
-    db.run(createTableSql, (err) => {
-        if (err) {
-            console.error("Erro ao criar tabela 'login':", err.message);
-            return;
+      })
+      const checkUser = `SELECT COUNT(*) AS count FROM login WHERE usuario = '@admin';`;
+      db.get(checkUser, [], (error, row) => {
+        if (error) {
+          console.error("Erro ao verificar usuário padrão:", error.message);
+          return;
         }
-        console.log("Tabela 'login' criada ou já existente.");
-
-        const adminUsername = '@admin';
-        const adminPassword = '@amoranimal2025'; // Senha em texto 
-        const isAdmin = true 
-
-        // Verifica se já existe um usuário '@admin'
-        db.get("SELECT COUNT(*) AS count FROM login WHERE usuario = ?", [adminUsername], (err, row) => {
-            if (err) {
-                console.error(`Erro ao verificar usuário ${adminUsername}:`, err.message);
-                return;
-            }
-
-            if (row.count === 0) {            
-
-                    const insertAdminSql = `INSERT INTO login (usuario, senha, isAdmin) VALUES (?, ?, ?)`;
-                    db.run(insertAdminSql, [adminUsername, adminPassword, isAdmin], (insertErr) => {
-                        if (insertErr) {
-                            // Este erro ainda pode ocorrer se houver uma condição de corrida,
-                            // mas é menos provável com a verificação correta.
-                            console.error(`Erro ao inserir usuário ${adminUsername}:`, insertErr.message);
-                            return;
-                        }
-                        console.log(`Usuário '${adminUsername}' criado com sucesso.`);
-                    });
-                }           
-             });
-      }
-
-    )};
+        if (row.count > 0) {
+          console.log("Usuário padrão já existe.");
+        } else {
+            const insert = `INSERT INTO  login (origem, usuario, senha, isAdmin) VALUES (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime'), '@admin', '@admin', 1);`
+             db.run(insert, (error) => {
+                    if (error)  console.error("Erro ao inserir usuário padrão:", error.message);
+                               console.log('Usuário padrão inserido com sucesso.');
+        })
+       }
+    })
+     return  sql;
+};
 
 
 
@@ -218,12 +204,12 @@ create_login();
 
 
 module.exports ={
+    create_home: create_home,
     create_adocao: create_adocao,
     create_adotante: create_adotante,
     create_adotado: create_adotado,
     create_castracao: create_castracao,
     create_procura_se: create_procura_se,
-    create_parceria: create_parceria,
-     create_home: create_home,
+    create_parceria: create_parceria,    
      create_login: create_login
 }

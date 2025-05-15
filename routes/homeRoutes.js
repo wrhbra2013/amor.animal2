@@ -6,6 +6,8 @@
   const fs = require('fs');
   const path = require('path');
   const { isAdmin } = require('../middleware/auth');
+  const multer = require('multer');
+  const { insert_home } = require('../database/insert');
   const { uploadHome } = require('../utils/multerConfig');
  
   const router = express.Router();
@@ -37,9 +39,22 @@ res.render('error', { error: error });
  router.get('/home', checkCookieConsent,(req, res)=>{
     executeAllQueries()
     .then((results) => {
-    const { home, adocao, adotante, adotado, castracao, sql_castracao, procura_se, parceria, doacao } = results;
-    res.render('home', { model1: home, model2: adocao, model3: adotante, model4: adotado, model5: castracao, 
-    model6: sql_castracao, model7: procura_se, model8: parceria });    
+    const { home, adocao, adocaoCount, adotante, adotanteCount, adotado, adotadoCount, castracao, castracaoCount, procura_se, procura_seCount, parceria, parceriaCount } = results;
+    res.render('home', { 
+      model1: home, 
+      model2: adocao, 
+      model3: adocaoCount, 
+      model4:adotante, 
+      model5: adotanteCount,
+      model6: adotado,
+      model7:  adotadoCount,
+      model8: castracao, 
+      model9: castracaoCount, 
+      model10: procura_se, 
+      model11 : procura_seCount,
+      model12: parceria,
+      model13: parceriaCount
+     });    
     })
     .catch((error) => {
     res.render('error', { error: error });
@@ -49,13 +64,17 @@ res.render('error', { error: error });
 
  
   // Route for '/home' (Consider redirecting /home to / or removing it)
-  
+ router.get('/form',(req,res)=>{
+  res.render('form_home')
+ }
+) 
  
   // POST /upload route remains largely the same, ensure db.run uses correct table/columns
-  router.post('/form', isAdmin, uploadHome.single('image'),  (req, res) => { // Added async
+router.post('/form', isAdmin, uploadHome.single('arquivo'),  (req, res) => { 
 let dest = req.file.destination;
 let temp = req.file.filename;
 let final = req.file.originalname;
+console.log(dest, temp, final)
 
 fs.rename(dest + temp, dest + final, error => {
 if (error) return res.render('error', { error: error });
@@ -65,9 +84,11 @@ console.log(dest, temp, final)
 form10 ={
 arquivo: final,
 titulo: req.body.titulo,
-mensagem: req.body.mensagem
+mensagem: req.body.mensagem,
+link: req.body.link
 }
-insert_home(form10.arquivo, form10.titulo, form10.mensagem)
+insert_home(form10.arquivo, form10.titulo, form10.mensagem, 
+  form10.link)
 res.redirect('/home')
 });
 

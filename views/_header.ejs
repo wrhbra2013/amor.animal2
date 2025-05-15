@@ -14,13 +14,17 @@
       <!-- Main Header and Navigation -->
       <header class="main-header">
         <main class="main-header-controls">
-          <button id="contrast-toggle-button" aria-label="Alternar alto contraste" style="background-color: transparent; border: none; cursor: pointer;"><img src="/static/css/favicon/contrast.png" alt="Alto contraste"></button>
+          <main class="main-header-controls">
+            <button id="contrast-toggle-button" aria-label="Alternar alto contraste"   style="background-color: transparent; border: none; cursor: pointer;"><img src="/static/css/favicon/contrast.png" alt="Alto contraste"></button>
+          </main>
+       
           <% if (user ) {%>      
-            
-            <a href="/relatorio/" class="login-button">Relatorios</a>
-          
-            <a href="/auth/logout" class="login-button">Sair</a>
             <span style="white-space: nowrap; margin-left: 10px; font-weight: bold;">Administrador</span>
+
+            <a href="/relatorio/" class="login-button">Relatorios</a>
+         
+            <a href="/auth/logout" class="login-button">Sair</a>
+          
           <% } else { %>
             <a href="/auth/login" class="login-button">Acesso</a>
           <% } %>
@@ -45,6 +49,9 @@
                       <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
                       <li><a href="/parceria">Parceria</a></li>   <!-- Use absolute paths -->
                       <li><a href="/sobre">Sobre</a></li>       <!-- Use absolute paths -->
+                      <% if (user) { %>
+                        <li><a href="/admin/form">Novo Usuário</a></li>
+                      <%}%>                    
                   </ul>
                 
               </nav>
@@ -57,6 +64,9 @@
                     <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
                     <li><a href="/parceria">Parceria</a></li>   <!-- Use absolute paths -->
                     <li><a href="/sobre">Sobre</a></li>       <!-- Use absolute paths -->
+                    <% if (user) { %>
+                      <li><a href="/admin/form">Novo Usuário</a></li>
+                    <%}%>           
                 </ul>
               </nav>
           </div> <!-- Fechamento do nav-wrapper -->

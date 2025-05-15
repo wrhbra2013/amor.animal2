@@ -1,14 +1,41 @@
 <div id="cookie-consent-banner" class="cookie-consent-banner">
     <p>
-        Nós usamos cookies para melhorar sua experiência de navegação. Bem como pode ocorrer o pedido de alguns dados sensiveis em algumas páginas do site. Ao continuar a navegar, você concorda com a nossa <a href="privacy/policy" style="color: #a7d7a9;">Política de Privacidade.</a>.
-        <!-- Adapte o texto e o link -->
-             <% if (typeof showCookieBanner !== 'undefined' && showCookieBanner) { %>
-            <%- include("_cookie-banner") %>
-        <% } %>
-    
+        Nós usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa <a href="privacy/policy" style="color: #a7d7a9;">Política de Privacidade</a>.
     </p>
     <button id="accept-cookie-btn">Entendi</button>
-</div
+</div>
+
+<script>
+    // Espera o DOM estar completamente carregado
+    document.addEventListener('DOMContentLoaded', function() {
+        // Seleciona o banner e o botão
+        const cookieBanner = document.getElementById('cookie-consent-banner');
+        const acceptCookieBtn = document.getElementById('accept-cookie-btn');
+
+        // Verifica se o usuário já aceitou os cookies anteriormente
+        if (localStorage.getItem('cookiesAccepted') === 'true') {
+            if (cookieBanner) {
+                cookieBanner.style.display = 'none';
+            }
+        } else {
+            if (cookieBanner) {
+                cookieBanner.style.display = 'block'; // Ou 'flex', dependendo do seu CSS
+            }
+        }
+
+        // Adiciona um ouvinte de evento para o clique no botão
+        if (acceptCookieBtn) {
+            acceptCookieBtn.addEventListener('click', function() {
+                if (cookieBanner) {
+                    cookieBanner.style.display = 'none';
+                }
+                // Armazena a aceitação no localStorage para não mostrar novamente
+                localStorage.setItem('cookiesAccepted', 'true');
+            });
+        }
+    });
+</script>
+
     <footer> <!-- Mantendo a tag footer -->
         <div class="footer-content"> <!-- Adicionando um container para o conteúdo do footer -->
             <p class="footer-copyright"> <!-- Adicionando classe para o parágrafo de copyright -->
@@ -31,14 +58,14 @@
     <script src="/static/js/doacao.js"></script>
     <script src="/static/js/table.js"></script>
     <script src="/static/js/whats.js"></script>
-    <script src="/static/js/cookie,js"></script>
     <script src="/static/js/adote.js"></script>
     <script src="/static/js/cep.js"></script>
     <script src="/static/js/photobanner.js"></script>
-    <script src="/static/js/banner.js"></script>
-    <script src="/static/js/adotante.js"></script>
+      <script src="/static/js/adotante.js"></script>
     <script src="/static/js/constraste.js"></script>
     <script src="/static/js/relatorio.js"></script>
+    <script src="/static/js/admin.js"></script>
+    
     
 
   

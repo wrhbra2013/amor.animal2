@@ -5,10 +5,9 @@ const { executeAllQueries } = require('../database/queries');
 const { insert_adotante } = require('../database/insert'); // Example
 const { db } = require('../database/database');
 const fs = require('fs');
-const path = require('path');
 const { isAdmin } = require('../middleware/auth');
 // Import the specific upload instance for adocao
-const { uploadAdotante } = require('../utils/multerConfig'); // <-- Import specific instance
+
 
 const router = express.Router();
 // const key = 'adocao'; // Key mi
@@ -16,8 +15,8 @@ const router = express.Router();
 router.get('/', (req, res) =>{
     executeAllQueries()
   .then((results) =>{
-  const{sql_adotante}=results;
-  res.render('adotante', { model: sql_adotante
+  const{adotante}=results;
+  res.render('adotante', { listaPrincipal: adotante
   });   
   })
   .catch((error) => {
@@ -25,12 +24,13 @@ router.get('/', (req, res) =>{
   });
 });
 
-router.get('/form', (req, res) => res.render('form_adotante'));
+router.get('/form/:idPet', (req, res) => {
+    const idPet = req.params.idPet;    
+    res.render('form_adotante',{idPet: idPet})})
 
-
-
+ 
 router.post('/form', (req, res)=>{
-    const form3 ={
+     const form3 ={
         quiz1: req.body.q1,
         quiz2: req.body.q2,
         quiz3: req.body.q3,
@@ -43,9 +43,11 @@ router.post('/form', (req, res)=>{
         complemento: req.body.complemento,
         bairro:  req.body.bairro,
         cidade:  req.body.cidade,
-        estado:  req.body.estado  
+        estado:  req.body.estado,
+        idPet: req.body.idPet        
         };  
-        insert_adotante( form3.quiz1, form3.quiz2, form3.quiz3, form3.tutor, form3.contato, form3.whats, form3.cep, form3.endereco, form3.numero, form3.complemento, form3.bairro, form3.cidade, form3.estado);
+        console.log(form3)
+        insert_adotante( form3.quiz1, form3.quiz2, form3.quiz3, form3.tutor, form3.contato, form3.whats, form3.cep, form3.endereco, form3.numero, form3.complemento, form3.bairro, form3.cidade, form3.estado, form3.idPet);
         res.redirect('/home');
    
    });
@@ -65,4 +67,3 @@ module.exports = router;
 
 
 
-module.exports = router;

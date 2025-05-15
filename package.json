@@ -10,10 +10,12 @@
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "start": "node index.js",
-      "build": "webpack",
+      "build:js": "webpack",
+      "build": "npm run build:js && bundle exec jekyll build",     
       "predeploy": "npm run build",
       "deploy": "gh-pages -d build",
-      "app": "nodemon index.js"
+      "app": "nodemon index.js",
+      "init": "node index.js"
    },
    "author": "wander-2025",
    "license": "MIT",
@@ -33,7 +35,8 @@
       "multer": "^1.4.5-lts.1",
       "nodemon": "^3.1.10",
       "pdfkit": "^0.17.0",
-      "prompt-sync": "^4.2.0"
+      "prompt-sync": "^4.2.0",
+      "webpack-cli": "^6.0.1"
    },
    "homepage": "https://wrhbra2013.github.io/amor.animal2/"
 }

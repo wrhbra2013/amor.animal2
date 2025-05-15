@@ -22,37 +22,47 @@ const  sql = db.run(insert, values,  error => {
  return sql;
 };
 
-function insert_adotante(q1, q2, q3, nome, contato,whatsapp, cep, endereco, numero, complemento, bairro, cidade, estado){
+function insert_adotante(q1, q2, q3,  nome, contato,whatsapp, cep, endereco, numero, complemento, bairro, cidade, estado, idPet){
   const insert = `INSERT INTO adotante (
-  origem,
-  q1,
-  q2,
-  q3,
-  qTotal,
-   nome,
-   contato,
-   whatsapp,
-   cep,
-   endereco,
-   numero,
-   complemento,
-   bairro,
-   cidade, 
-   estado,
-   idPet,
-   nomePet
-    ) 
-   VALUES (   
-   strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-     );`
-   const qTotal = parseInt(q1) + parseInt(q2) + parseInt(q3) ;
-   const values = [`${q1}`, `${q2}`, `${q3}`, `${qTotal}`,`${nome}`, `${contato}`, `${whatsapp}`,  `${cep}`, `${endereco}`, `${numero}`, `${complemento}`, `${bairro}`, `${cidade}`, `${estado}`];
-   const sql = db.run( insert,  values,  error => {
-    if (error)  return console.log(error)
-      console.log("Dados de  interessados INSERIDO.")
-    });
+    origem, 
+    q1, 
+    q2, 
+    q3, 
+    qTotal, 
+    nome, 
+    contato, 
+    whatsapp, 
+    cep, 
+    endereco, 
+    numero, 
+    complemento, 
+    bairro, 
+    cidade, 
+    estado, 
+    idPet
+  ) VALUES (strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+  // Certifique-se que q1, q2, q3, numero, idPet são números.
+  // Se vierem de um formulário web, podem ser strings e precisarão de parseInt().
+  const qTotal = parseInt(q1) + parseInt(q2) + parseInt(q3);
+
+  // Passe os valores com seus tipos corretos (números como números)
+  const values = [
+    parseInt(q1), parseInt(q2), parseInt(q3), qTotal,
+    nome, contato, whatsapp, cep, endereco, parseInt(numero), complemento,
+    bairro, cidade, estado, parseInt(idPet) // Garanta que idPet seja um número
+  ];
+
+  const sql = db.run( insert,  values,  function(error) { // Use function() para ter acesso a this.lastID
+    if (error) {
+      console.error("Erro ao inserir adotante:", error.message); // Log mais detalhado
+      return;
+    }
+    console.log(`Dados de interessados INSERIDO com ID: ${this.lastID} para Pet ID: ${idPet}`);
+  });
   return sql;
 };
+
 
 
 function insert_adotado(arquivo, pet, tutor, historia){
@@ -143,20 +153,41 @@ function insert_parceria(empresa, localidade, proposta, representante, telefone,
 };
 
 
-function insert_home(arquivo, titulo,mensagem)
+function insert_home(arquivo, titulo,mensagem, link)
 {
   const insert = `INSERT INTO home (
   origem,
   arquivo,
   titulo,
-  mensagem
-   ) VALUES (strftime('%d/%m/%Y'), ?, ?, ?);`
-  const values = [ `${arquivo}` ,`${titulo}`, `${mensagem}` ];
+  mensagem,
+  link
+   ) VALUES (strftime('%d/%m/%Y'), ?, ?, ?, ?);`
+  const values = [ `${arquivo}` ,`${titulo}`, `${mensagem}`, `${link}`
+      ];
 
   const sql = db.run( insert,  values,  error => {
     if (error)  return console.log(error)
       console.log("Dados da Primeira Pagina INSERIDO.")
     });
+ return sql;
+}
+
+function insert_login(usuario, senha) {
+  const insert = `INSERT INTO login (
+    origem,
+    usuario,
+    senha,
+    isAdmin
+) VALUES (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime'), ?, ?, ?);`;
+  const values = [`${usuario}`, `${senha}`,  true];
+
+  const sql = db.run(insert, values, function(error) {
+      if (error) {
+          console.error("Erro ao inserir usuário:", error.message);
+          return;
+      }
+      console.log(`Usuário "${usuario}" inserido com ID: ${this.lastID}`);
+  });
  return sql;
 }
 
@@ -170,6 +201,6 @@ module.exports = {
   insert_parceria: insert_parceria,
   insert_procura_se: insert_procura_se,
   insert_home: insert_home,
-
-}
+  insert_login: insert_login
+  }
  

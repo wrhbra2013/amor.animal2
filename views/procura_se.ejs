@@ -32,7 +32,7 @@
                              <th>Tutor</th>
                              <th>Contato</th>
                              <th>Whatsapp</th>
-                             <% if (typeof user !== 'undefined' && user.isAdmin) { %>
+                             <% if (user) { %>
                                  <th class="text-center">Ações</th>
                              <% } %>
                          </tr>
@@ -57,7 +57,7 @@
                              <td><%= procura_se.tutor %></td>
                              <td><%= procura_se.contato %></td>
                              <td><%= procura_se.whatsapp %></td>
-                             <% if (typeof user !== 'undefined' && user.isAdmin) { %>
+                             <% if (user) { %>
                                  <td class="text-center">
                                  <form action="/delete/procura_se/<%= procura_se._id %>/<%= procura_se.arquivo %>" method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este anúncio?')">
                                          <button type="submit" class="btn btn-danger btn-sm" title="Excluir Anúncio">

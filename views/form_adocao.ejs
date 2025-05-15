@@ -1,45 +1,105 @@
 <%- include("_header") -%>
-<div class="home">
-    <h1>Cadastro de Adoção</h1> 
-</div>
-<div class="artigo">
-    <button><a href="/adocao">Cancelar</a></button>  
-  </div>
 
-    <div class="artigo">
-  
-      <form action=" " enctype="multipart/form-data" method="post">
-        <img id="frame" src="" width="100px" height="100px" alt="carregando..."/>
-        <br>
-      <input type="file" name="arquivo" onchange="preview()" required>   
-      <input type="reset" value="Limpar" onclick="document.getElementById('frame').src=''" />
-  
-          <input type="text" placeholder="Nome  Pet" id="nomePet" name="nomePet" required>
-          <input type="number" placeholder="Idade Pet" id="idadePet" name="idadePet">
-          <select id="especie" name="especie">
-              <option value="" required>Especie</option>
-              <option value="canino">Canino</option>
-              <option value="felino">Felino</option>
-          </select>
-          <select id="porte" name="porte">
-              <option value="">Porte</option>
-              <option value="pequeno">Pequeno</option>
-              <option value="medio">Medio</option>
-              <option value="grande">Grande</option>
-          </select>
-          <textarea id="caracteristicas" name="caracteristicas" rows="4" cols="20"
-              placeholder="Caracteristicas Pet"></textarea>
-          <input type="text" placeholder="Nome Responsável" id="tutor" name="tutor" required>
-          <input  type ="tel"  name="contato" id="phone" onInput="this.value = phoneFormat(this.value)"  placeholder="Telefone (00) 00000- 0000" required/>   
-          <select name="whatsapp" id="whatsapp">
-            <option value=" ">Whatsapp</option>
-            <option value="sim">Aceito</option>
-            <option value="nao">Não</option>  
-          </select>
-            <input type="submit" value="Cadastrar" class="btn btn-default"
-              onclick="confirm('Os dados estão atualizados?')">
-      </form>
-  </div>
-  <a href="/relatorio/adocao" class="btn btn-primary mt-3">Gerar Relatório</a>
-  
-  <%- include("_footer")-%>
+<div class="container mt-5">
+<h1 class="mb-4">Cadastro de Adoção</h1>
+
+<div class="mb-3">
+<a href="/adocao/form" class="btn btn-secondary">Cancelar</a>
+</div>
+
+<div class="card">
+<div class="card-body">
+
+<form action="/adocao/form" class="container" enctype="multipart/form-data" method="post">
+<div class="mb-3">
+<label for="arquivo" class="form-label">Foto do Pet</label>
+<div id="image-preview-container" class="mb-2">
+<img id="frame" src="" alt="Pré-visualização da imagem" style="max-width: 200px; max-height: 200px;">
+<span id="preview-placeholder"></span>
+</div>
+<input type="file" class="form-control" name="arquivo" id="arquivo" onchange="preview()">
+</div>
+
+<div class="mb-3">
+<label for="nomePet" class="form-label">Nome do Pet</label>
+<input type="text" class="form-control" id="nomePet" name="nomePet" placeholder="Nome do Pet" required>
+</div>
+
+<div class="mb-3">
+<label for="idadePet" class="form-label">Idade do Pet</label>
+<input type="number" class="form-control" id="idadePet" name="idadePet" placeholder="Idade do Pet">
+</div>
+
+<div class="mb-3">
+<label for="especie" class="form-label">Espécie</label>
+<select class="form-select" id="especie" name="especie" required>
+<option value="" selected disabled>Selecione a Espécie</option>
+<option value="canino">Canino</option>
+<option value="felino">Felino</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label for="porte" class="form-label">Porte</label>
+<select class="form-select" id="porte" name="porte">
+<option value="" selected disabled>Selecione o Porte</option>
+<option value="pequeno">Pequeno</option>
+<option value="medio">Médio</option>
+<option value="grande">Grande</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label for="caracteristicas" class="form-label">Características do Pet</label>
+<textarea class="form-control" id="caracteristicas" name="caracteristicas" rows="4" placeholder="Características do Pet"></textarea>
+</div>
+
+<div class="mb-3">
+<label for="tutor" class="form-label">Nome do Responsável</label>
+<input type="text" class="form-control" id="tutor" name="tutor" placeholder="Nome do Responsável" required>
+</div>
+
+<div class="mb-3">
+<label for="phone" class="form-label">Telefone</label>
+<input type="tel" class="form-control" name="contato" id="phone" oninput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" required>
+</div>
+
+<div class="mb-3">
+<label for="whatsapp" class="form-label">Whatsapp</label>
+<select class="form-select" name="whatsapp" id="whatsapp">
+<option value="" selected disabled>Aceita Whatsapp?</option>
+<option value="sim">Sim</option>
+<option value="nao">Não</option>
+</select>
+</div>
+
+<button type="submit" class="btn btn-primary" onclick="return confirm('Os dados estão atualizados?')">Cadastrar</button>
+<button type="reset" class="btn btn-secondary" onclick="document.getElementById('frame').src=''; document.getElementById('preview-placeholder').textContent = ''">Limpar</button>
+</form>
+</div>
+</div>
+
+<a href="/relatorio/adocao" class="btn btn-outline-secondary mt-3">Gerar Relatório</a>
+</div>
+
+<script>
+function preview() {
+const frame = document.getElementById('frame');
+const file = document.querySelector('input[type=file]').files[0];
+const reader = new FileReader();
+
+reader.onloadend = function () {
+frame.src = reader.result;
+document.getElementById('preview-placeholder').textContent = '';
+}
+
+if (file) {
+reader.readAsDataURL(file);
+} else {
+frame.src = "";
+document.getElementById('preview-placeholder').textContent = 'Nenhuma imagem selecionada';
+}
+}
+</script>
+
+<%- include("_footer") -%>

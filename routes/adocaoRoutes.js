@@ -18,10 +18,10 @@ router.get('/',  (req, res) => {
     executeAllQueries()
     .then((results) =>{
       const{adocao}=results; // <--- Potential issue here
-      res.render('adocao', { model:adocao }); // <--- Line 129
+      res.render('adote', { model:adocao }); // <--- Line 129      
     })
     .catch((error) => {
-      res.render('error', { error: error });
+      res.render('/adocao', { error: error });
     });
 });
 
@@ -29,7 +29,7 @@ router.get('/form', (req, res) => res.render('form_adocao'));
 
 // POST route to handle form submission
 // Use the specific upload instance here
-router.post('/form', uploadAdocao.single('imagem'), (req, res) => {
+router.post('/form', uploadAdocao.single('arquivo'), (req, res) => {
  let destination = req.file.destination;
 let temp_file = req.file.filename;
 //Transformar arquivo em objeto  sequencial 
@@ -39,7 +39,7 @@ const contagem= fs.readdirSync(destination).length
 let  final_file = contagem + path.extname(req.file.originalname);  
 console.log('Final_file ->', final_file);
 fs.rename(destination + temp_file, destination + final_file, error => {
-if (error) return res.render('error', { error: error })
+if (error) return res.render('adocao', { error: error })
 console.log('Arquivo ENVIADO.')
 });
 console.log('nome do arquivo', destination + final_file);

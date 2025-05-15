@@ -40,9 +40,11 @@
                <div class="mt-auto d-flex justify-content-between align-items-center"> <!-- mt-auto pushes this block to the bottom of the flex container -->
                   <a href="/adocao/<%= adotado.id %>" class="btn btn-outline-secondary btn-sm">Ler Mais &gt;</a>
                   <!-- Ensure form doesn't break flex layout -->
+                  <% if (user) { %>
                   <form action="/delete/adotado/<%= adotado.id %>/<%= adotado.arquivo %>" method="post" onsubmit="return confirm('Tem certeza que deseja apagar esta postagem?')" class="d-inline">
                     <button type="submit" class="btn btn-danger btn-sm">Apagar</button>
                   </form>
+                  <%}%>
                </div>
              </div> <!-- End card-body -->
  

@@ -5,7 +5,6 @@
  const express = require('express');
  const session = require('express-session');
  const bodyParser = require('body-parser');
- const multer = require('multer');
  const cookieParser = require("cookie-parser");
  // Local Modules: Database
  const { db, fk_db } = require('./database/database.js');
@@ -83,6 +82,7 @@
  const privacyRoutes = require('./routes/privacyRoutes');
  const doacaoRoutes = require('./routes/doacaoRoutes');
  const sobreRoutes = require('./routes/sobreRoutes');
+ const adminRoutes = require('./routes/adminRoutes');
 
  
  
@@ -104,6 +104,8 @@
  app.use('/privacy', privacyRoutes);
  app.use('/doacao', doacaoRoutes);
  app.use('/sobre', sobreRoutes);
+ app.use('/admin', adminRoutes);
+
 
  
  

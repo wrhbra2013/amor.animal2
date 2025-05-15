@@ -1,0 +1,38 @@
+ <%-include("_header")-%>
+ 
+ <div class="container mt-5">
+     <h1>Criar Usuário</h1>
+     <form action="/admin/form" method="post"> 
+         <div class="mb-3"> 
+             <label for="usuario" class="form-label">Usuário</label>
+             <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Novo usuário" required>
+         </div>
+         <div class="mb-3">
+             <label for="senha" class="form-label">Senha</label>
+             <input type="text" class="form-control" id="senha" name="senha" placeholder="Nova senha" required>
+         </div>
+         <div class="mb-3">
+            <label for="senha" class="form-label"> Confirmar Senha</label>
+            <input type="text" class="form-control" id="confirmar" placeholder="Confirmar senha" required>
+        </div>  
+         
+        
+         <button type="submit" class="btn btn-primary">Criar Usuário</button>
+     </form>
+ </div>
+
+ <script>
+    let input1  = document.getElementById("senha").value;
+    let input2  = document.getElementById("confirmar").value;
+    if (!input1 || !input2){
+        res.send('As senhas NÃO coincidem')
+       
+    }
+  else{
+       res.send('Senha registrada.')
+    }
+</script>
+
+ 
+ <%-include("_footer")-%> <comment>Adicionado se você tiver um _footer.ejs</comment>
+ 

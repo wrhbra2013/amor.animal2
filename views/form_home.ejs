@@ -7,20 +7,22 @@
     </div>
 
     <div class="card shadow-sm p-4">
-        <form action="" enctype="multipart/form-data" method="post" id="form-home">
+        <form action="/home/form" enctype="multipart/form-data" method="post" id="form-home">
 
-            <div class="mb-4">
-                <label for="arquivo" class="form-label fw-bold">Imagem da Notícia:*</label>
+            <div class="mb-4"> <!-- Aumentei a margem inferior -->
+                <label for="arquivo" class="form-label fw-bold">Imagem:*</label> <!-- Label em negrito -->
+                <!-- Image Preview Area -->
                 <div id="image-preview-container" class="text-center border rounded p-3 mb-2 bg-light" style="min-height: 220px; display: flex; align-items: center; justify-content: center;">
-                    <img id="frame" src="" alt="Pré-visualização da imagem" class="img-fluid rounded" style="display: none; object-fit: cover; max-width: 100%; height: auto;"/>
-                    <span id="preview-placeholder" class="text-muted">Nenhuma imagem selecionada</span>
+                    <img id="frame" src=""  alt="Pré-visualização da foto do pet" class="img-fluid rounded" style="display: none; object-fit: cover; max-width: 100%; height: auto;"/>
+                    <span id="preview-placeholder" class="text-muted">Nenhuma imagem selecionada</span> <!-- Placeholder text -->
                 </div>
-                <input type="file" name="arquivo" id="arquivo" class="form-control" onchange="preview()" accept="image/*" required/>
-                <div class="mt-2">
+                <input type="file" name="arquivo" id="arquivo" class="form-control" onchange="preview()" accept="image/*"/>
+                <div class="mt-2"> <!-- Div para alinhar o botão -->
                     <button type="reset" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('frame').src=''">
-                        <i class="fas fa-times me-1"></i>Limpar
+                        <i class="fas fa-times me-1"></i>Limpar  <!-- Ícone adicionado -->
                     </button>
                 </div>
+            </div>
             </div>
 
             <div class="mb-3">
@@ -37,13 +39,20 @@
                 <label for="link" class="form-label fw-bold">Link para Mais Informações:</label>
                 <select name="link" id="link" class="form-select">
                     <option value="" selected>Selecione uma opção...</option>
-                    <option value="https://www.facebook.com/amoranimal190" onclick="window.open(this.value, '_blank')">Facebook</option>
-                    <option value="https://www.instagram.com/grupoamoranimal" onclick="window.open(this.value, '_blank')">Instagram</option>
-                    <option value="https://wa.me/send?phone=5514998151723&text=ONGAmor%20Animal" onclick="window.open(this.value, '_blank')">WhatsApp</option>
-                    <option value="outro" onclick="window.open('', '_blank')">Outro</option>
+                    <option value="https://www.facebook.com/amoranimal190">Facebook</option>
+                    <option value="https://www.instagram.com/grupoamoranimal">Instagram</option>
+                    <option value="https://wa.me/send?phone=5514998151723&text=ONGAmor%20Animal">WhatsApp</option>
+                    <option value="outro">Outro (especificar abaixo)</option>
                 </select>
             </div>
-            
+            <div class="mb-3" id="outroLinkContainer" style="display: block;">
+                <label for="link_customizado" class="form-label">Link Customizado:</label>
+                <input type="url" name="link_customizado" id="link_customizado" class="form-control" placeholder="https://exemplo.com">
+                <input type="hidden" name="link" id="link_final">
+            </div>
+           
+          
+
 
             <hr class="my-4">
 
@@ -59,5 +68,34 @@
         </form>
     </div>
 </div>
+
+<script>
+    const linkSelect = document.getElementById('link');
+    const outroLinkContainer = document.getElementById('outroLinkContainer');
+    const linkCustomizadoInput = document.getElementById('link_customizado');
+    const linkFinalInput = document.getElementById('link_final');
+
+    linkSelect.addEventListener('change', function() {
+        if (this.value === 'outro') {
+            outroLinkContainer.style.display = 'block';
+            linkCustomizadoInput.required = true;
+        } else {
+            outroLinkContainer.style.display = 'none';
+            linkCustomizadoInput.required = false;
+            linkCustomizadoInput.value = ''; // Clear custom link if another option is chosen
+        }
+    });
+
+    // Consolidate link before form submission
+    document.getElementById('form-home').addEventListener('submit', function() {
+        if (linkSelect.value === 'outro') {
+            linkFinalInput.value = linkCustomizadoInput.value;
+        } else {
+            linkFinalInput.value = linkSelect.value;
+        }
+    });
+
+    
+</script>
 
 <%-include ("_footer")-%>

@@ -16,8 +16,8 @@
  router.get('/', (req, res ) =>{
     executeAllQueries()
     .then((results) =>{
-    const{sql_castracao}=results;
-    res.render('castracao', { model:sql_castracao
+    const{castracao}=results;
+    res.render('castracao', { model:castracao
     });   
     })
     .catch((error) => {

@@ -117,7 +117,7 @@ router.post('/:tabela', isAdmin,(req, res) => {
 
     // --- Desenhar Cabeçalho do Relatório ---
       const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const reportHeaderText = `Relatório: ${tabela}\nGerado em: ${time}`;
+      const reportHeaderText = `ONG  Amor Animal\nRelatório: ${tabela}\nGerado em: ${time}`;
       doc.fontSize(12).font('Helvetica-Bold').text(reportHeaderText, { align: 'center' });
       doc.moveDown(1.5);
 
@@ -185,9 +185,9 @@ router.post('/:tabela', isAdmin,(req, res) => {
           let ratio = defaultRatio;
           if (header === 'id') ratio = 0.3;
           else if (['nome', 'pet', 'empresa', 'titulo', 'tutor'].includes(header)) ratio = 1.5;
-          else if (['caracteristicas', 'historia', 'proposta', 'mensagem', 'endereco'].includes(header)) ratio = 2.5;
+          else if (['caracteristicas', 'historia', 'proposta', 'mensagem', 'endereco','descricao','local'].includes(header)) ratio = 2.5;
           else if (['contato', 'whatsapp', 'email', 'localidade', 'representante', 'telefone'].includes(header)) ratio = 1.2;
-          else if (['idade', 'especie', 'porte', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep', 'clinica', 'agenda', 'local'].includes(header)) ratio = 0.8;
+          else if (['idade', 'especie', 'porte', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep', 'clinica', 'agenda'].includes(header)) ratio = 0.8;
           else if (['q1', 'q2', 'q3','qTotal'].includes(header)) ratio = 0.5;
           columnWidthRatios[header] = ratio;
           totalRatio += ratio;
