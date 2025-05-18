@@ -30,7 +30,7 @@ res.render('error', { error: error });
 
  // POST /procura-se
  // Use the specific upload instance here
- router.post('/form', uploadProcuraSe.single('imagem'),
+ router.post('/form', uploadProcuraSe.single('arquivo'),
   (req,res) => {
  let destination = req.file.destination;
 let temp_file = req.file.filename;
@@ -42,7 +42,7 @@ console.log('Arquivo ENVIADO.')
 });
 console.log('nome do arquivo', destination + final_file);
 const form7 = {
-foto: final_file,
+arquivo: final_file,
 nome: req.body.nomePet,
 idade: req.body.idadePet,
 especie: req.body.especie,
@@ -53,8 +53,7 @@ tutor: req.body.tutor,
 contato: req.body.contato, 
 whats: req.body.whatsapp
 };
-insert_procura_se(form7.foto, form7.nome, form7.idade, form7.especie, form7.porte, form7.caracteristicas, form7.local, form7.tutor, form7.contato, form7.whats);
-
+insert_procura_se(form7.arquivo, form7.nome, form7.idade, form7.especie, form7.porte, form7.caracteristicas, form7.local, form7.tutor, form7.contato, form7.whats);
 console.log(form7);
 res.redirect('/home');
 });

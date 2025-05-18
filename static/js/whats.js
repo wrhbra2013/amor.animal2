@@ -9,6 +9,7 @@ document.getElementById('whatsapp').addEventListener('change', function() {
         alert('Por favor, preencha o número de telefone antes de selecionar esta opção.');
           }
       };
-    
+    this.checked = false;
+
       });
-    
+   

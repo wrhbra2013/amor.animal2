@@ -11,7 +11,7 @@
       "test": "echo \"Error: no test specified\" && exit 1",
       "start": "node index.js",
       "build:js": "webpack",
-      "build": "npm run build:js && bundle exec jekyll build",     
+      "build": "npm run build:js && bundle exec jekyll build",
       "predeploy": "npm run build",
       "deploy": "gh-pages -d build",
       "app": "nodemon index.js",
@@ -28,6 +28,7 @@
       "webpack": "^5.99.7"
    },
    "dependencies": {
+      "chart.js": "^4.4.9",
       "cookie-parser": "^1.4.7",
       "express-session": "^1.18.1",
       "fs": "^0.0.1-security",

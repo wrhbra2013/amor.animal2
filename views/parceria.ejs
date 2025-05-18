@@ -44,6 +44,11 @@
              <td><%= parceria.representante || 'Não informado' %></td>
              <td>
                <%= parceria.telefone || 'Não informado' %>
+               <td>
+                <a href="https://wa.me/<%= parceria.whatsapp %>?text=Ol%C3%A1%2C%20vi%20seu%20cadastro%20no%20site%20Amor%20Animal." target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                    <i class="fab fa-whatsapp text-success me-1"></i><%= parceria.whatsapp || 'N/A' %>
+                </a>
+            </td>
                <% if (parceria.whatsapp === 'sim') { %>
                  <i class="fab fa-whatsapp text-success ms-1" title="WhatsApp disponível"></i>
                <% } %>

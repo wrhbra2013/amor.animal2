@@ -48,8 +48,7 @@ router.post('/form', (req, res)=>{
         };  
         console.log(form3)
         insert_adotante( form3.quiz1, form3.quiz2, form3.quiz3, form3.tutor, form3.contato, form3.whats, form3.cep, form3.endereco, form3.numero, form3.complemento, form3.bairro, form3.cidade, form3.estado, form3.idPet);
-        res.redirect('/home');
-   
+        res.redirect('/home');   
    });
     
 

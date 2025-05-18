@@ -83,6 +83,8 @@
  const doacaoRoutes = require('./routes/doacaoRoutes');
  const sobreRoutes = require('./routes/sobreRoutes');
  const adminRoutes = require('./routes/adminRoutes');
+ const editRoutes = require('./routes/editRoutes');
+ 
 
  
  
@@ -105,6 +107,8 @@
  app.use('/doacao', doacaoRoutes);
  app.use('/sobre', sobreRoutes);
  app.use('/admin', adminRoutes);
+ app.use('/edit', editRoutes);
+ 
 
 
  

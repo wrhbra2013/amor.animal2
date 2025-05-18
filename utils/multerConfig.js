@@ -44,7 +44,7 @@
  };
  
  const createMulterInstance = (subfolder, fileFilter, limits) => {
-     console.log(`[multerConfig] Criando instância para subfolder: ${subfolder}`);
+    //  console.log(`[multerConfig] Criando instância para subfolder: ${subfolder}`);
      const storage = createDiskStorageConfig(subfolder);
      const multerOptions = { storage: storage };
      if (fileFilter) multerOptions.fileFilter = fileFilter;
@@ -57,7 +57,7 @@
  };
  
  try {
-     console.log('[multerConfig] Definindo module.exports...');
+    //  console.log('[multerConfig] Definindo module.exports...');
      module.exports = {
          uploadCastracao: createMulterInstance('castracao/', imageFileFilter, defaultLimits),
          uploadAdotado: createMulterInstance('adotado/', imageFileFilter, defaultLimits),
@@ -75,7 +75,7 @@
              }
          }, defaultLimits)
      };
-     console.log('[multerConfig] module.exports definido com sucesso.');
+     console.log('[multerConfig] ATIVO.');
  } catch (error) {
      console.error('[multerConfig] ERRO CRÍTICO DURANTE A INICIALIZAÇÃO DO MÓDULO:', error);
      module.exports = {}; // Exporta um objeto vazio para evitar mais erros de 'undefined'
