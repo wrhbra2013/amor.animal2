@@ -969,6 +969,7 @@
     gap: 20px; /* Define um espaçamento de 20px entre os cards (horizontal e vertical) */
     margin-top: 20px;
      overflow-x: auto; 
+     position: relative;
   }
 .home-card {
     /* Ajuste a largura/base dos cards para funcionar bem com o 'gap' */

@@ -6,9 +6,10 @@
  const session = require('express-session');
  const bodyParser = require('body-parser');
  const cookieParser = require("cookie-parser");
+ 
+ 
  // Local Modules: Database
  const { db, fk_db } = require('./database/database.js');
-
  const {
     create_home,
     create_adocao,
@@ -122,10 +123,15 @@
  });
  
  // --- Global Error Handler (Place very last) ---
+ // index.js - APENAS PARA DESENVOLVIMENTO
  app.use((err, req, res, next) => {
      console.error("Global Error Handler Caught:", err.stack);
-     res.status(err.status || 500).render('error', { error: 'Ocorreu um erro inesperado.' });
+     const statusCode = err.status || 500;
+     // Em desenvolvimento, você pode querer mostrar mais detalhes
+     const errorMessage = process.env.NODE_ENV === 'development' ? err.message : 'Ocorreu um erro inesperado.';
+     res.status(statusCode).render('error', { error: errorMessage, statusCode: statusCode });
  });
+ 
 
  // --- Start Server ---
  app.listen(port, (error) => {

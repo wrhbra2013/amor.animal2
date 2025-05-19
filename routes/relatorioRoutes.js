@@ -1,292 +1,270 @@
-// routes/castracaoRoutes.js
-const express = require('express');
-const { db } = require('../database/database'); // Adjust path
-const fs = require('fs');
-const path = require('path');
-const pdfDocument = require('pdfkit');
-const { isAdmin } = require('../middleware/auth'); // Assuming you moved isAdmin
-const router = express.Router();
+ // routes/relatorioRoutes.js
+ const express = require('express');
+ const { db } = require('../database/database');
+ const fs = require('fs'); // Mantenha para manipulação de arquivos
+ const path = require('path');
+ // const pdfDocument = require('pdfkit'); // Remova ou comente pdfkit
+ const { isAdmin } = require('../middleware/auth');
+ const router = express.Router();
+ 
+ // SUBSTITUA PELA IMPORTAÇÃO DA SUA BIBLIOTECA PDF
+ // Exemplo se fosse pdfmake:
+ const PdfPrinter = require('pdfmake');
+ const printer = new PdfPrinter({
+     Roboto: { // Exemplo de configuração de fonte para pdfmake
+         normal: path.join(__dirname, '..', '/static/fonts/Roboto-Regular.ttf'),
+         bold: path.join(__dirname, '..', '/static/fonts/Roboto-Medium.ttf'),
+         italics: path.join(__dirname, '..', '/static/fonts/Roboto-Italic.ttf'),
+         bolditalics: path.join(__dirname, '..', '/static/fonts/Roboto-MediumItalic.ttf')
+     }
+ });
+ // Se for "mudder-pdf", use a importação correta:
+ // const MudderPDF = require('mudder-pdf'); // Nome hipotético
+ 
+ router.get('/', isAdmin, (req, res) => {
+     const tabelas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home'];
+     res.render('relatorio', { tabelas: tabelas });
+ });
+ 
+ // Rota GET para visualização prévia (se necessário, pode ser mantida ou adaptada)
+ router.get('/:tabela', isAdmin, (req, res) => {
+     const tabela = req.params.tabela;
+     const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home'];
+     if (!tabelasPermitidas.includes(tabela)) {
+        console.error(`Tentativa de acesso a tabela inválida (GET): ${tabela}`);                
+         return res.status(400).render('error', { error: `Tentativa de acesso a tabela inválida (GET): ${tabela} `});
+     }
+     const sql =
+         `SELECT  *, 
+         strftime('%Y', origem) AS ANO, 
+         strftime('%m', origem) AS MES_NUM, -- Usar número do mês para ordenação correta
+         CASE strftime('%m', origem)
+             WHEN '01' THEN 'Janeiro' WHEN '02' THEN 'Fevereiro' WHEN '03' THEN 'Março'
+             WHEN '04' THEN 'Abril' WHEN '05' THEN 'Maio' WHEN '06' THEN 'Junho'
+             WHEN '07' THEN 'Julho' WHEN '08' THEN 'Agosto' WHEN '09' THEN 'Setembro'
+             WHEN '10' THEN 'Outubro' WHEN '11' THEN 'Novembro' WHEN '12' THEN 'Dezembro'
+         END AS MES_NOME
+         FROM ${tabela} 
+         ORDER BY ANO ASC, MES_NUM ASC;`; // Removido GROUP BY que não fazia sentido aqui
+ 
+     db.all(sql, [], (error, rows) => {
+         if (error) return res.render('error', { error: error });
+         res.render('relatorio', { model: rows, tabela: tabela, tabelas: tabelasPermitidas }); // Passar tabelas para o <select>
+     });
+ });
+ 
+ 
+ // Rota POST para gerar o PDF
+ router.post('/:tabela', isAdmin, (req, res) => {
+     const tabela = req.params.tabela;
+     const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home'];
+     if (!tabelasPermitidas.includes(tabela)) {
+         console.error(`Tentativa de acesso a tabela inválida (POST): ${tabela}`);
+         return res.status(400).render('error', { error: 'Nome de tabela inválido.' });
+     }
+ 
+     const sql = `SELECT *,
+         strftime('%Y', origem) AS ANO,
+         strftime('%m', origem) AS MES_NUM, -- Usar número do mês para ordenação correta
+         CASE strftime('%m', origem)
+             WHEN '01' THEN 'Janeiro' WHEN '02' THEN 'Fevereiro' WHEN '03' THEN 'Março'
+             WHEN '04' THEN 'Abril' WHEN '05' THEN 'Maio' WHEN '06' THEN 'Junho'
+             WHEN '07' THEN 'Julho' WHEN '08' THEN 'Agosto' WHEN '09' THEN 'Setembro'
+             WHEN '10' THEN 'Outubro' WHEN '11' THEN 'Novembro' WHEN '12' THEN 'Dezembro'
+         END AS MES_NOME
+         FROM ${tabela}
+         ORDER BY ANO ASC, MES_NUM ASC;`;
+ 
+     db.all(sql, [], (error, rows) => {
+         if (error) {
+             console.error("Erro na consulta SQL:", error);
+             return res.status(500).render('error', { error: 'Erro ao buscar dados para o relatório.' });
+         }
+         if (!rows || rows.length === 0) {
+             return res.status(404).render('error', { error: `Nenhum dado encontrado para a tabela ${tabela}` });
+         }
+ 
+         // --- Preparar Dados da Tabela (esta lógica pode ser mantida) ---
+         const tableData = rows;
+         const columnsToRemove = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME']; // Colunas auxiliares
+         const originalHeaders = Object.keys(tableData[0] || {});
+         const tableHeaders = originalHeaders.filter(header => !columnsToRemove.includes(header));
+ 
+         // Agrupar por ano
+         const groupedByYear = {};
+         tableData.forEach(row => {
+             const year = row.ANO; // ANO já é string do strftime
+             if (!groupedByYear[year]) {
+                 groupedByYear[year] = [];
+             }
+             // Adiciona apenas os dados das colunas que serão exibidas
+             const rowForDisplay = {};
+             tableHeaders.forEach(header => {
+                 rowForDisplay[header] = row[header] !== null && row[header] !== undefined ? String(row[header]) : '';
+             });
+             groupedByYear[year].push(rowForDisplay);
+         });
+         const years = Object.keys(groupedByYear).sort();
+ 
+         // --- Construir Definição do Documento para a Biblioteca PDF ---
+         const content = [];
+ 
+         // Cabeçalho do Relatório
+         const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+         content.push({ text: `ONG Amor Animal`, style: 'mainHeader' });
+         content.push({ text: `Relatório: ${tabela.charAt(0).toUpperCase() + tabela.slice(1)}`, style: 'subHeader' });
+         content.push({ text: `Gerado em: ${time}`, style: 'subHeader', margin: [0, 0, 0, 20] }); // Adiciona margem inferior
+ 
+         if (tableHeaders.length === 0) {
+             content.push({ text: 'Nenhuma coluna para exibir.', alignment: 'center' });
+         } else {
 
-router.get('/', isAdmin, (req, res) => {
-    const tabelas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home'];
-    res.render('relatorio', { tabelas: tabelas });
-    
-})
-
-
-// Gerador de pdf
-router.get('/:tabela',isAdmin, (req, res) => { 
-
-// 1 Seleçầo de tabela
-const tabela = req.params.tabela;
-//  busca no banco de dados
-const sql = 
-`SELECT  *, 
-strftime('%Y', origem) AS ANO, 
-strftime('%B', origem) AS MES 
-FROM ${tabela} 
-ORDER BY MES  ASC;
-GROUP BY ANO;
-`
-
-db.all(sql, [], (error, rows) => {
-if (error) return res.render('error', { error: error })   
-res.render('relatorio', {model: rows, tabela:tabela});  
-
-});  
-});  
-
-// ESTA É A DEFINIÇÃO CORRETA A SER MODIFICADA
-router.post('/:tabela', isAdmin,(req, res) => {
-  const tabela = req.params.tabela;
-  // Validação básica do nome da tabela (ADICIONADO PARA SEGURANÇA)
-  const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home'];
-  if (!tabelasPermitidas.includes(tabela)) {
-      console.error(`Tentativa de acesso a tabela inválida: ${tabela}`);
-      return res.status(400).render('error', { error: 'Nome de tabela inválido.' });
-  }
-
-  const sql = `SELECT *,
-  strftime('%Y', origem) AS ANO,
-  strftime('%B', origem) AS MES
-  FROM ${tabela}
-  ORDER BY ANO ASC, MES ASC;`;
-
-
-  db.all(sql, [], (error, rows) => {
-      if (error) {
-          console.error("Erro na consulta SQL:", error);
-          return res.status(500).render('error', { error: 'Erro ao buscar dados para o relatório.' });
-      }
-      if (!rows || rows.length === 0) {
-          return res.status(404).render('error', { error: `Nenhum dado encontrado para a tabela ${tabela}` });
-      }  
-
-      const pdfDir = './static/uploads/pdf/';
-      try {
-          if (!fs.existsSync(pdfDir)) {
-              fs.mkdirSync(pdfDir, { recursive: true });
-              console.log(`Diretório ${pdfDir} criado.`);
-          }
-      } catch (mkdirError) {
-          console.error("Erro ao criar diretório para PDFs:", mkdirError);
-          return res.status(500).render('error', { error: 'Erro interno ao preparar o relatório.' });
-      }  
-
-    const outputFilename = `${tabela}_${Date.now()}.pdf`;
-    const outputPath = path.join(pdfDir, outputFilename);
-    const escrita = fs.createWriteStream(outputPath);
-
-      const pageMargins = { top: 40, bottom: 40, left: 30, right: 30 };
-      const doc = new pdfDocument({
-          size: 'A4',
-          layout: 'portrait', //landscape or portrait
-          margins: pageMargins,
-      });
-
-    escrita.on('error', (err) => {
-        console.error("ERRO ao escrever no arquivo PDF:", err);
-        if (!res.headersSent) {
-            res.status(500).send('Erro ao gerar o arquivo PDF.');
-          }
-      });
-
-      escrita.on('finish', () => {
-          console.log('PDF gerado com sucesso:', outputPath);
-          if (!res.headersSent) {
-              res.download(outputPath, `${tabela}_report.pdf`, (downloadErr) => {
-                  if (downloadErr) {
-                      console.error('Erro ao enviar o PDF para o cliente:', downloadErr);
-                  } else {
-                    console.log('PDF enviado com sucesso!');
-                  }
-                  fs.unlink(outputPath, (unlinkErr) => {
-                    if (unlinkErr) console.error('Erro ao deletar o arquivo PDF gerado:', unlinkErr);
-                    else console.log('Arquivo PDF temporário deletado:', outputPath);
-                  });
-              });
-          } else {
-              console.log("Cabeçalhos já enviados, não foi possível enviar o PDF para download.");
-               fs.unlink(outputPath, (unlinkErr) => {
-                 if (unlinkErr) console.error('Erro ao deletar o arquivo PDF (cabeçalhos já enviados):', unlinkErr);
-               });
-          }
-      });
-
-    doc.pipe(escrita);
-
-    // --- Desenhar Cabeçalho do Relatório ---
-      const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const reportHeaderText = `ONG  Amor Animal\nRelatório: ${tabela}\nGerado em: ${time}`;
-      doc.fontSize(12).font('Helvetica-Bold').text(reportHeaderText, { align: 'center' });
-      doc.moveDown(1.5);
-
-      // --- Preparar Dados da Tabela ---
-      const tableData = rows;
-
-      if (!tableData || tableData.length === 0) {
-         console.warn(`Nenhum dado em tableData para a tabela ${tabela} após a consulta.`);
-         doc.fontSize(10).font('Helvetica').text('Nenhum dado encontrado para esta tabela.', { align: 'center' });
-         doc.end();
-         return;
-      }
-
-      // --- MODIFICAÇÃO AQUI: Adicionar 'ANO' e 'MES' para remover ---
-    const columnsToRemove = ['arquivo', 'ANO', 'MES']; // <--- ADICIONADO ANO E MES AQUI
-
-    // Cria uma cópia dos cabeçalhos originais antes de modificar
-    const originalHeaders = Object.keys(tableData[0]);
-    const tableHeaders = originalHeaders.filter(header => !columnsToRemove.includes(header));
-
-      // Cria as linhas da tabela apenas com os dados das colunas que não foram removidas
-      const tableRows = tableData.map(obj => {
-          return tableHeaders.map(header => {
-              const val = obj[header];
-              return (val !== null && val !== undefined ? String(val) : '');
-          });
-      });
-
-      // Agrupar por ano (usando os dados originais 'tableData')
-      const groupedByYear = {};
-      tableData.forEach(row => {
-          const year = row.ANO; // Usa a coluna ANO original
-          if (!groupedByYear[year]) {
-              groupedByYear[year] = [];
-          }
-          // Adiciona apenas os dados das colunas que serão exibidas
-          const rowForDisplay = {};
-          tableHeaders.forEach(header => {
-              rowForDisplay[header] = row[header];
-          });
-          groupedByYear[year].push(rowForDisplay);
-      });
-    const years = Object.keys(groupedByYear).sort();
-
-
-    // --- Calcular Larguras das Colunas (usando tableHeaders) ---
-      const tableTop = doc.y;
-      const tableLeft = doc.page.margins.left;
-      const availableWidth = doc.page.width - doc.page.margins.left - doc.page.margins.right;
-      const tableRight = doc.page.width - doc.page.margins.right;
-      const rowHeight = 14;
-      const defaultRatio = 1.0;
-      const columnWidthRatios = {};
-      let totalRatio = 0;
-
-      if (tableHeaders.length === 0) {
-         console.warn(`Nenhuma coluna restante na tabela ${tabela} após remover colunas.`);
-         doc.fontSize(10).font('Helvetica').text('Nenhuma coluna para exibir.', { align: 'center' });
-         doc.end();
-         return;
-      }
-
-      // Calcula ratios usando os cabeçalhos filtrados (tableHeaders)
-      tableHeaders.forEach(header => {
-          let ratio = defaultRatio;
-          if (header === 'id') ratio = 0.3;
-          else if (['nome', 'pet', 'empresa', 'titulo', 'tutor'].includes(header)) ratio = 1.5;
-          else if (['caracteristicas', 'historia', 'proposta', 'mensagem', 'endereco','descricao','local'].includes(header)) ratio = 2.5;
-          else if (['contato', 'whatsapp', 'email', 'localidade', 'representante', 'telefone'].includes(header)) ratio = 1.2;
-          else if (['idade', 'especie', 'porte', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep', 'clinica', 'agenda'].includes(header)) ratio = 0.8;
-          else if (['q1', 'q2', 'q3','qTotal'].includes(header)) ratio = 0.5;
-          columnWidthRatios[header] = ratio;
-          totalRatio += ratio;
-      });
-
-    const columnWidths = {};
-    tableHeaders.forEach(header => {
-        columnWidths[header] = totalRatio > 0 ? (columnWidthRatios[header] / totalRatio) * availableWidth : availableWidth / tableHeaders.length;
-      });
-
-      // --- Definir Tamanhos de Fonte e Padding ---
-      const headerFontSize = 7;
-      const cellFontSize = 6;
-      const cellPadding = 2;
-
-      // --- Desenhar Cabeçalhos da Tabela (usando tableHeaders) ---
-      doc.font('Helvetica-Bold').fontSize(headerFontSize);
-    let currentX_draw = tableLeft;
-    tableHeaders.forEach((hText) => { // Itera sobre os cabeçalhos filtrados
-        const currentColumnWidth = columnWidths[hText];
-        let fillColor = '#E0E0E0';
-        doc.fillColor(fillColor).rect(currentX_draw, tableTop, currentColumnWidth, rowHeight).fill().fillColor('black');
-        doc.text(hText, currentX_draw + cellPadding, tableTop + cellPadding, {
-            width: currentColumnWidth - (cellPadding * 2),
-            align: 'center'
-        });
-        currentX_draw += currentColumnWidth;
-      });
-      doc.moveTo(tableLeft, tableTop + rowHeight).lineTo(tableRight, tableTop + rowHeight).lineWidth(0.5).strokeColor('#333333').stroke();
-
-      let currentY = tableTop + rowHeight;
-
-      // Itera sobre os anos agrupados
-      years.forEach(year => {
-        const yearHeaderTop = currentY;
-        doc.font('Helvetica-Bold').fontSize(headerFontSize).fillColor('black');
-        doc.text(`Ano: ${year}`, tableLeft, yearHeaderTop, { align: 'left' });
-        currentY += rowHeight;
-        doc.moveTo(tableLeft, currentY).lineTo(tableRight, currentY).lineWidth(0.5).strokeColor('#333333').stroke();
-
-          doc.font('Helvetica').fontSize(cellFontSize);
-
-          // Itera sobre as linhas DENTRO do ano atual (groupedByYear[year])
-          groupedByYear[year].forEach((row) => {
-              const rowTop = currentY;
-              if (rowTop + rowHeight > doc.page.height - doc.page.margins.bottom) {
-                  console.warn(`Conteúdo da tabela ${tabela} excedeu a altura da página. Algumas linhas podem não ser exibidas.`);
-                  return;
-              }
-
-            const calculatedRowHeight = rowHeight;
-              let currentX_cell = tableLeft;
-
-              // Pega os valores da linha na ordem correta dos cabeçalhos exibidos
-              const rowValues = tableHeaders.map(header => row[header] !== null && row[header] !== undefined ? String(row[header]) : '');
-
-              rowValues.forEach((cell, j) => {
-                  const currentColumnHeader = tableHeaders[j]; // Usa o cabeçalho filtrado
-                const currentColumnWidth = columnWidths[currentColumnHeader];
-                const cellX = currentX_cell + cellPadding;
-                const cellY = rowTop + cellPadding;
-                const textWidth = currentColumnWidth - (cellPadding * 2);
-                const textOptions = {
-                    width: textWidth,
-                    align: 'center',
-                    lineBreak: false,
-                    ellipsis: true
-                };
-                doc.fillColor('black').text(cell, cellX, cellY, textOptions);
-                currentX_cell += currentColumnWidth;
-              });
-
-              doc.moveTo(tableLeft, rowTop + calculatedRowHeight).lineTo(tableRight, rowTop + calculatedRowHeight).lineWidth(0.5).strokeColor('#cccccc').stroke();
-              currentY += calculatedRowHeight;
-          });
-
-          const finalTableBottom = currentY;
-
-          // --- Desenhar Linhas Verticais ---
-          let currentVerticalX = tableLeft;
-        tableHeaders.forEach(hText => { // Usa os cabeçalhos filtrados
-            const currentColumnWidth = columnWidths[hText];
-            doc.moveTo(currentVerticalX, tableTop)
-               .lineTo(currentVerticalX, finalTableBottom)
-                 .lineWidth(0.5).strokeColor('#cccccc').stroke();
-              currentVerticalX += currentColumnWidth;
-          });
-          doc.moveTo(tableRight, tableTop)
-             .lineTo(tableRight, finalTableBottom)
-             .lineWidth(0.5).strokeColor('#cccccc').stroke();
-      }); // Fim do loop years.forEach
-
-    // --- Finalizar o PDF ---
-    doc.end();
-
-}); // Fim do db.all callback
-}); // Fim da rota app.post
-
-
-
-
-module.exports = router;
+             // Calcular larguras das colunas (adapte conforme a API da sua biblioteca)
+             // Exemplo para pdfmake: pode ser '*', 'auto', ou valores numéricos/percentuais
+             // A lógica de ratios pode ser adaptada aqui.
+             // Por simplicidade, vamos usar '*' para distribuir igualmente:
+             const columnWidths = tableHeaders.map(() => '*');
+             // Ou, para uma lógica mais customizada (exemplo):
+             // const columnWidths = tableHeaders.map(header => {
+             //     if (header === 'id') return 'auto';
+             //     if (['caracteristicas', 'historia', 'proposta', 'mensagem'].includes(header)) return '30%';
+             //     return '*';
+             // });
+ 
+ 
+             years.forEach(year => {
+                 content.push({ text: `Ano: ${year}`, style: 'yearHeader' });
+ 
+                 const tableBody = [];
+                 // Adicionar cabeçalhos da tabela (formatados para a biblioteca)
+                 tableBody.push(tableHeaders.map(header => ({ text: header, style: 'tableHeader' })));
+ 
+                 // Adicionar linhas de dados
+                 groupedByYear[year].forEach(dataRow => {
+                     const rowContent = tableHeaders.map(header => ({ text: dataRow[header], style: 'tableCell' }));
+                     tableBody.push(rowContent);
+                 });
+ 
+                 content.push({
+                     table: {
+                         headerRows: 1,
+                         widths: columnWidths,
+                         body: tableBody
+                     },
+                     // Layout da tabela (bordas, etc.) - específico da biblioteca
+                     layout: { // Exemplo de layout similar ao pdfmake
+                         hLineWidth: (i, node) => (i === 0 || i === node.table.body.length || i === 1) ? 0.5 : 0.5,
+                         vLineWidth: (i, node) => 0.5,
+                         hLineColor: (i, node) => (i === 0 || i === node.table.body.length || i === 1) ? '#333333' : '#cccccc',
+                         vLineColor: (i, node) => '#cccccc',
+                         paddingLeft: () => 3,
+                         paddingRight: () => 3,
+                         paddingTop: () => 2,
+                         paddingBottom: () => 2
+                     }
+                 });
+                 content.push({ text: ' ', margin: [0, 10] }); // Espaço entre tabelas de anos
+             });
+         }
+ 
+         const docDefinition = {
+             content: content,
+             pageSize: 'A4',
+             pageOrientation: 'portrait', // ou 'landscape'
+             pageMargins: [30, 40, 30, 40], // [left, top, right, bottom]
+             styles: { // Defina seus estilos
+                 mainHeader: { fontSize: 16, bold: true, alignment: 'center', margin: [0, 0, 0, 5] },
+                 subHeader: { fontSize: 10, alignment: 'center', margin: [0, 0, 0, 5] },
+                 yearHeader: { fontSize: 12, bold: true, margin: [0, 10, 0, 5] },
+                 tableHeader: { bold: true, fontSize: 7, fillColor: '#E0E0E0', alignment: 'center' },
+                 tableCell: { fontSize: 6, alignment: 'left' } // Alinhar células à esquerda para melhor leitura
+             },
+             defaultStyle: { // Estilo padrão, se a biblioteca suportar
+                 // font: 'Roboto' // Se estiver usando pdfmake com fontes customizadas
+             }
+         };
+ 
+         // --- Gerar PDF com a Biblioteca Escolhida ---
+         try {
+             const pdfDir = './static/uploads/pdf/';
+             if (!fs.existsSync(pdfDir)) {
+                 fs.mkdirSync(pdfDir, { recursive: true });
+             }
+             const outputFilename = `${tabela}_${Date.now()}.pdf`;
+             const outputPath = path.join(pdfDir, outputFilename);
+             const escrita = fs.createWriteStream(outputPath);
+ 
+             // A GERAÇÃO DO PDF DEPENDE DA API DA SUA BIBLIOTECA
+             // Exemplo com pdfmake:
+             const pdfDoc = printer.createPdfKitDocument(docDefinition);
+             pdfDoc.pipe(escrita);
+             pdfDoc.end();             
+ 
+             // Se "mudder-pdf" ou outra biblioteca tiver uma API diferente:
+             // const pdfGenerator = new MudderPDF(); // Ou como for instanciada
+             // const pdfStream = pdfGenerator.generateToStream(docDefinition); // Método hipotético
+             // pdfStream.pipe(escrita);
+             // OU se gerar um buffer:
+             // const pdfBuffer = await pdfGenerator.generateToBuffer(docDefinition); // Método hipotético
+             // fs.writeFileSync(outputPath, pdfBuffer);
+             // escrita.end(); // Se usou writeFileSync, o 'finish' do stream não será disparado da mesma forma
+ 
+             // --- SIMULAÇÃO: Adapte esta parte para a sua biblioteca ---
+             // Se sua biblioteca (ex: pdfmake) retorna um stream que pode ser 'piped':
+             // const pdfDocStream = printer.createPdfKitDocument(docDefinition); // Exemplo pdfmake
+             // pdfDocStream.pipe(escrita);
+             // pdfDocStream.end();
+             // Se não, você precisará chamar o método de geração da sua biblioteca
+             // e lidar com o resultado (stream ou buffer) apropriadamente.
+ 
+             // Por enquanto, vamos simular que a escrita é feita e o evento 'finish' será chamado.
+             // VOCÊ PRECISA SUBSTITUIR O COMENTÁRIO ABAIXO PELA LÓGICA REAL DE GERAÇÃO
+             // E PIPE/ESCRITA DA SUA BIBLIOTECA.
+             // Exemplo: Se sua lib tem um método que retorna um stream:
+             // const pdfStream = SuaBiblioteca.gerarPDFStream(docDefinition);
+             // pdfStream.pipe(escrita);
+             // Se não, e você precisa de um placeholder para o evento 'finish':
+            //  console.warn("Arquivo gerado com sucesso!");
+            //  escrita.write("Conteúdo do PDF gerado pela sua biblioteca aqui."); // Placeholder
+            //  escrita.end(); // Para disparar 'finish' na simulação
+ 
+             escrita.on('finish', () => {
+                 console.log('PDF (simulado/real) gerado com sucesso:', outputPath);
+                 if (!res.headersSent) {
+                     res.download(outputPath, `${tabela}_report.pdf`, (downloadErr) => {
+                         if (downloadErr) {
+                             console.error('Erro ao enviar o PDF para o cliente:', downloadErr);
+                         }
+                         // Deletar o arquivo após o download (ou tentativa)
+                         fs.unlink(outputPath, (unlinkErr) => {
+                             if (unlinkErr) console.error('Erro ao deletar o arquivo PDF gerado:', unlinkErr);
+                             else console.log('Arquivo PDF temporário deletado:', outputPath);
+                         });
+                     });
+                 } else {
+                      fs.unlink(outputPath, (unlinkErr) => { // Deletar mesmo se headers já enviados
+                         if (unlinkErr) console.error('Erro ao deletar o arquivo PDF (headers já enviados):', unlinkErr);
+                      });
+                 }
+             });
+ 
+             escrita.on('error', (err) => {
+                 console.error("ERRO ao escrever no arquivo PDF:", err);
+                 if (!res.headersSent) {
+                     res.status(500).send('Erro ao gerar o arquivo PDF.');
+                 }
+                 // Tentar deletar o arquivo em caso de erro na escrita
+                 fs.unlink(outputPath, (unlinkErr) => {
+                     if (unlinkErr) console.error('Erro ao deletar o arquivo PDF após erro de escrita:', unlinkErr);
+                 });
+             });
+ 
+         } catch (genError) {
+             console.error("Erro durante a preparação ou geração do PDF:", genError);
+             res.status(500).render('error', { error: 'Erro interno ao gerar o relatório PDF.' });
+         }
+     });
+ });
+ 
+ module.exports = router;
+ 

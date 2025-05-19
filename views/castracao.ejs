@@ -40,18 +40,19 @@
                                      <th>Porte</th>
                                      <th>Clínica</th>
                                      <th>Agenda</th>
-                                     <tr>
-                                        <!-- ... table headers ... -->
-                                        <%# Show "Ações" column only if admin is logged in %>
-                                        <% if (typeof user !== 'undefined' && user.isAdmin) { %>
-                                            <th>Ações</th>
-                                        <% } %>
-                              
+                                     <% if (typeof user !== 'undefined' && user.isAdmin) { %>
+                                     <th>Ações</th>
+                                     <% } %>
+                                 </tr>
                              </thead>
                              <tbody>
-                                 <% for(const castracao of model) { %>
-                                 <tr>
-                                     <td><%= castracao.origem %></td> <!-- Consider formatting this date -->
+                                  
+                              
+                                        <% for(const castracao of model) { %>
+                                    <tr>
+                                     <td>
+                                        <%= castracao.origem  %>
+                                    </td> <!-- Consider formatting this date -->
                                      <td class="ticket"><%= castracao.ticket %></td>
                                      <td><%= castracao.nome %></td>
                                      <td><%= castracao.contato %></td>

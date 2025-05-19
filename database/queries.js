@@ -15,25 +15,24 @@ function executeQuery(query) {
 /* 1 */const home = `SELECT * FROM home;`  
 /* tag adoção*/
 /* 2 */const adocao= `SELECT * FROM adocao;`  //Mostrar pets para adotar
-         const  adocaoCount = `SELECT COUNT (*) FROM adocao;`
+ /* 3 */ const  adocaoCount = `SELECT COUNT (*) FROM adocao;`
 
-         const adotante = `SELECT * FROM adotante;`
-/* 3 */const adotanteCount = `SELECT COUNT (*) FROM adotante;` //Mostrar quantidade de adotantes
+/* 4 */     const adotante = `SELECT * FROM adotante;`
+/* 5 */const adotanteCount = `SELECT COUNT (*) FROM adotante;` //Mostrar quantidade de adotantes
 
-/* 4 */const adotado = `SELECT * FROM adotado;`
-        const adotadoCount =  `SELECT COUNT (*) FROM adotado;`
+/* 6 */const adotado = `SELECT * FROM adotado;`
+/* 7 */  const adotadoCount =  `SELECT COUNT (*) FROM adotado;`
 /* tag castracao */
-         const castracao = `SELECT * FROM castracao;`//Leitura da castração
-/* 5 */const castracaoCount = `SELECT COUNT(*) FROM castracao;`//Conatgem de castração
-/*6 */
+ /* 8 */        const castracao = `SELECT * FROM castracao;`//Leitura da castração
+/* 9 */const castracaoCount = `SELECT COUNT(*) FROM castracao;`//Conatgem de castração
 /* tag procura_se */
-/* 7 */const procura_se = `SELECT * FROM procura_se;`
-        const  procura_seCount=  `SELECT  COUNT (*)  FROM procura_se;`
+/* 10 */const procura_se = `SELECT * FROM procura_se;`
+ /* 11 */    const  procura_seCount=  `SELECT  COUNT (*)  FROM procura_se;`
 /* tag parceria */
-/* 8 */const parceria = `SELECT * FROM parceria;`
-        const parceriaCount =  `SELECT  COUNT (*) FROM parceria;`
+/* 12 */const parceria = `SELECT * FROM parceria;`
+  /* 13 */      const parceriaCount =  `SELECT  COUNT (*) FROM parceria;`
 
-/* 9 */ 
+
 
 
 

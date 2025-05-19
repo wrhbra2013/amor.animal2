@@ -32,12 +32,12 @@
 
             <div class="mb-3">
                 <label for="conteudo" class="form-label fw-bold">Conteúdo da Notícia:*</label>
-                <textarea id="conteudo" name="conteudo" rows="5" class="form-control" placeholder="Conteúdo da Notícia" required></textarea>
+                <textarea id="mensagem" name="mensagem" rows="5" class="form-control" placeholder="Conteúdo da Notícia" required></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="link" class="form-label fw-bold">Link para Mais Informações:</label>
-                <select name="link" id="link" class="form-select">
+                <select  id="link"  class="form-select">
                     <option value="" selected>Selecione uma opção...</option>
                     <option value="https://www.facebook.com/amoranimal190">Facebook</option>
                     <option value="https://www.instagram.com/grupoamoranimal">Instagram</option>
@@ -45,7 +45,7 @@
                     <option value="outro">Outro (especificar abaixo)</option>
                 </select>
             </div>
-            <div class="mb-3" id="outroLinkContainer" style="display: block;">
+            <div class="mb-3" id="outroLinkContainer" style="display: none;">
                 <label for="link_customizado" class="form-label">Link Customizado:</label>
                 <input type="url" name="link_customizado" id="link_customizado" class="form-control" placeholder="https://exemplo.com">
                 <input type="hidden" name="link" id="link_final">
