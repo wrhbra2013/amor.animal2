@@ -57,6 +57,7 @@ whatsapp: req.body.whatsapp
 console.log(forms);
 insert_adocao(forms.arquivo, forms.nome, forms.idade, forms.especie, forms.porte, forms.caracteristicas, forms.responsavel, forms.contato, forms.whatsapp);
 res.redirect('/home');
+
 });
   
 router.post('/delete/adocao/:id/:arq', isAdmin, (req, res) => {

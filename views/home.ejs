@@ -233,37 +233,12 @@ btnText: 'Saiba Mais'
 </div>
 
 <!-- numeros castracoes -->
-<!-- numeros castracoes -->
+
 <div class="col-md-4">
 <div class="card h-100 shadow-sm">
 <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
 <i class="fas fa-cut fa-3x text-primary mb-3"></i>
 <h5 class="card-title">Castrações</h5>
-
-<%
-const contagemPorAno = {};
-let dadosDeCastracaoModel8Existem = false;
-
-if (typeof model8 !== 'undefined' && model8.length > 0) {
-dadosDeCastracaoModel8Existem = true;
-model8.forEach(castracao => {
-if (castracao.origem) { 
-try {
-const dataObj = new Date(castracao.origem);
-if (!isNaN(dataObj.getTime())) { 
-const ano = dataObj.getFullYear();
-contagemPorAno[ano] = (contagemPorAno[ano] || 0) + 1;
-}
-} catch (e) {
-// console.warn("Formato de data inválido para castracao.origem:", castracao.origem, e);
-}
-}
-});
-}
-const anosOrdenados = Object.keys(contagemPorAno).sort((a, b) => parseInt(b) - parseInt(a));
-%>
-
-<% if (anosOrdenados.length > 0) { %>
 <p class="text-muted mb-2 small">Realizadas por ano</p>
 <div class="table-responsive mb-3 w-100" >
 <table class="table table-sm table-borderless text-start mx-auto" id="contagem-por-ano-table">
@@ -277,27 +252,33 @@ const anosOrdenados = Object.keys(contagemPorAno).sort((a, b) => parseInt(b) - p
 <tr>
 <td>2024</td>
 <td>250</td>
-</tr>
+<!-- Calculo do ano -->
+    
+        <tr>
+        <td class="fw-bold pe-2">2025</td>
+         <td class="text-end">
+             <%  if (typeof model9 !== 'undefined' && model9.length > 0 && model9[0]) { %>
+                <%= Object.values(model9[0])[0] %>
+                <% } else { %>
+                0
+                <% } %>        
+        </td>
+            
+    
+        
+    </tr>
+    
+    
+                    </tbody>
+                </table>
+            </div>
+            <a href="/castracao" class="btn btn-outline-primary mt-3">Detalhes Castração</a>
+        </div>
+    </div>
+</div>
 
-<% anosOrdenados.forEach(ano => { %>
-<tr>
-<td class="fw-bold pe-2"><%= ano %></td>
-<td class="text-end"><%= contagemPorAno[ano] %></td>
-</tr>
-<% }); %>
-</tbody>
-</table>
-</div>
-<% } else if (dadosDeCastracaoModel8Existem) { %>
-<p class="text-muted">Nenhum registro de castração com data válida encontrado.</p>
-<% } else { %>
-<p class="text-muted">Nenhum dado de castração disponível.</p>
-<% } %>  
 
-<a href="/castracao" class="btn btn-outline-primary mt-3">Detalhes Castração</a>
-</div>
-</div>
-</div>
+ 
 
 <!-- tickets de castracao -->
 <div class="col-12 mt-5">
@@ -481,7 +462,7 @@ Adicione sua História &gt;
 <p class="card-text flex-grow-1">Carateristicas: <%= procura_se.caracteristicas %></p>
 <p class="card-text"><small class="text-muted">Localização: <%= procura_se.local %></small></p>
 <p class="card-text mt-auto"><small class="text-muted">Contato: <%= procura_se.contato %></small></p>
-<p class="card-text"><small class="text-muted">Anuncio em: <%= procura_se.origem ? new Date(procura_se.origem).toLocaleDateString('pt-BR') : 'Data não informada' %></small></p>
+<p class="card-text"><small class="text-muted">Anuncio em: <%= procura_se.origem %></small></p>
 </div>
 </div>
 <% }); %> <% /* Corrected forEach closing tag */ %>
