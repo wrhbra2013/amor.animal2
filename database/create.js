@@ -13,7 +13,7 @@ const adocao = `CREATE TABLE IF NOT EXISTS adocao(
     tutor text,  
     contato text,     
     whatsapp text,
-    origem datetime default (date())
+    origem DATETIME DEFAULT (strftime('%d/%m/%Y %H:%M:%S', 'now', 'localtime'))
     );`
 
 const sql = db.run(adocao,  error => {
@@ -28,7 +28,7 @@ create_adocao();
 function create_adotante() {
     const  adotante = `CREATE TABLE IF NOT EXISTS adotante (
     id integer PRIMARY KEY,
-    origem datetime default (date()),
+     origem DATETIME DEFAULT (strftime('%d/%m/%Y %H:%M:%S', 'now', 'localtime')),
     q1 integer,
     q2 integer, 
     q3 integer,
@@ -59,7 +59,7 @@ create_adotante();
 function create_adotado(){
     const adotado = ` CREATE TABLE IF NOT EXISTS adotado(
     id integer primary key,
-    origem datetime default (date()),
+   origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
     arquivo blob, 
     pet text,
     tutor text,
@@ -77,7 +77,7 @@ create_adotado()
 function create_castracao () {
     const castracao = `CREATE TABLE IF NOT EXISTS castracao(
     id integer PRIMARY KEY,
-     origem datetime default (date()),
+    origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
      ticket integer default (random()),
     nome text,
     contato  text,
@@ -101,7 +101,7 @@ create_castracao();
 function create_procura_se(){
       const procurase = `CREATE TABLE IF NOT EXISTS procura_se (
         id INTEGER PRIMARY KEY,
-         origem datetime default (date()),
+        origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
          arquivo blob,
          nomePet text,
          idadePet integer,
@@ -125,7 +125,7 @@ create_procura_se();
 function create_parceria(){
   const parceria =` CREATE TABLE IF NOT EXISTS parceria(
    id INTEGER PRIMARY KEY,
-   origem datetime default (date()),
+   origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
     empresa text,
     localidade text,
     proposta text,
@@ -146,7 +146,7 @@ create_parceria();
 function create_home(){
     const home = `CREATE TABLE IF NOT EXISTS home(
         id INTEGER PRIMARY KEY,
-        origem datetime default (date()),
+       origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
         arquivo blob, 
         titulo text,
         mensagem text,
@@ -166,7 +166,7 @@ create_home();
 function create_login() {
     const login = `CREATE TABLE IF NOT EXISTS login(
         id INTEGER PRIMARY KEY,
-        origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
+        origem DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),        
         usuario TEXT UNIQUE NOT NULL,
         senha TEXT NOT NULL,
         isAdmin BOOLEAN DEFAULT TRUE

@@ -11,9 +11,8 @@ function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tu
   caracteristicas,
   tutor,
   contato,
-  whatsapp,
-  origem
-) VALUES  (?,?,?,?,?,?,?,?, ?,strftime('%d/%m/%Y'));`
+  whatsapp
+  ) VALUES  (?,?,?,?,?,?,?,?, ?);`
 const values =  [ `${arquivo}`,` ${nome}`, `${idade}`,`${especie}`,` ${porte}`, `${caracteristicas}`, `${tutor}`, `${contato}`, `${whatsapp}`];
 const  sql = db.run(insert, values,  error => {
       if (error)  return console.log(error)
@@ -24,7 +23,6 @@ const  sql = db.run(insert, values,  error => {
 
 function insert_adotante(q1, q2, q3,  nome, contato,whatsapp, cep, endereco, numero, complemento, bairro, cidade, estado, idPet){
   const insert = `INSERT INTO adotante (
-    origem, 
     q1, 
     q2, 
     q3, 
@@ -40,7 +38,7 @@ function insert_adotante(q1, q2, q3,  nome, contato,whatsapp, cep, endereco, num
     cidade, 
     estado, 
     idPet
-  ) VALUES (strftime('%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+  ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
   // Certifique-se que q1, q2, q3, numero, idPet são números.
   // Se vierem de um formulário web, podem ser strings e precisarão de parseInt().
@@ -67,13 +65,12 @@ function insert_adotante(q1, q2, q3,  nome, contato,whatsapp, cep, endereco, num
 
 function insert_adotado(arquivo, pet, tutor, historia){
   const insert = `INSERT INTO adotado (
-   origem,
    arquivo,
    pet,
    tutor,
    historia
    ) 
-   VALUES (strftime('%d/%m/%Y'), ?, ?, ?, ?
+   VALUES ( ?, ?, ?, ?
    );`
  const values = [`${arquivo}`, `${pet}`, `${tutor}`, `${historia}`];
  const sql = db.run( insert,  values,  error => {
@@ -87,7 +84,6 @@ return sql;
 
 function insert_castracao(nome, contato, whatsapp,arquivo, idade, especie, porte, clinica, agenda){
   const insert = `INSERT INTO castracao(
-  origem,
   ticket,
   nome,
   contato,
@@ -98,7 +94,7 @@ function insert_castracao(nome, contato, whatsapp,arquivo, idade, especie, porte
   porte,
   clinica,
   agenda 
-)VALUES (strftime('%d/%m/%Y'), ABS(RANDOM()) % 10000, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
+)VALUES ( ABS(RANDOM()) % 10000, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
   const values = [ `${nome}`,`${contato}`, `${whatsapp}`,`${arquivo}`, `${idade}`, `${especie}`,`${porte}`,`${clinica}`, `${agenda}`];
 
   const sql = db.run( insert,  values,  error => {
@@ -110,7 +106,6 @@ function insert_castracao(nome, contato, whatsapp,arquivo, idade, especie, porte
 
 function insert_procura_se(arquivo, nomePet, idadePet, especie, porte, caracteristicas, local, tutor, contato, whatsapp){
   const insert = `INSERT INTO procura_se (
-   origem,
     arquivo,
     nomePet,
     idadePet,
@@ -122,7 +117,7 @@ function insert_procura_se(arquivo, nomePet, idadePet, especie, porte, caracteri
     contato,
     whatsapp
      )                
-     VALUES (strftime('%d/%m/%Y'),?,?,?,?,?,?,?,?,?,?);`    
+     VALUES (?,?,?,?,?,?,?,?,?,?);`    
   const values = [`${arquivo}`, `${nomePet}`, `${idadePet}`, `${especie}`, `${porte}`, `${caracteristicas}`,`${local}`, `${tutor}`,`${contato}`, `${whatsapp}` ];
 
   const sql = db.run( insert,  values,  error => {
@@ -134,7 +129,6 @@ function insert_procura_se(arquivo, nomePet, idadePet, especie, porte, caracteri
 
 function insert_parceria(empresa, localidade, proposta, representante, telefone, whatsapp, email) {
   const insert = `INSERT INTO parceria (
-  origem,
   empresa,
   localidade,
   proposta,
@@ -142,7 +136,7 @@ function insert_parceria(empresa, localidade, proposta, representante, telefone,
   telefone,
   whatsapp,
   email
-   ) VALUES (strftime('%d/%m/%Y'), ?, ? , ?, ?, ?, ?, ?);`
+   ) VALUES (?, ? , ?, ?, ?, ?, ?);`
   const values = [ `${empresa}`, `${localidade}`, `${proposta}`,`${representante}`, `${telefone}`, `${whatsapp}`, `${email}` ];
 
   const sql = db.run( insert,  values,  error => {
@@ -156,12 +150,11 @@ function insert_parceria(empresa, localidade, proposta, representante, telefone,
 function insert_home(arquivo, titulo,mensagem, link)
 {
   const insert = `INSERT INTO home (
-  origem,
   arquivo,
   titulo,
   mensagem,
   link
-   ) VALUES (strftime('%d/%m/%Y'), ?, ?, ?, ?);`
+   ) VALUES ( ?, ?, ?, ?);`
   const values = [ `${arquivo}` ,`${titulo}`, `${mensagem}`, `${link}`
       ];
 
@@ -174,12 +167,11 @@ function insert_home(arquivo, titulo,mensagem, link)
 
 function insert_login(usuario, senha) {
   const insert = `INSERT INTO login (
-    origem,
     usuario,
     senha,
     isAdmin
-) VALUES (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime'), ?, ?, ?);`;
-  const values = [`${usuario}`, `${senha}`,  true];
+) VALUES (?, ?, ?);`;
+  const values = [`${usuario}`, `${senha}`,  1];
 
   const sql = db.run(insert, values, function(error) {
       if (error) {

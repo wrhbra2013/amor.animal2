@@ -233,7 +233,6 @@ btnText: 'Saiba Mais'
 </div>
 
 <!-- numeros castracoes -->
-
 <div class="col-md-4">
 <div class="card h-100 shadow-sm">
 <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
@@ -250,34 +249,51 @@ btnText: 'Saiba Mais'
 </thead>
 <tbody>
 <tr>
-<td>2024</td>
+    <%
+        const currentYear = new Date().getFullYear();
+        const previousYear = currentYear - 1;
+        %>
+<td>  <%= previousYear %></td>
 <td>250</td>
-<!-- Calculo do ano -->
+</tr>
+<tr>
+<td class="fw-bold pe-2">  
+        <%= currentYear %>
+</td>
+<td class="text-end">
+     <%
+        let currentYearCastracaoCount = 0;
+        if (typeof model8 !== 'undefined' && model8.length > 0) {
+            const currentYearData = model8.find(item => item.ano === currentYear);
+            if (currentYearData) {
+                currentYearCastracaoCount = currentYearData.quantidade;
+            }
+        }
+    %>
+    <%= currentYearCastracaoCount %>
     
-        <tr>
-        <td class="fw-bold pe-2">2025</td>
-         <td class="text-end">
-             <%  if (typeof model9 !== 'undefined' && model9.length > 0 && model9[0]) { %>
-                <%= Object.values(model9[0])[0] %>
-                <% } else { %>
-                0
-                <% } %>        
-        </td>
-            
-    
-        
-    </tr>
-    
-    
-                    </tbody>
-                </table>
-            </div>
-            <a href="/castracao" class="btn btn-outline-primary mt-3">Detalhes Castração</a>
-        </div>
-    </div>
+
+
+    <!-- <% if (typeof castracaoCount !== 'undefined') { %>
+        <%= castracaoCount %>
+        <% } else if (typeof model9 !== 'undefined' && model9.length > 0 && model9[0]) { %>
+        <%= Object.values(model9[0])[0] %>
+        <% } else { %>
+        0
+        <% } %> -->
+
+</td>
+</tr>
+
+</tbody>
+</table>
 </div>
 
 
+<a href="/castracao" class="btn btn-outline-primary mt-3">Detalhes Castração</a>
+</div>
+</div>
+</div>
  
 
 <!-- tickets de castracao -->
@@ -420,11 +436,6 @@ Já temos <span class="numero-destaque fw-bold"><%= adotantesCountText %></span>
 <div class="col-12">
 <div class="historia-sem-itens text-center p-4 border rounded bg-light">
 <p>Nenhuma história de adoção foi adicionada ainda.</p>
-<% if (user) { %>
-<a href="/adotado/form" class="btn btn-primary">
-Adicione sua História &gt;
-</a>
-<% } %>
 </div>
 </div>
 </div>
@@ -467,7 +478,7 @@ Adicione sua História &gt;
 </div>
 <% }); %> <% /* Corrected forEach closing tag */ %>
 <% } else { %>
-<div class="text-center"> <% /* Added text-center for better alignment */ %>
+    <div class="parceiros-sem-itens text-center p-4 border rounded bg-white">
 <p>Nenhum dado disponivel no momento.</p>
 </div>
 <% } %>
