@@ -252,7 +252,36 @@
           }
       });
   });
+
+   
   
+router.post('/delete/:tabela/:id', isAdmin, (req, res) => {
+      const tabela = req.params.tabela;
+      const id = req.params.id;
+      const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login'];
+  
+      if (!tabelasPermitidas.includes(tabela)) {
+          console.error(`Tentativa de exclusão em tabela inválida: ${tabela}`);
+          return res.status(400).render('error', { error: 'Nome de tabela inválido para exclusão.' });
+      }
+  
+      const sql = `DELETE FROM ${tabela} WHERE id = ?`;
+  
+      db.run(sql, id, function(error) {
+          if (error) {
+              console.error(`Erro ao deletar registro na tabela ${tabela} com id ${id}:`, error);
+              return res.status(500).render('error', { error: `Erro ao deletar registro na tabela ${tabela}.` });
+          }
+          if (this.changes === 0) {
+              console.warn(`Tentativa de deletar registro inexistente na tabela ${tabela} com id ${id}`);
+              return res.status(404).render('error', { error: `Registro com id ${id} não encontrado na tabela ${tabela}.` });
+          }
+          console.log(`Registro deletado com sucesso na tabela ${tabela} com id ${id}`);
+          // Redireciona de volta para a página de visualização da tabela
+          res.redirect(`/relatorio/${tabela}`);
+      });
+  });
+
   module.exports = router;
   
  

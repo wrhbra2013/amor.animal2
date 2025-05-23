@@ -10,8 +10,6 @@ const {isAdmin} = require('../middleware/auth');
 
 
 
-
-
  router.get('/login', (req, res) => {
      res.render('login');
  });

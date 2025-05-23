@@ -47,6 +47,7 @@
                                          <%# Capitaliza a primeira letra da chave para o cabeçalho %>
                                          <th><%= key.charAt(0).toUpperCase() + key.slice(1) %></th>
                                      <% } %>
+                                     <th>Ações</th>
                                  </tr>
                              <% } %>
                          </thead>
@@ -57,6 +58,14 @@
                                      <% for (const key in item) { %>
                                          <td><%= item[key] %></td>
                                      <% } %>
+                                     <form action="/relatorio/delete/<%= tabela %>/<%= item.id %>?_method=DELETE" method="POST" class="d-inline">
+                                         <td>
+                                             <button type="submit" class="btn btn-danger btn-sm" title="Deletar Registro" onclick="return confirm('Tem certeza que deseja deletar este registro?');">
+                                                 <i class="fas fa-trash-alt">Delete</i>
+                                             </button>
+                                         </td>
+                                     </form>
+                                 
                                  </tr>
                              <% } %>
                          </tbody>

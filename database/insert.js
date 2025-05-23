@@ -169,7 +169,7 @@ function insert_login(usuario, senha) {
   const insert = `INSERT INTO login (
     usuario,
     senha,
-    isAdmin
+     isAdmin
 ) VALUES (?, ?, ?);`;
   const values = [`${usuario}`, `${senha}`,  1];
 

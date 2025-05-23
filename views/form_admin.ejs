@@ -14,8 +14,7 @@
          <div class="mb-3">
             <label for="senha" class="form-label"> Confirmar Senha</label>
             <input type="text" class="form-control" id="confirmar" placeholder="Confirmar senha" required>
-        </div>  
-         
+        </div>         
         
          <button type="submit" class="btn btn-primary">Criar Usuário</button>
      </form>
@@ -25,14 +24,15 @@
     let input1  = document.getElementById("senha").value;
     let input2  = document.getElementById("confirmar").value;
     if (!input1 || !input2){
-        res.send('As senhas NÃO coincidem')
+        res.render('/admin/form', {mensagem:'As senhas NÃO coincidem'})
        
     }
   else{
-       res.send('Senha registrada.')
+       res.render('/admin/form', {mensagem:'As senhas coincidem SENHA CRIADA COM SUCESSO'})
+       console.log('Senha registrada.')
     }
 </script>
 
  
- <%-include("_footer")-%> <comment>Adicionado se você tiver um _footer.ejs</comment>
+ <%-include("_footer")-%> 
  

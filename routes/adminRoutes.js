@@ -15,12 +15,12 @@ router.post('/form', isAdmin, (req, res) => {
     const form = {
         usuario: req.body.usuario,
         senha: req.body.senha,
-        isAdmin: req.body.admin
+            
     }
-    insert_login(form.usuario, form.senha, form.isAdmin);
+    insert_login(form.usuario, form.senha);
     console.log(form);
     
-    res.render('form_admin' ,{message: 'Usuário criado com sucesso!' })   
+    res.render('home' ,{message: 'Usuário criado com sucesso!' })   
 
 });
 
