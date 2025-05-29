@@ -1,110 +1,106 @@
-<%- include("_header") -%>
-<link rel="stylesheet" href="/static/css/adote.css"> <!-- Corrigido o caminho para /static -->
-
-<main class="container mt-4 mb-5"> <!-- Adicionado mt-4 e mb-5 para espaçamento vertical -->
-
-<!-- Seção de Informações Importantes -->
-<div class="card shadow-sm mb-4"> <!-- Usando card e shadow para consistência -->
-<div class="card-body">
-<h5 class="card-title"><i class="fas fa-exclamation-circle me-2"></i>IMPORTANTE</h5> <!-- Título do card e ícone -->
-<p class="card-text">
-O Serviço de Adoção é realizado para o bem estar do PET, com total responsabilidade do adotante.
-</p>
-</div>
-</div>
-
-<!-- Botão para Adicionar Novo Animal para Adoção -->
-<% if (user) { %> <!-- Mostrar botão apenas se o usuário estiver logado -->
-<div class="mb-4 text-end"> <!-- Alinhado à direita, com margem inferior -->
-<a href="/adocao/form" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Adicionar Animal para Adoção</a>
-</div>
-<% } %>
-
-<!-- Tabela de Animais para Adoção -->
-<div class="card shadow-sm">
-<div class="card-header">
-    <a href="/adocao/form" class="text-decoration-none"><i class="fas fa-paw me-2"></i> Adicione  para adoção</a>
-<h5 class="mb-0"><i class="fas fa-paw me-2"></i>Lista de PETS para Adoção</h5>
-</div>
-<div class="card-body">
-<% if (typeof model !== 'undefined' && model.length > 0) { %>
-    
+ <%- include("_header") -%>
+ <link rel="stylesheet" href="/static/css/adote.css">
+ 
+ <main class="container mt-4 mb-5">
+ 
+     <div class="card shadow-sm mb-4">
+         <div class="card-body">
+             <h5 class="card-title"><i class="fas fa-exclamation-circle me-2"></i>IMPORTANTE</h5>
+             <p class="card-text">
+                 O Serviço de Adoção é realizado para o bem estar do PET, com total responsabilidade do adotante.
+             </p>
+         </div>
+     </div>
+ 
    
-<div class="table-responsive">
-<table class="table table-striped table-hover align-middle"> <!-- 'align-middle' para centralizar verticalmente o conteúdo das células -->
-<thead>
-<tr>
-<th>Origem</th>
-<th>Imagem</th>
-<th>Nome</th>
-<th>Idade</th>
-<th>Espécie</th>
-<th>Porte</th>
-<th>Características</th>
-<th class="text-center">Ações</th>
-</tr>
-</thead>
-<tbody>
-<% for(const adocao of model) { %> 
-
-<tr>
-<td><%=adocao.origem %></td>
-<td>
-<div class="image-container text-center"> <!-- Centralizar imagem se necessário -->
-<img class="img-thumbnail" src="/static/uploads/adocao/<%= adocao.arquivo %>"
-alt="Foto de <%= adocao.nome %>" style="max-width: 100px; max-height: 100px; object-fit: cover;" />
-<!-- Ajustado tamanho máximo da imagem e object-fit -->
-</div>
-</td>
-<td><%=adocao.nome %></td>
-<td><%=adocao.idade %></td>
-<td><%=adocao.especie %></td>
-<td><%=adocao.porte %></td>
-<td><%=adocao.caracteristicas %></td>
-<td class="text-center">
-<div class="d-flex flex-column flex-sm-row justify-content-center gap-2"> <!-- Flex para botões, responsivo -->
-<!-- <a href="/adotante/form?petId=<%= adocao.id %>&petNome=<%= encodeURIComponent(adocao.nome) %>" class="btn btn-success btn-sm"> -->
-<a href="/adotante/form/<%= adocao.id %>" class="btn btn-success btn-sm">
-<i class="fas fa-heart me-1"></i>Adotar
-</a>
-
-<% if (user) { %>
-<button type="button" class="btn btn-danger btn-sm"
-onclick="confirmDelete('<%= adocao.id %>', '<%= adocao.arquivo %>')">
-<i class="fas fa-trash me-1"></i>Excluir
-</button>
-<% } %>
-<!-- O botão cancelar aqui pode ser redundante se a navegação principal for clara -->
-<!-- <a href="/home" class="btn btn-secondary btn-sm">Cancelar</a> -->
-</div>
-</td>
-</tr>
-<% } %>
-</tbody>
-</table>
-</div>
-<% } else { %>
-<div class="text-center p-4">
-<i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
-<p class="mb-0">Nenhum PET disponível para adoção no momento.</p>
-<% if (user) { %>
-<p class="mt-2"><small>Que tal <a href="/adocao/form">adicionar um novo PET </a>?</small></p>
-<% } %>
-</div>
-<% } %>
-</div>
-</div>
-</main>
-
-<script>
-function confirmDelete(id, arquivo) {
-if (confirm('Tem certeza de que deseja excluir este animal da lista de adoção? Esta ação não poderá ser desfeita.')) {
-// Idealmente, isso seria um POST para seguir as melhores práticas REST,
-// mas para simplificar com um link, mantemos o GET.
-// Para um POST, você precisaria de um pequeno formulário.
-window.location.href = `/delete/adocao/${id}/${arquivo}`;
-}
-}
-</script>
-
-<%- include("_footer")-%>
+     <div class="mb-4 text-end">
+         <a href="/adocao/form" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Adicionar para Adoção</a>
+     </div>
+     
+ 
+     <div class="card shadow-sm">
+         <div class="card-header">
+             <h5 class="mb-0"><i class="fas fa-paw me-2"></i>Lista de PETS para Adoção</h5>
+         </div>
+         <div class="card-body">
+             <div class="table-responsive">
+                 <table class="table table-striped table-hover align-middle">
+                     <thead>
+                         <tr>
+                             <th>Origem</th>  <!-- Assuming 'origem' is available -->
+                             <th>Imagem</th>
+                             <th>Nome</th>
+                             <th>Idade</th>
+                             <th>Espécie</th>
+                             <th>Porte</th>
+                             <th>Características</th>
+                             <th class="text-center">Ações</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <% if (typeof model !== 'undefined' && model.length > 0) { %>
+                         <% model.forEach(adocao => { %>
+                         <tr>
+                             <td>
+                                 <% if (adocao.origem) { %>
+                                     <%= new Date(adocao.origem).toLocaleDateString('pt-BR') %>
+                                 <% } else { %>
+                                     N/A
+                                 <% } %>
+                             </td>
+                             <td>
+                                 <div class="image-container text-center">
+                                     <img class="img-thumbnail" src="/static/uploads/adocao/<%= adocao.arquivo %>"
+                                         alt="Foto de <%= adocao.nome %>"
+                                         style="max-width: 100px; max-height: 100px; object-fit: cover;" />
+                                 </div>
+                             </td>
+                             <td><%= adocao.nome %></td>
+                             <td><%= adocao.idade %></td>
+                             <td><%= adocao.especie %></td>
+                             <td><%= adocao.porte %></td>
+                             <td><%= adocao.caracteristicas %></td>
+                             <td class="text-center">
+                                 <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+                                     <a href="/adotante/form/<%= adocao.id %>" class="btn btn-success btn-sm">
+                                         <i class="fas fa-heart me-1"></i>Adotar
+                                     </a>
+ 
+                                     <% if (user) { %>
+                                     <button type="button" class="btn btn-danger btn-sm"
+                                         onclick="confirmDelete('<%= adocao.id %>', '<%= adocao.arquivo %>')">
+                                         <i class="fas fa-trash me-1"></i>Excluir
+                                     </button>
+                                     <% } %>
+                                 </div>
+                             </td>
+                         </tr>
+                         <% }); %>
+                         <% } else { %>
+                         <tr>
+                             <td colspan="8" class="text-center p-4">
+                                 <i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
+                                 <p class="mb-0">Nenhum PET disponível para adoção no momento.</p>
+                                 <% if (user) { %>
+                                 <p class="mt-2"><small>Que tal <a href="/adocao/form">adicionar um novo PET</a>?</small></p>
+                                 <% } %>
+                             </td>
+                         </tr>
+                         <% } %>
+                     </tbody>
+                 </table>
+             </div>
+         </div>
+     </div>
+ </main>
+ 
+ <script>
+     function confirmDelete(id, arquivo) {
+         if (confirm('Tem certeza de que deseja excluir este animal da lista de adoção? Esta ação não poderá ser desfeita.')) {
+             window.location.href = `/delete/adocao/${id}/${arquivo}`;
+         }
+     }
+ </script>
+ 
+ <%- include("_footer")-%>
+ 

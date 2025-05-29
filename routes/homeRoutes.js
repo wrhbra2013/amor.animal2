@@ -27,7 +27,7 @@
           return {
               home: data.home , // Default to empty array if data.home is undefined
               adocao: data.adocao || [],
-              adocaoCount: data.adocaoCount || { count: 0 }, // Default to { count: 0 }
+              adocaoCount: data.adocaoCount || [], // Default to { count: 0 }
               adotante: data.adotante || [],
               adotanteCount: data.adotanteCount || { count: 0 },
               adotado: data.adotado || [],

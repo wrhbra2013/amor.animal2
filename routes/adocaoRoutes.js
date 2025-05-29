@@ -19,11 +19,11 @@
          // For this route, you might consider a dedicated query function
          // like getAdocaoData() if executeAllQueries fetches too much unnecessary data.
          const results = await executeAllQueries();
-         const adocao = results.adocao; // Extract the adocao data
-         console.log('adocao de adocaoRoutes =>', adocao)    // Check if adocao data was successfully retrieved
+         const adocaoData = results.adocao; // Extract the adocao data
+         console.log('adocao de adocaoRoutes =>', adocaoData)    // Check if adocao data was successfully retrieved
        
          
-         res.render('adote', {model: adocao });
+         res.render('adote', {model: adocaoData });
      } catch (error) {
          console.error("Error fetching adoption data:", error);
          // It's better to render an error page than redirect to the same page with an error query param

@@ -37,92 +37,107 @@
      <!-- ==========================================================================
          3. Notícias (Carrossel)
          ========================================================================== -->
-     <section id="noticias" class="section-noticias py-5" style="background-color: var(--bg-color);"> <!-- Usando --bg-color para alternar -->
-         <div class="container">
-             <div class="d-flex justify-content-between align-items-center mb-4">
-                 <h2>Fique por Dentro</h2>
-                 <% if (user) { %>
-                 <a href="/home/form" class="button btn-sm">Nova Notícia</a>
-                 <% } %>
-             </div>
- 
-             <!-- DEBUGGING BLOCK FOR MODEL1 -->
-             <pre style="background-color: #161616; color: white; padding: 10px; border: 1px solid #fff8f8; white-space: pre-wrap; word-wrap: break-word; margin-bottom: 1rem;">
-                 DEBUG: Conteúdo de model1:
-                 <% if (typeof model1 !== 'undefined') { %>
-                     <%= JSON.stringify(model1, null, 2) %>
-                     Número de itens em model1: <%= model1.length %>
-                 <% } else { %>
-                     model1 é undefined.
-                 <% } %>
-             </pre>
-             <!-- END DEBUGGING BLOCK -->
-             
-             <%
-             let allNewsItems = [];
-             if (typeof model1 !== 'undefined' && model1.length > 0) {
-                
-               model1.forEach(homeItem => {
-                 allNewsItems.push({
-                   type: homeItem.type || 'dynamic',
-                   id: homeItem.id,
-                   titulo: homeItem.titulo,
-                   conteudo: homeItem.mensagem,
-                   arquivo: homeItem.arquivo,
-                   link: homeItem.link,
-                   isExternalLink: !!homeItem.link,
-                   icon: homeItem.icon,
-                   linkPath: homeItem.linkPath,
-                   btnClass: homeItem.btnClass,
-                   btnText: homeItem.btnText
-                 });
-               });
-             }
-             // Adicione notícias "anteriormente estáticas" aqui se elas também vierem de model1 com um 'type' específico
-             %>
- 
-             <% if (allNewsItems.length > 0) { %>
-             <div class="photobanner-container news-carousel-container mb-4" id="news-carousel">
-                 <div class="photobanner-slides news-carousel-slides">
-                     <% allNewsItems.forEach((news, index) => { %>
-                     <div class="photobanner-slide news-carousel-slide <%= index === 0 ? 'active' : '' %>">
-                         <div class="card h-100 shadow-sm noticia-item w-100">
-                             <% if (news.arquivo) { %>
-                             <img src="/static/uploads/home/<%= news.arquivo %>" alt="<%= news.titulo %>" class="card-img-top noticia-img-fixed-height">
-                             <% } else if (news.type === 'dynamic') { %>
-                             <img src="/static/images/placeholder-news.jpg" alt="Placeholder" class="card-img-top noticia-img-fixed-height">
-                             <% } %>
-                             <div class="card-body d-flex flex-column">
-                                 <h5 class="card-title">
-                                     <% if (news.icon) { %><i class="<%= news.icon %> me-2"></i><% } %>
-                                     <%= news.titulo %>
-                                 </h5>
-                                 <p class="card-text flex-grow-1"><%= news.conteudo %></p>
-                                 <% if (news.type === 'dynamic' && news.isExternalLink) { %>
-                                 <a href="<%= news.link %>" target="_blank" rel="noopener noreferrer" class="button mt-auto align-self-start">Leia Mais</a>
-                                 <% } else if (news.type === 'static' && news.linkPath) { %>
-                                 <a href="<%= news.linkPath %>" class="button <%= news.btnClass || '' %> mt-auto align-self-start"><%= news.btnText || 'Saiba Mais' %></a>
-                                 <% } %>
-                             </div>
-                         </div>
-                     </div>
-                     <% }); %>
-                 </div>
-                 <% if (allNewsItems.length > 1) { %>
-                 <button class="photobanner-control prev news-carousel-control" aria-label="Anterior">&lt;</button>
-                 <button class="photobanner-control next news-carousel-control" aria-label="Próximo">&gt;</button>
-                 <div class="photobanner-dots news-carousel-dots">
-                     <% allNewsItems.forEach((news, index) => { %>
-                     <span class="dot <%= index === 0 ? 'active' : '' %>" data-slide="<%= index %>"></span>
-                     <% }); %>
-                 </div>
-                 <% } %>
-             </div>
-             <% } else { %>
-             <p class="text-center text-muted">Nenhuma notícia para exibir no momento.</p>
-             <% } %>
-         </div>
-     </section>
+    <!-- Seção: Notícias (Agora como Carrossel) -->
+<section id="noticias" class="section-noticias py-5 bg-light">
+    <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Fique por dentro</h2>
+    <% if (user) { %>
+    <a href="/home/form" class="btn btn-outline-primary">Nova Noticia</a>
+    <% } %>
+    </div>
+    
+    <%
+    let allNewsItems = [];
+    
+    // Adiciona notícias dinâmicas de model1
+    if (typeof model1 !== 'undefined' && model1.length > 0) {
+    model1.forEach(home => {
+    allNewsItems.push({
+    type: 'dynamic',
+    id: home.id,
+    titulo: home.titulo,
+    conteudo: home.conteudo,
+    arquivo: home.arquivo,
+    link: home.link,
+    isExternalLink: !!home.link // Verifica se o link é externo (true se home.link existir e não for vazio)
+    });
+    });
+    }
+    
+    // Adiciona notícias estáticas (sempre presentes)
+    allNewsItems.push({
+    type: 'static',
+    titulo: 'Campanha de Doação',
+    icon: 'fas fa-donate me-2 text-success',
+    conteudo: 'Estamos arrecadando fundos para ajudar nos custos de tratamento e abrigo dos animais. Sua doação faz a diferença!',
+    linkPath: '/doacao', // Usar linkPath para consistência
+    btnClass: 'btn-success',
+    btnText: 'Doe Agora'
+    });
+    allNewsItems.push({
+    type: 'static',
+    titulo: 'Evento de Adoção',
+    icon: 'fas fa-calendar-alt me-2 text-info',
+    conteudo: 'Participe do nosso próximo evento de adoção! Teremos muitos pets esperando por um lar. Venha conhecer e se apaixonar!',
+    linkPath: '/sobre', // Usar linkPath para consistência
+    btnClass: 'btn-info',
+    btnText: 'Saiba Mais'
+    });
+    %>
+    
+    <% if (allNewsItems.length > 0) { %>
+    <div class="news-carousel-container mb-4" id="news-carousel"> 
+    <div class="news-carousel-slides"> 
+    <% allNewsItems.forEach((news, index) => { %>
+    <div class="news-carousel-slide <%= index === 0 ? 'active' : '' %>"> 
+    <div class="card h-100 shadow-sm noticia-item w-100">
+    <% if (news.type === 'dynamic' && news.arquivo) { %>
+    <img src="/static/uploads/home/<%= news.arquivo %>" alt="Notícia: <%= news.titulo %>" class="card-img-top noticia-img-fixed-height">
+    <% } else if (news.type === 'dynamic' && !news.arquivo) { %>
+    <img src="/static/images/placeholder-news.jpg" alt="Imagem placeholder para notícia: <%= news.titulo %>" class="card-img-top noticia-img-fixed-height">
+    <% } %>
+    
+    <div class="card-body d-flex flex-column">
+    <h5 class="card-title">
+    <% if (news.icon) { %><i class="<%= news.icon %>"></i><% } %>
+    <%= news.titulo %>
+    </h5>
+    <p class="card-text flex-grow-1"><%= news.conteudo %></p>
+    <% if (news.type === 'dynamic') { %>
+    <% if (news.isExternalLink) { %>
+    <a href="<%= news.link %>" target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-auto align-self-start">Leia Mais</a>
+    <% } else { %>
+    <a href="/home/<%= news.id %>" class="btn btn-primary mt-auto align-self-start">Leia Mais</a>
+    <% } %>
+    <% } else { // Notícia Estática %>
+    <a href="<%= news.linkPath %>" class="btn <%= news.btnClass %> mt-auto align-self-start"><%= news.btnText %></a>
+    <% } %>
+    </div>
+    </div>
+    </div>
+    <% }); %>
+    </div>
+    <% if (allNewsItems.length > 1) { %>
+    <button class="news-carousel-control prev" aria-label="Anterior">&lt;</button>
+    <button class="news-carousel-control next" aria-label="Próximo">&gt;</button>
+    <div class="news-carousel-dots">
+    <% allNewsItems.forEach((news, index) => { %>
+    <span class="dot <%= index === 0 ? 'active' : '' %>" data-slide="<%= index %>" aria-label="Notícia <%= index + 1 %>"></span>
+    <% }); %>
+    </div>
+    <% } %>
+    </div>
+    <% } else { %>
+    
+    <div class="row mt-4">
+    <div class="col-12">
+    <p class="text-center text-muted">Nenhuma notícia para exibir no momento.</p>
+    </div>
+    </div>
+    <% } %>
+    </div>
+    </section>
  
      <!-- ==========================================================================
          4. Adoção em Destaque
@@ -141,7 +156,7 @@
                      </a>
                      <div class="card-body text-center">
                          <h5 class="card-title"><%= adocao.nome %></h5>
-                         <p class="text-muted small"><%= adocao.especie %> - <%= adocao.idade %></p>
+                         <p class="text-muted small"><%= adocao.especie %> -  <%= adocao.idade %> meses</p>
                          <a href="/adocao/<%= adocao.id %>" class="button btn-sm">Conhecer <%= adocao.nome.split(' ')[0] %></a>
                      </div>
                  </div>
@@ -151,9 +166,9 @@
                  <a href="/adocao" class="button">Ver Todos os Pets</a>
              </div>
              <% } else { %>
-             <p class="text-center text-muted">Nenhum animalzinho disponível para adoção no momento. Volte em breve!</p>
+             <p class="text-center text-muted">Nenhum pet disponível para adoção no momento. Volte em breve!</p>
              <% } %>
-             <a href="/adocao" class="button">Ver Todos os Pets</a>
+          
 
          </div>
      </section>
@@ -170,8 +185,12 @@
                      <div class="card card-impact h-100" style="border: none; background: transparent;">
                          <div class="card-body">
                              <i class="fas fa-paw fa-3x mb-3" style="color: var(--heading-color);"></i>
-                             <h3 class="card-title display-4 fw-bold"><%= (typeof model3 !== 'undefined' && model3.count) ? model3.count : '0' %></h3>
-                             <p class="text-muted">Animais em Adoção</p>
+                             <h3 class="card-title display-4 fw-bold"><% if (typeof model3 !== 'undefined' && model3.length > 0 && model3[0]) { %>
+                                <%= Object.values(model3[0])[0] %>
+                                <% } else { %>
+                                0
+                                <% } %></h3>
+                             <p class="text-muted">Adoções</p>
                              <a href="/adocao">Veja Mais</a>
                          </div>
                      </div>
@@ -181,7 +200,11 @@
                      <div class="card card-impact h-100" style="border: none; background: transparent;">
                          <div class="card-body">
                              <i class="fas fa-heart fa-3x mb-3" style="color: var(--heading-color);"></i>
-                             <h3 class="card-title display-4 fw-bold"><%= (typeof model7 !== 'undefined' && model7.count) ? model7.count : '0' %></h3>
+                             <h3 class="card-title display-4 fw-bold"><% if (typeof model7 !== 'undefined' && model7.length > 0 && model7[0]) { %>
+                                <%= Object.values(model7[0])[0] %>
+                                <% } else { %>
+                                0
+                                <% } %></h3>
                              <p class="text-muted">Adotados</p>
                              <a href="/adotado">Veja Mais</a
                          </div>
@@ -192,7 +215,11 @@
                      <div class="card card-impact h-100" style="border: none; background: transparent;">
                          <div class="card-body">
                              <i class="fas fa-users fa-3x mb-3" style="color: var(--heading-color);"></i>
-                             <h3 class="card-title display-4 fw-bold"><%= (typeof model5 !== 'undefined' && model5.count) ? model5.count : '0' %></h3>
+                             <h3 class="card-title display-4 fw-bold"><% if (typeof model5 !== 'undefined' && model5.length > 0 && model5[0]) { %>
+                                <%= Object.values(model5[0])[0] %>
+                                <% } else { %>
+                                0
+                                <% } %></h3>
                              <p class="text-muted">Adotantes na Comunidade</p>
                          </div>
                      </div>
@@ -202,7 +229,11 @@
                      <div class="card card-impact h-100" style="border: none; background: transparent;">
                          <div class="card-body">
                              <i class="fas fa-hands-helping fa-3x mb-3" style="color: var(--heading-color);"></i>
-                             <h3 class="card-title display-4 fw-bold"><%= (typeof model13 !== 'undefined' && model13.count) ? model13.count : '0' %></h3>
+                             <h3 class="card-title display-4 fw-bold"><% if (typeof model13 !== 'undefined' && model13.length > 0 && model13[0]) { %>
+                                <%= Object.values(model13[0])[0] %>
+                                <% } else { %>
+                                0
+                                <% } %></h3>
                              <p class="text-muted">Parcerias</p>
                              <a href="/parceria">Veja Mais</a
                          </div>
@@ -229,7 +260,11 @@
                         </tr>
                         <tr>
                             <td>2025</td>
-                            <td><%= (typeof model9 !== 'undefined' && model9.count) ? model9.count : '0' %>
+                            <td><% if (typeof model9 !== 'undefined' && model9.length > 0 && model9[0]) { %>
+                                <%= Object.values(model9[0])[0] %>
+                                <% } else { %>
+                                0
+                                <% } %>
                             </td>
                         </tr>
                     </table>
@@ -319,7 +354,7 @@
                  <div class="text-center mt-3"><a href="/adotado/form" class="button">Adicionar História</a></div>
              <% } %>
              <% } %>
-             <a href="/adotado" class="button">Ver Todas as Histórias</a>
+            
          </div>
      </section>
  
@@ -327,13 +362,13 @@
          7. Como Ajudar / Chamada Final
          ========================================================================== -->
      <section id="como-ajudar" class="py-5 text-center" style="background-color: var(--heading-color); color: white;">
-         <div class="container" style="background-color: transparent; box-shadow: none; border: none;">
-             <h2 style="color: white;">Faça Parte da Mudança</h2>
+         <div class="container" style="background-color: gray; box-shadow: none; border: none;">
+             <h2 style="color: rgb(235, 218, 218);">Faça Parte da Mudança</h2>
              <p style="font-size: 1.1em; margin-bottom: 2rem;">
                  Sua ajuda, seja como voluntário, parceiro ou doador, é fundamental para continuarmos nosso trabalho.
              </p>
-             <a href="/doacao" class="button me-2" style="background-color: white; color: var(--heading-color); border: 1px solid var(--heading-color);">Quero ser Voluntário</a>
-             <a href="/parceria/form" class="button" style="background-color: white; color: var(--heading-color); border: 1px solid var(--heading-color);">Seja um Parceiro</a>
+             <a href="/doacao" class="button me-2" style="background-color: rgb(133, 66, 66); color: var(--heading-color); border: 1px solid var(--heading-color);">Quero ser Voluntário</a>
+             <a href="/parceria/form" class="button" style="background-color: rgb(133, 66, 66); color: var(--heading-color); border: 1px solid var(--heading-color);">Seja um Parceiro</a>
          </div>
      </section>
  
