@@ -1,144 +1,155 @@
  // Node Core Modules
  const path = require("path");
-  
+ 
  // NPM Modules
  const express = require('express');
  const session = require('express-session');
- const bodyParser = require('body-parser');
  const cookieParser = require("cookie-parser");
  
+ // Local Modules
+ const { initializePool } = require('./database/database.js');
+ const { initializeDatabaseTables } = require('./database/create.js');
+ // const { executeAllQueries } = require('./database/queries'); // Se usado apenas para verificação inicial, pode ser opcional aqui
  
- // Local Modules: Database
- const { db, fk_db } = require('./database/database.js');
- const {
-    create_home,
-    create_adocao,
-    create_adotado,
-    create_adotante,
-    create_castracao,
-    create_procura_se,
-    create_parceria,
-    create_login
- } = require('./database/create.js')
-
-
-
-
  // --- Express App Setup ---
  const app = express();
- const port = process.env.PORT || 3000; // Use environment variable for port
+ const PORT = process.env.PORT || 3000;
  
- // EJS Configuration
- app.set('view engine', 'ejs');
- app.set("/views", path.join(__dirname, "views"));
- // app.set("/database", path.join(__dirname, "database")); // Usually not needed to set database path as a view setting
- 
- // Static Files
- app.use('/static', express.static(path.join(__dirname, 'static'))); // Use path.join for robustness
- 
- // Body Parsers
- app.use(bodyParser.urlencoded({ extended: true }));
- app.use(bodyParser.json());
-
- 
- // Session Configuration
+ // --- Middleware ---
+ // Substitui bodyParser.urlencoded e bodyParser.json
+ app.use(express.urlencoded({ extended: true }));
+ app.use(express.json());
  app.use(cookieParser());
+ 
+ // Session middleware setup
+ // IMPORTANTE: Defina process.env.SESSION_SECRET em seu ambiente de produção!
+ const sessionSecret = process.env.SESSION_SECRET || '@admin_super_secret_key_replace_me';
+ if (sessionSecret === '@admin_super_secret_key_replace_me' && process.env.NODE_ENV === 'production') {
+     console.warn('AVISO: SESSION_SECRET não está configurada adequadamente para produção!');
+ }
  app.use(session({
-     secret: process.env.SESSION_SECRET || '@admin', // Use environment variable for secret!
+     secret: sessionSecret,
      resave: false,
-     saveUninitialized: false,
+     saveUninitialized: true,
      cookie: {
-         secure: process.env.NODE_ENV === 'production', // Set secure only in production (HTTPS)
-         httpOnly: true, // Good practice
-         maxAge: 24 * 60 * 60 * 1000 // Example: 1 day session expiry
+         secure: process.env.NODE_ENV === 'production', // Use cookies seguros em produção (HTTPS)
+         httpOnly: true, // Ajuda a prevenir ataques XSS
+         // maxAge: 24 * 60 * 60 * 1000 // Opcional: define o tempo de vida do cookie da sessão (ex: 1 dia)
      }
  }));
  
- // --- Global Middleware ---
- 
- // Make user session available in all templates
+ // Middleware para disponibilizar informações do usuário e estado do cookie para as views
  app.use((req, res, next) => {
-     res.locals.user = req.session.user;
+     res.locals.user = req.session.user || null; // Informações do usuário logado
+     res.locals.showCookieBanner = !(req.cookies && req.cookies.cookie_consent === 'accepted'); // Controla a exibição do banner de cookies
      next();
  });
- // --- Helper Functions & Custom Middleware ---
+ 
+ // --- View Engine Setup ---
+ app.set('view engine', 'ejs');
+ app.set('views', path.join(__dirname, 'views')); // Corrigido: app.set('views', ...)
+ 
+ // --- Static Files ---
+ // Servir arquivos estáticos da pasta 'static'
+ app.use('/static', express.static(path.join(__dirname, 'static')));
+ // Servir arquivos da pasta 'uploads' (que está dentro de 'static')
+ app.use('/uploads', express.static(path.join(__dirname, 'static', 'uploads')));
  
  
-    
+ // --- Routes ---
  
- 
- // --- Mount Routers ---
+ // Importação de Rotas
  const homeRoutes = require('./routes/homeRoutes');
  const adocaoRoutes = require('./routes/adocaoRoutes');
- const adotadoRoutes = require('./routes/adotadoRoutes');
  const adotanteRoutes = require('./routes/adotanteRoutes');
+ const adotadoRoutes = require('./routes/adotadoRoutes');
  const castracaoRoutes = require('./routes/castracaoRoutes');
- const authRoutes = require('./routes/authRoutes');
- const parceriaRoutes = require('./routes/parceriaRoutes');
  const procuraRoutes = require('./routes/procuraRoutes');
- const relatorioRoutes = require('./routes/relatorioRoutes');
- const cepRoutes = require('./routes/cepRoutes');
- const errorRoutes = require('./routes/errorRoutes');
- const loginRoutes = require('./routes/loginRoutes');
- const privacyRoutes = require('./routes/privacyRoutes');
+ const parceriaRoutes = require('./routes/parceriaRoutes');
  const doacaoRoutes = require('./routes/doacaoRoutes');
  const sobreRoutes = require('./routes/sobreRoutes');
+ const privacyRoutes = require('./routes/privacyRoutes');
+ const cepRoutes = require('./routes/cepRoutes');
+ const authRoutes = require('./routes/authRoutes'); // Para login/logout
  const adminRoutes = require('./routes/adminRoutes');
+ const relatorioRoutes = require('./routes/relatorioRoutes');
+ const errorRoutes = require('./routes/errorRoutes'); // Se for uma página de erro específica
+//   const loginRoutes = require('./routes/loginRoutes'); // GET /login agora é tratado por authRoutes
  const editRoutes = require('./routes/editRoutes');
  
-
- 
- 
-
- // ... import other route files 
- app.use('/', homeRoutes); // Base routes often go here or in homeRoutes
- app.use('/home', homeRoutes); // Explicit home route
+ // Montagem das Rotas
+ app.use('/', homeRoutes); // homeRoutes já lida com '/' e '/home' internamente
+ // app.use('/home', homeRoutes); // Redundante se homeRoutes já trata /home
+ app.use('/adote', adocaoRoutes); // Mantido para consistência, mas '/adocao' é mais comum
  app.use('/adocao', adocaoRoutes);
- app.use('/adotado', adotadoRoutes); // Map related paths to the same router
- app.use('/adotante', adotanteRoutes); // Map related paths to the same router
+ app.use('/adotante', adotanteRoutes);
+ app.use('/adotado', adotadoRoutes);
  app.use('/castracao', castracaoRoutes);
- app.use('/auth', authRoutes); // For /login, /logout
+ app.use('/procura-se', procuraRoutes);
  app.use('/parceria', parceriaRoutes);
- app.use('/procura_se', procuraRoutes); // Use hyphens for URLs generally
- app.use('/relatorio', relatorioRoutes);
- app.use('/cep', cepRoutes);
- app.use('/error', errorRoutes);
- app.use('/login', loginRoutes);
- app.use('/privacy', privacyRoutes);
  app.use('/doacao', doacaoRoutes);
  app.use('/sobre', sobreRoutes);
+ app.use('/privacy', privacyRoutes);
+ app.use('/cep', cepRoutes);
+ app.use('/auth', authRoutes); // Monta authRoutes na raiz para ter /login, /logout
  app.use('/admin', adminRoutes);
+ app.use('/relatorio', relatorioRoutes);
  app.use('/edit', editRoutes);
  
-
-
+ // Rotas para consentimento de cookies
+ app.get('/cookie-consent', (req, res) => { // Esta rota deve vir ANTES do 404
+     res.render('cookie-consent'); // Supondo que você tenha um 'cookie-consent.ejs'
+ });
+ 
+ app.post('/accept-cookies', (req, res) => { // Esta rota deve vir ANTES do 404
+     res.cookie('cookie_consent', 'accepted', { maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: true });
+     res.sendStatus(200);
+ });
+ 
+ // Se você tem uma rota específica para exibir uma página de erro genérica
+ app.use('/error', errorRoutes);
  
  
-
- // ... use other routers
- 
- // --- Catch-all for 404 Not Found (Place AFTER all other routes) ---
+ // --- Error Handling ---
+ // Manipulador para erros 404 (Página Não Encontrada) - Deve ser o último manipulador de rota regular
  app.use((req, res, next) => {
      res.status(404).render('error', { error: 'Página não encontrada.' });
  });
  
- // --- Global Error Handler (Place very last) ---
- // index.js - APENAS PARA DESENVOLVIMENTO
+ // Manipulador de Erro Global - Deve ser o último middleware
  app.use((err, req, res, next) => {
-     console.error("Global Error Handler Caught:", err.stack);
-     const statusCode = err.status || 500;
-     // Em desenvolvimento, você pode querer mostrar mais detalhes
-     const errorMessage = process.env.NODE_ENV === 'development' ? err.message : 'Ocorreu um erro inesperado.';
-     res.status(statusCode).render('error', { error: errorMessage, statusCode: statusCode });
+     console.error('Erro Global Capturado:', err.stack);
+     // Evite vazar detalhes do erro em produção
+     const errorMessage = process.env.NODE_ENV === 'production' ?
+         'Ocorreu um erro interno no servidor.' :
+         err.message || 'Ocorreu um erro interno no servidor.';
+     res.status(err.status || 500).render('error', { error: errorMessage });
  });
  
-
- // --- Start Server ---
- app.listen(port, (error) => {
-     if (error) {
-         return console.error("Erro ao iniciar o servidor:", error); // Return to stop execution
+ // --- Start Server Function ---
+ async function startServer() {
+     try {
+         await initializePool(); // CRÍTICO: Inicializa o pool de conexões primeiro
+         console.log("Pool de conexões com o banco de dados inicializado.");
+ 
+         await initializeDatabaseTables(); // Inicializa/verifica as tabelas do banco (usa o pool)
+         console.log("Tabelas do banco de dados verificadas/inicializadas.");
+ 
+         // Opcional: Executar queries de verificação ao iniciar (para desenvolvimento/diagnóstico)
+         // const { executeAllQueries } = require('./database/queries');
+         // await executeAllQueries();
+         // console.log("Queries de verificação inicial executadas.");
+ 
+         app.listen(PORT, () => {
+             console.log(`Aplicação ATIVA em http://localhost:${PORT}`);
+         });
+ 
+     } catch (error) {
+         console.error("FATAL: Falha ao inicializar a aplicação:", error);
+         process.exit(1); // Encerra o processo se a inicialização crítica falhar
      }
-     const url = `http://localhost:${port}`;
-     console.log(`Aplicação ATIVA em ${url}`);
-    });
+ }
+ 
+ // Inicia o servidor
+ startServer();
  

@@ -1,287 +1,306 @@
-  // routes/relatorioRoutes.js
-  const express = require('express');
-  const { db } = require('../database/database');
-  const fs = require('fs'); // Mantenha para manipulação de arquivos
+   // routes/relatorioRoutes.js
+   const express = require('express');
+  const { getPool } = require('../database/database');
+  const fsPromises = require('fs').promises; // Renomeado para clareza
+  const fsNode = require('fs'); // Importa o módulo fs tradicional
   const path = require('path');
-  // const pdfDocument = require('pdfkit'); // Remova ou comente pdfkit
   const { isAdmin } = require('../middleware/auth');
   const router = express.Router();
+   
+   // Configuração do pdfmake (assumindo que é a biblioteca correta)
+   const PdfPrinter = require('pdfmake');
+   const printer = new PdfPrinter({
+       Roboto: {
+           normal: path.join(__dirname, '..', '/static/fonts/Roboto-Regular.ttf'),
+           bold: path.join(__dirname, '..', '/static/fonts/Roboto-Medium.ttf'),
+           italics: path.join(__dirname, '..', '/static/fonts/Roboto-Italic.ttf'),
+           bolditalics: path.join(__dirname, '..', '/static/fonts/Roboto-MediumItalic.ttf')
+       }
+   });
+   
+   const TABELAS_PERMITIDAS = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login'];
+   // Defina quais tabelas possuem a coluna 'origem' e para as quais a formatação de data/hora se aplica.
+   const TABELAS_COM_COLUNA_ORIGEM = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login'];
   
-  // SUBSTITUA PELA IMPORTAÇÃO DA SUA BIBLIOTECA PDF
-  // Exemplo se fosse pdfmake:
-  const PdfPrinter = require('pdfmake');
-  const printer = new PdfPrinter({
-      Roboto: { // Exemplo de configuração de fonte para pdfmake
-          normal: path.join(__dirname, '..', '/static/fonts/Roboto-Regular.ttf'),
-          bold: path.join(__dirname, '..', '/static/fonts/Roboto-Medium.ttf'),
-          italics: path.join(__dirname, '..', '/static/fonts/Roboto-Italic.ttf'),
-          bolditalics: path.join(__dirname, '..', '/static/fonts/Roboto-MediumItalic.ttf')
+   // Função auxiliar para obter nomes dos meses em português
+   function getMonthName(monthNumber) {
+       const months = [
+           'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+           'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+       ];
+       // Garante que o número do mês esteja dentro do intervalo válido (1-12)
+      if (monthNumber >= 1 && monthNumber <= 12) {
+          return months[monthNumber - 1];
       }
-  });
-  // Se for "mudder-pdf", use a importação correta:
-  // const MudderPDF = require('mudder-pdf'); // Nome hipotético
-  
-  router.get('/', isAdmin, (req, res) => {
-      const tabelas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login'];
-      res.render('relatorio', { tabelas: tabelas });
-  });
-  
-  // Rota GET para visualização prévia (se necessário, pode ser mantida ou adaptada)
-  router.get('/:tabela', isAdmin, (req, res) => {
+      return '';
+   }
+   
+   // Função auxiliar para buscar dados do relatório
+   async function fetchReportData(tabela) {
+       if (!TABELAS_PERMITIDAS.includes(tabela)) {
+           const error = new Error(`Nome de tabela inválido: ${tabela}`);
+           error.status = 400;
+           throw error;
+       }
+   
+       let sql;
+       let selectFields = "*"; // Por padrão, seleciona todos os campos
+   
+       if (TABELAS_COM_COLUNA_ORIGEM.includes(tabela.toLowerCase())) {
+           // Adiciona a formatação da coluna 'origem' e os campos de ano/mês
+           selectFields = `*,
+                           DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada,
+                           YEAR(origem) AS ANO,
+                           MONTH(origem) AS MES_NUM`;
+           sql = `
+               SELECT ${selectFields}
+               FROM ${tabela}
+               ORDER BY origem DESC;  -- Ordena pela data de origem original, mais recentes primeiro
+           `;
+       } else {
+           // Para tabelas que não têm 'origem' ou para as quais a formatação não se aplica
+           sql = `SELECT ${selectFields} FROM ${tabela};`;
+       }
+   
+       const pool = getPool();
+       let rowsFromDb;
+   
+       try {
+           const executionResult = await pool.execute(sql);
+           // Ajuste na verificação de executionResult para pegar o array de linhas corretamente
+           if (Array.isArray(executionResult) && executionResult.length > 0 && Array.isArray(executionResult)) {
+               rowsFromDb = executionResult; // O primeiro elemento é o array de linhas
+           } else if (Array.isArray(executionResult) && executionResult.length === 0) { // Caso pool.execute() retorne [] diretamente
+               rowsFromDb = [];
+           } else if (Array.isArray(executionResult) && executionResult.length > 0 && executionResult[0] === undefined && executionResult.length === 1){ // Caso pool.execute() retorne [undefined]
+               console.warn(`[fetchReportData] pool.execute retornou [undefined] para a tabela '${tabela}'. Tratando como sem resultados.`);
+               rowsFromDb = [];
+           }
+            else {
+               console.error(`[fetchReportData] Resultado inesperado de pool.execute para a tabela '${tabela}'. Recebeu:`, JSON.stringify(executionResult));
+               throw new Error(`Formato de dados inesperado do banco para a tabela '${tabela}'.`);
+           }
+       } catch (dbError) {
+           console.error(`[fetchReportData] Erro de banco de dados ao executar query para '${tabela}':`, dbError.message);
+           const originalErrorMessage = dbError.message;
+           dbError.message = `Erro ao consultar dados da tabela '${tabela}': ${originalErrorMessage}`;
+           throw dbError;
+       }
+   
+       return rowsFromDb.map(row => {
+           const mappedRow = { ...row };
+           if (row.MES_NUM !== undefined && row.MES_NUM !== null) {
+               mappedRow.MES_NOME = getMonthName(row.MES_NUM);
+           }
+           // A coluna 'origem_formatada' já estará presente se 'origem' existir e for formatada.
+           return mappedRow;
+       });
+   }
+   
+   router.get('/', isAdmin, (req, res) => {
+       res.render('relatorio', { tabelas: TABELAS_PERMITIDAS });
+   });
+   
+   // Rota GET para visualização prévia
+   router.get('/:tabela', isAdmin, async (req, res, next) => {
+       const tabela = req.params.tabela;
+       try {
+           const data = await fetchReportData(tabela);
+           res.render('relatorio', { model: data, tabela: tabela, tabelas: TABELAS_PERMITIDAS });
+       } catch (error) {
+           console.error(`Erro ao buscar dados para GET /relatorio/${tabela}:`, error.message); // Log apenas da mensagem
+           const statusCode = error.status || 500;
+           res.status(statusCode).render('error', {
+               error: error.message || 'Erro ao buscar dados para o relatório.'
+           });
+       }
+   });
+   
+   // Rota POST para gerar o PDF
+  router.post('/:tabela', isAdmin, async (req, res, next) => {
       const tabela = req.params.tabela;
-      const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login'];
-      if (!tabelasPermitidas.includes(tabela)) {
-         console.error(`Tentativa de acesso a tabela inválida (GET): ${tabela}`);                
-          return res.status(400).render('error', { error: `Tentativa de acesso a tabela inválida (GET): ${tabela} `});
-      }
-      const sql =
-          `SELECT *, 
-          strftime('%Y', origem) AS ANO, 
-          strftime('%m', origem) AS MES_NUM, -- Usar número do mês para ordenação correta
-          CASE strftime('%m', origem)
-              WHEN '01' THEN 'Janeiro' WHEN '02' THEN 'Fevereiro' WHEN '03' THEN 'Março'
-              WHEN '04' THEN 'Abril' WHEN '05' THEN 'Maio' WHEN '06' THEN 'Junho'
-              WHEN '07' THEN 'Julho' WHEN '08' THEN 'Agosto' WHEN '09' THEN 'Setembro'
-              WHEN '10' THEN 'Outubro' WHEN '11' THEN 'Novembro' WHEN '12' THEN 'Dezembro'
-          END AS MES_NOME
-          FROM ${tabela} 
-          ORDER BY ANO ASC, MES_NUM ASC;`; // Removido GROUP BY que não fazia sentido aqui
+      let outputPath = '';
   
-      db.all(sql, [], (error, rows) => {
-          if (error) return res.render('error', { error: error });
-          res.render('relatorio', { model: rows, tabela: tabela, tabelas: tabelasPermitidas }); // Passar tabelas para o <select>
-      });
-  });
+      try {
+          const tableData = await fetchReportData(tabela);
   
-  
-  // Rota POST para gerar o PDF
-  router.post('/:tabela', isAdmin, (req, res) => {
-      const tabela = req.params.tabela;
-      const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login'];
-      if (!tabelasPermitidas.includes(tabela)) {
-          console.error(`Tentativa de acesso a tabela inválida (POST): ${tabela}`);
-          return res.status(400).render('error', { error: 'Nome de tabela inválido.' });
-      }
-  
-      const sql = `SELECT *,
-          strftime('%Y', origem) AS ANO,
-          strftime('%m', origem) AS MES_NUM, -- Usar número do mês para ordenação correta
-          CASE strftime('%m', origem)
-              WHEN '01' THEN 'Janeiro' WHEN '02' THEN 'Fevereiro' WHEN '03' THEN 'Março'
-              WHEN '04' THEN 'Abril' WHEN '05' THEN 'Maio' WHEN '06' THEN 'Junho'
-              WHEN '07' THEN 'Julho' WHEN '08' THEN 'Agosto' WHEN '09' THEN 'Setembro'
-              WHEN '10' THEN 'Outubro' WHEN '11' THEN 'Novembro' WHEN '12' THEN 'Dezembro'
-          END AS MES_NOME
-          FROM ${tabela}
-          ORDER BY ANO ASC, MES_NUM ASC;`;
-  
-      db.all(sql, [], (error, rows) => {
-          if (error) {
-              console.error("Erro na consulta SQL:", error);
-              return res.status(500).render('error', { error: 'Erro ao buscar dados para o relatório.' });
-          }
-          if (!rows || rows.length === 0) {
+          if (!tableData || tableData.length === 0) {
               return res.status(404).render('error', { error: `Nenhum dado encontrado para a tabela ${tabela}` });
           }
   
-          // --- Preparar Dados da Tabela (esta lógica pode ser mantida) ---
-          const tableData = rows;
-          const columnsToRemove = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME']; // Colunas auxiliares
-          const originalHeaders = Object.keys(tableData[0] || {});
-          const tableHeaders = originalHeaders.filter(header => !columnsToRemove.includes(header));
+          // --- Preparar Dados da Tabela ---
+          // 'origem' original é removida, 'origem_formatada' será mantida se existir nos dados.
+          const columnsToRemove = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME', 'origem'];
+          let tableHeaders = [];
+          if (tableData.length > 0 && tableData[0]) {
+              const originalHeaders = Object.keys(tableData[0]);
+              tableHeaders = originalHeaders.filter(header => !columnsToRemove.includes(header) && tableData[0][header] !== undefined);
+          }
   
-          // Agrupar por ano
+  
           const groupedByYear = {};
           tableData.forEach(row => {
-              const year = row.ANO; // year pode ser null aqui
-           if (!groupedByYear[year]) {
-                      groupedByYear[year] = [];
-                  }
-                  // Adiciona apenas os dados das colunas que serão exibidas
-                  const rowForDisplay = {};
-                  tableHeaders.forEach(header => {
-                      rowForDisplay[header] = row[header] !== null && row[header] !== undefined ? String(row[header]) : '';
-                  });
-                  groupedByYear[year].push(rowForDisplay);           
+              const year = (row.ANO !== null && row.ANO !== undefined && String(row.ANO).trim() !== '')
+                  ? String(row.ANO)
+                  : "Dados Não Agrupados por Ano"; 
+  
+              if (!groupedByYear[year]) {
+                  groupedByYear[year] = [];
+              }
+              const rowForDisplay = {};
+              tableHeaders.forEach(header => { 
+                  rowForDisplay[header] = row[header] !== null && row[header] !== undefined ? String(row[header]) : '';
+              });
+              groupedByYear[year].push(rowForDisplay);
           });
           
-          const years = Object.keys(groupedByYear).sort();
+          const years = Object.keys(groupedByYear).sort((a, b) => {
+              if (a.startsWith("Dados Não Agrupados")) return 1; 
+              if (b.startsWith("Dados Não Agrupados")) return -1;
+              return Number(a) - Number(b);
+          });
   
-          // --- Construir Definição do Documento para a Biblioteca PDF ---
+          // --- Construir Definição do Documento para pdfmake ---
           const content = [];
-  
-          // Cabeçalho do Relatório
           const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-          content.push({ text: `ONG Amor Animal`, style: 'mainHeader' , color:'#333333'});
+          content.push({ text: `ONG Amor Animal`, style: 'mainHeader', color: '#333333' });
           content.push({ text: `Relatório: ${tabela.charAt(0).toUpperCase() + tabela.slice(1)}`, style: 'subHeader' });
-          content.push({ text: `Gerado em: ${time}`, style: 'subHeader', margin: [0, 0, 0, 20] }); // Adiciona margem inferior
+          content.push({ text: `Gerado em: ${time}`, style: 'subHeader', margin: [0, 0, 0, 20] });
   
-          if (tableHeaders.length === 0) {
+          if (tableHeaders.length === 0 && tableData.length > 0) {
+               content.push({ text: 'Dados encontrados, mas nenhuma coluna selecionada para exibição.', alignment: 'center' });
+          } else if (tableHeaders.length === 0) {
               content.push({ text: 'Nenhuma coluna para exibir.', alignment: 'center' });
           } else {
- 
-              // Calcular larguras das colunas (adapte conforme a API da sua biblioteca)
-              // Exemplo para pdfmake: pode ser '*', 'auto', ou valores numéricos/percentuais
-              // A lógica de ratios pode ser adaptada aqui.
-              // Por simplicidade, vamos usar '*' para distribuir igualmente:
-              const columnWidths = tableHeaders.map(() => '*');
-              // Ou, para uma lógica mais customizada (exemplo):
-              // const columnWidths = tableHeaders.map(header => {
-              //     if (header === 'id') return 'auto';
-              //     if (['caracteristicas', 'historia', 'proposta', 'mensagem'].includes(header)) return '30%';
-              //     return '*';
-              // });
-  
+              const columnWidths = tableHeaders.map(header => {
+                   if (header === 'id') return 'auto';
+                   // Ajustado para 'origem_formatada'
+                   if (['caracteristicas', 'historia', 'proposta', 'mensagem', 'descricao', 'origem_formatada'].includes(header.toLowerCase())) return 'auto'; 
+                   return '*';
+              });
   
               years.forEach(year => {
-                 const yearText = (year === "null" || year === null) ? "Desconhecido" : year;
-                       content.push({ text: `Ano: ${yearText}`, style: 'yearHeader' });
-                  
-                  
-  
+                  content.push({ text: `Ano: ${year}`, style: 'yearHeader' });
                   const tableBody = [];
-                  // Adicionar cabeçalhos da tabela (formatados para a biblioteca)
                   tableBody.push(tableHeaders.map(header => ({ text: header, style: 'tableHeader' })));
   
-                  // Adicionar linhas de dados
                   groupedByYear[year].forEach(dataRow => {
-                      const rowContent = tableHeaders.map(header => ({ text: dataRow[header], style: 'tableCell' }));
+                      const rowContent = tableHeaders.map(header => ({ text: dataRow[header] !== undefined ? dataRow[header] : '', style: 'tableCell' }));
                       tableBody.push(rowContent);
                   });
   
                   content.push({
-                      table: {
-                          headerRows: 1,
-                          widths: columnWidths,
-                          body: tableBody
-                      },
-                      // Layout da tabela (bordas, etc.) - específico da biblioteca
-                      layout: { // Exemplo de layout similar ao pdfmake
+                      table: { headerRows: 1, widths: columnWidths, body: tableBody },
+                      layout: {
                           hLineWidth: (i, node) => (i === 0 || i === node.table.body.length || i === 1) ? 0.5 : 0.5,
-                          vLineWidth: (i, node) => 0.5,
+                          vLineWidth: () => 0.5,
                           hLineColor: (i, node) => (i === 0 || i === node.table.body.length || i === 1) ? '#333333' : '#cccccc',
-                          vLineColor: (i, node) => '#cccccc',
-                          paddingLeft: () => 3,
-                          paddingRight: () => 3,
-                          paddingTop: () => 2,
-                          paddingBottom: () => 2
+                          vLineColor: () => '#cccccc',
+                          paddingLeft: () => 3, paddingRight: () => 3, paddingTop: () => 2, paddingBottom: () => 2
                       }
                   });
-                  content.push({ text: ' ', margin: [0, 10] }); // Espaço entre tabelas de anos
+                  content.push({ text: ' ', margin: [0, 10] });
               });
           }
   
           const docDefinition = {
               content: content,
               pageSize: 'A4',
-              pageOrientation: 'portrait', // ou 'landscape'
-              pageMargins: [30, 40, 30, 60], // [left, top, right, bottom] - Aumentei a margem inferior para o rodapé
-              styles: { // Defina seus estilos
+              pageOrientation: 'portrait',
+              pageMargins: [30, 40, 30, 60],
+              styles: {
                   mainHeader: { fontSize: 16, bold: true, alignment: 'center', margin: [0, 0, 0, 5] },
                   subHeader: { fontSize: 10, alignment: 'center', margin: [0, 0, 0, 5] },
                   yearHeader: { fontSize: 12, bold: true, margin: [0, 10, 0, 5] },
                   tableHeader: { bold: true, fontSize: 7, fillColor: '#E0E0E0', alignment: 'center' },
-                  tableCell: { fontSize: 6, alignment: 'left' }, // Alinhar células à esquerda para melhor leitura
-                  footerStyle: { fontSize: 8, alignment: 'center', margin: [0, 20, 0, 0] } // Estilo para o rodapé
+                  tableCell: { fontSize: 6, alignment: 'left' },
+                  footerStyle: { fontSize: 8, alignment: 'center', margin: [0, 20, 0, 0] }
               },
-              defaultStyle: { // Estilo padrão, se a biblioteca suportar
-                  // font: 'Roboto' // Se estiver usando pdfmake com fontes customizadas
-              },
-              // ADICIONAR O RODAPÉ AQUI
-              footer: function(currentPage, pageCount) {
-                  return {
-                      text: `Página ${currentPage.toString()} de ${pageCount.toString()}`,
-                      style: 'footerStyle', // Aplica o estilo definido acima
-                      // Você pode adicionar mais propriedades aqui, como margens específicas para o rodapé
-                      // margin: [esquerda, topo, direita, baixo]
-                      // Exemplo: margin: [30, 10, 30, 10] // Se pageMargins não for suficiente
-                  };
-              }
+              defaultStyle: { font: 'Roboto' },
+              footer: (currentPage, pageCount) => ({
+                  text: `Página ${currentPage.toString()} de ${pageCount.toString()}`,
+                  style: 'footerStyle'
+              })
           };
   
-          // --- Gerar PDF com a Biblioteca Escolhida ---
-          try {
-              const pdfDir = './static/uploads/pdf/';
-              if (!fs.existsSync(pdfDir)) {
-                  fs.mkdirSync(pdfDir, { recursive: true });
+  
+          const pdfDir = './static/uploads/pdf/';
+          await fsPromises.mkdir(pdfDir, { recursive: true }); 
+  
+          const outputFilename = `${tabela}_${Date.now()}.pdf`;
+          outputPath = path.join(pdfDir, outputFilename);
+  
+          const pdfDoc = printer.createPdfKitDocument(docDefinition);
+          const writeStream = fsNode.createWriteStream(outputPath);
+          pdfDoc.pipe(writeStream);
+          pdfDoc.end();
+  
+          await new Promise((resolve, reject) => {
+              writeStream.on('finish', resolve);
+              writeStream.on('error', reject);
+          });
+  
+          console.log('PDF gerado com sucesso:', outputPath);
+          res.download(outputPath, `${tabela}_report.pdf`, async (downloadErr) => {
+              if (downloadErr) {
+                  console.error('Erro ao enviar o PDF para o cliente:', downloadErr);
               }
-              const outputFilename = `${tabela}_${Date.now()}.pdf`;
-              const outputPath = path.join(pdfDir, outputFilename);
-              const escrita = fs.createWriteStream(outputPath);
+              try {
+                  await fsPromises.unlink(outputPath); 
+                  console.log('Arquivo PDF temporário deletado:', outputPath);
+              } catch (unlinkErr) {
+                  console.error('Erro ao deletar o arquivo PDF gerado:', unlinkErr);
+              }
+          });
   
-              // A GERAÇÃO DO PDF DEPENDE DA API DA SUA BIBLIOTECA
-              // Exemplo com pdfmake:
-              const pdfDoc = printer.createPdfKitDocument(docDefinition);
-              pdfDoc.pipe(escrita);
-              pdfDoc.end();             
-  
-              escrita.on('finish', () => {
-                  console.log('PDF gerado com sucesso:', outputPath);
-                  if (!res.headersSent) {
-                      res.download(outputPath, `${tabela}_report.pdf`, (downloadErr) => {
-                          if (downloadErr) {
-                              console.error('Erro ao enviar o PDF para o cliente:', downloadErr);
-                          }
-                          // Deletar o arquivo após o download (ou tentativa)
-                          fs.unlink(outputPath, (unlinkErr) => {
-                              if (unlinkErr) console.error('Erro ao deletar o arquivo PDF gerado:', unlinkErr);
-                              else console.log('Arquivo PDF temporário deletado:', outputPath);
-                          });
-                      });
-                  } else {
-                       fs.unlink(outputPath, (unlinkErr) => { // Deletar mesmo se headers já enviados
-                          if (unlinkErr) console.error('Erro ao deletar o arquivo PDF (headers já enviados):', unlinkErr);
-                       });
+      } catch (error) {
+          console.error("Erro durante a geração do PDF ou busca de dados:", error.message); // Log apenas da mensagem
+          if (outputPath) {
+              try {
+                  await fsPromises.access(outputPath); 
+                  await fsPromises.unlink(outputPath); 
+                  console.log('Arquivo PDF parcialmente gerado deletado devido a erro:', outputPath);
+              } catch (cleanupErr) {
+                  if (cleanupErr.code !== 'ENOENT') {
+                       console.error('Erro ao tentar limpar arquivo PDF após falha:', cleanupErr);
                   }
-              });
-  
-              escrita.on('error', (err) => {
-                  console.error("ERRO ao escrever no arquivo PDF:", err);
-                  if (!res.headersSent) {
-                      res.status(500).send('Erro ao gerar o arquivo PDF.');
-                  }
-                  // Tentar deletar o arquivo em caso de erro na escrita
-                  fs.unlink(outputPath, (unlinkErr) => {
-                      if (unlinkErr) console.error('Erro ao deletar o arquivo PDF após erro de escrita:', unlinkErr);
-                  });
-              });
-  
-          } catch (genError) {
-              console.error("Erro durante a preparação ou geração do PDF:", genError);
-              res.status(500).render('error', { error: 'Erro interno ao gerar o relatório PDF.' });
+              }
           }
-      });
-  });
-
-   
-  
-router.post('/delete/:tabela/:id', isAdmin, (req, res) => {
-      const tabela = req.params.tabela;
-      const id = req.params.id;
-      const tabelasPermitidas = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login'];
-  
-      if (!tabelasPermitidas.includes(tabela)) {
-          console.error(`Tentativa de exclusão em tabela inválida: ${tabela}`);
-          return res.status(400).render('error', { error: 'Nome de tabela inválido para exclusão.' });
+          if (!res.headersSent) {
+              const statusCode = error.status || 500;
+              res.status(statusCode).render('error', {
+                  error: error.message || 'Erro interno ao gerar o relatório PDF.'
+              });
+          }
       }
-  
-      const sql = `DELETE FROM ${tabela} WHERE id = ?`;
-  
-      db.run(sql, id, function(error) {
-          if (error) {
-              console.error(`Erro ao deletar registro na tabela ${tabela} com id ${id}:`, error);
-              return res.status(500).render('error', { error: `Erro ao deletar registro na tabela ${tabela}.` });
-          }
-          if (this.changes === 0) {
-              console.warn(`Tentativa de deletar registro inexistente na tabela ${tabela} com id ${id}`);
-              return res.status(404).render('error', { error: `Registro com id ${id} não encontrado na tabela ${tabela}.` });
-          }
-          console.log(`Registro deletado com sucesso na tabela ${tabela} com id ${id}`);
-          // Redireciona de volta para a página de visualização da tabela
-          res.redirect(`/relatorio/${tabela}`);
-      });
   });
-
-  module.exports = router;
-  
+   
+   router.post('/delete/:tabela/:id', isAdmin, async (req, res, next) => {
+       const tabela = req.params.tabela;
+       const id = req.params.id;
+   
+       if (!TABELAS_PERMITIDAS.includes(tabela)) {
+           console.error(`Tentativa de exclusão em tabela inválida: ${tabela}`);
+           return res.status(400).render('error', { error: 'Nome de tabela inválido para exclusão.' });
+       }
+   
+       const sql = `DELETE FROM ${tabela} WHERE id = ?`;
+   
+       try {
+           const pool = getPool();
+           const [result] = await pool.execute(sql, [id]); 
+   
+           if (result.affectedRows === 0) {
+               console.warn(`Tentativa de deletar registro inexistente na tabela ${tabela} com id ${id}`);
+               return res.status(404).render('error', { error: `Registro com id ${id} não encontrado na tabela ${tabela}.` });
+           }
+           console.log(`Registro deletado com sucesso na tabela ${tabela} com id ${id}`);
+           res.redirect(`/relatorio/${tabela}`); 
+       } catch (error) {
+           console.error(`Erro ao deletar registro na tabela ${tabela} com id ${id}:`, error.message); // Log apenas da mensagem
+           res.status(500).render('error', { error: `Erro ao deletar registro na tabela ${tabela}.` });
+       }
+   });
+   
+   module.exports = router;
  

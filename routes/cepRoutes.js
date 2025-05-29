@@ -9,6 +9,7 @@ const router = express.Router();
 router.get('cep/:numero', async (req, res) => {
     const cep = req.params.numero
     await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    
         .then(response => response.json())
         .then(data => {
             if (data.erro) {
