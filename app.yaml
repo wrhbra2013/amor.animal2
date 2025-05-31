@@ -1,0 +1,13 @@
+runtime: nodejs18  # Ou a versão mais recente suportada
+service: default # Ou um nome de serviço se você tiver múltiplos serviços
+instance_class: F1 # Escolha um tipo de instância (F1 é o mais básico/econômico)
+handlers:
+  - url: /.*
+    secure: always # Redireciona para HTTPS
+    script: auto
+
+# Se precisar de variáveis de ambiente específicas:
+env_variables:
+  SESSION_SECRET: '@admin_super_secret_key_replace_me' # Use o valor REAL em produção
+  NODE_ENV: 'production'
+  # ... outras variáveis ...
