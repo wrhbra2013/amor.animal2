@@ -75,7 +75,7 @@
  const relatorioRoutes = require('./routes/relatorioRoutes');
  const errorRoutes = require('./routes/errorRoutes'); // Se for uma página de erro específica
 //   const loginRoutes = require('./routes/loginRoutes'); // GET /login agora é tratado por authRoutes
- const editRoutes = require('./routes/editRoutes');
+ 
  
  // Montagem das Rotas
  app.use('/', homeRoutes); // homeRoutes já lida com '/' e '/home' internamente
@@ -85,7 +85,7 @@
  app.use('/adotante', adotanteRoutes);
  app.use('/adotado', adotadoRoutes);
  app.use('/castracao', castracaoRoutes);
- app.use('/procura-se', procuraRoutes);
+ app.use('/procura_se', procuraRoutes);
  app.use('/parceria', parceriaRoutes);
  app.use('/doacao', doacaoRoutes);
  app.use('/sobre', sobreRoutes);
@@ -94,7 +94,7 @@
  app.use('/auth', authRoutes); // Monta authRoutes na raiz para ter /login, /logout
  app.use('/admin', adminRoutes);
  app.use('/relatorio', relatorioRoutes);
- app.use('/edit', editRoutes);
+ 
  
  // Rotas para consentimento de cookies
  app.get('/cookie-consent', (req, res) => { // Esta rota deve vir ANTES do 404

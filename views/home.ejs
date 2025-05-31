@@ -190,7 +190,7 @@
                                 <% } else { %>
                                 0
                                 <% } %></h3>
-                             <p class="text-muted">Adoções</p>
+                             <p class="text-muted">Aguardando adoção</p>
                              <a href="/adocao">Veja Mais</a>
                          </div>
                      </div>
@@ -205,7 +205,7 @@
                                 <% } else { %>
                                 0
                                 <% } %></h3>
-                             <p class="text-muted">Adotados</p>
+                             <p class="text-muted"> Já Adotados</p>
                              <a href="/adotado">Veja Mais</a
                          </div>
                      </div>
@@ -215,12 +215,12 @@
                      <div class="card card-impact h-100" style="border: none; background: transparent;">
                          <div class="card-body">
                              <i class="fas fa-users fa-3x mb-3" style="color: var(--heading-color);"></i>
-                             <h3 class="card-title display-4 fw-bold"><% if (typeof model5 !== 'undefined' && model5.length > 0 && model5[0]) { %>
-                                <%= Object.values(model5[0])[0] %>
+                             <h3 class="card-title display-4 fw-bold"><% if (typeof model11 !== 'undefined' && model11.length > 0 && model11[0]) { %>
+                                <%= Object.values(model11[0])[0] %>
                                 <% } else { %>
                                 0
                                 <% } %></h3>
-                             <p class="text-muted">Adotantes na Comunidade</p>
+                             <p class="text-muted"> Desaparecidos </p>
                          </div>
                      </div>
                  </div>
@@ -249,7 +249,7 @@
                 
                     <h3 class="card-title display-4 fw-bold"></h3>
                     <p class="text-muted">Castração</p>
-                    <table style="text-align: center; ;">
+                    <table class="tabela-tickets-centralizada ">
                         <tr>
                             <th>Ano</th>
                             <th>Realizadas</th>
@@ -281,14 +281,17 @@
             <h3 class="card-title display-4 fw-bold">                      
                 Tickets de Castração</h3>             
           
-            <table class="table table-striped table-hover table-sm caption-top">
+         
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-sm caption-top">
                 <thead>
                 <tr>
                 <th>Ticket</th>
-                <th>Data</th>
-                <th>Nome</th>
+                <th>Agendado</th>
+                  <th>Nome</th>
                 <th>Espécie</th>
                 <th>Clínica</th>
+                <th>Origem</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -296,10 +299,13 @@
                 <% model8.slice(0, 5).forEach(castracao => { %>
                 <tr>
                 <td><%= castracao.ticket %></td>
-                <td><%= castracao.origem ? new Date(castracao.origem).toLocaleDateString('pt-BR') : 'N/A' %></td>
+                <td><%= castracao.agenda %></td></td>
+             
                 <td><%= castracao.nome %></td>
                 <td><%= castracao.especie %></td>
                 <td><%= castracao.clinica %></td>
+                <td><%= castracao.origem ? new Date(castracao.origem).toLocaleDateString('pt-BR') : 'N/A' %></td>
+                
                 </tr>
                 <% }); %>
             
@@ -310,10 +316,11 @@
                 <% } %>
             </tbody>
         </table>
-                <a href="/castracao">Veja Mais</a>
+               
            
            
         </div>
+        <a href="/castracao">Veja Mais</a>
     </div>
 </div>
 </div>
@@ -357,10 +364,100 @@
             
          </div>
      </section>
- 
-     <!-- ==========================================================================
-         7. Como Ajudar / Chamada Final
+
+      <!-- ==========================================================================
+         6. Procura_se
          ========================================================================== -->
+ 
+         <section id="procura_se" class="py-5">
+
+         <div class="container">
+             <h2 class="text-center mb-4">Procura-se!</h2>
+            
+             <% if (typeof model10 !== 'undefined' && model10.length > 0) { %>
+             <div class="procura-se-cards-container">
+                 <% model10.slice(0, 3).forEach(procura_se => { %> 
+                 <div class="procura-se-card card">
+                     <img src="/static/uploads/procura_se/<%= procura_se.arquivo || 'placeholder-procura-se.jpg' %>" 
+                          alt="Foto de <%= procura_se.nomePet %>, animal desaparecido" 
+                          class="card-img-top procura-se-card-img">
+                     <div class="card-body text-center">
+                         <h5 class="card-title"><%= procura_se.nomePet %></h5>
+                         <p class="text-muted small"><%= procura_se.especie %> - <%= procura_se.caracteristicas %></p>
+                         <a href="/procura_se/<%= procura_se.id %>" class="button btn-sm">Mais Detalhes</a>
+                     </div>
+                 </div>
+                 <% }); %>
+             </div>
+             <div class="text-center mt-4">
+                 <a href="/procura_se" class="button">Ver Todos</a>
+             </div>
+             <% } else { %>
+             <p class="text-center text-muted">Nenhum animal desaparecido listado no momento.</p>
+             <% } %>
+         </div>
+         
+         </section>
+
+         <!-- ==========================================================================
+         7.Parcerias
+         ========================================================================== -->
+     
+         
+<section id="parcerias" class="py-5 bg-light">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-center mb-4">Nossos Parceiros</h2>
+            <% if (user) { %>
+                <a href="/parceria/form" class="btn btn-outline-primary">Nova Parceria</a>
+            <% } %>
+        </div>
+        
+        <% if (typeof model12 !== 'undefined' && model12.length > 0) { %>
+        <div class="parcerias-scroll-container">
+            <div class="scroll-content">
+            <% model12.forEach(parceria => { %>
+                <div class="card parceria-item d-inline-block me-3 shadow-sm" style="width: 250px; vertical-align: top;">
+                    <h5 class="card-title"><%= parceria.proposta %></h5>
+                
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><%= parceria.empresa %></h5>
+                        <p class="card-text text-muted small"><%= parceria.localidade %></p>
+                        <% if (parceria.link) { %>
+                            <a href="<%= parceria.link %>" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary mt-2">Visitar Site</a>
+                        <% } %>
+                         <% if (user) { %>
+                            <div class="mt-2">
+                                <form action="/delete/parceria/<%= parceria.id %>/<%= parceria.arquivo %>" method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir esta parceria?')">
+                                <button type="submit" class="btn btn-danger btn-sm" title="Excluir Parceria">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <span class="visually-hidden">Excluir</span>
+                                </button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            <% }); %>
+            </div>
+        </div>
+        <% } else { %>
+        <p class="text-center text-muted">Ainda não temos parceiros listados.</p>
+         <% if (user) { %>
+                 <div class="text-center mt-3"><a href="/parceria/form" class="button">Adicionar Parceria</a></div>
+             <% } %>
+        <% } %>
+    </div>
+</section>
+
+
+
+
+<!-- 
+
+         ==========================================================================
+         7. Como Ajudar / Chamada Final
+         ========================================================================== --> 
      <section id="como-ajudar" class="py-5 text-center" style="background-color: var(--heading-color); color: white;">
          <div class="container" style="background-color: gray; box-shadow: none; border: none;">
              <h2 style="color: rgb(235, 218, 218);">Faça Parte da Mudança</h2>

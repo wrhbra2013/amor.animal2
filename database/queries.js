@@ -94,7 +94,7 @@
      }));
  
      // Retorna um objeto com os resultados nomeados
-     console.log('Results das queries', results);
+     
      return results;
  }
  

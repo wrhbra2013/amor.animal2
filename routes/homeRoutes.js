@@ -50,7 +50,7 @@
   router.get(['/', '/home'], checkCookieConsent, async (req, res) => {
       try {
           const homePageData = await getHomePageData();
-          console.log('homePageData =>',homePageData)
+        
           
           // Data is passed to the template using modelN keys as expected by home.ejs
           res.render('home', {
@@ -71,19 +71,7 @@
               // and will be available in res.locals for the template
               
           });
-          console.log('model 1=>', homePageData.home);
-          console.log('model 2=>', homePageData.adocao);
-          console.log('model 3=>', homePageData.adocaoCount);
-          console.log('model 4=>', homePageData.adotante);
-          console.log('model 5=>', homePageData.adotanteCount);
-          console.log('model 6=>', homePageData.adotado);
-          console.log('model 7=>', homePageData.adotadoCount);
-          console.log('model 8=>', homePageData.castracao);
-          console.log('model 9=>', homePageData.castracaoCount);
-          console.log('model 10=>', homePageData.procura_se);
-          console.log('model 11=>', homePageData.procura_seCount);
-          console.log('model 12=>', homePageData.parceria);
-          console.log('model 13=>', homePageData.parceriaCount);
+          
           
         
       } catch (error) {

@@ -172,9 +172,9 @@
             await conn.execute(insertSQL, ['@admin', '@admin', true]);
             // --- END TEMPORARY INSECURE INSERT ---
 
-            console.log("Usuário admin '@admin' criado com sucesso.");
+            console.log("Usuário padrão '@admin' criado com sucesso.");
         } else {
-            console.log("Usuário admin '@admin' já existe.");
+            console.log("Usuário padrão '@admin' já existe.");
         }
     } catch (error) {
         console.error("Erro ao criar usuário admin:", error.message);

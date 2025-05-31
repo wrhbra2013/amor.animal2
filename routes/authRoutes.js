@@ -21,7 +21,7 @@ const { isAdmin } = require('../middleware/auth');
              return res.status(500).render('login', { error: 'Erro ao tentar fazer logout.' });
          }
          console.log('Usuário deslogado.');
-         res.redirect('/login?message=Logout realizado com sucesso!');
+         res.render('logout');
      });
  });
  

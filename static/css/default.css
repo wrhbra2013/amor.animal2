@@ -1011,3 +1011,139 @@
     }
 }
 
+  .img-thumbnail {
+  cursor: pointer;
+}
+
+.img-thumbnail:hover{
+  transform: scale(5.1); /* Aumenta o tamanho da imagem em 10% */
+  transition: transform 0.3s ease-in-out; /* Adiciona uma transição suave */
+  position: absolute;
+  
+}
+
+@keyframes scale {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+  
+
+}
+  
+
+
+/* Estilos para o Carrossel de Notícias */
+
+.news-carousel-container {
+  position: relative; /* Necessário para posicionar os controles */
+  overflow: hidden;   /* Essencial: esconde os slides que estão fora da área visível */
+  width: 100%;        /* Ocupa toda a largura disponível no container pai */
+  border-radius: 8px; /* Opcional: para bordas arredondadas */
+}
+
+.news-carousel-slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* A mágica da animação de slide! */
+  /* O JavaScript irá alterar a propriedade 'transform' para mover os slides */
+}
+
+.news-carousel-slide {
+  flex: 0 0 100%; /* Cada slide ocupa 100% da largura do container */
+  box-sizing: border-box;
+  /* O 'w-100' no seu .noticia-item já ajuda aqui, mas isso garante */
+  padding: 0 10px; /* Adiciona um pequeno espaçamento se desejar ver um pouco dos slides vizinhos, ou 0 para tela cheia */
+}
+
+/* Ajuste para o card dentro do slide, se necessário */
+.news-carousel-slide .noticia-item {
+  margin-bottom: 0; /* Remove margem inferior se houver, para alinhar melhor no carrossel */
+}
+
+.news-carousel-control {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  color: rgba(192, 66, 192, 0.6);
+  border: none;
+  padding: 8px 12px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10; /* Para ficar sobre os slides */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.news-carousel-control:hover,
+.news-carousel-control:focus {
+  background-color: rgba(0, 0, 0, 0.7);
+  outline: none;
+}
+
+.news-carousel-control.prev {
+  left: 15px;
+}
+
+.news-carousel-control.next {
+  right: 15px;
+}
+
+.news-carousel-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.news-carousel-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(192, 66, 192, 0.6);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.news-carousel-dots .dot.active {
+  background-color: rgb(23, 114, 175);
+}
+
+/* Para garantir que a imagem dentro do card se ajuste bem */
+.noticia-img-fixed-height {
+    object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+    /* A altura já está definida no seu HTML/CSS, o object-fit melhora a apresentação */
+}
+
+/* Ajustes para o modo de alto contraste, se você tiver um */
+body.high-contrast .news-carousel-control {
+  background-color: var(--hc-button-bg, #000); /* Use suas variáveis de alto contraste */
+  color: var(--hc-button-text, #fff);
+  border: 1px solid var(--hc-button-text, #fff);
+}
+
+body.high-contrast .news-carousel-dots .dot {
+  background-color: var(--hc-border-color, #fff);
+  border: 1px solid var(--hc-text-color, #000);
+}
+
+body.high-contrast .news-carousel-dots .dot.active {
+  background-color: var(--hc-link-color, #000); /* Ou uma cor de destaque */
+}
+/* Adicione este estilo para centralizar a tabela de tickets de castração */
+.tabela-tickets-centralizada {
+  width: auto; /* Faz com que a largura da tabela se ajuste ao seu conteúdo,
+                  sobrescrevendo o 'width: 100%' global para tabelas. */
+  max-width: 100%; /* Garante que a tabela não ultrapasse a largura do seu contêiner pai
+                     caso o conteúdo seja muito extenso. */
+  margin-left: auto;  /* Centraliza a tabela horizontalmente */
+  margin-right: auto; /* Centraliza a tabela horizontalmente */
+  /* A classe 'text-center' já aplicada no HTML cuidará do alinhamento
+     do texto DENTRO das células da tabela. */
+}

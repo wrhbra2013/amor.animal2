@@ -27,14 +27,13 @@
      // Step 1: Connect to MariaDB server to create the database if it doesn't exist
      let dbCreationConnection;
      try {
-         console.log(`Tentando conectar ao servidor MariaDB para verificar/criar o banco de dados '${dbConfig.databaseName}'...`);
          dbCreationConnection = await mariadb.createConnection({
              host: dbConfig.host,
              user: dbConfig.user,
              password: dbConfig.password,
              // connectTimeout: 10000 // Optional: increase connection timeout for this step if needed
          });
-         console.log("Conectado ao servidor MariaDB com sucesso (para criação do BD).");
+       
  
          await dbCreationConnection.query(`CREATE DATABASE IF NOT EXISTS \`${dbConfig.databaseName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
          console.log(`Banco de dados '${dbConfig.databaseName}' verificado/criado com sucesso.`);
@@ -47,13 +46,13 @@
      } finally {
          if (dbCreationConnection) {
              await dbCreationConnection.end();
-             console.log("Conexão para criação do banco de dados fechada.");
+           
          }
      }
  
      // Step 2: Create the connection pool for the application
      try {
-         console.log(`Criando pool de conexões para o banco de dados '${dbConfig.databaseName}'...`);
+         
          pool = mariadb.createPool({
              host: dbConfig.host,
              user: dbConfig.user,
@@ -66,10 +65,10 @@
  
          // Test the pool by acquiring a connection
          const conn = await pool.getConnection();
-         console.log(`Pool de conexões para '${dbConfig.databaseName}' criado e conexão de teste bem-sucedida!`);
+         
          await conn.release();
  
-         console.log("Pool de conexões MariaDB inicializado com sucesso.");
+         
          return pool;
      } catch (err) {
          console.error(`Erro ao criar o pool de conexões para '${dbConfig.databaseName}':`, err.message);

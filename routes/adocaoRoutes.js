@@ -20,7 +20,6 @@
          // like getAdocaoData() if executeAllQueries fetches too much unnecessary data.
          const results = await executeAllQueries();
          const adocaoData = results.adocao; // Extract the adocao data
-         console.log('adocao de adocaoRoutes =>', adocaoData)    // Check if adocao data was successfully retrieved
        
          
          res.render('adote', {model: adocaoData });
@@ -30,6 +29,21 @@
          res.status(500).render('error', { error: 'Não foi possível carregar os dados de adoção.' });
      }
  });
+
+ router.get('/:id', async (req, res) => {
+ const id = req.params.id;
+ const tabela = 'adocao'
+ const pool = getPool(); // Get the connection pool
+ try {
+ const  rows = await pool.execute("SELECT * FROM adocao WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
+ const item = rows[0]
+ res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
+ } catch (error) {
+ console.error("Error fetching adoption detail:", error);
+ res.status(500).render('error', { error: 'Não foi possível carregar os detalhes do pet para adoção.' });
+ }
+
+ })
  
  // GET route to render the adoption form
  router.get('/form', (req, res) => {

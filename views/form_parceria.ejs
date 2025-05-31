@@ -27,13 +27,12 @@
                  <label for="representante" class="form-label">Representante <span class="text-danger">*</span></label> <!-- Added asterisk -->
                  <input type="text" name="representante" id="representante" placeholder="Nome do Representante" class="form-control" required/>
              </div>
-             <div class="col-md-6">
-                 <label for="telefone" class="form-label">Telefone <span class="text-danger">*</span></label> <!-- Added asterisk -->
-                 <!-- Consider adding pattern for basic validation or using a JS masking library -->
-              
-                 <!-- Removed inline JS formatting - better handled by a library or pattern -->
-                 <input type="tel" name="telefone" id="telefone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" class="form-control" required/>
-             </div>
+             <div class="form-group">
+                <label for="phone">Telefone</label>
+                <input type="tel" name="contato" id="phone" class="form-control"
+                oninput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000"
+                required />
+                </div>
              <div class="col-md-6">
                  <label for="whatsapp" class="form-label">Disponível no Whatsapp?</label> <!-- Clearer label -->
                  <select name="whatsapp" id="whatsapp" class="form-select">

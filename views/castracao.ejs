@@ -52,7 +52,7 @@
     <% model.forEach(castracao => { %>
     <tr>
     <td>
-    <%= castracao.origem_formatada || (castracao.origem ? new Date(castracao.origem).toLocaleDateString('pt-BR') : 'N/D') %>
+    <%= castracao.origem_formatada %>
     </td>
     <td class="ticket fw-bold"><%= castracao.ticket %></td>
     <td><%= castracao.nome %></td>
@@ -68,20 +68,13 @@
     <% } %>
     </td>
     <td class="text-center">
-    <% if (castracao.arquivo) { %>
+   
     <img class="img-thumbnail"
-    style="max-width: 60px; height: auto; cursor: pointer;"
+    
     src="/static/uploads/castracao/<%= castracao.arquivo %>"
-    alt="Foto de <%= castracao.nome %>"
-    onerror="this.onerror=null; this.src='/static/images/placeholder-pet.jpg';"
-    data-bs-toggle="modal" data-bs-target="#imageModal<%= castracao.id %>"
-    />
-    <% } else { %>
-    <img class="img-thumbnail"
-    style="max-width: 60px; height: auto;"
-    src="/static/images/placeholder-pet.jpg"
-    alt="Sem foto para <%= castracao.nome %>" />
-    <% } %>
+    alt="Foto de <%= castracao.nome %>"/>
+    
+  
     </td>
     <td><%= castracao.idade %></td>
     <td><%= castracao.especie %></td>
@@ -109,11 +102,8 @@
     <% } %>
     </tr>
 
-    <!-- Modal para cada imagem -->
-    <% if (castracao.arquivo) { %>
+ 
    
-   
-    <% } %>
     <% }); %>
     </tbody>
     </table>
