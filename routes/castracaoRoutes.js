@@ -142,6 +142,24 @@
           res.status(500).render('error', { error: 'Erro ao deletar o agendamento de castração. Tente novamente.' });
       }
   });
+
+  //Rota generica
+   router.get('/:id', async (req, res) => {
+   const id = req.params.id;
+   const tabela = 'castracao'
+   const pool = getPool(); // Get the connection pool
+   try {
+   const  rows = await pool.execute("SELECT * FROM castracao WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
+   const item = rows[0]
+   res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
+   } catch (error) {
+   console.error("Error fetching adoption detail:", error);
+   res.status(500).render('error', { error: 'Não foi possível carregar os detalhes do pet para adoção.' });
+   }
+  
+   })
+   
+   
   
   module.exports = router;
  

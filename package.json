@@ -1,37 +1,36 @@
- {
+{
     "name": "amor.animal2",
     "version": "1.0.0",
     "description": "Aplicação Web ONG Amor Animal",
     "main": "index.js",
     "keywords": [
-       "amorAnimal",
-       "animal"
+        "amorAnimal",
+        "animal"
     ],
-    "engines" : {
-     "npm" : "9.2.0",
-     "node" : "20"
-   },
+    "engines": {
+        "npm": "10.8.2",
+        "node": "20.19.2"
+    },
     "scripts": {
-       "test": "echo \"Error: no test specified\" && exit 1",
-       "start": "node index.js",
-       "app": "nodemon index.js"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js",
+        "app": "nodemon index.js"
     },
     "author": "wander-2025",
     "license": "MIT",
     "dependencies": {
-       "body-parser": "^1.20.3",
-       "cookie-parser": "^1.4.7",
-       "ejs": "^3.1.10",
-       "express": "^4.21.2",
-       "express-session": "^1.18.1",
-       "mariadb": "^3.4.2",
-       "multer": "^2.0.0", 
-       "pdfmake": "^0.2.20",
-       "prompt-sync": "^4.2.0"
-   
+        "body-parser": "^1.20.3",
+        "cookie-parser": "^1.4.7",
+        "ejs": "^3.1.10",
+        "express": "^4.21.2",
+        "express-session": "^1.18.1",
+        "mariadb": "^3.4.2",
+        "multer": "^2.0.0",
+        "node-fetch": "^3.3.2",
+        "pdfmake": "^0.2.20",
+        "prompt-sync": "^4.2.0"
     },
     "devDependencies": {
-       "nodemon": "^3.1.10" 
+        "nodemon": "^3.1.10"
     }
- }
- 
+}

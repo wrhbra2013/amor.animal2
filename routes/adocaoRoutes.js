@@ -30,6 +30,14 @@
      }
  });
 
+ // GET route to render the adoption form
+ router.get('/form', (req, res) => {
+    // Consider adding isAdmin middleware if this form is for admin use only
+    res.render('form_adocao');
+});
+
+
+ //Rota generica
  router.get('/:id', async (req, res) => {
  const id = req.params.id;
  const tabela = 'adocao'
@@ -45,11 +53,7 @@
 
  })
  
- // GET route to render the adoption form
- router.get('/form', (req, res) => {
-     // Consider adding isAdmin middleware if this form is for admin use only
-     res.render('form_adocao');
- });
+ 
  
  // POST route to handle form submission for new adoption entries
  router.post('/form', uploadAdocao.single('arquivo'), async (req, res) => { // Converted to async
@@ -107,7 +111,7 @@
              adocaoData.whatsapp
          );
          console.log('Dados de adoção inseridos:', adocaoData);
-         res.redirect('/adocao'); // Redirect to the adoption list page
+         res.redirect('/home'); // Redirect to the adoption list page
  
      } catch (error) {
          console.error("Erro ao processar formulário de adoção:", error);
