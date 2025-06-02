@@ -2,36 +2,9 @@
  const multer = require('multer');
  const path = require('path');
  const fs = require('fs');
-
  
- const targetDir = '/workspace/static/uploads/castracao/'; // Or construct dynamically
- 
- try {
-   if (!fs.existsSync(targetDir)) {
-     fs.mkdirSync(targetDir, { recursive: true });
-     console.log(`Directory created successfully: ${targetDir}`);
-   } else {
-     console.log(`Directory already exists: ${targetDir}`);
-   }
- } catch (err) {
-   console.error(`Error creating directory ${targetDir}:`, err);
-   // Depending on your application, you might want to throw the error
-   // or exit if this directory is critical.
-   // throw err;
- }
- 
- // Now you can safely use this directory, for example, with multer:
- // const multer = require('multer');
- // const storage = multer.diskStorage({
- //   destination: function (req, file, cb) {
- //     cb(null, targetDir); // Use the ensured directory
- //   },
- //   filename: function (req, file, cb) {
- //     cb(null, Date.now() + '-' + file.originalname);
- //   }
- // });
- // const upload = multer({ storage: storage });
- 
+ // REMOVED the problematic block that defined and used targetDir
+ // REMOVED the commented-out multer example that used targetDir
  
  const uploadBaseDir = path.join(__dirname, '../static/uploads');
  
@@ -49,7 +22,7 @@
  
  const createDiskStorageConfig = (subfolder) => {
      const destinationPath = path.join(uploadBaseDir, subfolder);
-     ensureDirExists(destinationPath);
+     ensureDirExists(destinationPath); // This will now be the primary way directories are created
      return multer.diskStorage({
          destination: function (req, file, cb) {
              cb(null, destinationPath);
@@ -74,7 +47,6 @@
  };
  
  const createMulterInstance = (subfolder, fileFilter, limits) => {
-    //  console.log(`[multerConfig] Criando instância para subfolder: ${subfolder}`);
      const storage = createDiskStorageConfig(subfolder);
      const multerOptions = { storage: storage };
      if (fileFilter) multerOptions.fileFilter = fileFilter;
@@ -83,11 +55,10 @@
  };
  
  const defaultLimits = {
-     fileSize: 5 * 1024 * 1024
+     fileSize: 5 * 1024 * 1024 // 5MB
  };
  
  try {
-    //  console.log('[multerConfig] Definindo module.exports...');
      module.exports = {
          uploadCastracao: createMulterInstance('castracao/', imageFileFilter, defaultLimits),
          uploadAdotado: createMulterInstance('adotado/', imageFileFilter, defaultLimits),

@@ -1060,7 +1060,7 @@
 
 .news-carousel-control {
   position: absolute;
-  top: 40%;
+  top: 50%;
   transform: translateY(-50%);
   background-color: transparent;
   color: rgba(192, 66, 192, 0.6);
@@ -1080,16 +1080,22 @@
 
 .news-carousel-control:hover,
 .news-carousel-control:focus {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color:  rgb(208, 209, 208);
   outline: none;
 }
 
 .news-carousel-control.prev {
-  left: 15px;
+  left: -15px;
+  cursor: pointer;
+  color: rgb(226, 72, 16);
+  font-weight: bolder;
 }
 
 .news-carousel-control.next {
-  right: 15px;
+  right: -15px;
+  cursor: pointer;
+  color: rgb(226, 72, 16);
+  font-weight: bolder;
 }
 
 .news-carousel-dots {
@@ -1098,7 +1104,7 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 10px;
   z-index: 10;
 }
 
@@ -1106,7 +1112,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: rgba(192, 66, 192, 0.6);
+  background-color: rgba(24, 186, 226, 0.6);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
