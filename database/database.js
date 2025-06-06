@@ -248,3 +248,5 @@ module.exports = {
     //exportar modelos para rotas post
     db:db,
    };
+
+   

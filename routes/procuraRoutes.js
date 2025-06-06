@@ -1,6 +1,5 @@
   // /home/wander/amor.animal2/routes/procuraRoutes.js
   const express = require('express');
-  const { getPool } = require('../database/database'); // Para operações diretas com o BD
   const { executeAllQueries } = require('../database/queries');
   const { insert_procura_se } = require('../database/insert');
   const fs = require('fs').promises; // Usar a API de Promises do fs
@@ -137,10 +136,15 @@
    router.get('/:id', async (req, res) => {
    const id = req.params.id;
    const tabela = 'procura_se'
-   const pool = getPool(); // Get the connection pool
+ const { db } = require('../database/database');
    try {
-   const  rows = await pool.execute("SELECT * FROM procura_se WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
-   const item = rows[0]
+ // Adaptação para SQLite3
+ const item = await new Promise((resolve, reject) => {
+ db.get("SELECT * FROM procura_se WHERE id = ? LIMIT 1", [id], (err, row) => {
+ if (err) return reject(err);
+ resolve(row);
+            });
+ });
    res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
    } catch (error) {
    console.error("Error fetching adoption detail:", error);

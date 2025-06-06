@@ -1,6 +1,6 @@
   // /home/wander/amor.animal2/routes/parceriaRoutes.js
   const express = require('express');
-  const { getPool } = require('../database/database'); // Para operações diretas com o BD
+  const { db } = require('../database/database'); // Para operações diretas com o BD
   const { executeAllQueries } = require('../database/queries');
   const { insert_parceria } = require('../database/insert');
   const { isAdmin } = require('../middleware/auth');
@@ -69,13 +69,18 @@
   // POST /parceria/delete/:id - Deleta um registro de parceria
   router.post('/delete/:id', isAdmin, async (req, res) => {
       const { id } = req.params;
-      const pool = getPool();
   
       try {
           const deleteSql = `DELETE FROM parceria WHERE id = ?`;
-          const [result] = await pool.execute(deleteSql, [id]);
-  
-          if (result.affectedRows === 0) {
+
+ // Adaptação para SQLite3
+ const changes = await new Promise((resolve, reject) => {
+ db.run(deleteSql, [id], function(err) {
+ if (err) return reject(err);
+ resolve(this.changes); // this.changes contém o número de linhas afetadas
+ });
+ });
+ if (changes === 0) {
               console.warn(`[parceriaRoutes DELETE] Nenhum registro encontrado na tabela 'parceria' com ID: ${id} para deletar.`);
           } else {
               console.log(`[parceriaRoutes DELETE] Registro de 'parceria' com ID: ${id} deletado.`);
@@ -92,10 +97,15 @@
    router.get('/:id', async (req, res) => {
    const id = req.params.id;
    const tabela = 'parceria'
-   const pool = getPool(); // Get the connection pool
+ const { db } = require('../database/database');
    try {
-   const  rows = await pool.execute("SELECT * FROM parceria WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
-   const item = rows[0]
+ // Adaptação para SQLite3
+ const item = await new Promise((resolve, reject) => {
+ db.get("SELECT * FROM parceria WHERE id = ? LIMIT 1", [id], (err, row) => {
+ if (err) return reject(err);
+ resolve(row);
+            });
+ });
    res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
    } catch (error) {
    console.error("Error fetching adoption detail:", error);

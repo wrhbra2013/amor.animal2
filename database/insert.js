@@ -1,35 +1,22 @@
-﻿ // /home/wander/amor.animal2/database/insert.js
- const { getPool } = require('./database'); // Alterado para usar getPool
+﻿const {db} = require('./database');
  
- /**
-  * Helper function to execute an INSERT query and return the result.
-  * @param {string} sql - The SQL INSERT statement.
-  * @param {Array<any>} values - The values to insert.
-  * @param {string} tableName - Name of the table for logging.
-  * @returns {Promise<object>} - The result object from the database execution, typically includes insertId.
-  */
+ 
  async function executeInsert(sql, values, tableName) {
-    const pool = getPool();
-    if (!pool) {
-        console.error(`Pool de banco de dados não disponível para inserir em ${tableName}.`);
-        throw new Error("Pool de banco de dados não disponível.");
-    }
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        // Correção: Remover a desestruturação de array, pois conn.execute para INSERT retorna um objeto
-        const result = await conn.execute(sql, values);
-        console.log(`Dados inseridos na tabela ${tableName} com ID: ${result.insertId}`);
-        return result;
-    } catch (error) {
-        console.error(`Erro ao inserir dados na tabela ${tableName}:`, error.message);
-        console.error('SQL:', sql);
-        console.error('Valores:', values);
-        throw error; // Re-throw para que o chamador possa lidar com o erro
-    } finally {
-        if (conn) conn.release();
-    }
-}
+     return new Promise((resolve, reject) => { // Envolve em Promessa para async/await
+         db.run(sql, values, function (err) {  // Usa 'function' para acessar 'this'
+             if (err) {
+                 console.error(`Erro ao inserir dados na tabela ${tableName}:`, err.message);
+                 console.error('SQL:', sql);
+                 console.error('Valores:', values);
+                 reject(err);
+             } else {
+                 console.log(`Dados inseridos na tabela ${tableName} com ID: ${this.lastID}`);
+                 resolve({ insertId: this.lastID }); // Adapta para a propriedade lastID do SQLite
+             }
+         });
+     });
+ }
+ 
 
  
  async function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tutor, contato, whatsapp) {

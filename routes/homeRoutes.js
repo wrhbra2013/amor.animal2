@@ -1,6 +1,6 @@
   // /home/wander/amor.animal2/routes/homeRoutes.js
   const express = require('express');
-  const { getPool } = require('../database/database');
+  const { db } = require('../database/database'); // Importa a instância do banco SQLite
   const { executeAllQueries } = require('../database/queries'); // Essencial para buscar dados para a home
   const { insert_home } = require('../database/insert');     // Para o formulário de notícias da home
   const fs = require('fs').promises;
@@ -18,7 +18,7 @@
   
   // Função para buscar dados da página inicial
   async function getHomePageData() {
-      try {
+       try {
           // rawData is the direct result from executeAllQueries
           const rawData = await executeAllQueries();
           // Ensure 'data' is an object, even if rawData is null or undefined, to prevent errors.
@@ -39,7 +39,7 @@
               parceria: data.parceria || [],
               parceriaCount: data.parceriaCount || { count: 0 }
           };
-      } catch (error) {
+       } catch (error) {
           console.error("Error in getHomePageData:", error);
           throw error; // Re-throw the error to be caught by the route handler
       }
@@ -50,7 +50,7 @@
   router.get(['/', '/home'], checkCookieConsent, async (req, res) => {
       try {
           const homePageData = await getHomePageData();
-        
+
           
           // Data is passed to the template using modelN keys as expected by home.ejs
           res.render('home', {
@@ -67,11 +67,11 @@
               model11: homePageData.procura_seCount,
               model12: homePageData.parceria,
               model13: homePageData.parceriaCount,
-              // showCookieBanner is set by checkCookieConsent middleware
-              // and will be available in res.locals for the template
+             // showCookieBanner is set by checkCookieConsent middleware
+             // and will be available in res.locals for the template
               
           });
-          
+
           
         
       } catch (error) {
@@ -136,7 +136,7 @@
   // Rota para deletar "Notícias" da home
   router.post('/delete/home/:id/:arq', isAdmin, async (req, res) => {
       const { id, arq } = req.params;
-      const pool = getPool();
+     
       const uploadsDir = path.join(__dirname, '..', 'static', 'uploads', 'home');
       const filePath = path.join(uploadsDir, path.basename(arq)); // path.basename for security
   
@@ -144,7 +144,14 @@
           const deleteSql = `DELETE FROM home WHERE id = ?`;
           const [result] = await pool.execute(deleteSql, [id]);
   
-          if (result.affectedRows === 0) {
+          // Adaptação para SQLite3
+ const changes = await new Promise((resolve, reject) => {
+ db.run(deleteSql, [id], function(err) {
+ if (err) return reject(err);
+ resolve(this.changes); // this.changes contém o número de linhas afetadas
+ });
+          });
+ if (changes === 0) {
               console.warn(`homeRoutes: Nenhum registro encontrado na tabela 'home' com ID: ${id} para deletar.`);
           } else {
               console.log(`homeRoutes: Registro de notícia da home com ID: ${id} deletado.`);

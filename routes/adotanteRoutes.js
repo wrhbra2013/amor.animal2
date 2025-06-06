@@ -1,6 +1,6 @@
  // /home/wander/amor.animal2/routes/adotanteRoutes.js
  const express = require('express');
- const { getPool } = require('../database/database'); // Para operações diretas com o BD
+ const { executeQuery } = require('../database/queries'); // Importa executeQuery
  const { executeAllQueries } = require('../database/queries');
  const { insert_adotante } = require('../database/insert');
  const { isAdmin } = require('../middleware/auth');
@@ -87,7 +87,7 @@
  // Mantido o nome da rota original /delete/adotante/:id
  router.post('/delete/adotante/:id', isAdmin, async (req, res) => {
      const { id } = req.params;
-     const pool = getPool();
+     // const pool = getPool(); // Não é necessário com executeQuery
  
      try {
          const deleteSql = `DELETE FROM adotante WHERE id = ?`;
@@ -112,13 +112,12 @@
   router.get('/:id', async (req, res) => {
   const id = req.params.id;
   const tabela = 'adotante'
-  const pool = getPool(); // Get the connection pool
+  // const pool = getPool(); // Get the connection pool
   try {
-  const  rows = await pool.execute("SELECT * FROM adotante WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
-  const item = rows[0]
+  const  [item] = await executeQuery("SELECT * FROM adotante WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
   res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
   } catch (error) {
-  console.error("Error fetching adoption detail:", error);
+  console.error("Error fetching adotante detail:", error);
   res.status(500).render('error', { error: 'Não foi possível carregar os detalhes do pet para adoção.' });
   }
  

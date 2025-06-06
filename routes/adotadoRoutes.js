@@ -1,6 +1,6 @@
  // /home/wander/amor.animal2/routes/adotadoRoutes.js
  const express = require('express');
- const { getPool } = require('../database/database'); // For direct DB operations
+ //const { getPool } = require('../database/database'); // For direct DB operations
  const { executeAllQueries } = require('../database/queries');
  const { insert_adotado } = require('../database/insert');
  const fs = require('fs').promises; // Use promises API for fs

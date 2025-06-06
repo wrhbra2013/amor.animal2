@@ -8,7 +8,7 @@
  const cookieParser = require("cookie-parser");
  
  // Local Modules
- const { initializePool } = require('./database/database.js');
+
  const { initializeDatabaseTables } = require('./database/create.js');
  // const { executeAllQueries } = require('./database/queries'); // Se usado apenas para verificação inicial, pode ser opcional aqui
  
@@ -25,7 +25,7 @@
  // Session middleware setup
  // IMPORTANTE: Defina process.env.SESSION_SECRET em seu ambiente de produção!
  const sessionSecret = process.env.SESSION_SECRET || '@admin_super_secret_key_replace_me';
- if (sessionSecret === '@admin_super_secret_key_replace_me' && process.env.NODE_ENV === 'production') {
+ if (sessionSecret === '@admin' && process.env.NODE_ENV === 'production') {
      console.warn('AVISO: SESSION_SECRET não está configurada adequadamente para produção!');
  }
  app.use(session({
@@ -132,7 +132,7 @@
  // --- Start Server Function ---
  async function startServer() {
      try {
-         await initializePool(); // CRÍTICO: Inicializa o pool de conexões primeiro
+        // await initializePool(); // SQLite não usa pool da mesma forma, a conexão é 'db'
          console.log("Pool de conexões com o banco de dados inicializado.");
  
          await initializeDatabaseTables(); // Inicializa/verifica as tabelas do banco (usa o pool)

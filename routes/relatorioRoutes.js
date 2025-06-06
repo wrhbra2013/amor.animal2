@@ -1,6 +1,6 @@
    // routes/relatorioRoutes.js
    const express = require('express');
-  const { getPool } = require('../database/database');
+  const { db } = require('../database/database'); // Importa a instância do banco SQLite
   const fsPromises = require('fs').promises; // Renomeado para clareza
   const fsNode = require('fs'); // Importa o módulo fs tradicional
   const path = require('path');
@@ -47,15 +47,14 @@
        let selectFields = "*"; // Por padrão, seleciona todos os campos
    
        if (TABELAS_COM_COLUNA_ORIGEM.includes(tabela.toLowerCase())) {
-           // Adiciona a formatação da coluna 'origem' e os campos de ano/mês
+           // Adaptação para SQLite: use strftime para formatar e extrair ano/mês
            selectFields = `*,
-                           DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada,
-                           YEAR(origem) AS ANO,
-                           MONTH(origem) AS MES_NUM`;
+                           strftime('%d %m %Y %H:%M', origem) AS origem_formatada,
+                           CAST(strftime('%Y', origem) AS INTEGER) AS ANO,
+                           CAST(strftime('%m', origem) AS INTEGER) AS MES_NUM`;
            sql = `
                SELECT ${selectFields}
                FROM ${tabela}
-               ORDER BY origem DESC;  -- Ordena pela data de origem original, mais recentes primeiro
            `;
        } else {
            // Para tabelas que não têm 'origem' ou para as quais a formatação não se aplica
@@ -63,24 +62,19 @@
        }
    
        const pool = getPool();
-       let rowsFromDb;
+       let rowsFromDb = [];
    
        try {
-           const executionResult = await pool.execute(sql);
-           // Ajuste na verificação de executionResult para pegar o array de linhas corretamente
-           if (Array.isArray(executionResult) && executionResult.length > 0 && Array.isArray(executionResult)) {
-               rowsFromDb = executionResult; // O primeiro elemento é o array de linhas
-           } else if (Array.isArray(executionResult) && executionResult.length === 0) { // Caso pool.execute() retorne [] diretamente
-               rowsFromDb = [];
-           } else if (Array.isArray(executionResult) && executionResult.length > 0 && executionResult[0] === undefined && executionResult.length === 1){ // Caso pool.execute() retorne [undefined]
-               console.warn(`[fetchReportData] pool.execute retornou [undefined] para a tabela '${tabela}'. Tratando como sem resultados.`);
-               rowsFromDb = [];
-           }
-            else {
-               console.error(`[fetchReportData] Resultado inesperado de pool.execute para a tabela '${tabela}'. Recebeu:`, JSON.stringify(executionResult));
+           // Adaptação para SQLite3 - db.all retorna um array de objetos para todas as linhas.
+           rowsFromDb = await new Promise((resolve, reject) => {
+               db.all(sql, [], (err, rows) => {
+                   if (err) return reject(err);
+                   resolve(rows);
+               });
+           });
                throw new Error(`Formato de dados inesperado do banco para a tabela '${tabela}'.`);
            }
-       } catch (dbError) {
+        catch (dbError) {
            console.error(`[fetchReportData] Erro de banco de dados ao executar query para '${tabela}':`, dbError.message);
            const originalErrorMessage = dbError.message;
            dbError.message = `Erro ao consultar dados da tabela '${tabela}': ${originalErrorMessage}`;
@@ -287,8 +281,14 @@
        const sql = `DELETE FROM ${tabela} WHERE id = ?`;
    
        try {
-           const pool = getPool();
-           const [result] = await pool.execute(sql, [id]); 
+           // Adaptação para SQLite3
+           const changes = await new Promise((resolve, reject) => {
+               db.run(sql, [id], function(err) {
+                   if (err) return reject(err);
+                   resolve(this.changes); // this.changes contém o número de linhas afetadas
+               });
+           });
+           const result = { affectedRows: changes }; // Simula o resultado do pool.execute para a lógica abaixo
    
            if (result.affectedRows === 0) {
                console.warn(`Tentativa de deletar registro inexistente na tabela ${tabela} com id ${id}`);

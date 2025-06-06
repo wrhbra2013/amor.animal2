@@ -1,6 +1,6 @@
  // routes/authRoutes.js
  const express = require('express');
- const { getPool } = require('../database/database');
+ const { db } = require('../database/database'); // Importa a instância do banco SQLite
 const { isAdmin } = require('../middleware/auth');
  const router = express.Router();
  
@@ -34,19 +34,16 @@ const { isAdmin } = require('../middleware/auth');
      }
  
      try {
-         const pool = getPool();
-        
-         const sql = `SELECT id, usuario, senha,  isAdmin FROM login WHERE usuario = ? AND senha = ? LIMIT 1;`;
-         
-         // pool.execute() retorna [rows, fields]. Desestruturamos para pegar apenas 'rows'.
-         const [rows] = await pool.execute(sql, [usuario, senha]);
+         const sql = `SELECT id, usuario, senha, isAdmin FROM login WHERE usuario = ? AND senha = ? LIMIT 1;`;
+
+         const rows = await new Promise((resolve, reject) => {
+             db.get(sql, [usuario, senha], (err, row) => {
+                 if (err) return reject(err);
+                 resolve(row ? [row] : []); // Retorna um array contendo o row ou um array vazio
+             });
+         });
  
          // Verifica se algum usuário foi encontrado com as credenciais fornecidas
-         if (rows.length === 0) {
-             // Usuário não encontrado ou senha incorreta
-             return res.render('login', { error: 'Usuário ou senha inválidos.' });
-         }
- 
          const foundUser = rows;
          console.log('Usuário encontrado:', foundUser)
          console.log('rows[usuario] =>', rows['usuario'])
@@ -54,6 +51,11 @@ const { isAdmin } = require('../middleware/auth');
          console.log('rows[isAdmin] =>', rows['isAdmin'])
 
          // Verificação de segurança: garante que o objeto do usuário e suas propriedades essenciais existem.
+         if (!foundUser || foundUser.length === 0) {
+             // Usuário não encontrado ou senha incorreta
+             return res.render('login', { error: 'Usuário ou senha inválidos.' });
+         }
+
          // Isso protege contra resultados inesperados da query ou alterações no schema.
          if (!foundUser || typeof foundUser.id === 'undefined' || typeof foundUser.usuario === 'undefined') {
              console.error('Login error: Formato de dados do usuário inesperado após a consulta.', foundUser);

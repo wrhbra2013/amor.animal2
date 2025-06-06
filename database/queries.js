@@ -1,5 +1,5 @@
  // /home/wander/amor.animal2/database/queries.js
- const { getPool } = require('./database');
+ const {db} = require('./database');
  
 //  /**
 //   * Executes a given SQL query using the connection pool.
@@ -9,19 +9,17 @@
 //   * @throws {Error} - Throws an error if the query execution fails or the pool is unavailable.
 //   */
  async function executeQuery(query, params = []) {
-     const pool = getPool();
-     
-     try {
-         // pool.execute handles connection acquisition and release for a single query
-         const rows = await pool.execute(query, params);
-         return rows;
-     } catch (error) {
-         console.error(`Error executing query: "${query}" with params: ${JSON.stringify(params)}`, error.message);
-         // Para depuração mais detalhada, você pode descomentar o log abaixo:
-         // console.error("Full error object:", error);
-         throw error; // Re-throw the error to be handled by the caller
-     }
- }
+    return new Promise((resolve, reject) => {
+        db.all(query, params, (err, rows) => {
+            if (err) {
+                console.error(`Error executing query: "${query}" with params: ${JSON.stringify(params)}`, err.message);
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+}
  
  /*
    Definições das Queries SQL
@@ -31,30 +29,34 @@
    assumindo que a intenção é obter todas as colunas mais a formatada.
  */
  
+ // As funções de formatação de data precisam ser tratadas no nível da aplicação ou usar funções SQLite como strftime.
+ // Para simplificar e manter a compatibilidade com as colunas existentes, vamos apenas selecionar *
+ // e formatar a data no backend se necessário.
+ 
  /* tag home */
- const home = `SELECT *, DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada FROM home;`;
+ const home = `SELECT * FROM home;`;
  /* tag adoção*/
- const adocao = `SELECT *, DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada FROM adocao;`;
+ const adocao = `SELECT * FROM adocao;`;
  const adocaoCount = `SELECT COUNT(*) AS count FROM adocao;`;
  
  /* tag adotante */
- const adotante = `SELECT *, DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada FROM adotante;`;
+ const adotante = `SELECT * FROM adotante;`;
  const adotanteCount = `SELECT COUNT(*) AS count FROM adotante;`;
  
  /* tag adotado */
- const adotado = `SELECT *, DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada FROM adotado;`;
+ const adotado = `SELECT * FROM adotado;`;
  const adotadoCount = `SELECT COUNT(*) AS count FROM adotado;`;
  
  /* tag castracao */
- const castracao = `SELECT *, DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada FROM castracao;`;
+ const castracao = `SELECT * FROM castracao;`;
  const castracaoCount = `SELECT COUNT(*) AS count FROM castracao;`;
  
  /* tag procura_se */
- const procura_se = `SELECT *, DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada FROM procura_se;`;
+ const procura_se = `SELECT * FROM procura_se;`;
  const procura_seCount = `SELECT COUNT(*) AS count FROM procura_se;`;
  
  /* tag parceria */
- const parceria = `SELECT *, DATE_FORMAT(origem, '%d %m %Y %H:%i') AS origem_formatada FROM parceria;`;
+ const parceria = `SELECT * FROM parceria;`;
  const parceriaCount = `SELECT COUNT(*) AS count FROM parceria;`;
  
  
@@ -104,39 +106,7 @@
   * @returns {Promise<object>} - A promise that resolves to an object where keys are query names
   *                              and values are either the query results or an error object
      
-    
-     }
-       
-     return Object.values(results);
-     
- }
- 
- // A seção comentada para execução automática no carregamento do módulo é mantida como estava (comentada).
- // É uma boa prática não ter efeitos colaterais significativos (como chamadas de DB)
- // apenas ao importar um módulo.
- /*
-  if (process.env.NODE_ENV !== 'test') {
-      executeAllQueries()
-          .then(results => {
-              let allOk = true;
-              for (const key in results) {
-                  if (results[key] && results[key].error) {
-                      allOk = false;
-                      console.error(`Erro na query de verificação '${key}': ${results[key].error}`);
-                  }
-              }
-              if (allOk) {
-                  console.log('Verificação inicial das queries: Todas as queries executadas (algumas podem ter retornado vazio, o que é normal).');
-              } else {
-                  console.warn('Verificação inicial das queries: Algumas queries falharam. Verifique os logs acima.');
-              }
-          })
-          .catch(error => {
-              console.error('Erro geral durante a execução de todas as queries de verificação:', error);
-          });
-  }
  */
- 
  module.exports = {
      executeQuery,
      executeAllQueries,

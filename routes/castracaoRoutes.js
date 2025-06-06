@@ -1,6 +1,5 @@
   // /home/wander/amor.animal2/routes/castracaoRoutes.js
   const express = require('express');
-  const { getPool } = require('../database/database'); // Para a rota de delete
   const { executeAllQueries } = require('../database/queries');
   const { insert_castracao } = require('../database/insert');
   const fs = require('fs').promises;
@@ -53,7 +52,7 @@
           // Gera um ticket. A coluna 'ticket' na tabela 'castracao' é UNIQUE.
           // Uma geração de ID único mais robusta pode ser necessária para alta concorrência.
           const ticket = req.body.ticket || Math.floor(Math.random() * 10000);
-  
+
           const castracaoData = {
               ticket: ticket,
               nome: req.body.nome,
@@ -99,8 +98,8 @@
   
           let errorMessage = 'Erro ao salvar os dados de castração. Tente novamente.';
           // Verifica se o erro é de entrada duplicada para o ticket (ER_DUP_ENTRY é específico do MySQL/MariaDB)
-          if (error.code === 'ER_DUP_ENTRY' && error.message.toLowerCase().includes("'ticket'")) {
-              errorMessage = 'Erro: O número do ticket já existe. Tente enviar o formulário novamente ou gere um novo ticket.';
+ if (error.message.includes('SQLITE_CONSTRAINT: UNIQUE constraint failed: castracao.ticket')) {
+ errorMessage = 'Erro: O número do ticket já existe. Tente enviar o formulário novamente ou gere um novo ticket.';
           }
           res.status(500).render('form_castracao', { error: errorMessage });
       }
@@ -109,7 +108,7 @@
   // POST /castracao/delete/:id/:arq - Deleta um registro de castração
   router.post('/delete/:id/:arq', isAdmin, async (req, res) => {
       const { id, arq } = req.params;
-      const pool = getPool();
+ const { db } = require('../database/database');
       const uploadsDir = path.join(__dirname, '..', 'static', 'uploads', 'castracao');
       const filePath = path.join(uploadsDir, path.basename(arq)); // path.basename para segurança
   
@@ -117,7 +116,14 @@
           const deleteSql = `DELETE FROM castracao WHERE id = ?`;
           const [result] = await pool.execute(deleteSql, [id]);
   
-          if (result.affectedRows === 0) {
+ // Adaptação para SQLite3
+ const changes = await new Promise((resolve, reject) => {
+ db.run(deleteSql, [id], function(err) {
+ if (err) return reject(err);
+ resolve(this.changes); // this.changes contém o número de linhas afetadas
+ });
+          });
+ if (changes === 0) {
               console.warn(`[castracaoRoutes DELETE] Nenhum registro encontrado na tabela 'castracao' com ID: ${id} para deletar.`);
           } else {
               console.log(`[castracaoRoutes DELETE] Registro de castração com ID: ${id} deletado.`);
@@ -147,10 +153,15 @@
    router.get('/:id', async (req, res) => {
    const id = req.params.id;
    const tabela = 'castracao'
-   const pool = getPool(); // Get the connection pool
+ const { db } = require('../database/database');
    try {
-   const  rows = await pool.execute("SELECT * FROM castracao WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
-   const item = rows[0]
+ // Adaptação para SQLite3
+ const item = await new Promise((resolve, reject) => {
+ db.get("SELECT * FROM castracao WHERE id = ? LIMIT 1", [id], (err, row) => {
+ if (err) return reject(err);
+ resolve(row);
+            });
+ });
    res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
    } catch (error) {
    console.error("Error fetching adoption detail:", error);
