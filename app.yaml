@@ -1,53 +1,61 @@
- runtime: nodejs20  # Ou a versão mais recente suportada
- service: default # Ou um nome de serviço se você tiver múltiplos serviços
- instance_class: F1 # Escolha um tipo de instância (F1 é o mais básico/econômico)
+ # /home/wander/amor.animal2/app.yaml
+ runtime: nodejs20  # Or the Node.js version you are using (e.g., nodejs18)
+ instance_class: F1 # This is a basic, cost-effective instance class. Choose based on your needs.
+ service: default   # You can name your service if you have multiple.
+ 
+ env_variables:
+   NODE_ENV: 'production'
+   # IMPORTANT: Replace with your actual strong secret or use Google Secret Manager
+   SESSION_SECRET: '@admin'
+   # Database credentials (replace with your actual values or use Secret Manager)
+   DB_USER: 'root' # Your Cloud SQL username
+   DB_PASSWORD: 'W@nd3r2025mysql@' # Your Cloud SQL password
+   DB_NAME: 'espelho' # Your database name
+   # This is the connection string for Cloud SQL via Unix Sockets (recommended)
+   # Replace YOUR_PROJECT_ID, YOUR_REGION, and YOUR_INSTANCE_ID accordingly
+   DB_SOCKET_PATH: '/cloudsql/amoranimalmarilia2025:southamerica-east1:root '
+   # DB_HOST: # Not needed if using DB_SOCKET_PATH
+   # DB_PORT: # Not needed if using DB_SOCKET_PATH
+   # DB_CONNECTION_LIMIT: '5' # Optional, if your database.js uses it
  
  handlers:
-   - url: /.*
-     secure: always # Redireciona para HTTPS
-     script: auto
- 
- # Variáveis de ambiente
- env_variables:
-   SESSION_SECRET: '@admin' # ATENÇÃO: Use um valor REAL e SEGURO em produção!
-   NODE_ENV: 'production'
-   # Variáveis para conexão com o Google Cloud SQL (MariaDB)
-   # Substitua pelos seus valores reais
-   DB_USER: 'root'
-   DB_HOST: '127.0.0.1'
-   DB_PORT: '3306'
-   DB_PASSWORD: '@admin' # Considere usar o Secret Manager para senhas em produção
-   DB_NAME: 'espelho'
-   # O DB_SOCKET_PATH é construído automaticamente pelo App Engine quando cloud_sql_instances é configurado.
-   # O formato é /cloudsql/PROJECT_ID:REGION:INSTANCE_ID
-   # Você pode definir explicitamente se precisar, mas geralmente não é necessário se beta_settings estiver correto.
-   # DB_SOCKET_PATH: '/cloudsql/SEU_PROJECT_ID:SUA_REGIAO:SUA_INSTANCIA_ID'
-   # DB_CONNECTION_LIMIT: '5' # Opcional, se o seu database.js usar essa variável
- 
- # Configuração para Google Cloud SQL
- # Substitua SEU_PROJECT_ID:SUA_REGIAO:SUA_INSTANCIA_ID pela string de conexão da sua instância
- # Você pode encontrar essa string na página de visão geral da sua instância do Cloud SQL no Console do Google Cloud.
- beta_settings:
-   cloud_sql_instances: "amoranimal2025: southamerica-east1-a:espelho" # Substitua "espelho2025" pelo nome da sua instância do Cloud SQL
-   
- 
- # Configurações de escalonamento (opcional, mas bom para começar)
- automatic_scaling:
-   min_instances: 0 # Pode ir a 0 para economizar custos quando não há tráfego
-   max_instances: 1 # Comece com 1 e ajuste conforme necessário
-   target_cpu_utilization: 0.65
-   # target_throughput_utilization: 0.65 # Descomente se preferir escalar por taxa de transferência
-   # min_pending_latency: 30ms # Descomente e ajuste se quiser escalar por latência
-   # max_pending_latency: automatic
-   # max_concurrent_requests: 50 # Ajuste conforme a capacidade da sua aplicação
- 
- # Se você tiver arquivos estáticos que o App Engine deve servir diretamente (ex: CSS, JS, imagens da UI)
- # handlers:
+   # Serve static files from the 'static' directory
    - url: /static
-     static_dir: static # Supondo que você tenha uma pasta 'static' na raiz do projeto
-   - url: /uploads # Se você quiser servir uploads diretamente (CUIDADO: veja notas sobre persistência)
-     static_dir: static/uploads # Supondo que seus uploads estejam em static/uploads
-   - url: /.*
-     secure: always
-     script: auto
+     static_dir: static
+     secure: always # Redirect HTTP to HTTPS
  
+   # Serve uploaded files from 'static/uploads'
+   # Note: For dynamic user uploads that need to persist, Google Cloud Storage is better.
+   # This configuration serves files that are part_of_your_deployment_package.
+   - url: /static/uploads
+     static_dir: static/uploads # Assuming your 'uploads' folder is inside 'static'
+     secure: always
+ 
+   # All other requests are handled by your Node.js application (index.js)
+   - url: /.*
+     script: auto
+     secure: always
+ 
+ # Settings for connecting to Google Cloud SQL
+ beta_settings:
+   # Replace with your Cloud SQL instance connection name
+   cloud_sql_instances: " amoranimalmarilia2025:southamerica-east1:root "
+ 
+ # Optional: Automatic scaling settings (good for cost-effectiveness)
+ automatic_scaling:
+   min_instances: 0       # Can scale down to 0 instances to save costs when no traffic
+   max_instances: 1       # Start with 1 and adjust based on traffic
+   target_cpu_utilization: 0.65 # Target CPU utilization for scaling
+   # You can also add other scaling metrics like target_throughput_utilization or min_pending_latency   max_pending_latency: automatic
+   
+# Conectar-se a esta instância do CLOUD SQL
+# Nome da conexão
+# amoranimalmarilia2025:southamerica-east1:root 
+# Conectividade de IP particular
+# Desativado
+# Conectividade de IP público
+# Ativado
+# Endereço IP público
+# 34.95.174.45 
+# Número de porta padrão do banco de dados TCP
+# 3306 

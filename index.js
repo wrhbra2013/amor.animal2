@@ -39,6 +39,8 @@
      }
  }));
  
+ 
+ 
  // Middleware para disponibilizar informações do usuário e estado do cookie para as views
  app.use((req, res, next) => {
      res.locals.user = req.session.user || null; // Informações do usuário logado
