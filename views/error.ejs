@@ -8,10 +8,11 @@
 <body style="background-color: #256db9; ">
  
   
-  <div style="display: grid; place-items: center; height: 100vh;"> 
-    <div style="display: inline-block; background-color: #256db9;  text-align: center; padding: 20px; white-space: pre-line;
-       font-size: larger;">  
-    <h1 style="color: whitesmoke; text-align: center;">   
+ 
+<div class="container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <div class="row text-center">
+  
+    <h1 style="color: whitesmoke; ">   
       Ocorreu um Erro.</h1>
       <% if (typeof error !== 'undefined' && error) { %>
           <p><%= error %></p>

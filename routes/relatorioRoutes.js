@@ -11,10 +11,10 @@
     const PdfPrinter = require('pdfmake');
     const printer = new PdfPrinter({
         Roboto: {
-            normal: path.join(__dirname, '..', '/static/fonts/Roboto-Regular.ttf'),
-            bold: path.join(__dirname, '..', '/static/fonts/Roboto-Medium.ttf'),
-            italics: path.join(__dirname, '..', '/static/fonts/Roboto-Italic.ttf'),
-            bolditalics: path.join(__dirname, '..', '/static/fonts/Roboto-MediumItalic.ttf')
+ normal: path.join(__dirname, '..', 'static', 'fonts', 'Roboto-Regular.ttf'),
+ bold: path.join(__dirname, '..', 'static', 'fonts', 'Roboto-Medium.ttf'),
+ italics: path.join(__dirname, '..', 'static', 'fonts', 'Roboto-Italic.ttf'),
+ bolditalics: path.join(__dirname, '..', 'static', 'fonts', 'Roboto-MediumItalic.ttf')
         }
     });
     
@@ -215,7 +215,7 @@
    
            const pdfDir = './static/uploads/pdf/';
            await fsPromises.mkdir(pdfDir, { recursive: true }); 
-   
+
            const outputFilename = `${tabela}_${Date.now()}.pdf`;
            outputPath = path.join(pdfDir, outputFilename);
    
