@@ -28,59 +28,64 @@ const { isAdmin } = require('../middleware/auth');
  router.post('/login', async (req, res) => {
      const { usuario, senha } = req.body;
  
-     // Validação de entrada básica
      if (!usuario || !senha) {
          return res.render('login', { error: 'Usuário e senha são obrigatórios.' });
      }
  
      try {
          const sql = `SELECT id, usuario, senha, isAdmin FROM login WHERE usuario = ? AND senha = ? LIMIT 1;`;
-
-         const rows = await new Promise((resolve, reject) => {
-             db.get(sql, [usuario, senha], (err, row) => {
+ 
+         // Correctly retrieve the list of users (should be 0 or 1 due to LIMIT 1)
+         const userList = await new Promise((resolve, reject) => {
+             db.all(sql, [usuario, senha], (err, resultRows) => { // resultRows is an array from db.all
                  if (err) return reject(err);
-                 resolve(row ? [row] : []); // Retorna um array contendo o row ou um array vazio
+                 resolve(resultRows); // resultRows will be [{...}] if found, or [] if not
              });
          });
  
-         // Verifica se algum usuário foi encontrado com as credenciais fornecidas
-         const foundUser = rows;
-         console.log('Usuário encontrado:', foundUser)
-         console.log('rows[usuario] =>', rows['usuario'])
-         console.log('rows[senha] =>', rows['senha'])
-         console.log('rows[isAdmin] =>', rows['isAdmin'])
-
-         // Verificação de segurança: garante que o objeto do usuário e suas propriedades essenciais existem.
-         if (!foundUser || foundUser.length === 0) {
-             // Usuário não encontrado ou senha incorreta
+         // Get the actual user object, or undefined if not found
+         const foundUser = userList[0]; 
+ 
+         console.log('User object found:', foundUser); // This will be the user object or undefined
+ 
+         // Corrected console logs (optional, for debugging)
+         if (foundUser) {
+             console.log('foundUser.usuario =>', foundUser.usuario);
+             // console.log('foundUser.senha =>', foundUser.senha); // Avoid logging passwords
+             console.log('foundUser.isAdmin =>', foundUser.isAdmin);
+         }
+ 
+         // Check if a user was found
+         if (!foundUser) {
              return res.render('login', { error: 'Usuário ou senha inválidos.' });
          }
-
-         // Isso protege contra resultados inesperados da query ou alterações no schema.
-         if (!foundUser || typeof foundUser.id === 'undefined' || typeof foundUser.usuario === 'undefined') {
-             console.error('Login error: Formato de dados do usuário inesperado após a consulta.', foundUser);
+ 
+         // Verify the structure of the user object
+         if (typeof foundUser.id === 'undefined' || typeof foundUser.usuario === 'undefined') {
+             console.error('Login error: Unexpected user data format after query.', foundUser);
              return res.status(500).render('login', { error: 'Erro ao processar dados do usuário.' });
          }
  
-         // Armazena informações do usuário na sessão.
-         // Não armazene informações sensíveis como a senha (mesmo que hasheada) na sessão.
-        
-              
+         // Store user information in the session
          req.session.user = {
              id: foundUser.id,
              usuario: foundUser.usuario,
-             isAdmin: foundUser.isAdmin
+             isAdmin: foundUser.isAdmin // SQLite stores BOOLEAN as 0 or 1
          };
          
+         // Set loggedInUser for other middleware/routes if needed
+         req.session.loggedInUser = foundUser.usuario;
+ 
+ 
          console.log(`Login bem-sucedido para o usuário: ${foundUser.usuario}`);
          return res.redirect('/home');
  
      } catch (error) {
-         console.error("Erro no processo de login:", error); // Log detalhado do erro no servidor
-         // Mensagem genérica para o cliente para não expor detalhes internos
-         return res.status(500).render('login', { error: 'Usuario e ou Senha INCORRETOS.' });
+         console.error("Erro no processo de login:", error);
+         return res.status(500).render('login', { error: 'Usuário e ou Senha INCORRETOS.' });
      }
  });
+ 
  
  module.exports = router;
  

@@ -5,17 +5,18 @@
          <div class="card-header bg-primary text-white">
              <h1 class="h4 mb-0"><i class="fas fa-cut me-2"></i>Interessados em Castração</h1>
          </div>
-         <div class="card-body p-4">
-             <div class="alert alert-info" role="alert">
-                 <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Importante</h5>
-                 <ul class="mb-0">
-                     <li>Levar a partir das 08h30 da manhã e buscar à tarde ou no horário combinado na clínica!</li>
-                     <li>Fazer jejum com a ração a partir das 23h do dia anterior.</li>
-                     <li>Tomar água à vontade.</li>
-                     <li>Gatos levar na caixa de transporte e cães na coleira.</li>
-                     <li>Pagamento direto na clínica, à vista no PIX, débito ou dinheiro.</li>
-                 </ul>
-             </div>
+         <fieldset class="card-body">
+            <legend class="card-title h5">IMPORTANTE</legend>
+            <p class="card-text">
+                     <p>Levar a partir das 08h30 da manhã e buscar à tarde ou no horário combinado na clínica!</p>
+                     <p>Fazer jejum com a ração a partir das 23h do dia anterior.</p>
+                     <p>Tomar água à vontade.</p>
+                     <p>Gatos levar na caixa de transporte e cães na coleira.</p>
+                     <p>Pagamento direto na clínica, à vista no PIX, débito ou dinheiro.</p>
+                 </p>
+                 </fieldset>
+         </div>
+     </section>
  
              <form action="/castracao/form" enctype="multipart/form-data" method="post" class="row g-3 mt-3">
                  <div class="col-md-6">
@@ -24,7 +25,7 @@
                  </div>
                  <div class="col-md-6">
                      <label for="phone" class="form-label fw-bold">Telefone:*</label>
-                     <input type="tel" class="form-control" name="contato" id="phone" onInput="this.value = phoneFormat(this.value)" placeholder=" telefone (00) 00000-0000" required>
+                     <input type="tel" class="form-control" name="contato" id="phone" onInput="this.value = phoneFormat(this.value)" placeholder="Telefone (00) 00000-0000" required>
                  </div>
                  <div class="col-md-6">
                      <label for="whatsapp" class="form-label fw-bold">Disponível no WhatsApp?</label>

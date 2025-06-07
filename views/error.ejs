@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>System Error</title>
 </head>
-<body style="background-color: rgb(95, 168, 216);">
+<body style="background-color: #256db9; ">
  
   
   <div style="display: grid; place-items: center; height: 100vh;"> 
-    <div style="display: inline-block; background-color: rgb(95, 168, 216); text-align: center; padding: 20px; white-space: pre-line;
+    <div style="display: inline-block; background-color: #256db9;  text-align: center; padding: 20px; white-space: pre-line;
        font-size: larger;">  
     <h1 style="color: whitesmoke; text-align: center;">   
-      Ocorreu um Erro</h1>
+      Ocorreu um Erro.</h1>
       <% if (typeof error !== 'undefined' && error) { %>
           <p><%= error %></p>
       <% } else { %>
-          <p>Não foi possível determinar a mensagem de erro específica.</p>
+          <strong>Não foi possível determinar a mensagem de erro específica.</strong>
       <% } %>
       <% if (typeof statusCode !== 'undefined' && statusCode) { %>
-          <p>Status Code: <%= statusCode %></p>
+          <strong>Status Code: <%= statusCode %></trong>
       <% } %>
       <a href="/home" style="text-decoration: none;  color:whitesmoke; font-size: larger; margin-top: 20px;">Voltar para a Home</a>
     </h1>
