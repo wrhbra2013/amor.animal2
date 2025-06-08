@@ -28,7 +28,7 @@
          }
          console.log('Usuário deslogado com sucesso.');
          // Redireciona para a página de login com uma mensagem de sucesso
-         res.redirect('/login?message=Logout realizado com sucesso!');
+         res.render('logout');
      });
  });
  
