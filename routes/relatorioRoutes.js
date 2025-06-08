@@ -105,6 +105,9 @@
     });
     
     // Rota POST para gerar o PDF
+   // routes/relatorioRoutes.js
+   // ... (código anterior) ...
+   
    router.post('/:tabela', isAdmin, async (req, res, next) => {
        const tabela = req.params.tabela;
        let outputPath = '';
@@ -113,12 +116,9 @@
            const tableData = await fetchReportData(tabela);
    
            if (!tableData || tableData.length === 0) {
-               // Ajuste para renderizar a página de erro com a mensagem correta
                return res.status(404).render('error', { error: `Nenhum dado encontrado para a tabela ${tabela}. Por favor, verifique se a tabela contém registros.` });
            }
    
-           // --- Preparar Dados da Tabela ---
-           // 'origem' original é removida, 'origem_formatada' será mantida se existir nos dados.
            const columnsToRemove = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME', 'origem'];
            let tableHeaders = [];
            if (tableData.length > 0 && tableData[0]) {
@@ -126,30 +126,57 @@
                tableHeaders = originalHeaders.filter(header => !columnsToRemove.includes(header) && tableData[0][header] !== undefined);
            }
    
-   
            const groupedByYear = {};
            tableData.forEach(row => {
                const year = (row.ANO !== null && row.ANO !== undefined && String(row.ANO).trim() !== '')
                    ? String(row.ANO)
-                   : "Dados Não Agrupados por Ano"; 
+                   : "Dados Não Agrupados por Ano";
    
                if (!groupedByYear[year]) {
                    groupedByYear[year] = [];
                }
                const rowForDisplay = {};
-               tableHeaders.forEach(header => { 
-                   rowForDisplay[header] = row[header] !== null && row[header] !== undefined ? String(row[header]) : '';
+               tableHeaders.forEach(header => { // 'header' é uma chave original da linha de dados (ex: nome_coluna)
+                   let cellValue = row[header];
+                   let displayValue = (cellValue !== null && cellValue !== undefined) ? String(cellValue) : '';
+   
+                   // --- Início da aplicação de replace() ---
+   
+                   // Exemplo 1: Remover espaços em branco no início e fim de todas as strings
+                   // e substituir múltiplos espaços por um único espaço.
+                   if (typeof displayValue === 'string') {
+                       displayValue = displayValue.replace(/^\s+|\s+$/g, ''); // Remove espaços no início/fim
+                       displayValue = displayValue.replace(/ +/g, ' ');       // Substitui múltiplos espaços por um
+                   }
+   
+                   // Exemplo 2: Se uma coluna chamada 'status' existir, traduzir seus valores.
+                   // A flag 'i' em /pending/gi torna a busca case-insensitive.
+                   if (header.toLowerCase() === 'status' && typeof displayValue === 'string') {
+                       displayValue = displayValue.replace(/pending/gi, 'Pendente');
+                       displayValue = displayValue.replace(/approved/gi, 'Aprovado');
+                       displayValue = displayValue.replace(/rejected/gi, 'Rejeitado');
+                   }
+   
+                   // Exemplo 3: Em uma coluna 'descricao', substituir quebras de linha duplas por uma única.
+                   if (header.toLowerCase() === 'descricao' && typeof displayValue === 'string') {
+                       displayValue = displayValue.replace(/\n\s*\n/g, '\n');
+                   }
+                   
+                   // Exemplo 4: Se você tivesse um nome de fonte e quisesse garantir que não há espaços
+                   // (embora isso seja mais relevante para a configuração da fonte em si, não para dados de célula):
+                   // if (header.toLowerCase() === 'font_name_column' && typeof displayValue === 'string') {
+                   //     displayValue = displayValue.replace(/ /g, '-'); // Substitui todos os espaços por hífens
+                   // }
+   
+                   // --- Fim da aplicação de replace() ---
+   
+                   rowForDisplay[header] = displayValue;
                });
                groupedByYear[year].push(rowForDisplay);
            });
            
-           const years = Object.keys(groupedByYear).sort((a, b) => {
-               if (a.startsWith("Dados Não Agrupados")) return 1; 
-               if (b.startsWith("Dados Não Agrupados")) return -1;
-               return Number(a) - Number(b);
-           });
+           // ... (restante do código para construir a definição do PDF e gerá-lo) ...
    
-           // --- Construir Definição do Documento para pdfmake ---
            const content = [];
            const time = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
            content.push({ text: `ONG Amor Animal`, style: 'mainHeader', color: '#333333' });
@@ -158,12 +185,11 @@
    
            if (tableHeaders.length === 0 && tableData.length > 0) {
                 content.push({ text: 'Dados encontrados, mas nenhuma coluna selecionada para exibição.', alignment: 'center' });
-           } else if (tableHeaders.length === 0) { // Isso pode acontecer se tableData for vazio e tableData[0] for undefined
+           } else if (tableHeaders.length === 0) { 
                content.push({ text: 'Nenhuma coluna para exibir (sem dados ou sem cabeçalhos definidos).', alignment: 'center' });
            } else {
                const columnWidths = tableHeaders.map(header => {
                     if (header === 'id') return 'auto';
-                    // Ajustado para 'origem_formatada'
                     if (['caracteristicas', 'historia', 'proposta', 'mensagem', 'descricao', 'origem_formatada'].includes(header.toLowerCase())) return 'auto'; 
                     return '*';
                });
@@ -171,9 +197,13 @@
                years.forEach(year => {
                    content.push({ text: `Ano: ${year}`, style: 'yearHeader' });
                    const tableBody = [];
-                   tableBody.push(tableHeaders.map(header => ({ text: header, style: 'tableHeader' })));
+                   // Os tableHeaders aqui são os nomes das colunas como vêm do banco (após o filtro em columnsToRemove)
+                   // Se você quisesse transformar os próprios cabeçalhos (ex: "nome_usuario" para "Nome Usuário"),
+                   // você faria isso ao definir `tableHeaders` e depois usaria esses cabeçalhos transformados aqui.
+                   tableBody.push(tableHeaders.map(header => ({ text: header.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), style: 'tableHeader' })));
    
-                   groupedByYear[year].forEach(dataRow => {
+   
+                   groupedByYear[year].forEach(dataRow => { // dataRow é o rowForDisplay
                        const rowContent = tableHeaders.map(header => ({ text: dataRow[header] !== undefined ? dataRow[header] : '', style: 'tableCell' }));
                        tableBody.push(rowContent);
                    });
@@ -205,17 +235,17 @@
                    tableCell: { fontSize: 6, alignment: 'left' },
                    footerStyle: { fontSize: 8, alignment: 'center', margin: [0, 20, 0, 0] }
                },
-               defaultStyle: { font: 'Roboto' },
+               defaultStyle: { font: 'Roboto' }, // Certifique-se que 'Roboto' está corretamente configurado
                footer: (currentPage, pageCount) => ({
                    text: `Página ${currentPage.toString()} de ${pageCount.toString()}`,
                    style: 'footerStyle'
                })
            };
    
-   
+           // ... (restante do código para gerar e enviar o PDF)
            const pdfDir = './static/uploads/pdf/';
            await fsPromises.mkdir(pdfDir, { recursive: true }); 
-
+   
            const outputFilename = `${tabela}_${Date.now()}.pdf`;
            outputPath = path.join(pdfDir, outputFilename);
    
@@ -243,7 +273,7 @@
            });
    
        } catch (error) {
-           console.error("Erro durante a geração do PDF ou busca de dados:", error.message); // Log apenas da mensagem
+           console.error("Erro durante a geração do PDF ou busca de dados:", error.message);
            if (outputPath) {
                try {
                    await fsPromises.access(outputPath); 
@@ -263,6 +293,9 @@
            }
        }
    });
+   
+   
+   
     
     router.post('/delete/:tabela/:id', isAdmin, async (req, res, next) => {
         const tabela = req.params.tabela;
