@@ -8,8 +8,6 @@
  const cookieParser = require("cookie-parser");
  
  // Local Modules
-const { populateUserFromSession } = require('./middleware/populateUser.js'); // Ajuste o caminho
-// ...
  const { initializeDatabaseTables } = require('./database/create.js');
  // const { executeAllQueries } = require('./database/queries'); // Se usado apenas para verificação inicial, pode ser opcional aqui
  
@@ -43,7 +41,26 @@ const { populateUserFromSession } = require('./middleware/populateUser.js'); // 
  
  
  // Middleware para disponibilizar informações do usuário e estado do cookie para as views
- app.use(populateUserFromSession);
+// 2. Middleware para popular req.user e req.isAdmin a partir da sessão
+app.use((req, res, next) => {
+    if (req.session && req.session.user) {
+        req.user = req.session.user;
+        req.isAdmin = req.session.user.isAdmin;
+        // Opcional: tornar user e isAdmin disponíveis globalmente para todos os templates via res.locals
+        res.locals.user = req.session.user;
+        res.locals.isAdmin = req.session.user.isAdmin;
+    } else {
+        // Garante que req.isAdmin seja false se não houver usuário logado
+        // e que res.locals.isAdmin também seja false para os templates.
+        req.isAdmin = false;
+        if (res.locals) { // Garante que res.locals exista
+            res.locals.isAdmin = false;
+            res.locals.user = null;
+        }
+    }
+    next();
+});
+
  
  // --- View Engine Setup ---
  app.set('view engine', 'ejs');

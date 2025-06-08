@@ -14,7 +14,16 @@
  
  // Rota para processar o formulário de criação de administrador (protegida)
  router.post('/form', isAdmin, async (req, res) => {
-     const { usuario, senha } = req.body;
+     const { usuario, senha, confirmar } = req.body;
+     
+     // Verifica se as senhas coincidem
+     if (senha !== confirmar) {
+         return res.status(400).render('form_admin', {
+             error: 'As senhas não coincidem.',
+             success: null
+         });
+     }
+     
  
      // Validação básica dos campos
      if (!usuario || !senha) {
