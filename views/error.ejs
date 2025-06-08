@@ -1,31 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>System Error</title>
-</head>
-<body style="background-color: #256db9; ">
+ <!DOCTYPE html>
+ <html lang="pt-br">
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Erro no Sistema</title>
+   <style>
+     body {
+       background-color: #256db9;
+       color: whitesmoke;
+       font-family: Arial, sans-serif;
+       margin: 0;
+       padding: 20px; /* Adiciona um pouco de padding ao redor */
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       min-height: 100vh; /* Garante que o corpo ocupe pelo menos a altura total da tela */
+       text-align: center; /* Centraliza o texto dentro dos elementos filhos */
+     }
+     .error-container {
+       background-color: #256db9; /* Um fundo sutil para o container da mensagem */
+       padding: 30px;
+       border-radius: 8px;
+       max-width: 600px; /* Limita a largura máxima em telas grandes */
+       width: 90%; /* Usa uma porcentagem para responsividade */
+     }
+     h1 {
+       font-size: 1.8em; /* Tamanho de fonte responsivo */
+       margin-bottom: 20px;
+     }
+     p, strong {
+       font-size: 1em; /* Tamanho de fonte responsivo */
+       line-height: 1.6;
+       margin-bottom: 10px;
+     }
+     .home-link {
+       display: inline-block; /* Permite aplicar margem e padding */
+       text-decoration: none;
+       color: #f0f0f0; /* Cor um pouco mais clara para o link */
+       font-size: 1.1em;
+       margin-top: 25px;
+       padding: 10px 15px;
+       border: 1px solid whitesmoke;
+       border-radius: 5px;
+       transition: background-color 0.3s, color 0.3s;
+     }
+     .home-link:hover {
+       background-color: whitesmoke;
+       color: #256db9;
+     }
  
-  
+     /* Ajustes para telas menores, se necessário */
+     @media (max-width: 480px) {
+       h1 {
+         font-size: 1.5em;
+       }
+       p, strong {
+         font-size: 0.9em;
+       }
+       .error-container {
+         padding: 20px;
+       }
+     }
+   </style>
+ </head>
+ <body>
  
-<div class="container">
-   <div class="row justify-content-center">
-  
-    <h1 style="color: whitesmoke; ">   
-      Ocorreu um Erro.</h1>
-      <% if (typeof error !== 'undefined' && error) { %>
-          <p><%= error %></p>
-      <% } else { %>
-          <strong>Não foi possível determinar a mensagem de erro específica.</strong>
-      <% } %>
-      <% if (typeof statusCode !== 'undefined' && statusCode) { %>
-          <strong>Status Code: <%= statusCode %></trong>
-      <% } %>
-      <a href="/home" style="text-decoration: none;  color:whitesmoke; font-size: larger; margin-top: 20px;">Voltar para a Home</a>
-    </h1>
-</div>
-</div>
-  
-</body>
-</html>
+   <div class="error-container">
+     <h1>Ocorreu um Erro</h1>
+     <% if (typeof error !== 'undefined' && error) { %>
+         <p><%= error %></p>
+     <% } else { %>
+         <p><strong>Não foi possível determinar a mensagem de erro específica.</strong></p>
+     <% } %>
+     <% if (typeof statusCode !== 'undefined' && statusCode) { %>
+         <p><strong>Status Code: <%= statusCode %></strong></p>
+     <% } %>
+     <a href="/home" class="home-link">Voltar para a Home</a>
+   </div>
+ 
+ </body>
+ </html>
+ 

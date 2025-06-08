@@ -9,25 +9,34 @@
      
   </head>
   <body>
+    <div >
       <!-- User Controls and Accessibility -->
       <button id="contrast-toggle-button" aria-label="Alternar alto contraste"   style=" border: none;   background-color: transparent;  color:rgb(0, 195, 255);cursor:pointer; font-size:30px;">◧ </button>
-      
-      <!-- <img src="/static/css/favicon/contrast.png" alt="Alto contraste"></button> -->
-      <!-- Main Header and Navigation -->
-      <header class="main-header">        
-        <main class="main-header-controls">        
+
+    </div>
+    <div class="container">
+      <!-- User Controls and Accessibility
+         <main class="main-header-controls">         -->
        
           <% if (user ) {%>      
-            <span style="white-space: nowrap; margin-left: 10px; font-weight: bold;">Administrador</span>
-
-            <a href="/relatorio/" class="login-button">Relatorios</a>
+            <span style=" text-align: center; font-weight: bold;  ">  Administrador</span>
+           
+            <a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a>
          
             <a href="/auth/logout" class="login-button">Sair</a>
           
           <% } else { %>
             <a href="/auth/login" class="login-button">Acesso</a>
           <% } %>
-        </main>
+           </span>
+        <!-- </main> -->
+    </div>
+      
+      
+      <!-- <img src="/static/css/favicon/contrast.png" alt="Alto contraste"></button> -->
+      <!-- Main Header and Navigation -->
+      <header class="main-header">        
+      
     
           <div class="nav-container">
               <img src="/static/css/imagem/ong.jpg" alt="Logo ONG AMOR ANIMAL MARILIA" />

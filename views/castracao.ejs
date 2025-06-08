@@ -80,9 +80,7 @@
     <td><%= castracao.especie %></td>
     <td><%= castracao.porte %></td>
     <td><%= castracao.clinica %></td>
-    <td>
-    <%= castracao.agenda %>
-    </td>
+    <td> <%= castracao.agenda %></td>
     <% if (user) {%>
     <td class="action-buttons text-center">
     <form action="/castracao/delete/<%= castracao.id %>/<%= castracao.arquivo || 'sem_arquivo' %>" method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este agendamento?')">

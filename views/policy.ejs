@@ -1,10 +1,32 @@
- <link rel="stylesheet" href="/static/css/default.css">
- <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
- 
- <a href="/home">Return</a>
- 
- <div class="container">
-   <div class="row justify-content-center">
+    <link rel="stylesheet" href="/static/css/default.css">
+      <a href="/" class="btn btn-primary">Voltar para a página inicial</a>
+
+ <style>
+ /* Estilos básicos para o container principal */
+ .policy-container {
+ max-width: 800px; /* Largura máxima para o conteúdo */
+ margin: 20px auto; /* Centraliza o container e adiciona margem superior/inferior */
+ padding: 20px;
+ background-color: #f9f9f9; /* Fundo claro para o conteúdo */
+ border-radius: 8px; /* Cantos arredondados */
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+ }
+
+ /* Ajustes para telas menores */
+ @media (max-width: 768px) {
+ .policy-container {
+ margin: 10px; /* Reduz a margem em telas menores */
+ padding: 15px; /* Reduz o padding */
+ }
+ h1 {
+ font-size: 1.8em; /* Ajusta o tamanho do título */
+ }
+ }
+ </style>
+
+ <div class="policy-container">
+ <div class="row justify-content-center">
+
   
          <h1 class="text-center mb-4">Nossa Política de Privacidade</h1>
          <p>
@@ -39,3 +61,4 @@
        </div>
      </div>
   
+ <%-include("_footer")-%>
