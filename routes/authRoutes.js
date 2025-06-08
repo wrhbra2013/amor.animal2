@@ -53,8 +53,9 @@ const { isAdmin } = require('../middleware/auth');
              console.log('foundUser.usuario =>', foundUser.usuario);
              // console.log('foundUser.senha =>', foundUser.senha); // Avoid logging passwords
              console.log('foundUser.isAdmin =>', foundUser.isAdmin);
+               // Store user information in the session
          }
- 
+          
          // Check if a user was found
          if (!foundUser) {
              return res.render('login', { error: 'Usuário ou senha inválidos.' });
@@ -65,26 +66,25 @@ const { isAdmin } = require('../middleware/auth');
              console.error('Login error: Unexpected user data format after query.', foundUser);
              return res.status(500).render('login', { error: 'Erro ao processar dados do usuário.' });
          }
- 
-         // Store user information in the session
-         req.session.user = {
+        else{
+            console.log('Login bem-sucedido para o usuário:', foundUser.usuario);
+              // Store user information in the session
+            req.session.user = {
              id: foundUser.id,
              usuario: foundUser.usuario,
              isAdmin: foundUser.isAdmin // SQLite stores BOOLEAN as 0 or 1
-         };
+        }};
          
          // Set loggedInUser for other middleware/routes if needed
-         req.session.loggedInUser = foundUser.usuario;
- 
- 
-         console.log(`Login bem-sucedido para o usuário: ${foundUser.usuario}`);
+         req.session.loggedInUser = foundUser.usuario;        
          return res.redirect('/home');
- 
+        
      } catch (error) {
          console.error("Erro no processo de login:", error);
          return res.status(500).render('login', { error: 'Usuário e ou Senha INCORRETOS.' });
      }
  });
+
  
  
  module.exports = router;
