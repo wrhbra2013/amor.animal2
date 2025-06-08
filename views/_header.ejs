@@ -23,7 +23,7 @@
       
          <main class="main-header-controls">        
        
-          <% if (typeof user !== 'undefined' && user && user.isAdmin) { %>
+          <% if (user) { %>
             <span style=" text-align: center; font-weight: bold;  ">  Administrador
            
             <a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a>
@@ -51,10 +51,11 @@
               <nav class="main-nav">
                    <ul class="nav-list" id="main-nav-list">
                       <li><a href="/home">Início</a></li>       <!-- Use absolute paths -->
-                      <li><a href="/adocao">Adoção</a></li>     <!-- Use absolute paths -->
+                      <li><a href="/adocao">Adoção</a></li>  
+                       <li><a href="/adotado">Adotados</a></li>       <!-- Use absolute paths -->
                       <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
-                      <li><a href="/doacao">Doação</a></li>     <!-- Use absolute paths -->
-                      <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
+                       <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
+                        <li><a href="/doacao">Doação</a></li>     <!-- Use absolute paths -->
                       <li><a href="/parceria">Parceria</a></li>   <!-- Use absolute paths -->
                       <li><a href="/sobre">Sobre</a></li>       <!-- Use absolute paths -->
                       <% if (user) { %>
@@ -67,9 +68,10 @@
                 <ul class="nav-list" id="main-nav-list">
                     <li><a href="/home">Início</a></li>       <!-- Use absolute paths -->
                     <li><a href="/adocao">Adoção</a></li>     <!-- Use absolute paths -->
+                    <li><a href="/adotado">Adotados</a></li>     
                     <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
-                    <li><a href="/doacao">Doação</a></li>     <!-- Use absolute paths -->
                     <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
+                    <li><a href="/doacao">Doação</a></li>     <!-- Use absolute paths -->
                     <li><a href="/parceria">Parceria</a></li>   <!-- Use absolute paths -->
                     <li><a href="/sobre">Sobre</a></li>       <!-- Use absolute paths -->
                     <% if (user) { %>
