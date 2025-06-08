@@ -301,7 +301,7 @@
                 <tr>
                 <td><%= castracao.origem ? new Date(castracao.origem).toLocaleDateString('pt-BR') : 'N/A' %></td>
                 <td><%= castracao.ticket %></td>                
-                <td><%= castracao.agenda %></td></td>             
+                <td><%= castracao.agenda %></td>             
                 <td><%= castracao.nome %></td>
                 <td><%= castracao.especie %></td>
                 <td><%= castracao.clinica %></td>             
@@ -341,7 +341,7 @@
                           alt="Foto de <%= adotado.pet %>, adotado por <%= adotado.tutor %>" 
                           class="card-img-top adotado-card-img">
                      <div class="card-body">
-                         <h5 class="card-title"><%= adotado.pet></h5>
+                         <h5 class="card-title"><%= adotado.pet %></h5>
                          <h6 class="card-subtitle mb-2 text-muted">Adotado por: <%= adotado.tutor %></h6>
                          <p class="card-text adotado-historia-texto">"<%= adotado.historia %>"</p>
                          <small class="text-muted">Em: <%= adotado.origem %></small>
