@@ -1,30 +1,38 @@
  // routes/authRoutes.js
  const express = require('express');
  const { db } = require('../database/database'); // Importa a instância do banco SQLite
-const { isAdmin } = require('../middleware/auth');
  const router = express.Router();
  
- 
- // GET /login - Render the login form
+ // GET /login - Renderiza o formulário de login
  router.get('/login', (req, res) => {
-     if (req.session.loggedInUser) {
+     // Se o usuário já estiver logado (verificando req.session.user), redireciona para /home
+     if (req.session.user) {
          return res.redirect('/home');
      }
-     res.render('login', { error: req.query.error || null, message: req.query.message || null });
+     // Passa mensagens de erro ou sucesso (ex: após logout) via query params
+     res.render('login', {
+         error: req.query.error || null,
+         message: req.query.message || null
+     });
  });
  
- // GET /logout - Handle user logout
+ // GET /logout - Lida com o logout do usuário
  router.get('/logout', (req, res) => {
      req.session.destroy(err => {
          if (err) {
              console.error('Erro ao destruir a sessão:', err);
-             return res.status(500).render('login', { error: 'Erro ao tentar fazer logout.' });
+             // Em caso de erro no logout, renderiza uma página de erro ou redireciona
+             return res.status(500).render('error', { // Supondo que você tenha um 'error.ejs'
+                 error: 'Erro ao tentar fazer logout. Tente novamente.'
+             });
          }
-         console.log('Usuário deslogado.');
-         res.render('logout');
+         console.log('Usuário deslogado com sucesso.');
+         // Redireciona para a página de login com uma mensagem de sucesso
+         res.redirect('/login?message=Logout realizado com sucesso!');
      });
  });
  
+ // POST /login - Processa a tentativa de login
  router.post('/login', async (req, res) => {
      const { usuario, senha } = req.body;
  
@@ -33,59 +41,55 @@ const { isAdmin } = require('../middleware/auth');
      }
  
      try {
-         const sql = `SELECT id, usuario, senha, isAdmin FROM login WHERE usuario = ? AND senha = ? LIMIT 1;`;
+         // ATENÇÃO: Comparar senhas em texto plano é inseguro.
+         // Considere usar hashing (ex: bcrypt) para senhas.
+         const sql = `SELECT id, usuario, isAdmin FROM login WHERE usuario = ? AND senha = ? LIMIT 1;`;
  
-         // Correctly retrieve the list of users (should be 0 or 1 due to LIMIT 1)
-         const userList = await new Promise((resolve, reject) => {
-             db.all(sql, [usuario, senha], (err, resultRows) => { // resultRows is an array from db.all
-                 if (err) return reject(err);
-                 resolve(resultRows); // resultRows will be [{...}] if found, or [] if not
+         // db.all retorna um array de linhas. Esperamos 0 ou 1 linha devido ao LIMIT 1.
+         const users = await new Promise((resolve, reject) => {
+             db.all(sql, [usuario, senha], (err, rows) => {
+                 if (err) {
+                     return reject(err);
+                 }
+                 resolve(rows);
              });
          });
  
-         // Get the actual user object, or undefined if not found
-         const foundUser = userList[0]; 
+         const foundUser = users[0]; // Pega o primeiro usuário do array (ou undefined se o array estiver vazio)
  
-         console.log('User object found:', foundUser); // This will be the user object or undefined
- 
-         // Corrected console logs (optional, for debugging)
-         if (foundUser) {
-             console.log('foundUser.usuario =>', foundUser.usuario);
-             // console.log('foundUser.senha =>', foundUser.senha); // Avoid logging passwords
-             console.log('foundUser.isAdmin =>', foundUser.isAdmin);
-               // Store user information in the session
-         }
-          
-         // Check if a user was found
          if (!foundUser) {
+             // Usuário não encontrado ou senha incorreta
              return res.render('login', { error: 'Usuário ou senha inválidos.' });
          }
  
-         // Verify the structure of the user object
-         if (typeof foundUser.id === 'undefined' || typeof foundUser.usuario === 'undefined') {
-             console.error('Login error: Unexpected user data format after query.', foundUser);
-             return res.status(500).render('login', { error: 'Erro ao processar dados do usuário.' });
+         // Verifica se os campos essenciais estão presentes no objeto retornado
+         // (Embora a query deva garantir isso se um usuário for encontrado)
+         if (typeof foundUser.id === 'undefined' ||
+             typeof foundUser.usuario === 'undefined' ||
+             typeof foundUser.isAdmin === 'undefined') {
+             console.error('Erro de login: Formato de dados do usuário inesperado.', foundUser);
+             return res.status(500).render('login', { error: 'Erro interno ao processar dados do usuário.' });
          }
-        else{
-            console.log('Login bem-sucedido para o usuário:', foundUser.usuario);
-              // Store user information in the session
-            req.session.user = {
+ 
+         console.log('Login bem-sucedido para o usuário:', foundUser.usuario);
+ 
+         // Armazena as informações do usuário na sessão.
+         // É uma boa prática garantir que `isAdmin` seja um booleano.
+         req.session.user = {
              id: foundUser.id,
              usuario: foundUser.usuario,
-             isAdmin: foundUser.isAdmin // SQLite stores BOOLEAN as 0 or 1
-        }};
-         
-         // Set loggedInUser for other middleware/routes if needed
-         req.session.loggedInUser = foundUser.usuario;        
+             isAdmin: Boolean(foundUser.isAdmin) // Converte 0/1 do SQLite para true/false
+         };
+ 
+         // Redireciona para a página inicial após o login bem-sucedido
          return res.redirect('/home');
-        
+ 
      } catch (error) {
          console.error("Erro no processo de login:", error);
-         return res.status(500).render('login', { error: 'Usuário e ou Senha INCORRETOS.' });
+         // Para o usuário, uma mensagem genérica é geralmente melhor em caso de erro de servidor.
+         return res.status(500).render('login', { error: 'Ocorreu um erro durante o login. Tente novamente mais tarde.' });
      }
  });
-
- 
  
  module.exports = router;
  
