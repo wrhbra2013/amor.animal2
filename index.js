@@ -23,10 +23,14 @@
  
  // Session middleware setup
  // IMPORTANTE: Defina process.env.SESSION_SECRET em seu ambiente de produção!
- const sessionSecret = process.env.SESSION_SECRET || '@admin_super_secret_key_replace_me';
+ const sessionSecret = process.env.SESSION_SECRET || '@admin';
  if (sessionSecret === '@admin' && process.env.NODE_ENV === 'production') {
      console.warn('AVISO: SESSION_SECRET não está configurada adequadamente para produção!');
  }
+
+ if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1); // Confia no primeiro proxy (comum para Render, Heroku, etc.)
+}
  app.use(session({
      secret: sessionSecret,
      resave: false,
