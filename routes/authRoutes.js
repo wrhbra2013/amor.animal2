@@ -80,7 +80,7 @@
              usuario: foundUser.usuario,
              isAdmin: Boolean(foundUser.isAdmin) // Converte 0/1 do SQLite para true/false
          };
- 
+          console.log('LOGIN - req.session.user definido:', JSON.stringify(req.session.user)); // LOG ADICIONAD0
          // Redireciona para a página inicial após o login bem-sucedido
          return res.redirect('/home');
  

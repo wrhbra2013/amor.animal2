@@ -23,7 +23,9 @@
       
          <main class="main-header-controls">        
        
-          <% if (user) { %>
+          <% if (user)        { %>   
+                  <span style=" text-align: center; font-weight: bold;  "> Bem-vindo, <%= user.usuario %>!</span>
+          
             <span style=" text-align: center; font-weight: bold;  ">  Administrador
            
             <a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a>
