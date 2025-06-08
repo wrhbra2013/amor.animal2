@@ -8,7 +8,8 @@
  const cookieParser = require("cookie-parser");
  
  // Local Modules
-
+const { populateUserFromSession } = require('./middleware/populateUser.js'); // Ajuste o caminho
+// ...
  const { initializeDatabaseTables } = require('./database/create.js');
  // const { executeAllQueries } = require('./database/queries'); // Se usado apenas para verificação inicial, pode ser opcional aqui
  
@@ -42,11 +43,7 @@
  
  
  // Middleware para disponibilizar informações do usuário e estado do cookie para as views
- app.use((req, res, next) => {
-     res.locals.user = req.session.user || null; // Informações do usuário logado
-     res.locals.showCookieBanner = !(req.cookies && req.cookies.cookie_consent === 'accepted'); // Controla a exibição do banner de cookies
-     next();
- });
+ app.use(populateUserFromSession);
  
  // --- View Engine Setup ---
  app.set('view engine', 'ejs');

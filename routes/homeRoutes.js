@@ -54,6 +54,7 @@
           
           // Data is passed to the template using modelN keys as expected by home.ejs
           res.render('home', {
+             user: req.user,
               model1: homePageData.home,
               model2: homePageData.adocao,
               model3: homePageData.adocaoCount,

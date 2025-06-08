@@ -23,7 +23,7 @@
       
          <main class="main-header-controls">        
        
-          <% if (user ) {%>      
+          <% if (typeof user !== 'undefined' && user && user.isAdmin) { %>
             <span style=" text-align: center; font-weight: bold;  ">  Administrador
            
             <a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a>
