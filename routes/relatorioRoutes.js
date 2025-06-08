@@ -49,7 +49,7 @@
          if (TABELAS_COM_COLUNA_ORIGEM.includes(tabela.toLowerCase())) {
              // Adaptação para SQLite: use strftime para formatar e extrair ano/mês
              selectFields = `*,
-                             strftime('%d %m %Y %H:%M', origem) AS origem_formatada,
+                             strftime('%d  %m  %Y %H:%M', origem) AS origem,
                              CAST(strftime('%Y', origem) AS INTEGER) AS ANO,
                              CAST(strftime('%m', origem) AS INTEGER) AS MES_NUM`;
              sql = `
