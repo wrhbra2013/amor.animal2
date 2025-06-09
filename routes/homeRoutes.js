@@ -49,9 +49,9 @@
   // Rota principal para '/' e '/home'
   router.get(['/', '/home'], checkCookieConsent, async (req, res) => {
       try {
-         console.log('[HOME ROUTE] - req.user:', JSON.stringify(req.user)); // LOG ADICIONADO
-           console.log('[HOME ROUTE] - req.isAdmin:', req.isAdmin); // LOG ADICIONADO
-            console.log('[HOME ROUTE] - res.locals.isAdmin:', res.locals.isAdmin); // LOG ADICIONADO
+        //  console.log('[HOME ROUTE] - req.user:', JSON.stringify(req.user)); // LOG ADICIONADO
+        //    console.log('[HOME ROUTE] - req.isAdmin:', req.isAdmin); // LOG ADICIONADO
+        //     console.log('[HOME ROUTE] - res.locals.isAdmin:', res.locals.isAdmin); // LOG ADICIONADO
 
           const homePageData = await getHomePageData();          
           // Data is passed to the template using modelN keys as expected by home.ejs

@@ -7,7 +7,7 @@
          console.error(`Erro ao criar/verificar tabela ${tableName} (SQLite):`, err.message);
          reject(err);
        } else {
-         console.log(`Tabela: ${tableName} (SQLite) verificada/criada com sucesso.`);
+        //  console.log(`Tabela: ${tableName} (SQLite) verificada/criada com sucesso.`);
          resolve();
        }
      });
@@ -191,7 +191,7 @@
           await create_home();
           await create_login();
           await create_admin_user(); // Deve ser chamado após create_login
-          console.log("Criação/verificação de todas as tabelas (SQLite) concluída com sucesso.");
+        //   console.log("Criação/verificação de todas as tabelas (SQLite) concluída com sucesso.");
       } catch (error) {
           console.error("Erro fatal durante a inicialização das tabelas (SQLite):", error.message);
           throw error;
