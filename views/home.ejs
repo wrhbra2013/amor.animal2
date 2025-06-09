@@ -25,12 +25,17 @@
                  <div class="col-md-7">
                      <h2>Nossa Missão</h2>
                      <p>A ONG Amor Animal é dedicada ao resgate, reabilitação e realocação de animais em situação de vulnerabilidade. Movidos pela compaixão, trabalhamos incansavelmente para oferecer uma segunda chance a cada um deles, promovendo a posse responsável e o bem-estar animal em nossa comunidade.</p>
-                     <a href="/sobre" class="button">Saiba Mais Sobre Nós</a>
+                        <div class="col-md-5 text-center">
+                    <span>Equipe ONG Amor Animal</span>                     
+                 </div>               
+                     <div class="text-center">
+                       <a href="/sobre" class="button"" >Saiba Mais Sobre Nós</a>
+                     </div>
+                    
                  </div>
-                 <div class="col-md-5 text-center">
-                    <span>Equipe ONG Amor Animal</span>
-                 </div>
+              
              </div>
+             
          </div>
      </section>
  
@@ -221,6 +226,7 @@
                                 0
                                 <% } %></h3>
                              <p class="text-muted"> Desaparecidos </p>
+                               <a href="/procura_se">Veja Mais</a>
                          </div>
                      </div>
                  </div>
@@ -235,7 +241,7 @@
                                 0
                                 <% } %></h3>
                              <p class="text-muted">Parcerias</p>
-                             <a href="/parceria">Veja Mais</a
+                             <a href="/parceria">Veja Mais</a>
                          </div>
                      </div>
                  </div>
@@ -268,7 +274,7 @@
                             </td>
                         </tr>
                     </table>
-                    <a href="/castracao">Veja Mais</a
+                    <a href="/castracao">Veja Mais</a>
                 </div>
             </div>
         </div>
@@ -308,20 +314,19 @@
                  <td><%= castracao.origem ? new Date(castracao.origem).toLocaleDateString('pt-BR') : 'N/A' %></td>          
                 
                 </tr>
-                <% }); %>
-            
-                <% } else { %>
-                <tr>
-                <td colspan="5" class="text-center text-muted">Nenhum ticket de castração para exibir no momento.</td>
-                </tr>
+                <% }); %>            
+                <% } else { %>              
+                <td colspan="6" class="text-center text-muted">Nenhum ticket de castração para exibir no momento.</td>
+                
                 <% } %>
+               
             </tbody>
         </table>
                
            
            
         </div>
-        <a href="/castracao">Veja Mais</a>
+     
     </div>
 </div>
 </div>
@@ -469,8 +474,8 @@
              </p>
              <div class="text-center">
              
-             <a href="/doacao" class="button me-2" style="background-color: transparent; border: 1px solid; color: var(--heading-color); border: 1px solid var(--heading-color);">Quero ser Voluntário</a>
-             <a href="/parceria/form" class="button" style="background-color:transparent; border: 1px solid; color: var(--heading-color); border: 1px solid var(--heading-color);">Seja um Parceiro</a>
+             <a href="/doacao" class="button">Quero ser Voluntário</a>
+             <a href="/parceria/form" class="button">Seja um Parceiro</a>
              </div>
          </div>
      </section>

@@ -1,9 +1,14 @@
-<link rel="stylesheet" href="/static/css/default.css">
-
-<div class="container-conteudo-sem-cabecalho">
-        <h1> Administrador desabilitado.</h1>  
-        <a href="/" class="btn btn-primary">Voltar para a página inicial</a>
-   
-</div>
-
-<%-include("_footer")-%>
+ <%-include("_semmenu")-%>
+ 
+ <div class="container">
+     <div class="row justify-content-center align-items-center" style="min-height: 50vh;"> <!-- Adicionado justify-content-center e uma altura mínima -->
+         <div class="col-auto text-center"> <!-- Alterado para usar classes Bootstrap -->
+             <h1>É necessário ser Administrador.</h1>
+             <a href="/" class="btn btn-primary mt-3">Voltar para a página inicial</a>
+             
+         </div>
+     </div>
+ </div>
+ 
+ <%-include("_footer")-%>
+ 
