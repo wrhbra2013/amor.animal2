@@ -6,7 +6,7 @@
  const express = require('express');
  const session = require('express-session');
  const cookieParser = require("cookie-parser");
- 
+ require('dotenv').config();
  // Local Modules
  const { initializeDatabaseTables } = require('./database/create.js');
  // const { executeAllQueries } = require('./database/queries'); // Se usado apenas para verificação inicial, pode ser opcional aqui
@@ -32,7 +32,7 @@
     app.set('trust proxy', 1); // Confia no primeiro proxy (comum para Render, Heroku, etc.)
 }
  app.use(session({
-     secret: sessionSecret,
+     secret: process.env.SESSION_SECRET, 
      resave: false,
      saveUninitialized: true,
      cookie: {
