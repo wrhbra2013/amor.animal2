@@ -1,88 +1,92 @@
-  <!DOCTYPE html>
-  <html lang="pt-br">
-  <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>ONG Amor Animal Marilia.</title>
-      <link rel="stylesheet" href="/static/css/default.css">
-      <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
-     
-  </head>
-  <body>
-    <div >
-      <!-- User Controls and Accessibility -->
-      <button id="contrast-toggle-button" aria-label="Alternar alto contraste"   style=" border: none;   background-color: transparent;  color:rgb(0, 195, 255);cursor:pointer; font-size:30px;">◧ </button>
-    </div>
-   
-      
-      
-      <!-- <img src="/static/css/favicon/contrast.png" alt="Alto contraste"></button> -->
-      <!-- Main Header and Navigation -->
-      <header class="main-header">   
-      
-      
-         <main class="main-header-controls">        
-       
-          <% if (user)        { %>   
-                      
-            <span style=" text-align: center; font-weight: bold;  ">  Administrador
-           
-            <a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a>
-         
-            <a href="/auth/logout" class="login-button">Sair</a>
-          
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONG Amor Animal Marilia.</title>
+  <link rel="stylesheet" href="/static/css/default.css">
+  <link rel="icon" type="image/png" href="/static/css/favicon/ong.ico">
+
+</head>
+
+<body>
+  <div>
+    <!-- User Controls and Accessibility -->
+    <button id="contrast-toggle-button" aria-label="Alternar alto contraste"
+      style=" border: none;   background-color: transparent;  color:rgb(0, 195, 255);cursor:pointer; font-size:30px;">◧
+    </button>
+  </div>
+
+
+
+  <!-- <img src="/static/css/favicon/contrast.png" alt="Alto contraste"></button> -->
+  <!-- Main Header and Navigation -->
+  <header class="main-header">
+
+
+    <main class="main-header-controls">
+
+      <% if (user) { %>
+
+        <span style=" text-align: center; font-weight: bold;  "> Administrador
+
+          <a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a>
+
+          <a href="/auth/logout" class="login-button">Sair</a>
+
           <% } else { %>
             <a href="/auth/login" class="login-button">Acesso</a>
-          <% } %>
-           </span>
-         </main> 
- 
-      
-    
-          <div class="nav-container">
-              <img src="/static/css/imagem/ong.jpg" alt="Logo ONG AMOR ANIMAL MARILIA" />
-          </div> <!-- Fechamento do nav-container -->
-        
-          <button class="mobile-menu-button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
-            &#9776; <!-- Ícone de hambúrguer (pode ser um SVG ou Font Awesome também) -->
+            <% } %>
+        </span>
+    </main>
+
+
+
+        <div class="nav-container">
+          <img src="/static/css/imagem/ong.jpg" alt="Logo ONG AMOR ANIMAL MARILIA" />
+        </div> <!-- Fechamento do nav-container -->
+
+        <button class="mobile-menu-button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+          &#9776; <!-- Ícone de hambúrguer (pode ser um SVG ou Font Awesome também) -->
         </button>
-    
-        
-          <div class="nav-wrapper">
-              <nav class="main-nav">
-                   <ul class="nav-list" id="main-nav-list">
-                      <li><a href="/home">Início</a></li>       <!-- Use absolute paths -->
-                      <li><a href="/adocao">Adoção</a></li>  
-                       <li><a href="/adotado">Adotados</a></li>       <!-- Use absolute paths -->
-                      <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
-                       <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
-                        <li><a href="/doacao">Doação</a></li>     <!-- Use absolute paths -->
-                      <li><a href="/parceria">Parceria</a></li>   <!-- Use absolute paths -->
-                      <li><a href="/sobre">Sobre</a></li>       <!-- Use absolute paths -->
-                      <% if (user) { %>
-                        <li><a href="/admin/form">Novo Usuário</a></li>
-                      <%}%>                    
-                  </ul>
-                
-              </nav>
-              <nav class="mobile-menu" id="mobileMenu" aria-hidden="true" aria-controls="main-nav-list">
-                <ul class="nav-list" id="main-nav-list">
-                    <li><a href="/home">Início</a></li>       <!-- Use absolute paths -->
-                    <li><a href="/adocao">Adoção</a></li>     <!-- Use absolute paths -->
-                    <li><a href="/adotado">Adotados</a></li>     
-                    <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
-                    <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
-                    <li><a href="/doacao">Doação</a></li>     <!-- Use absolute paths -->
-                    <li><a href="/parceria">Parceria</a></li>   <!-- Use absolute paths -->
-                    <li><a href="/sobre">Sobre</a></li>       <!-- Use absolute paths -->
-                    <% if (user) { %>
-                      <li><a href="/admin/form">Novo Usuário</a></li>
-                    <%}%>           
-                </ul>
-              </nav>
-          </div> <!-- Fechamento do nav-wrapper -->
-      </header>
-      <!-- The main content of each page will be included after this header -->
- 
-    
- 
+
+
+        <div class="nav-wrapper">
+          <nav class="main-nav">
+            <ul class="nav-list" id="main-nav-list">
+              <li><a href="/home">Início</a></li> <!-- Use absolute paths -->
+              <li><a href="/adocao">Adoção</a></li>
+              <li><a href="/adotado">Adotados</a></li> <!-- Use absolute paths -->
+              <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
+              <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
+              <li><a href="/doacao">Doação</a></li> <!-- Use absolute paths -->
+              <li><a href="/parceria">Parceria</a></li> <!-- Use absolute paths -->
+              <li><a href="/sobre">Sobre</a></li> <!-- Use absolute paths -->
+              <% if (user) { %>
+                <li><a href="/admin/form">Novo Usuário</a></li>
+                <%}%>
+            </ul>
+
+          </nav>
+          <nav class="mobile-menu" id="mobileMenu" aria-hidden="true" aria-controls="main-nav-list">
+            <ul class="nav-list" id="main-nav-list">
+              <li><a href="/home">Início</a></li> <!-- Use absolute paths -->
+              <li><a href="/adocao">Adoção</a></li> <!-- Use absolute paths -->
+              <li><a href="/adotado">Adotados</a></li>
+              <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
+              <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
+              <li><a href="/doacao">Doação</a></li> <!-- Use absolute paths -->
+              <li><a href="/parceria">Parceria</a></li> <!-- Use absolute paths -->
+              <li><a href="/sobre">Sobre</a></li> <!-- Use absolute paths -->
+              <% if (user) { %>
+                <li><a href="/admin/form">Novo Usuário</a></li>
+                <%}%>
+            </ul>
+          </nav>
+        </div> <!-- Fechamento do nav-wrapper -->
+  </header>
+  <!-- The main content of each page will be included after this header -->
+  
+
+  <body>
