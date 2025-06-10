@@ -6,7 +6,7 @@
  const express = require('express');
  const session = require('express-session');
  const cookieParser = require("cookie-parser");
- require('dotenv').config();
+ 
  // Local Modules
  const { initializeDatabaseTables } = require('./database/create.js');
  // const { executeAllQueries } = require('./database/queries'); // Se usado apenas para verificação inicial, pode ser opcional aqui
@@ -23,8 +23,8 @@
  
  // Session middleware setup
  // IMPORTANTE: Defina process.env.SESSION_SECRET em seu ambiente de produção!
- const sessionSecret = process.env.SESSION_SECRET || '@admin';
- if (sessionSecret === '@admin' && process.env.NODE_ENV === 'production') {
+ const sessionSecret = process.env.SESSION_SECRET || '@admin_c80eaa705b089b9d541ffce85a72fc19bdc3c21fcd60e5d27c097c895948b7d7085cdb06dea1f3c1e37a7d835f42acb7f2b5cd8240597cf9597f47f60dabe85c ';
+ if (sessionSecret === '@admin_c80eaa705b089b9d541ffce85a72fc19bdc3c21fcd60e5d27c097c895948b7d7085cdb06dea1f3c1e37a7d835f42acb7f2b5cd8240597cf9597f47f60dabe85c' && process.env.NODE_ENV === 'production') {
      console.warn('AVISO: SESSION_SECRET não está configurada adequadamente para produção!');
  }
 
@@ -32,7 +32,7 @@
     app.set('trust proxy', 1); // Confia no primeiro proxy (comum para Render, Heroku, etc.)
 }
  app.use(session({
-     secret: process.env.SESSION_SECRET, 
+     secret: sessionSecret,
      resave: false,
      saveUninitialized: true,
      cookie: {
