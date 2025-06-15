@@ -1,11 +1,9 @@
- // Node Core Modules
- const path = require("path");
- 
- 
  // NPM Modules
+ const path = require("path");
  const express = require('express');
  const session = require('express-session');
- const cookieParser = require("cookie-parser");
+  const flash = require('connect-flash');
+  const cookieParser = require("cookie-parser");
  
  // Local Modules
  const { initializeDatabaseTables } = require('./database/create.js');
@@ -20,6 +18,9 @@
  app.use(express.urlencoded({ extended: true }));
  app.use(express.json());
  app.use(cookieParser());
+  
+
+
  
  // Session middleware setup
  // IMPORTANTE: Defina process.env.SESSION_SECRET em seu ambiente de produção!
@@ -77,7 +78,17 @@ app.use((req, res, next) => {
  // Servir arquivos da pasta 'uploads' (que está dentro de 'static')
  app.use('/uploads', express.static(path.join(__dirname, 'static', 'uploads')));
  
- 
+ // Inicializa o connect-flash
+app.use(flash());
+
+// Middleware para tornar as mensagens flash disponíveis em todas as views/templates
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error'); // Passport.js pode usar 'error'
+    next();
+});
+
  // --- Routes ---
  
  // Importação de Rotas

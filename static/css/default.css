@@ -203,10 +203,12 @@
  }
  .main-header-controls {
    margin: 0px auto;
-   max-width: auto;
-    
-   background-color: var(--bg-color); /* Use body background or a specific header bg */
    margin-top:30px;
+  
+   background-color: var(--bg-color);   
+   /* Use body background or a specific header bg */
+   
+   
  }
  .main-header-controls .logo {
    /* Styles for your logo/site title area */
@@ -465,15 +467,49 @@ footer {
    color: var(--heading-color);
  }
  
- /* --- Alerts (Assuming Bootstrap classes) --- */
  .alert {
-   padding: 0.75rem 1.25rem;
-   margin-bottom: 1rem;
+   padding: 15px;
+   margin-bottom: 20px;
    border: 1px solid transparent;
-   border-radius: 0.25rem;
+   border-radius: 4px;
+   /* Outros estilos de alerta que você já tem */
+ 
+   /* Animação para esvanecer */
+   animation-name: fadeOutAlert;
+   animation-duration: 0.5s; /* Duração do fade out */
+   animation-delay: 5s;    /* Espera 5 segundos antes de começar */
+   animation-fill-mode: forwards; /* Mantém o estado final da animação */
+   animation-timing-function: ease-in-out;
  }
- /* Define standard alert colors if not using Bootstrap's CSS */
- /* Example: .alert-success { background-color: #d4edda; color: #155724; border-color: #c3e6cb; } */
+ 
+ @keyframes fadeOutAlert {
+   from {
+     opacity: 1;
+     transform: translateY(0); /* Opcional: para um leve movimento ao sumir */
+   }
+   to {
+     opacity: 0;
+     transform: translateY(-20px); /* Opcional: move para cima ao sumir */
+     /* Para realmente esconder e tornar não clicável após a animação */
+     visibility: hidden;
+     height: 0; /* Colapsa a altura */
+     padding-top: 0;
+     padding-bottom: 0;
+     margin-bottom: 0; /* Remove a margem para não ocupar espaço */
+     border: 0; /* Remove a borda */
+   }
+ }
+ 
+ /* Exemplo de uso no seu HTML (você já tem isso) */
+ /*
+ <div class="alert alert-success" role="alert">
+   Mensagem de sucesso!
+ </div>
+ 
+ <div class="alert alert-danger" role="alert">
+   Mensagem de erro!
+ </div>
+ */
  
  
  /* --- Lists --- */
@@ -983,18 +1019,22 @@ footer {
   /* home cards */
   .home-cards-container,
   .adotados-cards-container { /* Apply flexbox and gap to both containers */
-    margin-top: 20px;
-     overflow-x: auto; 
-     position: relative;
+  display: flex;
+  flex-direction: row; /* Define a direção principal como horizontal (padrão, mas explícito) */
+   flex-wrap: nowrap;     /* Permite que os itens quebrem para a próxima linha se não houver espaço */
+   gap: 1rem;           /* Adiciona um espaçamento entre os cards */
+   overflow: auto;
+    /* justify-content: center; Opcional: centraliza os cards se houver espaço extra na linha */ 
   }
-.home-card {
+ .home-card {
     /* Ajuste a largura/base dos cards para funcionar bem com o 'gap' */
     /* Para 3 colunas com gap de 20px: */
-    width: calc((100% - 2 * 20px) / 1);
-    /* flex-basis: calc((100% - 2 * 20px) / 3); */
-    /* flex-grow: 1; */ /* Opcional, para preencher espaço se a última linha tiver menos itens */
-    /* margin-bottom: 20px; */ /* Não é mais necessário se 'gap' cuidar do espaçamento vertical */
-}
+      /* width: calc((100% - 2 * 20px) / 1);   */
+       flex-basis: calc((100% - 2 * 20px) / 2);   
+       flex-shrink: 0;
+      /* flex-grow: 1;  Opcional, para preencher espaço se a última linha tiver menos itens */
+      /* margin-bottom: 20px;  Não é mais necessário se 'gap' cuidar do espaçamento vertical */
+}  
 
 .home-card-img {
     height: 200px; /* Altura fixa para as imagens */
@@ -1013,7 +1053,7 @@ footer {
 @media (max-width: 992px) { /* Apply responsive adjustments to both card types */
     .home-card {
         width: calc((100% - 20px) / 2);
-        /* flex-basis: calc((100% - 20px) / 2); */
+         /* flex-basis: calc((100% - 20px) / 2);  */
     }
 }
 

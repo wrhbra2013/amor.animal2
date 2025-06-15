@@ -17,73 +17,147 @@
   }
   
   // Função para buscar dados da página inicial
-  async function getHomePageData() {
-       try {
-          // rawData is the direct result from executeAllQueries
-          const rawData = await executeAllQueries();
-          // Ensure 'data' is an object, even if rawData is null or undefined, to prevent errors.
-          const data = rawData || {};
-  
-          return {
-              home: data.home , // Default to empty array if data.home is undefined
-              adocao: data.adocao || [],
-              adocaoCount: data.adocaoCount || [], // Default to { count: 0 }
-              adotante: data.adotante || [],
-              adotanteCount: data.adotanteCount || { count: 0 },
-              adotado: data.adotado || [],
-              adotadoCount: data.adotadoCount || { count: 0 },
-              castracao: data.castracao || [], // Ensured default to empty array
-              castracaoCount: data.castracaoCount || { count: 0 },
-              procura_se: data.procura_se || [],
-              procura_seCount: data.procura_seCount || { count: 0 },
-              parceria: data.parceria || [],
-              parceriaCount: data.parceriaCount || { count: 0 }
-          };
-       } catch (error) {
-          console.error("Error in getHomePageData:", error);
-          throw error; // Re-throw the error to be caught by the route handler
-      }
-  }
-  
-  
-  // Rota principal para '/' e '/home'
-  router.get(['/', '/home'], checkCookieConsent, async (req, res) => {
-      try {
-        //  console.log('[HOME ROUTE] - req.user:', JSON.stringify(req.user)); // LOG ADICIONADO
-        //    console.log('[HOME ROUTE] - req.isAdmin:', req.isAdmin); // LOG ADICIONADO
-        //     console.log('[HOME ROUTE] - res.locals.isAdmin:', res.locals.isAdmin); // LOG ADICIONADO
-
-          const homePageData = await getHomePageData();          
-          // Data is passed to the template using modelN keys as expected by home.ejs
-          res.render('home', {
+ // /home/wander/amor.animal2/routes/homeRoutes.js
+ 
+ // ... outras importações ...
+ 
+ async function getHomePageData() {
+     try {
+         const rawData = await executeAllQueries(); // Retorna o objeto 'results' de executeAllQueries
+         const data = rawData || {};
+ 
+         // Função auxiliar para extrair a contagem de forma segura
+         const extractCountValue = (countResult) => {
+             // countResult é o que vem de data.XCount (ex: data.voluntarioCount)
+             // Esperado: [{ count: N }] ou { error: '...' } em caso de falha na query
+             if (countResult && Array.isArray(countResult) && countResult.length > 0 && typeof countResult[0].count === 'number') {
+                 return countResult[0].count;
+             }
+             // Loga se a query de contagem falhou
+             if (countResult && countResult.error) {
+                 console.warn(`Falha ao obter contagem (query result): ${JSON.stringify(countResult)}`);
+             }
+             return 0; // Valor padrão em caso de falha ou dados inesperados
+         };
+ 
+         return {
+             home: data.home || [],
+             adocao: data.adocao || [],
+             adocaoCount: extractCountValue(data.adocaoCount),
+             adotante: data.adotante || [],
+             adotanteCount: extractCountValue(data.adotanteCount),
+             adotado: data.adotado || [],
+             adotadoCount: extractCountValue(data.adotadoCount),
+             castracao: data.castracao || [],
+             castracaoCount: extractCountValue(data.castracaoCount),
+             procura_se: data.procura_se || [],
+             procura_seCount: extractCountValue(data.procura_seCount),
+             parceria: data.parceria || [],
+             parceriaCount: extractCountValue(data.parceriaCount),
+             voluntario: data.voluntario || [],
+             voluntarioCount: extractCountValue(data.voluntarioCount) // Agora será um número
+         };
+     } catch (error) {
+         // Este catch é para erros na chamada executeAllQueries em si.
+         console.error("Erro crítico em getHomePageData ao chamar executeAllQueries:", error);
+         // Retornar um objeto com todas as contagens como 0 e arrays vazios para dados
+         // para evitar que a página quebre completamente.
+         return {
+             home: [], adocao: [], adocaoCount: 0,
+             adotante: [], adotanteCount: 0, adotado: [], adotadoCount: 0,
+             castracao: [], castracaoCount: 0, procura_se: [], procura_seCount: 0,
+             parceria: [], parceriaCount: 0, voluntario: [], voluntarioCount: 0,
+             errorLoadingData: true // Flag para o template, se necessário
+         };
+     }
+ }
+ 
+ // Rota principal para '/' e '/home'
+ router.get(['/', '/home'], checkCookieConsent, async (req, res) => {
+     try {
+         const homePageData = await getHomePageData();
+         
+         // Se houve um erro carregando os dados, você pode querer logar ou mostrar uma mensagem específica
+         if (homePageData.errorLoadingData) {
+             req.flash('error', 'Ocorreu um erro ao carregar alguns dados da página. Tente novamente mais tarde.');
+         }
+ 
+         res.render('home', {
              user: req.user,
-             isAdmin: req.isAdmin || false, // Passando a flag isAdmin para o template
-              model1: homePageData.home,
-              model2: homePageData.adocao,
-              model3: homePageData.adocaoCount,
-              model4: homePageData.adotante,
-              model5: homePageData.adotanteCount,
-              model6: homePageData.adotado,
-              model7: homePageData.adotadoCount,
-              model8: homePageData.castracao,
-              model9: homePageData.castracaoCount,
-              model10: homePageData.procura_se,
-              model11: homePageData.procura_seCount,
-              model12: homePageData.parceria,
-              model13: homePageData.parceriaCount,
-             // showCookieBanner is set by checkCookieConsent middleware
-             // and will be available in res.locals for the template
-              
-          });
+             isAdmin: req.isAdmin || false,
+             model1: homePageData.home,
+             model2: homePageData.adocao,
+             model3: homePageData.adocaoCount, // Será um número
+             model4: homePageData.adotante,
+             model5: homePageData.adotanteCount, // Será um número
+             model6: homePageData.adotado,
+             model7: homePageData.adotadoCount, // Será um número
+             model8: homePageData.castracao,
+             model9: homePageData.castracaoCount, // Será um número
+             model10: homePageData.procura_se,
+             model11: homePageData.procura_seCount, // Será um número
+             model12: homePageData.parceria,
+             model13: homePageData.parceriaCount, // Será um número
+             model14: homePageData.voluntario,
+             model15: homePageData.voluntarioCount, // Será um número
+             success_msg: req.flash('success'),
+             error_msg: req.flash('error') // Adicionando para consistência
+         });
+     } catch (error) {
+         // Este catch é mais para erros inesperados no próprio handler da rota.
+         console.error("homeRoutes GET /home: Erro ao carregar a página inicial:", error.message);
+         req.flash('error', 'Não foi possível carregar a página inicial.');
+         res.status(500).render('error', { error: error.message || 'Não foi possível carregar a página inicial.' });
+     }
+ });
+ 
+ // ... restante do arquivo homeRoutes.js
+ 
+  
+  
+//   // Rota principal para '/' e '/home'
+//   router.get(['/', '/home'], checkCookieConsent, async (req, res) => {
+//       try {
+//         //  console.log('[HOME ROUTE] - req.user:', JSON.stringify(req.user)); // LOG ADICIONADO
+//         //    console.log('[HOME ROUTE] - req.isAdmin:', req.isAdmin); // LOG ADICIONADO
+//         //     console.log('[HOME ROUTE] - res.locals.isAdmin:', res.locals.isAdmin); // LOG ADICIONADO
+
+//           const homePageData = await getHomePageData();          
+//           // Data is passed to the template using modelN keys as expected by home.ejs
+//           res.render('home', {
+//              user: req.user,
+//              isAdmin: req.isAdmin || false, // Passando a flag isAdmin para o template
+//               model1: homePageData.home,
+//               model2: homePageData.adocao,
+//               model3: homePageData.adocaoCount,
+//               model4: homePageData.adotante,
+//               model5: homePageData.adotanteCount,
+//               model6: homePageData.adotado,
+//               model7: homePageData.adotadoCount,
+//               model8: homePageData.castracao,
+//               model9: homePageData.castracaoCount,
+//               model10: homePageData.procura_se,
+//               model11: homePageData.procura_seCount,
+//               model12: homePageData.parceria,
+//               model13: homePageData.parceriaCount,
+//               model14: homePageData.voluntario,
+//               model15: homePageData.voluntarioCount,     
+//               // Adicione estas linhas para passar as mensagens flash
+//               success_msg: req.flash('success'), // Para corresponder à chave usada em Routes
+            
+        
+//              // showCookieBanner is set by checkCookieConsent middleware
+//              // and will be available in res.locals for the template
+//          })
 
           
         
-      } catch (error) {
-          // Error from getHomePageData will be caught here
-          console.error("homeRoutes GET /home: Erro ao carregar a página inicial:", error.message);
-          res.status(500).render('error', { error: error.message || 'Não foi possível carregar a página inicial.' });
-      }
-  });
+//       } catch (error) {
+//           // Error from getHomePageData will be caught here
+//           console.error("homeRoutes GET /home: Erro ao carregar a página inicial:", error.message);
+//           res.status(500).render('error', { error: error.message || 'Não foi possível carregar a página inicial.' });
+//       }
+//   });
   
   // Rota para renderizar o formulário de "Notícias" da home
   router.get('/home/form', isAdmin, (req, res) => {

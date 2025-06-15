@@ -124,12 +124,11 @@
                      </div>
                  </div>
              </div>
-             <div class="card-footer bg-light d-flex justify-content-end align-items-center gap-2 py-3">
-                                
+             <div class="card-footer bg-light d-flex justify-content-end align-items-center gap-2 py-3">                               
                  
                 
-
- 
+          
+                   <% if (user) { %>
                  <%# Botão Deletar %>
                  <% if (tabela && currentItemId) { %>
                      <%
@@ -146,7 +145,7 @@
                          </button>
                      </form>
                  <% } %>
- 
+                    <% } %>
                  <%# Botão para imprimir a visualização HTML atual %>
                  <button type="button" class="btn btn-info btn-sm" onclick="window.print()" title="Imprimir esta página">
                      <i class="fas fa-print"></i> Imprimir

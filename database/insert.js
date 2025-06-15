@@ -94,6 +94,16 @@
      return executeInsert(insertSQL, values, 'parceria');
  }
  
+async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibilidade, habilidade, mensagem)
+ {
+    const insertSQL = `INSERT INTO voluntario (
+        nome, localidade, telefone, whatsapp, disponibilidade, habilidade, mensagem
+    ) VALUES (?, ?, ?, ?, ?, ?, ?);`;
+    const values = [nome, localidade, telefone, whatsapp, disponibilidade, habilidade, mensagem];
+    return executeInsert(insertSQL, values, 'voluntario');
+ }
+ 
+ 
  async function insert_home(arquivo, titulo, mensagem, link) {
      const insertSQL = `INSERT INTO home (
          arquivo, titulo, mensagem, link
@@ -122,6 +132,7 @@
      insert_castracao,
      insert_parceria,
      insert_procura_se,
+     insert_voluntario,
      insert_home,
      insert_login
  };

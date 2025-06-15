@@ -7,7 +7,7 @@
          console.error(`Erro ao criar/verificar tabela ${tableName} (SQLite):`, err.message);
          reject(err);
        } else {
-        //  console.log(`Tabela: ${tableName} (SQLite) verificada/criada com sucesso.`);
+         console.log(`Tabela: ${tableName} (SQLite) verificada/criada com sucesso.`);
          resolve();
        }
      });
@@ -123,6 +123,23 @@
   await executeDDL(ddl, 'parceria');
  }
  
+async function create_voluntario() {
+    const ddl = `CREATE TABLE IF NOT EXISTS voluntario (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        origem DATETIME DEFAULT CURRENT_TIMESTAMP,
+        nome VARCHAR(255),
+        localidade VARCHAR(255),
+        telefone VARCHAR(20),
+        whatsapp VARCHAR(20),
+        disponibilidade TEXT,
+        habilidade TEXT,
+        mensagem TEXT
+    );`;
+    await executeDDL(ddl, 'voluntario');
+ }
+ 
+ 
+
  async function create_home() {
      const ddl = `CREATE TABLE IF NOT EXISTS home (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -188,6 +205,7 @@
           await create_castracao();
           await create_procura_se();
           await create_parceria();
+          await create_voluntario();
           await create_home();
           await create_login();
           await create_admin_user(); // Deve ser chamado após create_login

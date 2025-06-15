@@ -59,6 +59,9 @@
  const parceria = `SELECT * FROM parceria;`;
  const parceriaCount = `SELECT COUNT(*) AS count FROM parceria;`;
  
+// tag doação
+const voluntario = `SELECT * FROM voluntario;`;
+const voluntarioCount = `SELECT COUNT(*) AS count FROM voluntario;`;
  
  /**
   * Executes all predefined queries and collects their results.
@@ -81,19 +84,26 @@
          { name: 'procura_se', query: procura_se },
          { name: 'procura_seCount', query: procura_seCount },
          { name: 'parceria', query: parceria },
-         { name: 'parceriaCount', query: parceriaCount }
+         { name: 'parceriaCount', query: parceriaCount },
+         { name: 'voluntario', query: voluntario },
+         { name: 'voluntarioCount', query: voluntarioCount }
      ];
      const results = {};
      // Use Promise.all to execute queries concurrently
-     await Promise.all(queryTasks.map(async (task) => {
-         try {
-             const data = await executeQuery(task.query);
-             results[task.name] = data;
-         } catch (error) {
-             console.error(`Erro ao executar a query '${task.name}':`, error.message);
-             results.task.name = { error: error.message }; // Store error info
-         }
-     }));
+   // /home/wander/amor.animal2/database/queries.js
+   // ...
+       await Promise.all(queryTasks.map(async (task) => {
+           try {
+               const data = await executeQuery(task.query);
+               results[task.name] = data;
+           } catch (error) {
+               console.error(`Erro ao executar a query '${task.name}':`, error.message);
+               // results.task.name = { error: error.message }; // Linha original com erro
+               results[task.name] = { error: error.message }; // Correção
+           }
+       }));
+   // ...
+   
  
      // Retorna um objeto com os resultados nomeados
      
@@ -123,7 +133,9 @@
          procura_se,
          procura_seCount,
          parceria,
-         parceriaCount
+         parceriaCount,
+         voluntario,
+         voluntarioCount
      }
  };
  
