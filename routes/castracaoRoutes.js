@@ -79,6 +79,7 @@
               castracaoData.agenda
           );
           console.log('[castracaoRoutes POST /form] Dados de castração inseridos:', castracaoData);
+          req.flash('success', 'Dados de castração inseridos com sucesso.')
           res.redirect('/home');
   
       } catch (error) {
@@ -141,6 +142,7 @@
                   console.error(`[castracaoRoutes DELETE] Erro ao deletar arquivo de castração ${filePath} (não é ENOENT):`, fileError);
               }
           }
+          req.flash('success', 'Removido com sucesso.');
           res.redirect('/castracao');
   
       } catch (error) {

@@ -118,7 +118,7 @@
              adocaoData.whatsapp
          ]);
          
-         req.flash('success_msg', 'Dados de adoção inseridos com sucesso.');
+         req.flash('success', 'Dados de adoção inseridos com sucesso.');
          res.redirect('/home'); // Ou para /adocao para ver a lista atualizada
  
      } catch (error) {
@@ -135,7 +135,7 @@
          } catch (cleanupError) {
              console.error("Erro ao limpar arquivo após falha no formulário de adoção:", cleanupError);
          }
-         req.flash('error_msg', 'Erro ao salvar os dados de adoção. Tente novamente.');
+         req.flash('error', 'Erro ao salvar os dados de adoção. Tente novamente.');
          req.flash('formData', req.body); // Salva os dados do formulário para repreencher
          res.redirect('/adocao/form');
      }
@@ -177,7 +177,7 @@
                  console.log(`Arquivo ${filePath} não encontrado para deleção (ENOENT), pode já ter sido removido.`);
              }
          }
-         req.flash('success_msg', 'Item de adoção processado para deleção.'); // Mensagem mais genérica
+         req.flash('success', 'Removido com sucesso.'); // Mensagem mais genérica
          res.redirect('/adocao');
  
      } catch (error) {

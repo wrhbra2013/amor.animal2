@@ -54,6 +54,7 @@
           );
   
           console.log('[parceriaRoutes POST /form] Dados de "parceria" inseridos com sucesso:', formData);
+          req.flash('success', 'Dados de parceria inseridos com sucesso.')
           res.redirect('/home'); // Redireciona para a lista de parcerias
   
       } catch (error) {

@@ -37,14 +37,13 @@
          // É crucial que a função insert_login realize o hashing da senha antes de salvar.
          // Se insert_login não for assíncrona, remova o 'await'.
          await insert_login(usuario, senha); 
-         console.log(`Novo administrador criado: ${usuario}`);
-         
-         // Redireciona para a página de login ou para uma página de sucesso
-         // Considerar adicionar uma mensagem de sucesso na página de login ou em form_admin
+         console.log(`Novo administrador criado: ${usuario}`);         
+        req.flash('success', 'Administrador criado com sucesso!')
          res.render('login'); 
  
      } catch (error) {
          console.error('Erro ao criar novo administrador:', error);
+         req.flash('error', 'Erro ao criar administrador. Tente novamente.')
          res.status(500).render('form_admin', {
              error: 'Erro ao criar administrador. Tente novamente.',
              success: null

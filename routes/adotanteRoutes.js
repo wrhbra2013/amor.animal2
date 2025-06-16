@@ -70,6 +70,7 @@
          );
  
          console.log('[adotanteRoutes POST /form] Dados de "adotante" inseridos com sucesso.');
+         req.flash('success', 'Pedido de adoção recebido com sucesso. Em breve entraremos em contato.')
          res.redirect('/home'); // Ou para /home, ou para uma página de sucesso
  
      } catch (error) {

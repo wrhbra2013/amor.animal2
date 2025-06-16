@@ -75,6 +75,7 @@
           );
   
           console.log('[procuraRoutes POST /form] Dados de "procura_se" inseridos:', formData);
+          req.flash('success', 'Dados de pet desaparecido inseridos com sucesso.')
           res.redirect('/home'); // Redireciona para a lista de pets procurados
   
       } catch (error) {

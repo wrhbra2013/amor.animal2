@@ -58,6 +58,7 @@
  
          await insert_adotado(formData.arquivo, formData.pet, formData.tutor, formData.historia);
          console.log('[adotadoRoutes POST /form] Dados de "adotado" inseridos:', formData);
+         req.flash('success', 'Dados de adoção inseridos com sucesso.')
          res.redirect('/home'); // Redirect to the list of adopted pets
  
      } catch (error) {

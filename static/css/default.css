@@ -468,14 +468,15 @@ footer {
  }
  
  .alert {
+   display: flex;
+   text-align: center;
+   white-space: pre-line;
+   justify-content: space-between;
    padding: 15px;
    margin-bottom: 20px;
    border: 1px solid transparent;
-   border-radius: 4px;
-   /* Outros estilos de alerta que você já tem */
- 
-   /* Animação para esvanecer */
-   animation-name: fadeOutAlert;
+   color: red;
+    animation-name: fadeOutAlert;
    animation-duration: 0.5s; /* Duração do fade out */
    animation-delay: 5s;    /* Espera 5 segundos antes de começar */
    animation-fill-mode: forwards; /* Mantém o estado final da animação */

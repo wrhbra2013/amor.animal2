@@ -28,6 +28,7 @@
          }
          console.log('Usuário deslogado com sucesso.');
          // Redireciona para a página de login com uma mensagem de sucesso
+                                 
          res.render('logout');
      });
  });
@@ -82,9 +83,11 @@
          };
           console.log('LOGIN - req.session.user definido:', JSON.stringify(req.session.user)); // LOG ADICIONAD0
          // Redireciona para a página inicial após o login bem-sucedido
+        req.flash('success', 'Login bem-sucedido!' )
          return res.redirect('/home');
  
      } catch (error) {
+    
          console.error("Erro no processo de login:", error);
          // Para o usuário, uma mensagem genérica é geralmente melhor em caso de erro de servidor.
          return res.status(500).render('login', { error: 'Ocorreu um erro durante o login. Tente novamente mais tarde.' });
