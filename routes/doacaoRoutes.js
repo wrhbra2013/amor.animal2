@@ -1,6 +1,7 @@
 // Importa o Express
 const express = require('express');
-const { insert_voluntario } = require('../database/insert');
+const { insert_voluntario, insert_coleta } = require('../database/insert');
+
 // Cria uma instância do Router
 const router = express.Router();
 
@@ -44,6 +45,49 @@ router.post('/voluntario/form', (req, res) => {
         
 })
 
+router.get('/coleta/form', (req, res) => {
+        res.render('form_coleta');
+});
+
+
+
+router.post('/coleta/form', (req, res) => {
+        const form ={
+                nome: req.body.nome,
+                telefone: req.body.telefone,
+                whatsapp: req.body.whatsapp,
+                item: req.body.item,
+                quantidade: req.body.quantidade,
+                data: req.body.data,
+                hora: req.body.hora,
+                cep: req.body.cep,
+                endereco: req.body.endereco,
+                numero: req.body.numero,
+                complemento: req.body.complemento,
+                bairro: req.body.bairro,
+                cidade: req.body.cidade,
+                estado: req.body.estado,
+                mensagem: req.body.mensagem
+        }
+        insert_coleta(
+                form.nome,
+                form.telefone,
+                form.whatsapp,
+                form.item,
+                form.quantidade,
+                form.data,
+                form.hora,                form.cep,
+                form.endereco,
+                form.numero,
+                form.complemento,
+                form.bairro,
+                form.cidade,
+                form.estado,
+                form.mensagem
+        );
+        req.flash('success', 'Coleta agendada com sucesso!')
+        res.redirect('/home');        
+ })
 
 
 module.exports = router;

@@ -51,3 +51,13 @@ function handleOptionChange(selectElement) {
     }     
 
 }
+
+function mostrarOutroItem(valor) {
+    const outroItemDiv = document.getElementById('outroItemDiv');
+    if (valor === 'outro') {
+        outroItemDiv.style.display = 'block';
+    } else {
+        outroItemDiv.style.display = 'none';
+        document.getElementById('outro_item_descricao').value = ''; // Limpa o campo se outra opção for selecionada
+    }
+}

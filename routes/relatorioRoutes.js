@@ -38,8 +38,8 @@
    
    const printer = new PdfPrinter(fontDescriptors);
    
-   const TABELAS_PERMITIDAS = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login', 'voluntario'];
-   const TABELAS_COM_COLUNA_ORIGEM = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login','voluntario'];
+   const TABELAS_PERMITIDAS = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login', 'voluntario','coleta'];
+   const TABELAS_COM_COLUNA_ORIGEM = ['adocao', 'adotante', 'adotado', 'castracao', 'procura_se', 'parceria', 'home', 'login','voluntario','coleta'];
    
    async function fetchReportData(tabela) {
        if (!TABELAS_PERMITIDAS.includes(tabela)) {

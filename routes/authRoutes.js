@@ -16,22 +16,25 @@
      });
  });
  
- // GET /logout - Lida com o logout do usuário
+ // ... (your existing code) ...
+ 
  router.get('/logout', (req, res) => {
      req.session.destroy(err => {
          if (err) {
-             console.error('Erro ao destruir a sessão:', err);
-             // Em caso de erro no logout, renderiza uma página de erro ou redireciona
-             return res.status(500).render('error', { // Supondo que você tenha um 'error.ejs'
-                 error: 'Erro ao tentar fazer logout. Tente novamente.'
-             });
-         }
-         console.log('Usuário deslogado com sucesso.');
-         // Redireciona para a página de login com uma mensagem de sucesso
-                                 
-         res.render('logout');
+              console.error('Erro ao destruir a sessão:', err);
+              return res.status(500).render('error', { 
+                  error: 'Erro ao tentar fazer logout. Tente novamente.'
+              });
+          }
+          console.log('Usuário deslogado com sucesso.');
+ 
+      
+          // THEN redirect
+          res.render('logout'); // Redirect to home AFTER setting the flash message
      });
+    
  });
+ 
  
  // POST /login - Processa a tentativa de login
  router.post('/login', async (req, res) => {

@@ -103,6 +103,14 @@ async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibi
     return executeInsert(insertSQL, values, 'voluntario');
  }
  
+ async function insert_coleta(nome, telefone, whatsapp, item, quantidade, data, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem)
+ {
+    const insertSQL = `INSERT INTO coleta (
+        nome, telefone, whatsapp, item, quantidade, data, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    const values = [nome, telefone, whatsapp, item, quantidade, data, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem];
+    return executeInsert(insertSQL, values, 'coleta');
+ }
  
  async function insert_home(arquivo, titulo, mensagem, link) {
      const insertSQL = `INSERT INTO home (
@@ -133,6 +141,7 @@ async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibi
      insert_parceria,
      insert_procura_se,
      insert_voluntario,
+     insert_coleta,
      insert_home,
      insert_login
  };

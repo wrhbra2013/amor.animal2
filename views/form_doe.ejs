@@ -73,6 +73,11 @@
              <p>Sua doação ajuda a alimentar muitos animais necessitados.</p>
              <p><strong>Por favor, entre em contato conosco para combinarmos a entrega ou informarmos os pontos de coleta mais próximos.</strong></p>
          </div>
+             <div class="text-center"> <!-- Centraliza o QR Code -->
+               <a href="/doacao/coleta/form" class="btn btn-secondary">
+              <i class="fas fa-arrow-left me-1"></i>Adicione Item  <!-- Melhor texto e ícone -->
+         </a>
+             </div>
      </div>
  
      <!-- Botão Cancelar/Voltar -->
@@ -84,37 +89,7 @@
  
  </div> <!-- Fim container -->
  
- <!-- Script para mostrar/ocultar seções (Exemplo) -->
- <script>
-     function handleOptionChange(selectElement) {
-         const selectedValue = selectElement.value;
-         const pixInfo = document.getElementById('pix-info');
-         const volunteerInfo = document.getElementById('volunteer-info');
-         const foodInfo = document.getElementById('food-donation-info');
  
-         // Oculta todas as seções primeiro
-         pixInfo.classList.add('d-none');
-         volunteerInfo.classList.add('d-none');
-         foodInfo.classList.add('d-none');
- 
-         // Mostra a seção correspondente
-         if (selectedValue === '1') {
-             pixInfo.classList.remove('d-none');
-         } else if (selectedValue === '2') {
-             volunteerInfo.classList.remove('d-none');
-         } else if (selectedValue === '3') {
-             foodInfo.classList.remove('d-none');
-         }
-     }
- 
-     // Chama a função uma vez no carregamento caso haja um valor pré-selecionado (embora aqui não haja)
-     // document.addEventListener('DOMContentLoaded', () => {
-     //     const select = document.getElementById('donation-option');
-     //     if (select) {
-     //         handleOptionChange(select);
-     //     }
-     // });
- </script>
  
  <%- include("_footer") -%>
  

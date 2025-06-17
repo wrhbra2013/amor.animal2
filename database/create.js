@@ -138,6 +138,29 @@ async function create_voluntario() {
     await executeDDL(ddl, 'voluntario');
  }
  
+ async function create_coleta() {
+     const ddl = `CREATE TABLE IF NOT EXISTS coleta (
+         id INTEGER PRIMARY KEY AUTOINCREMENT,
+         origem DATETIME DEFAULT CURRENT_TIMESTAMP,
+         nome VARCHAR(255),
+         telefone VARCHAR(20),
+         whatsapp VARCHAR(20),
+         item VARCHAR(255),
+         quantidade VARCHAR(50),
+         data DATETIME,
+         hora TIME(50),
+         cep VARCHAR(10),
+         endereco VARCHAR(255),
+         numero VARCHAR(20),
+         complemento VARCHAR(100),
+         bairro VARCHAR(100),
+         cidade VARCHAR(100),
+         estado VARCHAR(50),
+         mensagem TEXT
+     );`;
+     await executeDDL(ddl, 'coleta');
+     
+ }
  
 
  async function create_home() {
@@ -206,6 +229,7 @@ async function create_voluntario() {
           await create_procura_se();
           await create_parceria();
           await create_voluntario();
+          await create_coleta();
           await create_home();
           await create_login();
           await create_admin_user(); // Deve ser chamado após create_login
