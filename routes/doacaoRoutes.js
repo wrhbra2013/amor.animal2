@@ -1,6 +1,11 @@
 // Importa o Express
 const express = require('express');
 const { insert_voluntario, insert_coleta } = require('../database/insert');
+const { isAdmin } = require('../middleware/auth');
+const {executeAllQueries} = require('../database/queries');
+
+
+
 
 // Cria uma instância do Router
 const router = express.Router();
@@ -15,6 +20,23 @@ router.get('/form', (req, res) => {
         res.render('form_doe');
 
 });
+
+router.get('/coleta',  isAdmin, (req, res) => {              
+         
+                const results = executeAllQueries();
+                const coleta = results.coleta;       
+                res.render('coleta', { model: coleta }); 
+         
+        });
+
+router.get('/voluntario',  isAdmin, (req, res) => {               
+       
+                const results =  executeAllQueries();
+                const voluntario = results.coleta;       
+                res.render('voluntario', { model: voluntario }); 
+            
+        });
+
 
 router.get('/voluntario/form', (req, res) => {
         res.render('form_voluntario');

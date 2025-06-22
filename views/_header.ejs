@@ -24,15 +24,12 @@
   <!-- Main Header and Navigation -->
   <header class="main-header">
 
-
     <main class="main-header-controls">
 
       <% if (user) { %>
 
         <span style=" text-align: center; font-weight: bold;  "> Administrador
-
-          <a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a>
-
+          <br>
           <a href="/auth/logout" class="login-button">Sair</a>
 
           <% } else { %>
@@ -43,50 +40,68 @@
 
 
 
-        <div class="nav-container">
-          <img src="/static/css/imagem/ong.jpg" alt="Logo ONG AMOR ANIMAL MARILIA" />
-        </div> <!-- Fechamento do nav-container -->
+    <div class="nav-container">
+      <img src="/static/css/imagem/ong.jpg" alt="Logo ONG AMOR ANIMAL MARILIA" />
+    </div> <!-- Fechamento do nav-container -->
 
-        <button class="mobile-menu-button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
-          &#9776; <!-- Ícone de hambúrguer (pode ser um SVG ou Font Awesome também) -->
-        </button>
+    <button class="mobile-menu-button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+      &#9776; <!-- Ícone de hambúrguer (pode ser um SVG ou Font Awesome também) -->
+    </button>
 
 
-        <div class="nav-wrapper">
-          <nav class="main-nav">
-            <ul class="nav-list" id="main-nav-list">
-              <li><a href="/home">Início</a></li> <!-- Use absolute paths -->
-              <li><a href="/adocao">Adoção</a></li>
-              <li><a href="/adotado">Adotados</a></li> <!-- Use absolute paths -->
-              <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
-              <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
-              <li><a href="/doacao">Doação</a></li> <!-- Use absolute paths -->
+    <div class="nav-wrapper">
+      <nav class="main-nav">
+        <ul class="nav-list" id="main-nav-list">
+          <li><a href="/home">Início</a></li> <!-- Use absolute paths -->
+          <li><a href="/adocao">Adoção</a></li>
+          <li><a href="/adotado">Adotados</a></li> <!-- Use absolute paths -->
+          <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
+          <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
+          <li><a href="/doacao">Doação</a></li> <!-- Use absolute paths -->
+          <%if (user) {%>
+            <li><a href="/doacao/voluntario">Voluntario</a></li>
+            <li><a href="/doacao/coleta">Coleta</a></li>
+            <% } %>
               <li><a href="/parceria">Parceria</a></li> <!-- Use absolute paths -->
               <li><a href="/sobre">Sobre</a></li> <!-- Use absolute paths -->
               <% if (user) { %>
                 <li><a href="/admin/form">Novo Usuário</a></li>
+                <li><a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a></li>
                 <%}%>
-            </ul>
+        </ul>
 
-          </nav>
-          <nav class="mobile-menu" id="mobileMenu" aria-hidden="true" aria-controls="main-nav-list">
-            <ul class="nav-list" id="main-nav-list">
-              <li><a href="/home">Início</a></li> <!-- Use absolute paths -->
-              <li><a href="/adocao">Adoção</a></li> <!-- Use absolute paths -->
-              <li><a href="/adotado">Adotados</a></li>
-              <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
-              <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
-              <li><a href="/doacao">Doação</a></li> <!-- Use absolute paths -->
-              <li><a href="/parceria">Parceria</a></li> <!-- Use absolute paths -->
-              <li><a href="/sobre">Sobre</a></li> <!-- Use absolute paths -->
-              <% if (user) { %>
-                <li><a href="/admin/form">Novo Usuário</a></li>
-                <%}%>
-            </ul>
-          </nav>
-        </div> <!-- Fechamento do nav-wrapper -->
+      </nav>
+
+      <div class="nav-wrapper">
+        <nav class="mobile-menu" id="mobileMenu" aria-hidden="true" aria-controls="main-nav-list">
+          <!-- <nav class="main-nav"> -->
+          <ul class="nav-list" id="main-nav-list">
+            <li><a href="/home">Início</a></li> <!-- Use absolute paths -->
+            <li><a href="/adocao">Adoção</a></li>
+            <li><a href="/adotado">Adotados</a></li> <!-- Use absolute paths -->
+            <li><a href="/castracao">Castração</a></li> <!-- Use absolute paths -->
+            <li><a href="/procura_se">Procura-se</a></li><!-- Use absolute paths -->
+            <li><a href="/doacao">Doação</a></li> <!-- Use absolute paths -->
+            <%if (user) {%>
+              <li><a href="/doacao/voluntario">Voluntario</a></li>
+              <li><a href="/doacao/coleta">Coleta</a></li>
+              <% } %>
+                <li><a href="/parceria">Parceria</a></li> <!-- Use absolute paths -->
+                <li><a href="/sobre">Sobre</a></li> <!-- Use absolute paths -->
+                <% if (user) { %>
+                  <li><a href="/admin/form">Novo Usuário</a></li>
+                  <li><a href="/relatorio/" class="login-button" style="text-align: center;">Relatorios</a></li>
+                  <%}%>
+          </ul>
+          <!-- </nav> -->
+        </nav>
+
+
+
+
+      </div> <!-- Fechamento do nav-wrapper -->
   </header>
   <!-- The main content of each page will be included after this header -->
-  
+
 
   <body>

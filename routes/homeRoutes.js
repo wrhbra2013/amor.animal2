@@ -55,7 +55,10 @@
              parceria: data.parceria || [],
              parceriaCount: extractCountValue(data.parceriaCount),
              voluntario: data.voluntario || [],
-             voluntarioCount: extractCountValue(data.voluntarioCount) // Agora será um número
+             voluntarioCount: extractCountValue(data.voluntarioCount),
+             coleta: data.coleta || [],
+             coletaCount: extractCountValue(data.coletaCount),
+             errorLoadingData: false // Agora será um número
          };
      } catch (error) {
          // Este catch é para erros na chamada executeAllQueries em si.
@@ -66,7 +69,7 @@
              home: [], adocao: [], adocaoCount: 0,
              adotante: [], adotanteCount: 0, adotado: [], adotadoCount: 0,
              castracao: [], castracaoCount: 0, procura_se: [], procura_seCount: 0,
-             parceria: [], parceriaCount: 0, voluntario: [], voluntarioCount: 0,
+             parceria: [], parceriaCount: 0, voluntario: [], voluntarioCount: 0,   coleta: [], coletaCount: 0,
              errorLoadingData: true // Flag para o template, se necessário
          };
      }
@@ -99,7 +102,9 @@
              model12: homePageData.parceria,
              model13: homePageData.parceriaCount, // Será um número
              model14: homePageData.voluntario,
-             model15: homePageData.voluntarioCount, // Será um número
+             model15: homePageData.voluntarioCount, 
+             model16: homePageData.coleta,
+             model17: homePageData.coletaCount,
              success_msg: req.flash('success'),
              error_msg: req.flash('error') // Adicionando para consistência
          });

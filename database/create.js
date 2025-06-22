@@ -7,7 +7,7 @@
          console.error(`Erro ao criar/verificar tabela ${tableName} (SQLite):`, err.message);
          reject(err);
        } else {
-         console.log(`Tabela: ${tableName} (SQLite) verificada/criada com sucesso.`);
+        //  console.log(`Tabela: ${tableName} (SQLite) verificada/criada com sucesso.`);
          resolve();
        }
      });

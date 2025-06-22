@@ -99,7 +99,7 @@
              }
          }, defaultLimits)
      };
-     console.log('[multerConfig] ATIVO.');
+    //  console.log('[multerConfig] ATIVO.');
  } catch (error) {
      console.error('[multerConfig] ERRO CRÍTICO DURANTE A INICIALIZAÇÃO DO MÓDULO (após tentativa de criar subdiretórios):', error.message);
      module.exports = {};

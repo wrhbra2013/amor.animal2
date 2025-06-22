@@ -62,6 +62,9 @@
 // tag doação
 const voluntario = `SELECT * FROM voluntario;`;
 const voluntarioCount = `SELECT COUNT(*) AS count FROM voluntario;`;
+
+const coleta = 'SELECT  * FROM coleta;';
+const coletaCount = `SELECT COUNT(*) AS count FROM coleta;`;
  
  /**
   * Executes all predefined queries and collects their results.
@@ -86,7 +89,10 @@ const voluntarioCount = `SELECT COUNT(*) AS count FROM voluntario;`;
          { name: 'parceria', query: parceria },
          { name: 'parceriaCount', query: parceriaCount },
          { name: 'voluntario', query: voluntario },
-         { name: 'voluntarioCount', query: voluntarioCount }
+         { name: 'voluntarioCount', query: voluntarioCount },
+         { name: 'coleta', query: coleta },
+         { name: 'coletaCount', query: coletaCount }
+
      ];
      const results = {};
      // Use Promise.all to execute queries concurrently
@@ -135,7 +141,9 @@ const voluntarioCount = `SELECT COUNT(*) AS count FROM voluntario;`;
          parceria,
          parceriaCount,
          voluntario,
-         voluntarioCount
+         voluntarioCount, 
+         coleta, 
+         coletaCount
      }
  };
  

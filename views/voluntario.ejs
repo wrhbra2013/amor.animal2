@@ -1,0 +1,68 @@
+<%-include("_header")-%>
+
+<main class="container mt-4 mb-5">
+    <h5 class="card-title text-center mb-4">Voluntários</h5>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <%if (typeof model !== 'undefined' && model.length > 0) {%>
+            <h5 class="card-title text-center mb-4">Lista de Voluntários</h5>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Disponibilidade</th>
+                            <th>Habilidades</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% model.forEach(voluntario => { %>
+                        <tr>
+                            <td><%= voluntario.nome %></td>
+                            <td><%= voluntario.telefone %></td>
+                            <td><%= voluntario.email %></td>
+                            <td><%= voluntario.disponibilidade %></td>
+                            <td><%= voluntario.habilidades %></td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="/doacao/voluntario/form/<%= voluntario.id %>" class="btn btn-primary btn-sm" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('<%= voluntario.id %>')" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <% } else { %>
+            <div class="text-center p-4">
+                <i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
+                <p class="mb-0">Nenhum voluntário registrado no momento.</p>
+            </div>
+            <% } %>
+            <div class="text-end mt-3">
+                <a href="/doacao/voluntario/form" class="btn btn-success">
+                    <i class="fas fa-plus me-2"></i>Novo Voluntário
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function confirmDelete(id) {
+        if (confirm('Tem certeza de que deseja excluir este voluntário? Esta ação não poderá ser desfeita.')) {
+            window.location.href = `/delete/voluntario/${id}`;
+        }
+    }
+</script>
+
+<%-include("_footer")-%>
+</main>

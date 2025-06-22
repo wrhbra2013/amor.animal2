@@ -207,6 +207,19 @@
                           </div>
                       </div>
                   </div>
+
+                 
+             <div class="row text-center gy-4 justify-content-center">
+                  <div class="col-lg-3 col-md-6">
+                      <div class="card card-impact h-100" style="border: none; background: transparent;">
+                          <div class="card-body">
+                              <i class="fas fa-users fa-3x mb-3" style="color: var(--heading-color);"></i>
+                              <h3 class="card-title display-4 fw-bold"><%= model17 %></h3>
+                              <p class="text-muted">Suprimentos</p>
+                              <a href="/doacao/coleta/form">Doe suprimentos</a>
+                          </div>
+                      </div>
+                  </div>
                   
                   <div class="col-lg-3 col-md-6">
                       <div class="card card-impact h-100" style="border: none; background: transparent;">
@@ -393,9 +406,7 @@
              <div class="container">
                  <div class="d-flex justify-content-between align-items-center mb-4">
                      <h2 class="text-center flex-grow-1 mb-0">Nossos Parceiros</h2> <!-- flex-grow-1 e mb-0 para centralizar melhor com o botão -->
-                     <% if (user) { %>
-                         <a href="/parceria/form" class="btn btn-outline-primary">Nova Parceria</a>
-                     <% } %>
+                   
                  </div>
                  
                  <% if (typeof model12 !== 'undefined' && model12.length > 0) { %>
