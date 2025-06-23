@@ -133,7 +133,7 @@
                return res.status(404).render('error', { error: `Nenhum dado encontrado para a tabela ${tabela}.` });
            }
    
-           const columnsToRemoveForPdf = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME', 'origem', 'isAdmin'];
+           const columnsToRemoveForPdf = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME', 'origem', 'isAdmin','Whatsapp'];
            let tableHeaders = [];
            if (tableData.length > 0 && tableData[0]) {
                const originalHeaders = Object.keys(tableData[0]);
@@ -258,8 +258,8 @@
            const docDefinition = {
                content: content,
                pageSize: 'A4',
-               pageOrientation: 'portrait',
-               pageMargins: [30, 40, 30, 60],
+               pageOrientation: 'portrait', //or landscape (paisagem ou retyrato)
+               pageMargins: [20, 30, 20, 50],
                styles: {
                    mainHeader: { fontSize: 16, bold: true, alignment: 'center', margin: [0, 0, 0, 5], color: '#333333' },
                    subHeader: { fontSize: 10, alignment: 'center', margin: [0, 0, 0, 5] },
