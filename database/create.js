@@ -147,7 +147,7 @@ async function create_voluntario() {
          whatsapp VARCHAR(20),
          item VARCHAR(255),
          quantidade VARCHAR(50),
-         data DATETIME,
+         dia DATETIME,
          hora TIME(50),
          cep VARCHAR(10),
          endereco VARCHAR(255),

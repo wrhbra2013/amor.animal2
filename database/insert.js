@@ -106,7 +106,7 @@ async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibi
  async function insert_coleta(nome, telefone, whatsapp, item, quantidade, data, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem)
  {
     const insertSQL = `INSERT INTO coleta (
-        nome, telefone, whatsapp, item, quantidade, data, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem
+        nome, telefone, whatsapp, item, quantidade, dia, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const values = [nome, telefone, whatsapp, item, quantidade, data, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem];
     return executeInsert(insertSQL, values, 'coleta');

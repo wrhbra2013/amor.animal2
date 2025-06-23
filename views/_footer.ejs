@@ -1,40 +1,4 @@
-<div id="cookie-consent-banner" class="cookie-consent-banner">
-    <p>
-        Nós usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa <a href="privacy/policy" style="color: #a7d7a9;">Política de Privacidade</a>.
-    </p>
-    <button id="accept-cookie-btn">Entendi</button>
-</div>
-
-<script>
-    // Espera o DOM estar completamente carregado
-    document.addEventListener('DOMContentLoaded', function() {
-        // Seleciona o banner e o botão
-        const cookieBanner = document.getElementById('cookie-consent-banner');
-        const acceptCookieBtn = document.getElementById('accept-cookie-btn');
-
-        // Verifica se o usuário já aceitou os cookies anteriormente
-        if (localStorage.getItem('cookiesAccepted') === 'true') {
-            if (cookieBanner) {
-                cookieBanner.style.display = 'none';
-            }
-        } else {
-            if (cookieBanner) {
-                cookieBanner.style.display = 'block'; // Ou 'flex', dependendo do seu CSS
-            }
-        }
-
-        // Adiciona um ouvinte de evento para o clique no botão
-        if (acceptCookieBtn) {
-            acceptCookieBtn.addEventListener('click', function() {
-                if (cookieBanner) {
-                    cookieBanner.style.display = 'none';
-                }
-                // Armazena a aceitação no localStorage para não mostrar novamente
-                localStorage.setItem('cookiesAccepted', 'true');
-            });
-        }
-    });
-</script>
+<%-include("_cookie")-%>
 
     <footer> <!-- Mantendo a tag footer -->
         <div class="footer-content"> <!-- Adicionando um container para o conteúdo do footer -->
@@ -42,17 +6,19 @@
                 &copy; 2025 - ONG Amor Animal Marilia.
             </p>
         </div>
-            
-            <div class="footer-social"> <!-- Adicionando um container para os links de redes sociais -->
-                <a href="https://www.instagram.com/grupoamoranimal/?hl=pt" target="_blank"><img src="/static/css/favicon/insta.png" alt="Instagram"></a> <!-- Adicionando alt text -->
-                <a href="https://api.whatsapp.com/send?phone=5514998151723&text=ONGAmor%20Animal" target="_blank"><img src="/static/css/favicon/whats.png" alt="WhatsApp"></a> <!-- Adicionando alt text -->
-                <a href="https://web.facebook.com/amoranimal190" target="_blank"><img src="/static/css/favicon/face.png" alt="Facebook"></a> <!--dicionando alt text-->
-         
+
+        <div class="footer-social"> <!-- Adicionando um container para os links de redes sociais -->
+            <a href="https://www.instagram.com/grupoamoranimal/?hl=pt" target="_blank"><img
+                    src="/static/css/favicon/insta.png" alt="Instagram"></a> <!-- Adicionando alt text -->
+            <a href="https://api.whatsapp.com/send?phone=5514998151723&text=ONGAmor%20Animal" target="_blank"><img
+                    src="/static/css/favicon/whats.png" alt="WhatsApp"></a> <!-- Adicionando alt text -->
+            <a href="https://web.facebook.com/amoranimal190" target="_blank"><img src="/static/css/favicon/face.png"
+                    alt="Facebook"></a> <!--dicionando alt text-->
         </div>
     </footer>
-    <script  src="/static/js/style.js"></script>
+    <script src="/static/js/style.js"></script>
     <script src="/static/js/general.js"></script>
-     <script src="/static/js/teste.js"></script>
+    <script src="/static/js/teste.js"></script>
     <script src="/static/js/foto.js"></script>
     <script src="/static/js/phone.js"></script>
     <script src="/static/js/doacao.js"></script>
@@ -61,17 +27,13 @@
     <script src="/static/js/adote.js"></script>
     <script src="/static/js/cep.js"></script>
     <script src="/static/js/photobanner.js"></script>
-      <script src="/static/js/adotante.js"></script>
+    <script src="/static/js/adotante.js"></script>
     <script src="/static/js/constraste.js"></script>
     <script src="/static/js/relatorio.js"></script>
-    <script src="/static/js/admin.js"></script>  
-    <script src ="/static/js/home.js"></script>
+    <script src="/static/js/admin.js"></script>
+    <script src="/static/js/home.js"></script>
     <script src="/static/js/procura_se.js"></script>
-    
-    
-    
+    <script src="/static/js/cookie.js"></script>
+    </body>
 
-  
-
-</body>
-</html>
+    </html>

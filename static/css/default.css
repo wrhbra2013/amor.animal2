@@ -755,6 +755,7 @@ footer {
  
  .mobile-menu.active {
    display: block;
+   padding: 8px 12px;   
    animation: slide-in 0.3s ease-in-out forwards; 
    position: fixed;
    top: 0; /* Start from top after header */
@@ -762,7 +763,7 @@ footer {
    width: 100%;
    height: 100vh; /* Full viewport height */
    overflow-y: scroll;
-   padding-top: 0px; /* Space for a fixed header or close button area */
+   padding-top: 3px; /* Space for a fixed header or close button area */
    background-color: #256db9; /* Ensure background covers content */
  }
  

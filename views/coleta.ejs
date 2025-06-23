@@ -11,31 +11,55 @@
                                 <thead>
                                     <tr>
                                         <th>Data</th>
-                                        <th>Tipo</th>
-                                        <th>Quantidade</th>
-                                        <th>Descrição</th>
-                                        <th class="text-center">Ações</th>
+                                        <th>Nome</th>
+                                        <th>Telefone</th>
+                                        <th>Whatsapp</th>
+                                        <th>Endereço</th>
+                                        <th>Numero</th>
+                                        <th>Bairro</th>
+                                        <th>Cidade</th>
+                                        <th>Estado</th>
+                                        <th>Melhor dia</th>
+                                        <th>Melhor horário
+                                          <th>Item</th>
+                                       <th>Quantidade</>                                        
+                                        <th>Mensagem</th>
+                                        <th class="text-center">Ações</th>                                    
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% model.forEach(coleta => { %>
+                                    <% for (const coleta of model) { %>
+                                       
                                     <tr>
-                                        <td><%= new Date(coleta.data).toLocaleDateString('pt-BR') %></td>
-                                        <td><%= coleta.tipo %></td>
+                                        <td><%= new Date(coleta.origem).toLocaleDateString('pt-BR') %></td>
+                                        <td><%= coleta.nome %></td>    
+                                        <td><%= coleta.telefone %></td>
+                                        <td><%= coleta.whatsapp %></td>
+                                        <td><%= coleta.endereco %></td>
+                                        <td><%= coleta.numero %></td>
+                                        <td><%= coleta.bairro %></td>
+                                        <td><%= coleta.cidade %></td>
+                                        <td><%= coleta.estado %></td>
+                                        <td><%= coleta.dia %></td>
+                                        <td><%= coleta.hora %></td>
+                                         <td><%= coleta.item %></td>
                                         <td><%= coleta.quantidade %></td>
-                                        <td><%= coleta.descricao %></td>
+                                        <td><%= coleta.mensagem %></td>
+                                       
+                                        
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center gap-2">
                                                 <a href="/coleta/form/<%= coleta.id %>" class="btn btn-primary btn-sm" title="Editar">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('<%= coleta.id %>')" title="Excluir">
-                                                    <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash">Delete</i>
                                                 </button>
                                             </div>
                                         </td>
                                     </tr>
-                                    <% }); %>
+                                    <!-- <% }; %> -->
                                 </tbody>
                             </table>
                         </div>

@@ -133,7 +133,7 @@
                return res.status(404).render('error', { error: `Nenhum dado encontrado para a tabela ${tabela}.` });
            }
    
-           const columnsToRemoveForPdf = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME', 'origem', 'isAdmin','Whatsapp'];
+           const columnsToRemoveForPdf = ['arquivo', 'ANO', 'MES_NUM', 'MES_NOME', 'origem', 'isAdmin','whatsapp'];
            let tableHeaders = [];
            if (tableData.length > 0 && tableData[0]) {
                const originalHeaders = Object.keys(tableData[0]);
@@ -193,9 +193,22 @@
            } else {
                const columnWidths = tableHeaders.map(header => {
                    if (header === 'id') return 'auto';
-                   if (['caracteristicas', 'historia', 'proposta', 'mensagem', 'descricao', 'data'].includes(header.toLowerCase())) return 'auto';
+                   if (['caracteristicas', 'historia', 'proposta', 'mensagem', 'descricao', 'data', 'complemento', 'quantidade','numero'].includes(header.toLowerCase())) return 'auto';
                    return '*';
                });
+
+               const abbreviatedHeaders = {
+                   'caracteristicas': 'Carac.',
+                   'historia': 'Hist.',
+                   'proposta': 'Prop.',
+                   'mensagem': 'Msg.',
+                   'descricao': 'Desc.',
+                   'complemento':'Compl.',
+                   'quantidade':'Quant.',
+                   'numero':'No.'
+                   
+
+               };
    
                const years = Object.keys(groupedByYearAndMonth).sort((a, b) => {
                    if (a === "Dados Sem Agrupamento por Ano") return 1;
@@ -226,7 +239,9 @@
                        const tableBody = [];
                        tableBody.push(tableHeaders.map(header => ({
                            text: sanitizeTextForPdf(header.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())),
-                           style: 'tableHeader'
+                           text: abbreviatedHeaders[header.toLowerCase()] || sanitizeTextForPdf(header.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())),
+                           style: 'tableHeader',
+                           alignment: 'center'
                        })));
        
                        monthData.forEach(dataRow => {
@@ -234,7 +249,7 @@
                                text: dataRow[header] !== undefined ? dataRow[header] : '',
                                style: 'tableCell'
                            }));
-                           tableBody.push(rowContent);
+                           tableBody.push(rowContent); // Adiciona a linha de dados
                        });
        
                        if (tableBody.length > 1) { // Só adiciona a tabela se houver dados (além do cabeçalho)

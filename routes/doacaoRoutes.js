@@ -21,18 +21,18 @@ router.get('/form', (req, res) => {
 
 });
 
-router.get('/coleta',  isAdmin, (req, res) => {              
+router.get('/coleta',  isAdmin, async (req, res) => {             
          
-                const results = executeAllQueries();
+                const results = await executeAllQueries();
                 const coleta = results.coleta;       
                 res.render('coleta', { model: coleta }); 
          
         });
 
-router.get('/voluntario',  isAdmin, (req, res) => {               
+router.get('/voluntario',  isAdmin, async (req, res) => {               
        
-                const results =  executeAllQueries();
-                const voluntario = results.coleta;       
+                const results =  await executeAllQueries();
+                const voluntario = results.voluntario;       
                 res.render('voluntario', { model: voluntario }); 
             
         });

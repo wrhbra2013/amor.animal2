@@ -163,7 +163,7 @@ app.use((req, res, next) => {
  async function startServer() {
      try {
         // await initializePool(); // SQLite não usa pool da mesma forma, a conexão é 'db'
-         console.log("Pool de conexões com o banco de dados inicializado.");
+        //   console.log("Pool de conexões com o banco de dados inicializado.");
  
          await initializeDatabaseTables(); // Inicializa/verifica as tabelas do banco (usa o pool)
          console.log("Tabelas do banco de dados verificadas/inicializadas.");
