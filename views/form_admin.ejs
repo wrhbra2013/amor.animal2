@@ -1,10 +1,24 @@
  <%-include("_semmenu")-%>
  <div class="container mt-5">
-  <a href="/" class="btn btn-primary">Voltar para a página inicial</a>
+     <!-- Sugestão: Usar btn-secondary para ações secundárias -->
+     <a href="/" class="btn btn-secondary">Voltar para a página inicial</a>
  </div> 
  
  <div class="container mt-5">
      <h1>Criar Usuário</h1>
+ 
+     <!-- NOVO: Bloco para exibir mensagens de feedback -->
+     <% if (error && error.length > 0) { %>
+         <div class="alert alert-danger" role="alert">
+             <%= error %>
+         </div>
+     <% } %>
+     <% if (success && success.length > 0) { %>
+         <div class="alert alert-success" role="alert">
+             <%= success %>
+         </div>
+     <% } %>
+ 
      <form action="/admin/form" method="post"> 
          <div class="mb-3"> 
              <label for="usuario" class="form-label">Usuário</label>
@@ -12,30 +26,19 @@
          </div>
          <div class="mb-3">
              <label for="senha" class="form-label">Senha</label>
-             <input type="text" class="form-control" id="senha" name="senha" placeholder="Nova senha" required>
+             <!-- CORREÇÃO: Alterado para type="password" por segurança -->
+             <input type="password" class="form-control" id="senha" name="senha" placeholder="Nova senha" required>
          </div>
          <div class="mb-3">
-            <label for="senha" class="form-label"> Confirmar Senha</label>
-            <input type="text" class="form-control" id="confirmar" placeholder="Confirmar senha" required>
+            <!-- CORREÇÃO: O 'for' agora aponta para 'confirmar' -->
+            <label for="confirmar" class="form-label">Confirmar Senha</label>
+            <!-- CORREÇÃO: Alterado para type="password" por segurança -->
+            <input type="password" class="form-control" id="confirmar" name="confirmar" placeholder="Confirmar senha" required>
         </div>         
         
          <button type="submit" class="btn btn-primary">Criar Usuário</button>
      </form>
  </div>
-
- <script>
-    let input1  = document.getElementById("senha").value;
-    let input2  = document.getElementById("confirmar").value;
-    if (!input1 || !input2){
-        res.render('/admin/form', {error:'As senhas NÃO coincidem'})
-       
-    }
-  else{
-      res.redirect('/login')
-       console.log('Senha registrada.')
-    }
-</script>
-
  
- <%-include("_footer")-%> 
+ <%-include("_footer")-%>
  

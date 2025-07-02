@@ -1,53 +1,68 @@
- // Importa o Express
+ // /home/wander/amor.animal2/routes/adminRoutes.js
+ 
  const express = require('express');
- // Importa a função para inserir login e o middleware de autenticação
  const { insert_login } = require('../database/insert.js');
  const { isAdmin } = require('../middleware/auth.js');
+ // É altamente recomendável usar bcrypt para senhas seguras.
+ // const bcrypt = require('bcrypt'); 
  
- // Cria uma instância do Router
  const router = express.Router();
  
- // Rota para exibir o formulário de criação de administrador (protegida)
+ // Rota para EXIBIR o formulário de criação de administrador (protegida)
+ // Adicionado o middleware 'isAdmin' de volta para segurança
  router.get('/form', isAdmin, (req, res) => {
-     res.render('form_admin', { error: null, success: null }); // Passa variáveis para mensagens
+     res.render('form_admin', {
+         // Passa mensagens flash para o template
+         error: req.flash('error'),
+         success: req.flash('success')
+     });
  });
  
- // Rota para processar o formulário de criação de administrador (protegida)
+ // Rota para PROCESSAR o formulário de criação de administrador (protegida)
+ // Adicionado o middleware 'isAdmin' de volta para segurança
  router.post('/form', isAdmin, async (req, res) => {
-     const { usuario, senha, confirmar } = req.body;
-     
-     // Verifica se as senhas coincidem
-     if (senha !== confirmar) {
-         return res.status(400).render('form_admin', {
-             error: 'As senhas não coincidem.',
-             success: null
-         });
-     }
-     
+     // CORREÇÃO: Atribui o corpo da requisição diretamente à variável 'form'
+     const form = req.body;
  
      // Validação básica dos campos
-     if (!usuario || !senha) {
-         return res.status(400).render('form_admin', { 
-             error: 'Usuário e senha são obrigatórios.',
-             success: null
-         });
+     if (!form.usuario || !form.senha || !form.confirmar) {
+         req.flash('error', 'Todos os campos são obrigatórios.');
+         return res.redirect('/admin/form');
+     }
+     
+     // Verifica se as senhas coincidem
+     if (form.senha !== form.confirmar) {
+         req.flash('error', 'As senhas não coincidem.');
+         return res.redirect('/admin/form');
      }
  
      try {
-         // É crucial que a função insert_login realize o hashing da senha antes de salvar.
-         // Se insert_login não for assíncrona, remova o 'await'.
-         await insert_login(usuario, senha); 
-         console.log(`Novo administrador criado: ${usuario}`);         
-        req.flash('success', 'Administrador criado com sucesso!')
-         res.render('login'); 
+         // IMPORTANTE: Sua função insert_login DEVE fazer o hash da senha antes de salvar!
+         // Exemplo com bcrypt:
+         // const salt = await bcrypt.genSalt(10);
+         // const hashedPassword = await bcrypt.hash(form.senha, salt);
+         // await insert_login(form.usuario, hashedPassword); 
+         
+         // Chamando sua função original (certifique-se que ela faz o hash)
+         await insert_login(form.usuario, form.senha); 
+         
+         console.log(`Novo administrador criado: ${form.usuario}`);
+         req.flash('success', 'Usuário administrador criado com sucesso!');
+         
+         // Redireciona para a home para que a página seja recarregada com os dados corretos
+         res.redirect('/home'); 
  
      } catch (error) {
          console.error('Erro ao criar novo administrador:', error);
-         req.flash('error', 'Erro ao criar administrador. Tente novamente.')
-         res.status(500).render('form_admin', {
-             error: 'Erro ao criar administrador. Tente novamente.',
-             success: null
-         });
+ 
+         // Tratamento de erro para usuário duplicado (específico do SQLite)
+         if (error.message.includes('SQLITE_CONSTRAINT: UNIQUE constraint failed')) {
+             req.flash('error', `O nome de usuário "${form.usuario}" já existe.`);
+         } else {
+             req.flash('error', 'Ocorreu um erro interno ao criar o administrador. Tente novamente.');
+         }
+         
+         res.redirect('/admin/form');
      }
  });
  
