@@ -91,7 +91,7 @@
      // const pool = getPool(); // Não é necessário com executeQuery
  
      try {
-         const deleteSql = `DELETE FROM adotante WHERE id = ?`;
+         const deleteSql = `DELETE FROM adotante WHERE id = $1`;
          const [result] = await pool.execute(deleteSql, [id]);
  
          if (result.affectedRows === 0) {
@@ -115,7 +115,7 @@
   const tabela = 'adotante'
   // const pool = getPool(); // Get the connection pool
   try {
-  const  [item] = await executeQuery("SELECT * FROM adotante WHERE id = ? LIMIT 1", [ id]); // Execute query with ID parameter
+  const  [item] = await executeQuery("SELECT * FROM adotante WHERE id = $1 LIMIT 1", [ id]); // Execute query with ID parameter
   res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
   } catch (error) {
   console.error("Error fetching adotante detail:", error);

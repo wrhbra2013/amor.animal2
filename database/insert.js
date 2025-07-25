@@ -1,20 +1,25 @@
-﻿const {db} = require('./database');
+﻿const { pool } = require('./database');
  
  
  async function executeInsert(sql, values, tableName) {
-     return new Promise((resolve, reject) => { // Envolve em Promessa para async/await
-         db.run(sql, values, function (err) {  // Usa 'function' para acessar 'this'
-             if (err) {
-                 console.error(`Erro ao inserir dados na tabela ${tableName}:`, err.message);
-                 console.error('SQL:', sql);
-                 console.error('Valores:', values);
-                 reject(err);
-             } else {
-                 console.log(`Dados inseridos na tabela ${tableName} com ID: ${this.lastID}`);
-                 resolve({ insertId: this.lastID }); // Adapta para a propriedade lastID do SQLite
-             }
-         });
-     });
+    // Adiciona a cláusula RETURNING id para obter o ID do registro inserido.
+    const queryWithReturn = sql.trim().replace(/;$/, '') + ' RETURNING id;';
+
+    try {
+        const result = await pool.query(queryWithReturn, values);
+        if (result.rows.length > 0) {
+            const insertedId = result.rows[0].id;
+            console.log(`Dados inseridos na tabela ${tableName} com ID: ${insertedId}`);
+            return { insertId: insertedId };
+        } else {
+            throw new Error(`A inserção na tabela ${tableName} não retornou um ID.`);
+        }
+    } catch (err) {
+        console.error(`Erro ao inserir dados na tabela ${tableName} (PostgreSQL):`, err.message);
+        console.error('SQL:', queryWithReturn);
+        console.error('Valores:', values);
+        throw err; // Lança o erro para que a rota que chamou possa tratá-lo.
+    }
  }
  
 
@@ -22,7 +27,7 @@
  async function insert_adocao(arquivo, nome, idade, especie, porte, caracteristicas, tutor, contato, whatsapp) {
      const insertSQL = `INSERT INTO adocao (
          arquivo, nome, idade, especie, porte, caracteristicas, tutor, contato, whatsapp
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
      // Assumindo que 'arquivo' é um Buffer ou null. 'idade' deve ser um número.
      const values = [
          arquivo, nome, parseInt(idade, 10), especie, porte,
@@ -35,7 +40,7 @@
      const insertSQL = `INSERT INTO adotante (
          q1, q2, q3, qTotal, nome, contato, whatsapp, cep, endereco,
          numero, complemento, bairro, cidade, estado, idPet
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);`;
  
      const numQ1 = parseInt(q1, 10);
      const numQ2 = parseInt(q2, 10);
@@ -54,7 +59,7 @@
  async function insert_adotado(arquivo, pet, tutor, historia) {
      const insertSQL = `INSERT INTO adotado (
          arquivo, pet, tutor, historia
-     ) VALUES (?, ?, ?, ?);`;
+     ) VALUES ($1, $2, $3, $4);`;
      // Assumindo que 'arquivo' é um Buffer ou null.
      const values = [arquivo, pet, tutor, historia];
      return executeInsert(insertSQL, values, 'adotado');
@@ -63,7 +68,7 @@
  async function insert_castracao(ticket, nome, contato, whatsapp, arquivo, idade, especie, porte, clinica, agenda) {
      const insertSQL = `INSERT INTO castracao (
          ticket, nome, contato, whatsapp, arquivo, idade, especie, porte, clinica, agenda
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`;
      // Assumindo que 'arquivo' é um Buffer ou null. 'idade' deve ser um número.
      // 'ticket' agora é um parâmetro, conforme definido em create.js
      const values = [
@@ -77,7 +82,7 @@
      const insertSQL = `INSERT INTO procura_se (
          arquivo, nomePet, idadePet, especie, porte, caracteristicas,
          local, tutor, contato, whatsapp
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`;
      // Assumindo que 'arquivo' é um Buffer ou null.
      const values = [
          arquivo, nomePet, idadePet, especie, porte, caracteristicas,
@@ -89,7 +94,7 @@
  async function insert_parceria(empresa, localidade, proposta, representante, telefone, whatsapp, email) {
      const insertSQL = `INSERT INTO parceria (
          empresa, localidade, proposta, representante, telefone, whatsapp, email
-     ) VALUES (?, ?, ?, ?, ?, ?, ?);`;
+     ) VALUES ($1, $2, $3, $4, $5, $6, $7);`;
      const values = [empresa, localidade, proposta, representante, telefone, whatsapp, email];
      return executeInsert(insertSQL, values, 'parceria');
  }
@@ -98,7 +103,7 @@ async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibi
  {
     const insertSQL = `INSERT INTO voluntario (
         nome, localidade, telefone, whatsapp, disponibilidade, habilidade, mensagem
-    ) VALUES (?, ?, ?, ?, ?, ?, ?);`;
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7);`;
     const values = [nome, localidade, telefone, whatsapp, disponibilidade, habilidade, mensagem];
     return executeInsert(insertSQL, values, 'voluntario');
  }
@@ -107,7 +112,7 @@ async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibi
  {
     const insertSQL = `INSERT INTO coleta (
         nome, telefone, whatsapp, item, quantidade, dia, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);`;
     const values = [nome, telefone, whatsapp, item, quantidade, data, hora, cep, endereco, numero, complemento, bairro, cidade, estado, mensagem];
     return executeInsert(insertSQL, values, 'coleta');
  }
@@ -115,7 +120,7 @@ async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibi
  async function insert_home(arquivo, titulo, mensagem, link) {
      const insertSQL = `INSERT INTO home (
          arquivo, titulo, mensagem, link
-     ) VALUES (?, ?, ?, ?);`;
+     ) VALUES ($1, $2, $3, $4);`;
      // Assumindo que 'arquivo' é um Buffer ou null.
      const values = [arquivo, titulo, mensagem, link];
      return executeInsert(insertSQL, values, 'home');
@@ -128,7 +133,7 @@ async function insert_voluntario(nome, localidade, telefone, whatsapp, disponibi
     
      const insertSQL = `INSERT INTO login (
          usuario, senha, isAdmin
-     ) VALUES (?, ?, ?);`;
+     ) VALUES ($1, $2, $3);`;
      const values = [usuario, senha /* Deveria ser hashedPassword */, isAdmin];
      return executeInsert(insertSQL, values, 'login');
  }

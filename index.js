@@ -6,6 +6,7 @@
   const cookieParser = require("cookie-parser");
  
  // Local Modules
+ const { initializeDatabase } = require('./database/database.js');
  const { initializeDatabaseTables } = require('./database/create.js');
  // const { executeAllQueries } = require('./database/queries'); // Se usado apenas para verificação inicial, pode ser opcional aqui
  
@@ -162,16 +163,11 @@ app.use((req, res, next) => {
  // --- Start Server Function ---
  async function startServer() {
      try {
-        // await initializePool(); // SQLite não usa pool da mesma forma, a conexão é 'db'
-        //   console.log("Pool de conexões com o banco de dados inicializado.");
+         await initializeDatabase(); // 1. Garante que o BD exista e o pool esteja pronto
+         console.log("Conexão com o banco de dados PostgreSQL inicializada.");
  
-         await initializeDatabaseTables(); // Inicializa/verifica as tabelas do banco (usa o pool)
+         await initializeDatabaseTables(); // 2. Garante que as tabelas existam
          console.log("Tabelas do banco de dados verificadas/inicializadas.");
- 
-         // Opcional: Executar queries de verificação ao iniciar (para desenvolvimento/diagnóstico)
-         // const { executeAllQueries } = require('./database/queries');
-         // await executeAllQueries();
-         // console.log("Queries de verificação inicial executadas.");
  
          app.listen(PORT, () => {
              console.log(`Aplicação ATIVA em http://localhost:${PORT}`);

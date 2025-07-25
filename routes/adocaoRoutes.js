@@ -1,13 +1,16 @@
  // routes/adocaoRoutes.js
  const express = require('express');
  const { executeQuery } = require('../database/queries'); // Importa executeQuery
+ const { insert_adocao } = require('../database/insert'); // Importa insert_adocao
  const fs = require('fs').promises; // Use promises API for fs
  const path = require('path');
  const { isAdmin } = require('../middleware/auth');
  const { uploadAdocao } = require('../utils/multerConfig'); // Specific multer instance
  
+
  const router = express.Router();
  
+
  // GET route to display adoption listings
  router.get('/', async (req, res) => {
      try {
@@ -25,6 +28,7 @@
      }
  });
  
+
  // GET route to render the adoption form
  router.get('/form', (req, res) => {
      res.render('form_adocao', {
@@ -36,13 +40,15 @@
      });
  });
  
+
  //Rota generica para edição (ou visualização detalhada)
  router.get('/:id', async (req, res) => {
      const id = req.params.id;
      const tabela = 'adocao';
      try {
-         const query = "SELECT * FROM adocao WHERE id = ? LIMIT 1";
-         const [item] = await executeQuery(query, [id]); // Desestrutura o primeiro elemento do array
+         const query = "SELECT * FROM adocao WHERE id = $1 LIMIT 1";
+         const params = [id];
+         const [item] = await executeQuery(query, params); // Desestrutura o primeiro elemento do array
          if (!item) {
              req.flash('error_msg', 'Item de adoção não encontrado.');
              return res.redirect('/adocao');
@@ -61,6 +67,7 @@
      }
  });
  
+
  // POST route to handle form submission for new adoption entries
  router.post('/form', uploadAdocao.single('arquivo'), async (req, res) => {
      if (!req.file) {
@@ -69,8 +76,10 @@
          return res.redirect('/adocao/form');
      }
  
+
      const { destination, filename: tempFilename, originalname } = req.file;
  
+
      let finalFilename;
      try {
          // Tenta criar um nome de arquivo único baseado na contagem de arquivos ou timestamp
@@ -83,13 +92,16 @@
          finalFilename = `${Date.now()}${path.extname(originalname)}`;
      }
  
+
      const tempFilePath = path.join(destination, tempFilename);
      const finalFilePath = path.join(destination, finalFilename);
  
+
      try {
          await fs.rename(tempFilePath, finalFilePath);
          console.log(`Arquivo movido para: ${finalFilePath}`);
  
+
          const adocaoData = {
              arquivo: finalFilename,
              nome: req.body.nomePet,
@@ -102,11 +114,8 @@
              whatsapp: req.body.whatsapp
          };
  
-         const insertSQL = `INSERT INTO adocao (
-               arquivo, nome, idade, especie, porte, caracteristicas, tutor, contato, whatsapp
-           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-         
-         await executeQuery(insertSQL, [
+
+         await insert_adocao(
              adocaoData.arquivo,
              adocaoData.nome,
              adocaoData.idade,
@@ -116,11 +125,12 @@
              adocaoData.tutor,
              adocaoData.contato,
              adocaoData.whatsapp
-         ]);
+         );
          
          req.flash('success', 'Dados de adoção inseridos com sucesso.');
          res.redirect('/home'); // Ou para /adocao para ver a lista atualizada
  
+
      } catch (error) {
          console.error("Erro ao processar formulário de adoção:", error);
          // Tenta limpar o arquivo enviado em caso de erro no banco de dados
@@ -141,6 +151,7 @@
      }
  });
  
+
  // POST route to delete an adoption entry
  router.post('/delete/adocao/:id/:arq', isAdmin, async (req, res) => {
      const { id, arq } = req.params;
@@ -149,10 +160,13 @@
      // path.basename garante que estamos apenas pegando o nome do arquivo.
      const filePath = path.join(uploadsDir, path.basename(arq));
  
+
      try {
-         const deleteSql = `DELETE FROM adocao WHERE id = ?`;
-         const result = await executeQuery(deleteSql, [id]);
+         const deleteSql = `DELETE FROM adocao WHERE id = $1`;
+         const params = [id];
+         const result = await executeQuery(deleteSql, params);
  
+
          // Em SQLite, executeQuery para DELETE não retorna affectedRows diretamente como no MySQL com node-mysql2.
          // Você precisaria adaptar executeQuery ou verificar de outra forma se a deleção ocorreu.
          // Por simplicidade, vamos assumir que se não houver erro, a operação foi tentada.
@@ -164,6 +178,7 @@
          //    req.flash('success_msg', 'Item de adoção deletado com sucesso.');
          // }
  
+
          // Tentativa de deletar o arquivo associado
          try {
              await fs.access(filePath); // Verifica se o arquivo existe
@@ -180,6 +195,7 @@
          req.flash('success', 'Removido com sucesso.'); // Mensagem mais genérica
          res.redirect('/adocao');
  
+
      } catch (error) {
          console.error(`Erro ao deletar registro de adoção com ID: ${id}:`, error);
          req.flash('error_msg', 'Erro ao deletar o item de adoção. Tente novamente.');
@@ -187,5 +203,5 @@
      }
  });
  
+
  module.exports = router;
- 

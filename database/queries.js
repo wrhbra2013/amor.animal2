@@ -1,24 +1,24 @@
  // /home/wander/amor.animal2/database/queries.js
- const {db} = require('./database');
+ const { pool } = require('./database');
  
-//  /**
-//   * Executes a given SQL query using the connection pool.
-//   * @param {string} query - The SQL query string.
-//   * @param {Array<any>} [params=[]] - An optional array of parameters for prepared statements.
-//   * @returns {Promise<Array<object>>} - A promise that resolves to an array of rows.
-//   * @throws {Error} - Throws an error if the query execution fails or the pool is unavailable.
-//   */
+ /**
+  * Executa uma query SQL usando o pool de conexões do PostgreSQL.
+  * @param {string} query - A string da query SQL.
+  * @param {Array<any>} [params=[]] - Um array opcional de parâmetros para a query.
+  * @returns {Promise<Array<object>>} - Uma promessa que resolve para um array de linhas.
+  */
  async function executeQuery(query, params = []) {
-    return new Promise((resolve, reject) => {
-        db.all(query, params, (err, rows) => {
-            if (err) {
-                console.error(`Error executing query: "${query}" with params: ${JSON.stringify(params)}`, err.message);
-                reject(err);
-            } else {
-                resolve(rows);
-            }
-        });
-    });
+    // pool.query é um atalho que obtém um cliente do pool, executa a query e o libera de volta.
+    // É a forma recomendada para executar uma única query.
+    try {
+        const result = await pool.query(query, params);        // Log the query and parameters for debugging
+                // console.log(`Executing query: ${query} with params: ${JSON.stringify(params)}`);
+                
+        return result.rows; // A biblioteca 'pg' retorna os resultados dentro da propriedade 'rows'.
+    } catch (err) {
+        console.error(`Error executing query: "${query}" with params: ${JSON.stringify(params)}`, err.stack);
+        throw err; // Lança o erro para que a função chamadora (ex: executeAllQueries) possa tratá-lo.
+    }
 }
  
  /*

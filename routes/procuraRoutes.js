@@ -6,6 +6,7 @@
   const path = require('path');
   const { isAdmin } = require('../middleware/auth');
   const { uploadProcuraSe } = require('../utils/multerConfig'); // Instância específica do multer
+  const { pool } = require('../database/database');
   
   const router = express.Router();
   
@@ -136,23 +137,24 @@
   //Rota generica
    router.get('/:id', async (req, res) => {
    const id = req.params.id;
-   const tabela = 'procura_se'
- const { db } = require('../database/database');
+   const tabela = 'procura_se';
+ 
    try {
- // Adaptação para SQLite3
- const item = await new Promise((resolve, reject) => {
- db.get("SELECT * FROM procura_se WHERE id = ? LIMIT 1", [id], (err, row) => {
- if (err) return reject(err);
- resolve(row);
-            });
- });
-   res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
-   } catch (error) {
-   console.error("Error fetching adoption detail:", error);
-   res.status(500).render('error', { error: 'Não foi possível carregar os detalhes do pet para adoção.' });
-   }
-  
-   })
+      const item = await new Promise((resolve, reject) => {
+         pool.query("SELECT * FROM procura_se WHERE id = $1 LIMIT 1;", [id], (err, result) => {
+                     if (err) return reject(err);
+                     resolve(result.rows[0]); // PostgreSQL returns rows in result.rows
+                                      });
+             
+      
+    });
+    res.render('edit',{model : item, tabela: tabela, id: id}); // Assuming a detail EJS template named 'adocao_detail'
+    } catch (error) {
+    console.error("Error fetching adoption detail:", error);
+    res.status(500).render('error', { error: 'Não foi possível carregar os detalhes do pet para adoção.' });
+    }
+    
+    })
    
    
   

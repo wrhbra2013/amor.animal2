@@ -1,6 +1,6 @@
   // /home/wander/amor.animal2/routes/homeRoutes.js
   const express = require('express');
-  const { db } = require('../database/database'); // Importa a instância do banco SQLite
+  const { pool } = require('../database/database'); // Usa o pool de conexões do PostgreSQL
   const { executeAllQueries } = require('../database/queries'); // Essencial para buscar dados para a home
   const { insert_home } = require('../database/insert');     // Para o formulário de notícias da home
   const fs = require('fs').promises;
@@ -29,9 +29,11 @@
          // Função auxiliar para extrair a contagem de forma segura
          const extractCountValue = (countResult) => {
              // countResult é o que vem de data.XCount (ex: data.voluntarioCount)
-             // Esperado: [{ count: N }] ou { error: '...' } em caso de falha na query
-             if (countResult && Array.isArray(countResult) && countResult.length > 0 && typeof countResult[0].count === 'number') {
-                 return countResult[0].count;
+             // Esperado: [{ count: 'N' }] ou { error: '...' } em caso de falha na query
+             // O driver 'pg' retorna o resultado de COUNT(*) como uma string.
+             if (countResult && Array.isArray(countResult) && countResult.length > 0 && countResult[0].count !== undefined) {
+                 // Converte a contagem (que é uma string) para um número inteiro.
+                 return parseInt(countResult[0].count, 10);
              }
              // Loga se a query de contagem falhou
              if (countResult && countResult.error) {
@@ -116,50 +118,6 @@
      }
  });
  
- // ... restante do arquivo homeRoutes.js
- 
-  
-  
-//   // Rota principal para '/' e '/home'
-//   router.get(['/', '/home'], checkCookieConsent, async (req, res) => {
-//       try {
-//         //  console.log('[HOME ROUTE] - req.user:', JSON.stringify(req.user)); // LOG ADICIONADO
-//         //    console.log('[HOME ROUTE] - req.isAdmin:', req.isAdmin); // LOG ADICIONADO
-//         //     console.log('[HOME ROUTE] - res.locals.isAdmin:', res.locals.isAdmin); // LOG ADICIONADO
-
-//           const homePageData = await getHomePageData();          
-//           // Data is passed to the template using modelN keys as expected by home.ejs
-//           res.render('home', {
-//              user: req.user,
-//              isAdmin: req.isAdmin || false, // Passando a flag isAdmin para o template
-//               model1: homePageData.home,
-//               model2: homePageData.adocao,
-//               model3: homePageData.adocaoCount,
-//               model4: homePageData.adotante,
-//               model5: homePageData.adotanteCount,
-//               model6: homePageData.adotado,
-//               model7: homePageData.adotadoCount,
-//               model8: homePageData.castracao,
-//               model9: homePageData.castracaoCount,
-//               model10: homePageData.procura_se,
-//               model11: homePageData.procura_seCount,
-//               model12: homePageData.parceria,
-//               model13: homePageData.parceriaCount,
-//               model14: homePageData.voluntario,
-//               model15: homePageData.voluntarioCount,     
-//               // Adicione estas linhas para passar as mensagens flash
-//               success_msg: req.flash('success'), // Para corresponder à chave usada em Routes
-            
-        
-//              // showCookieBanner is set by checkCookieConsent middleware
-//              // and will be available in res.locals for the template
-//          })
-
-          
-        
-//       } catch (error) {
-//           // Error from getHomePageData will be caught here
-//           console.error("homeRoutes GET /home: Erro ao carregar a página inicial:", error.message);
 //           res.status(500).render('error', { error: error.message || 'Não foi possível carregar a página inicial.' });
 //       }
 //   });
